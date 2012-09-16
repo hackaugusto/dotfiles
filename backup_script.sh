@@ -12,7 +12,7 @@ dest=$@[2];
 echo $@[1]
 
 cat $config | while read line; do;
-    $file = ${(e)line};
+    file=${(e)line};
     echo $file
     echo $dest
     # cp -R $file $dest
