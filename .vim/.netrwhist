@@ -1,0 +1,11 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =9
+let g:netrw_dirhist_1='ftp://k9_user@ftp.k9investimentos.com.br/k9investimentos.com.br/'
+let g:netrw_dirhist_2='ftp://k9_user@ftp.k9investimentos.com.br/k9investimentos.com.br/historico/'
+let g:netrw_dirhist_3='ftp://k9_user@ftp.k9investimentos.com.br/'
+let g:netrw_dirhist_4='ftp://k9_user@ftp.k9investimentos.com.br/k9investimentos.com.br/'
+let g:netrw_dirhist_5='ftp://k9_user@ftp.k9investimentos.com.br/k9investimentos.com.br/historico/'
+let g:netrw_dirhist_6='ftp://k9_user@ftp.k9investimentos.com.br/'
+let g:netrw_dirhist_7='ftp://k9_user@ftp.k9investimentos.com.br/k9investimentos.com.br/'
+let g:netrw_dirhist_8='ftp://k9_user@ftp.k9investimentos.com.br/k9investimentos.com.br/historico/'
+let g:netrw_dirhist_9='ftp://k9_user@ftp.k9investimentos.com.br/'

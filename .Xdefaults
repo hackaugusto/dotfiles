@@ -1,0 +1,42 @@
+! xlsfonts
+! gtk2fontsel
+!URxvt.font: xft:Terminus:size=9:antialias=true
+URxvt.font: xft:DejaVu Sans Mono:size=8:antialias=true 
+URxvt.boldFont: xft:Terminus:size=8:antialias=true
+
+! these fonts are too spaced
+!URxvt.font: xft:DejaVu Sans:size=8:antialias=true 
+!URxvt.font: xft:Bitstream Vera Sans Mono:size=8:antialias=true
+!URxvt.font: xft:Ubuntu Mono:size=10:antialias=true
+!URxvt.font: xft:Ubuntu Condensed:size=8:antialias=true
+
+URxvt*termName: rxvt
+URxvt.scrollBar: false
+URxvt*keysym.Shift-Up: command:\033]720;1\007
+URxvt*urlLauncher: chromium
+URxvt*matcher.button: 1
+URxvt.buffered: true
+URxvt.cursorBlink: true
+URxvt*bordless: true
+URxvt*borderwidth: 0
+URxvt*internalBorder: 0
+URxvt*lineSpace: 1
+! SHOULD be set on LC_CTYPE
+!URxvt*imLocale: en_US.UTF-8
+
+!URxvt*depth: 32
+!URxvt*background: rgba:1111/1111/1111/dddd
+URxvt*background: #000
+URxvt*foreground: #fff
+!URxvt*transparent: true
+!URxvt*inheritPixmap: true
+!URxvt*tintColor: black
+!URxvt*shading: 18
+
+Xft*dpi: 96
+Xft*antialias: true
+Xft*hiting: full
+Xft.hinstyle: hintslight
+Xft.rgba: rgb
+
+#include "/home/hack/.colours/custom"

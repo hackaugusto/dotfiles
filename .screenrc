@@ -1,0 +1,11 @@
+#hardstatus alwayslastline
+vbell on
+obuflimit 10240
+#blankerprg ncmpcpp args
+#idle 15 blanker
+nethack on
+escape ^Oo
+#hardstatus string '%{= kK}%{w}%H %{K}%= %{= kw}%?%-Lw%?%{B}(%{W}%n*%f %t%?(%u)%?%{B})%{w}%?%+Lw%?%?%= %{K}%{B} %{w}%c%{K}'
+#caption always "%-Lw%{= BW}%50>%n%f* %t%{-}%+Lw%<"
+#hardstatus alwayslastline " [ %H ] %{wb} %c:%s | %d.%m.%Y %{wr} Load: %l %{wb} %w "
+hardstatus alwayslastline "%{ck}%H %{r}%u%{-} %{Wk}%-w%{wc}%n-%t%{-}%+w %=%{wk}%l %d/%m %C %a"

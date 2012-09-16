@@ -16,6 +16,7 @@ cat $config | while read line; do;
 
         if [[ -a $file ]]; then;
             cp -R $file $dest
+            git add "$dest/${file##*/}"
         else
             echo "File '$file' does not exist."
         fi
@@ -24,7 +25,6 @@ done
 
 cd $dest
 
-git add *
 git commit -m 'automatic update';
 git push origin;
 
