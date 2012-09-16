@@ -15,7 +15,8 @@ cat $config | while read line; do;
     file=${(e)line};
 
     if [[ -n $file ]]; then;
-        cp -R $file $dest
+        echo $file
+        # cp -R $file $dest
     fi;
 done;
 

@@ -3,22 +3,24 @@
 
 if [[ $ARGC != 2 ]]; then;
     echo "Usage: $@[0] config_file destination_folder"
-    exit;
-fi;
+    exit
+fi
 
-config=$@[1];
-dest=$@[2];
-
-echo $@[1]
+config=$@[1]
+dest=$@[2]
 
 cat $config | while read line; do;
     file=${(e)line};
 
     if [[ -n $file ]]; then;
-        echo $file
-        # cp -R $file $dest
-    fi;
-done;
+
+        if [[ -a $file ]]; then;
+            # cp -R $file $dest
+        else
+            echo "File '$file' does not exist."
+        fi
+    fi
+done
 
 cd $dest
 
