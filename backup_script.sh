@@ -9,15 +9,13 @@ fi
 config=$@[1]
 dest=$@[2]
 
-echo $dest;
-
 cat $config | while read line; do;
     file=${(e)line};
 
     if [[ -n $file ]]; then;
 
         if [[ -a $file ]]; then;
-            # cp -R $file $dest
+            cp -R $file $dest
         else
             echo "File '$file' does not exist."
         fi
