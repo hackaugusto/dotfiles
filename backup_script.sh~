@@ -12,10 +12,11 @@ dest=$@[2];
 echo $@[1]
 
 cat $config | while read line; do;
-    $file = ${(e)line};
-    echo $file
-    echo $dest
-    # cp -R $file $dest
+    file=${(e)line};
+
+    if [[ -n $file ]]; then;
+        cp -R $file $dest
+    fi;
 done;
 
 cd $dest

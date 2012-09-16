@@ -13,9 +13,11 @@ echo $@[1]
 
 cat $config | while read line; do;
     file=${(e)line};
-    echo $file
-    echo $dest
-    # cp -R $file $dest
+
+    if [[ -n $file ]]; then;
+        echo $file
+        # cp -R $file $dest
+    fi;
 done;
 
 cd $dest
