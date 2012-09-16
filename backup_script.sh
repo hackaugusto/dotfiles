@@ -9,6 +9,8 @@ fi
 config=$@[1]
 dest=$@[2]
 
+echo $dest;
+
 cat $config | while read line; do;
     file=${(e)line};
 
