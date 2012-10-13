@@ -2,6 +2,9 @@
 # (c) 2011 by Augusto Hack <hack dot augusto at gmail dot com>
 #
 
+# Force sourcing of /etc/profile (correctly set XDG variables for su and sudo)
+. /etc/profile
+
 #---[ Aliases ]---
 function python_fallback(){
 
@@ -207,7 +210,7 @@ export EDITOR=vim
 #---Manual--- 
 
 # search order
-export MANSECT=3:2:1:9:8:5:4:7:6:n
+export MANSECT=3:1:9:8:2:5:4:7:6:n
 
 # highlight with most
 # PAGER='most -s'
@@ -259,6 +262,7 @@ if [[ $TERM = 'screen' ]]; then;
 	bindkey '[4~'	end-of-line	  # End	
 	bindkey 'OD'	backward-word	  # CTRL <-
 	bindkey 'OC'	forward-word	  # CTRL ->
+    bindkey '[Z'  reverse-menu-complete
 elif [[ $TERM = 'rxvt' ]]; then;
 	bindkey '[7~'	beginning-of-line # Home
 	bindkey '[2~'	overwrite-mode	  # Insert
@@ -275,6 +279,7 @@ elif [[ $TERM = 'linux' ]]; then;
 	bindkey '[C'	forward-word	  # CTRL ->
 fi
 
+
 #+++[ Key bidings ]+++
 
 #---[ Completition system ]---
@@ -288,7 +293,7 @@ zstyle ':completion:*' max-errors 3
 zstyle ':completion:*' menu select=3 yes
 zstyle ':completion:*' prompt 'Alternatives %e:'
 zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p%s
-zstyle :compinstall filename '/home/augusto/.zshrc'
+zstyle :compinstall filename '/home/hack/.zshrc'
 
 zstyle ':completion:*:descriptions' format '%U%B%d%b%u'
 zstyle ':completion:*:warnings' format '%BSorry, no matches for: %d%b'

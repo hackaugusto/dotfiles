@@ -69,6 +69,12 @@ augroup JAVASCRIPT
 	autocmd FileType javascript set number cindent
 augroup END
 
+augroup CSHARP
+	autocmd!
+	autocmd FileType cs set shiftwidth=4 softtabstop=4 tabstop=4
+	autocmd FileType cs set number cindent
+augroup END
+
 augroup HASKELL
 	autocmd!
 	autocmd FileType haskell set shiftwidth=4 softtabstop=4 tabstop=4
@@ -76,9 +82,21 @@ augroup HASKELL
 augroup END
 
 augroup XML
-  autocmd FileType xml set expandtab shiftwidth=2 softtabstop=2 nocindent noautoindent
+	autocmd!
+  autocmd FileType xml set shiftwidth=2 softtabstop=2 tabstop=2 expandtab nocindent noautoindent
   "autocmd FileType xml source ~/.vim/ftplugin/html_autoclosetag.vim
   "autocmd FileType xhtml,html source ~/.vim/ftplugin/closetag.vim
+augroup END
+
+augroup JADE
+	autocmd!
+  autocmd FileType jade set shiftwidth=2 softtabstop=2 tabstop=2 expandtab nocindent noautoindent
+augroup END
+
+augroup Cobra
+	autocmd!
+  autocmd FileType cobra set shiftwidth=4 softtabstop=4 tabstop=4 expandtab nocindent noautoindent
+	autocmd FileType cobra set number
 augroup END
 
 augroup HTMLDJANGO
