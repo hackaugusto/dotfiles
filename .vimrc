@@ -27,6 +27,12 @@ highlight TabLine ctermfg=Cyan cterm=NONE
 highlight clear StatusLine
 highlight clear StatusLineNC
 
+" set t_Co=16
+set t_Co=256
+set background=dark
+let g:solarized_termcolors=16
+colorscheme solarized
+
 "set statusline=\ \%f%m%r%h%w\ ::\ %y\ [%{&ff}]\%=\ [%p%%:\ %l/%L]\ 
 
 syntax on

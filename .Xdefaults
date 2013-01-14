@@ -2,6 +2,7 @@
 ! gtk2fontsel
 !URxvt.font: xft:Terminus:size=9:antialias=true
 URxvt.font: xft:DejaVu Sans Mono:size=8:antialias=true 
+!URxvt.font: xft:Andale Mono:size=10:antialias=true 
 URxvt.boldFont: xft:Terminus:size=8:antialias=true
 
 ! these fonts are too spaced
