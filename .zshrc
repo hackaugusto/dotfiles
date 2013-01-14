@@ -69,6 +69,13 @@ eval `dircolors`
 alias ls=smart_listing
 alias python=python_fallback
 #alias grep='grep --color=auto'
+
+# colored pagination 
+export ACK_PAGER_COLOR="less -x4SRFX"
+if (( ! $+commands[ack] && $+commands[ack-grep] )); then;
+    alias ack='ack-grep';
+fi
+
 alias grep='ack'
 alias vi='vim'
 alias gcc='colorgcc'
@@ -277,6 +284,13 @@ elif [[ $TERM = 'linux' ]]; then;
 	bindkey '[4~'	end-of-line	  # End	
 	bindkey '[D'	backward-word	  # CTRL <-
 	bindkey '[C'	forward-word	  # CTRL ->
+elif [[ $TERM = 'xterm' ]]; then;
+	bindkey 'OH'	beginning-of-line # Home
+	bindkey '[2~'	overwrite-mode	  # Insert
+	bindkey '[3~'	delete-char	  # Del
+	bindkey 'OF'	end-of-line	  # End	
+	bindkey '[1;5D'	backward-word	  # CTRL <-
+	bindkey '[1;5C'	forward-word	  # CTRL ->
 fi
 
 
