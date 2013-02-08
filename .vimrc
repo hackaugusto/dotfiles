@@ -37,7 +37,7 @@ set background=dark
 
 syntax on
 if has('autocmd')
-	filetype on
+  filetype on
   filetype plugin on
   filetype indent on
 endif
@@ -71,76 +71,76 @@ augroup END
 augroup Zsh 
   autocmd!
   autocmd FileType zsh set shiftwidth=4 softtabstop=4 tabstop=4 expandtab
-	autocmd FileType zsh set number
+  autocmd FileType zsh set number
 augroup END
 
 augroup Vim
   autocmd!
   autocmd FileType vim set shiftwidth=2 softtabstop=2 tabstop=2 expandtab
-	autocmd FileType vim set number
+  autocmd FileType vim set number
 augroup END
 
 augroup JAVASCRIPT
-	autocmd!
+  autocmd!
   autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
-	autocmd FileType javascript set shiftwidth=4 softtabstop=4 tabstop=4
-	autocmd FileType javascript set number cindent
+  autocmd FileType javascript set shiftwidth=4 softtabstop=4 tabstop=4
+  autocmd FileType javascript set number cindent
 augroup END
 
 augroup CSHARP
-	autocmd!
-	autocmd FileType cs set shiftwidth=4 softtabstop=4 tabstop=4
-	autocmd FileType cs set number cindent
+  autocmd!
+  autocmd FileType cs set shiftwidth=4 softtabstop=4 tabstop=4
+  autocmd FileType cs set number cindent
 augroup END
 
 augroup HASKELL
-	autocmd!
-	autocmd FileType haskell set shiftwidth=4 softtabstop=4 tabstop=4
-	autocmd FileType haskell set number
+  autocmd!
+  autocmd FileType haskell set shiftwidth=4 softtabstop=4 tabstop=4
+  autocmd FileType haskell set number
 augroup END
 
 augroup XML
-	autocmd!
+  autocmd!
   autocmd FileType xml set shiftwidth=2 softtabstop=2 tabstop=2 expandtab nocindent noautoindent
   "autocmd FileType xml source ~/.vim/ftplugin/html_autoclosetag.vim
   "autocmd FileType xhtml,html source ~/.vim/ftplugin/closetag.vim
 augroup END
 
 augroup JADE
-	autocmd!
+  autocmd!
   autocmd FileType jade set shiftwidth=2 softtabstop=2 tabstop=2 expandtab nocindent noautoindent
 augroup END
 
 augroup Cobra
-	autocmd!
+  autocmd!
   autocmd FileType cobra set shiftwidth=4 softtabstop=4 tabstop=4 expandtab nocindent noautoindent
-	autocmd FileType cobra set number
+  autocmd FileType cobra set number
 augroup END
 
 augroup HTMLDJANGO
-	autocmd!
-	autocmd FileType htmldjango set shiftwidth=2 softtabstop=2 tabstop=2
+  autocmd!
+  autocmd FileType htmldjango set shiftwidth=2 softtabstop=2 tabstop=2
 
-	autocmd FileType htmldjango set omnifunc=htmlcomplete#CompleteTags
+  autocmd FileType htmldjango set omnifunc=htmlcomplete#CompleteTags
   autocmd FileType htmldjango let g:SuperTabDefaultCompletionType='context'
 augroup END
 
 augroup HTML
-	autocmd!
+  autocmd!
   autocmd FileType xhtml,html let g:SuperTabDefaultCompletionType='context'
-	autocmd FileType htmldjango set omnifunc=htmlcomplete#CompleteTags
-	autocmd FileType xhtml,html set shiftwidth=2 softtabstop=2 tabstop=2
+  autocmd FileType htmldjango set omnifunc=htmlcomplete#CompleteTags
+  autocmd FileType xhtml,html set shiftwidth=2 softtabstop=2 tabstop=2
 
-"	autocmd FileType xhtml,html so ~/.vim/ftplugin/html_autoclosetag.vim
-"	autocmd FileType xhtml,html so ~/.vim/ftplugin/closetag.vim
+  "	autocmd FileType xhtml,html so ~/.vim/ftplugin/html_autoclosetag.vim
+  "	autocmd FileType xhtml,html so ~/.vim/ftplugin/closetag.vim
 augroup END
 
 augroup PHP
   autocmd!
   autocmd FileType php set cindent number
-	autocmd FileType php let php_sql_query = 1
-	autocmd FileType php let php_htmlInStrings = 1
-	autocmd FileType php let php_smart_members = 1
+  autocmd FileType php let php_sql_query = 1
+  autocmd FileType php let php_htmlInStrings = 1
+  autocmd FileType php let php_smart_members = 1
 augroup END
 
 augroup Java
@@ -150,8 +150,8 @@ augroup Java
   autocmd FileType java let g:SuperTabDefaultCompletionType='context'
   autocmd FileType java set shiftwidth=4 softtabstop=4 tabstop=4 
 
-	"autocmd BufRead *.java set efm=%A\ %#[javac]\ %f:%l:\ %m,%-Z\ %#[javac]\ %p^,%-C%.%#
-	"autocmd BufRead set makeprg=ant\ -find\ build.xml
+  "autocmd BufRead *.java set efm=%A\ %#[javac]\ %f:%l:\ %m,%-Z\ %#[javac]\ %p^,%-C%.%#
+  "autocmd BufRead set makeprg=ant\ -find\ build.xml
 augroup END
 
 function FindDjangoSettings()
@@ -180,16 +180,16 @@ augroup Python
   autocmd FileType python let g:SuperTabDefaultCompletionType='context'
   autocmd FileType python let python_highlight_all=1
   autocmd FileType python call FindDjangoSettings()
-	autocmd BufWritePre *.py :%s/\s\+$//e
+  autocmd BufWritePre *.py :%s/\s\+$//e
 augroup END
 
 augroup Perl
-	autocmd!
-	autocmd FileType perl set autoindent smartindent number cindent
-	autocmd FileType perl set shiftwidth=4 softtabstop=4 tabstop=4
-	autocmd FileType perl set makeprg=perl\ -c\ %\ $* errorformat=%f:%l:%m
-	autocmd FileType perl let perl_include_pod=1
-	autocmd FileType perl let perl_extended_vars=1
+  autocmd!
+  autocmd FileType perl set autoindent smartindent number cindent
+  autocmd FileType perl set shiftwidth=4 softtabstop=4 tabstop=4
+  autocmd FileType perl set makeprg=perl\ -c\ %\ $* errorformat=%f:%l:%m
+  autocmd FileType perl let perl_include_pod=1
+  autocmd FileType perl let perl_extended_vars=1
 augroup END
 
 augroup C-Files

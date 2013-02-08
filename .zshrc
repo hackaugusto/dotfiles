@@ -8,60 +8,60 @@
 #---[ Aliases ]---
 function python_fallback(){
 
-	if  [[ $# == 0 ]]; then
-		/usr/bin/env python;
-		return;
-	fi;
+    if  [[ $# == 0 ]]; then
+        /usr/bin/env python;
+        return;
+    fi;
 
-	error=$(/usr/bin/env python $@ 2&>1)
+    error=$(/usr/bin/env python $@ 2&>1)
 
-	if [[ $? != 0 ]]; then;
-		/usr/bin/env python2 $@;
+    if [[ $? != 0 ]]; then;
+        /usr/bin/env python2 $@;
 
-		if [[ $? != 0 ]]; then;
-			echo $error;
-			return $?;
-		fi;
-	fi;
+        if [[ $? != 0 ]]; then;
+            echo $error;
+            return $?;
+        fi;
+    fi;
 
 }
 
 function wrapper(){
 
-	prog=$1;
-	shift;
+    prog=$1;
+    shift;
 
-	pyg_args=$1;
-	shift;
+    pyg_args=$1;
+    shift;
 
-	$prog $@ | pygmentize $pyg_args;
+    $prog $@ | pygmentize $pyg_args;
 }
 
 function smart_listing(){
-# This is a "smart" ls
-# the only reason for this is because the -B flag is not overwritten by the -a/-A flags
-# this is not gonna list vim backup files on normal ls, but is gonna list them when the all flag is set
-	show_all=false
-	i=1
-	for arg in $@; do
-		if [[ $arg == '-B' ]]; then
-			argv[$i]=()
-		elif [[ $arg == '-a' ]]; then 
-			show_all=true
-			argv[$i]=()
-		elif [[ $arg == '-A' ]]; then
-			show_all=true
-			argv[$i]=()
-		fi
-		((i=i+1))
-	done
+    # This is a "smart" ls
+    # the only reason for this is because the -B flag is not overwritten by the -a/-A flags
+    # this is not gonna list vim backup files on normal ls, but is gonna list them when the all flag is set
+    show_all=false
+    i=1
+    for arg in $@; do
+        if [[ $arg == '-B' ]]; then
+            argv[$i]=()
+        elif [[ $arg == '-a' ]]; then 
+            show_all=true
+            argv[$i]=()
+        elif [[ $arg == '-A' ]]; then
+            show_all=true
+            argv[$i]=()
+        fi
+        ((i=i+1))
+    done
 
-	if ($show_all); then
-		show_all='-A'
-	else
-		show_all='-B'
-	fi
-	\ls --color=auto $show_all $argv
+    if ($show_all); then
+        show_all='-A'
+    else
+        show_all='-B'
+    fi
+    \ls --color=auto $show_all $argv
 }
 
 eval `dircolors`
@@ -230,12 +230,12 @@ zstyle :compinstall filename '/home/hack/.zshrc'
 
 # pip zsh completion start
 function _pip_completion {
-  local words cword
-  read -Ac words
-  read -cn cword
-  reply=( $( COMP_WORDS="$words[*]" \
-             COMP_CWORD=$(( cword-1 )) \
-             PIP_AUTO_COMPLETE=1 $words[1] ) )
+    local words cword
+    read -Ac words
+    read -cn cword
+    reply=( $( COMP_WORDS="$words[*]" \
+        COMP_CWORD=$(( cword-1 )) \
+        PIP_AUTO_COMPLETE=1 $words[1] ) )
 }
 compctl -K _pip_completion pip2
 
@@ -376,36 +376,36 @@ bindkey -v # explicitily set viins as main keymap
 
 bindkey "^I" complete-word
 if [[ $TERM = 'screen' ]]; then;
-	bindkey '[1~'	beginning-of-line # Home
-	bindkey '[2~'	overwrite-mode	  # Insert
-	bindkey '[3~'	delete-char	      # Del
-	bindkey '[4~'	end-of-line	      # End	
-	bindkey 'OD'	backward-word	  # CTRL <-
-	bindkey 'OC'	forward-word	  # CTRL ->
+    bindkey '[1~'	beginning-of-line # Home
+    bindkey '[2~'	overwrite-mode	  # Insert
+    bindkey '[3~'	delete-char	      # Del
+    bindkey '[4~'	end-of-line	      # End	
+    bindkey 'OD'	backward-word	  # CTRL <-
+    bindkey 'OC'	forward-word	  # CTRL ->
     bindkey '[Z'  reverse-menu-complete
     bindkey '[A'  history-beginning-search-backward # CTRL up
     bindkey '[B'  history-beginning-search-forward  # CTRL down
 elif [[ $TERM = 'rxvt' ]]; then;
-	bindkey '[7~'	beginning-of-line # Home
-	bindkey '[2~'	overwrite-mode	  # Insert
-	bindkey '[3~'	delete-char	  # Del
-	bindkey '[8~'	end-of-line	  # End	
-	bindkey 'Od'	backward-word	  # CTRL <-
-	bindkey 'Oc'	forward-word	  # CTRL ->
+    bindkey '[7~'	beginning-of-line # Home
+    bindkey '[2~'	overwrite-mode	  # Insert
+    bindkey '[3~'	delete-char	  # Del
+    bindkey '[8~'	end-of-line	  # End	
+    bindkey 'Od'	backward-word	  # CTRL <-
+    bindkey 'Oc'	forward-word	  # CTRL ->
 elif [[ $TERM = 'linux' ]]; then;
-	bindkey '[1~'	beginning-of-line # Home
-	bindkey '[2~'	overwrite-mode	  # Insert
-	bindkey '[3~'	delete-char	  # Del
-	bindkey '[4~'	end-of-line	  # End	
-	bindkey '[D'	backward-word	  # CTRL <-
-	bindkey '[C'	forward-word	  # CTRL ->
+    bindkey '[1~'	beginning-of-line # Home
+    bindkey '[2~'	overwrite-mode	  # Insert
+    bindkey '[3~'	delete-char	  # Del
+    bindkey '[4~'	end-of-line	  # End	
+    bindkey '[D'	backward-word	  # CTRL <-
+    bindkey '[C'	forward-word	  # CTRL ->
 elif [[ $TERM = 'xterm' ]]; then;
-	bindkey 'OH'	beginning-of-line # Home
-	bindkey '[2~'	overwrite-mode	  # Insert
-	bindkey '[3~'	delete-char	  # Del
-	bindkey 'OF'	end-of-line	  # End	
-	bindkey '[1;5D'	backward-word	  # CTRL <-
-	bindkey '[1;5C'	forward-word	  # CTRL ->
+    bindkey 'OH'	beginning-of-line # Home
+    bindkey '[2~'	overwrite-mode	  # Insert
+    bindkey '[3~'	delete-char	  # Del
+    bindkey 'OF'	end-of-line	  # End	
+    bindkey '[1;5D'	backward-word	  # CTRL <-
+    bindkey '[1;5C'	forward-word	  # CTRL ->
 fi
 
 
