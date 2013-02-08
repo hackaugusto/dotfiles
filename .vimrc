@@ -30,8 +30,8 @@ highlight clear StatusLineNC
 " set t_Co=16
 set t_Co=256
 set background=dark
-let g:solarized_termcolors=16
-colorscheme solarized
+"let g:solarized_termcolors=16
+"colorscheme solarized
 
 "set statusline=\ \%f%m%r%h%w\ ::\ %y\ [%{&ff}]\%=\ [%p%%:\ %l/%L]\ 
 
@@ -58,9 +58,20 @@ augroup Lisp
   autocmd FileType lisp set number showmatch
 augroup END
 
+augroup Css
+  autocmd!
+  autocmd FileType css set omnifunc=csscomplete#CompleteCSS
+augroup END
+
 augroup SH
   autocmd!
   autocmd FileType sh set number
+augroup END
+
+augroup Zsh 
+  autocmd!
+  autocmd FileType zsh set shiftwidth=4 softtabstop=4 tabstop=4 expandtab
+	autocmd FileType zsh set number
 augroup END
 
 augroup Vim
@@ -71,6 +82,7 @@ augroup END
 
 augroup JAVASCRIPT
 	autocmd!
+  autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
 	autocmd FileType javascript set shiftwidth=4 softtabstop=4 tabstop=4
 	autocmd FileType javascript set number cindent
 augroup END
@@ -142,14 +154,32 @@ augroup Java
 	"autocmd BufRead set makeprg=ant\ -find\ build.xml
 augroup END
 
+function FindDjangoSettings()
+  if strlen($VIRTUAL_ENV) && has('python')
+    let output  = system("find $VIRTUAL_ENV \\( -wholename '*/lib/*' -or -wholename '*/install/' \\) -or \\( -name 'settings.py' -print0 \\) | tr '\n' ' '")
+    let outarray= split(output, '[\/]\+')
+    let module  = outarray[-2] . '.' . 'settings'
+    let syspath = system("python -c 'import sys; print sys.path' | tr '\n' ' ' ")
+    " let curpath = '/' . join(outarray[:-2], '/')
+
+
+    execute 'python import sys, os'
+    " execute 'python sys.path.append("' . curpath . '")'
+    " execute 'python sys.path.append("' . syspath . '")'
+    execute 'python sys.path = ' . syspath
+    execute 'python os.environ.setdefault("DJANGO_SETTINGS_MODULE", "' . module . '")'
+  endif
+endfunction
+
 augroup Python
   autocmd!
   autocmd FileType python abbreviate #i import
   autocmd FileType python map @i ^i#i
   autocmd FileType python set number omnifunc=pythoncomplete#Complete completeopt-=preview
-  autocmd FileType python let g:SuperTabDefaultCompletionType='context'
   autocmd FileType python set expandtab nowrap shiftwidth=4 softtabstop=4
+  autocmd FileType python let g:SuperTabDefaultCompletionType='context'
   autocmd FileType python let python_highlight_all=1
+  autocmd FileType python call FindDjangoSettings()
 	autocmd BufWritePre *.py :%s/\s\+$//e
 augroup END
 

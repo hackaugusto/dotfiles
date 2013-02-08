@@ -1,0 +1,9 @@
+*~
+*.swp
+*.pyc
+*.swo
+settings_local.py
+.idea
+logfile*
+media
+static_root

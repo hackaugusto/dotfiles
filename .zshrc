@@ -141,8 +141,10 @@ setopt	ALWAYS_TO_END AUTO_LIST	NO_LIST_BEEP
 # GLOB_DOTS		do not require a initial '.' to match
 # NOMATCH		if the globbing is unsucessful, leave the string alone
 # KSH_GLOB		*, +, and ? have the same meaning as with regular expressions, BUT it needs to be right BEFORE a group, ex.: ?(example)
+# PROMPT_SUBST allows expansion and substitution in the prompt
 
-setopt	EXTENDED_GLOB GLOB_DOTS NOMATCH KSH_GLOB
+# NO_NOMATCH    set so that `git log HEAD^` does not try to glob and give the error "zsh: no matches found: HEAD^"
+setopt	EXTENDED_GLOB GLOB_DOTS NOMATCH KSH_GLOB PROMPT_SUBST 
 
 #+++Expasion+++
 
@@ -186,7 +188,114 @@ setopt	LONG_LIST_JOBS NOTIFY NO_BG_NICE NO_HUP
 setopt	NO_BEEP MULTIOS
 #+++other+++
 
+#---[ Modules ]---
+
+fpath=($fpath $HOME/.zsh/func)
+typeset -U fpath
+
+source ~/.zsh/func/git-extras.plugin.zsh
+
+zmodload zsh/complist
+autoload -Uz compinit
+autoload -U promptinit
+autoload -U zgitinit add-zsh-hook
+compinit
+# incompatibily with unix command
+#zmodload -a zsh/stat stat
+zmodload -a zsh/zpty zpty
+zmodload -ap zsh/mapfile mapfile
+
+#+++[ Modules ]+++
+
+#---[ Completition system ]---
+
+# the widget complete-word must be used to do the completion instead of expand-complete,
+# otherwise the _expand completer will not work
+zstyle ':completion:*' completer _expand _complete _correct _approximate
+zstyle ':completion:*' format '%d:'
+zstyle ':completion:*' group-name ''
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+#zstyle ':completion:*' matcher-list 'r:|[._-]=* r:|=*'
+zstyle ':completion:*' matcher-list 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
+zstyle ':completion:*' max-errors 3
+zstyle ':completion:*' menu select=3 yes
+zstyle ':completion:*:functions' ignored-patterns '_*'
+
+zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p%s
+zstyle ':completion:*' prompt 'Alternatives %e:'
+zstyle ':completion:*:descriptions' format '%U%B%d%b%u'
+zstyle ':completion:*:warnings' format '%BSorry, no matches for: %d%b'
+
+zstyle :compinstall filename '/home/hack/.zshrc'
+
+# pip zsh completion start
+function _pip_completion {
+  local words cword
+  read -Ac words
+  read -cn cword
+  reply=( $( COMP_WORDS="$words[*]" \
+             COMP_CWORD=$(( cword-1 )) \
+             PIP_AUTO_COMPLETE=1 $words[1] ) )
+}
+compctl -K _pip_completion pip2
+
+#+++[ Completition system ]+++
+
+#---Git---
+zgitinit
+git_filestatus() {
+    zgit_isgit      || return 1
+    zgit_inworktree || return 1
+
+    local output
+
+    if zgit_hasunmerged; then
+        output='%F{red}!%f'
+    elif zgit_hasuntracked; then
+        output='%F{blue}?%f'
+    elif ! zgit_isworktreeclean; then
+        output='%F{yellow}#%f'
+    elif zgit_hasuncommited; then
+        output='%F{white}#%f'
+    else
+        output='%F{green}#%f'
+    fi
+
+    echo -n $output
+
+    return 0
+}
+
+git_branchstatus() {
+    zgit_isgit || return 1
+
+    local -a ahead behind 
+
+    if zgit_tracking_merge &> /dev/null; then
+        echo -n "  %F{green}[git:$(zgit_head)"
+
+        ahead=($(git rev-list --reverse $(zgit_tracking_merge)..HEAD))
+        behind=($(git rev-list --reverse HEAD..$(zgit_tracking_merge)))
+
+        if [ $#ahead -gt 0 ]; then
+            echo -n " +$#ahead"
+        elif [ $#behind -gt 0 ]; then
+            echo -n " -$#behind"
+        fi
+    else
+        echo -n "  %F{yellow}[git:$(zgit_head)"
+    fi
+
+    echo "]%f"
+}
+
+#+++Git+++
+
 #---Prompt---
+
+myprompt() {
+    git_filestatus || echo ' #'
+}
 
 export PS2="> "
 
@@ -197,9 +306,11 @@ elif [[ $USER = 'dev' ]]; then;
     export PS1="%F{yellow}%n%f %1.%# "
     export RPS1="%F{magenta}%T%f"
 else;
-    export PS1="%F{cyan}%n%f %1.%# "
+    export PS1="%F{cyan}%n%f %1.%\$(git_branchstatus) \$(myprompt) "
     export RPS1="%F{magenta}%T%f"
 fi;
+
+#add-zsh-hook precmd gitprompt
 
 
 #+++Prompt+++
@@ -262,14 +373,18 @@ export LESS_TERMCAP_us=$'\E[01;32m'
 # escape sequences 'instring' found as ^v followed by the keys on the terminal
 # special commands found on zshzle
 bindkey -v # explicitily set viins as main keymap
+
+bindkey "^I" complete-word
 if [[ $TERM = 'screen' ]]; then;
 	bindkey '[1~'	beginning-of-line # Home
 	bindkey '[2~'	overwrite-mode	  # Insert
-	bindkey '[3~'	delete-char	  # Del
-	bindkey '[4~'	end-of-line	  # End	
+	bindkey '[3~'	delete-char	      # Del
+	bindkey '[4~'	end-of-line	      # End	
 	bindkey 'OD'	backward-word	  # CTRL <-
 	bindkey 'OC'	forward-word	  # CTRL ->
     bindkey '[Z'  reverse-menu-complete
+    bindkey '[A'  history-beginning-search-backward # CTRL up
+    bindkey '[B'  history-beginning-search-forward  # CTRL down
 elif [[ $TERM = 'rxvt' ]]; then;
 	bindkey '[7~'	beginning-of-line # Home
 	bindkey '[2~'	overwrite-mode	  # Insert
@@ -295,47 +410,6 @@ fi
 
 
 #+++[ Key bidings ]+++
-
-#---[ Completition system ]---
-
-zstyle ':completion:*' completer _expand _complete _correct _approximate
-zstyle ':completion:*' format '%d:'
-zstyle ':completion:*' group-name ''
-zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
-zstyle ':completion:*' matcher-list 'r:|[._-]=* r:|=*'
-zstyle ':completion:*' max-errors 3
-zstyle ':completion:*' menu select=3 yes
-zstyle ':completion:*' prompt 'Alternatives %e:'
-zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p%s
-zstyle :compinstall filename '/home/hack/.zshrc'
-
-zstyle ':completion:*:descriptions' format '%U%B%d%b%u'
-zstyle ':completion:*:warnings' format '%BSorry, no matches for: %d%b'
-
-# pip zsh completion start
-function _pip_completion {
-  local words cword
-  read -Ac words
-  read -cn cword
-  reply=( $( COMP_WORDS="$words[*]" \
-             COMP_CWORD=$(( cword-1 )) \
-             PIP_AUTO_COMPLETE=1 $words[1] ) )
-}
-compctl -K _pip_completion pip2
-
-#+++[ Completition system ]+++
-
-#---[ Modules ]---
-
-zmodload zsh/complist
-autoload -Uz compinit
-compinit
-# incompatibily with unix command
-#zmodload -a zsh/stat stat
-zmodload -a zsh/zpty zpty
-zmodload -ap zsh/mapfile mapfile
-
-#+++[ Modules ]+++
 
 #---[ Startup ]---
 
