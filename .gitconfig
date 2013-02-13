@@ -1,3 +1,9 @@
 [user]
 	email = hack.augusto@gmail.com
 	name = Augusto F. Hack
+[push]
+	default = simple
+[diff]
+	tool = vimdiff
+[color]
+	ui = true
