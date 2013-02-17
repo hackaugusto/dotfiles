@@ -85,6 +85,7 @@ augroup JAVASCRIPT
   autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
 	autocmd FileType javascript set shiftwidth=4 softtabstop=4 tabstop=4
 	autocmd FileType javascript set number cindent
+  autocmd FileType javascript let g:JSLintHighlightErrorLine = 0
 augroup END
 
 augroup CSHARP

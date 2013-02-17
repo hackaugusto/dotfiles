@@ -33,6 +33,8 @@ URxvt*foreground: #fff
 !URxvt*inheritPixmap: true
 !URxvt*tintColor: black
 !URxvt*shading: 18
+URxvt*depth: 32
+URxvt*background: rgba:0000/0000/0200/d600
 
 Xft*dpi: 96
 Xft*antialias: true

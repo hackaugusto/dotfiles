@@ -65,6 +65,7 @@ function smart_listing(){
 }
 
 eval `dircolors`
+alias chromium='chromium --ignore-gpu-blacklist'
 #alias ls='ls --color=auto' # replaced by smart_listing
 alias ls=smart_listing
 alias python=python_fallback
@@ -76,6 +77,8 @@ if (( ! $+commands[ack] && $+commands[ack-grep] )); then;
     alias ack='ack-grep';
 fi
 
+#alias grep='ack --pager="less -R"'
+#alias ack='ack --pager="less -R"'
 alias grep='ack'
 alias vi='vim'
 alias gcc='colorgcc'
@@ -95,8 +98,10 @@ alias -s tex=vim c=vim cpp=vim
 #export hlainc="/mnt/files/files/code/assembly/hla/include"
 
 # including ~/.bin in the PATH environment variable
-PATH=~/.bin:$PATH:~/.android_sdk/tools:~/.android_sdk/platform-tools
+#PATH=~/.bin:$PATH:~/.android_sdk/tools:~/.android_sdk/platform-tools
+PATH=~/.bin:$PATH
 CLASSPATH=~/projects/java:$CLASSPATH
+export _JAVA_OPTIONS='-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true -Dswing.defaultlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel'
 
 #RPHP_IR_PATH=/mnt/ext/var/abs/local/rphp/src/rphp-buil/lib
 #RPHP_RUNTIME_PATH=~/.bin
