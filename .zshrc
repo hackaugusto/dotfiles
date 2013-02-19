@@ -85,6 +85,7 @@ alias gcc='colorgcc'
 #alias cat='wrapper cat -g'
 alias ...='cd ../..'
 alias ....='cd ../../..'
+alias difftree='rsync -crv --dry-run '
 
 # `alias -s` suffix alias, specifies the program to open the determined suffix
 alias -s tex=vim c=vim cpp=vim
@@ -315,6 +316,15 @@ else;
     export RPS1="%F{magenta}%T%f"
 fi;
 
+if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
+    if [[ $UID -eq '0' ]]; then;
+        export PS1="%M $PS1"
+    elif [[ $USER = 'dev' ]]; then;
+        export PS1="%M $PS1"
+    else;
+        export PS1="%M $PS1"
+    fi;
+fi; 
 #add-zsh-hook precmd gitprompt
 
 
