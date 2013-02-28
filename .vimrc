@@ -16,6 +16,10 @@ let g:netrw_browse_split=3 " open new files one a new tab
 
 let g:checksyntax = -1 " dont load checksyntax, it blinks the screen while saving php files
 let g:syntastic_enable_signs = 1 
+let g:syntastic_check_on_open = 1
+let g:syntastic_mode_map = { 'mode': 'active',
+                           \ 'active_filetypes': ['ruby', 'php', 'python'],
+                           \ 'passive_filetypes': [] }
 
 highlight clear TabSel 
 highlight clear TabFill
@@ -155,6 +159,13 @@ augroup Java
 	"autocmd BufRead set makeprg=ant\ -find\ build.xml
 augroup END
 
+function ConfigureSyntastic(type)
+  if a:type == 'python' && has('python')
+    let builtins = system("python -c 'print(\",\".join(dir(__builtins__)))'")
+    let g:syntastic_python_flake8_post_args = " --builtins=".builtins
+  endif
+endfunction
+
 function FindDjangoSettings()
   if strlen($VIRTUAL_ENV) && has('python')
     let output  = system("find $VIRTUAL_ENV \\( -wholename '*/lib/*' -or -wholename '*/install/' \\) -or \\( -name 'settings.py' -print0 \\) | tr '\n' ' '")
@@ -180,8 +191,11 @@ augroup Python
   autocmd FileType python set expandtab nowrap shiftwidth=4 softtabstop=4
   autocmd FileType python let g:SuperTabDefaultCompletionType='context'
   autocmd FileType python let python_highlight_all=1
+  " autocmd FileType python let g:flake8_builtins="_,apply"
   autocmd FileType python call FindDjangoSettings()
 	autocmd BufWritePre *.py :%s/\s\+$//e
+  autocmd BufReadPost *.py call ConfigureSyntastic('python')
+  " autocmd BufWritePost *.py call Flake8()
 augroup END
 
 augroup Perl
