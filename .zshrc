@@ -4,6 +4,7 @@
 
 # Force sourcing of /etc/profile (correctly set XDG variables for su and sudo)
 . /etc/profile
+# . /usr/share/zsh/site-contrib/powerline.zsh
 
 #---[ Aliases ]---
 function python_fallback(){
@@ -86,6 +87,7 @@ alias gcc='colorgcc'
 alias ...='cd ../..'
 alias ....='cd ../../..'
 alias difftree='rsync -crv --dry-run '
+alias info='info --vi-keys'
 
 # `alias -s` suffix alias, specifies the program to open the determined suffix
 alias -s tex=vim c=vim cpp=vim
