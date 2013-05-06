@@ -139,6 +139,36 @@
     <chainQuitKey>C-g</chainQuitKey>
 
     <!-- Keybindings for desktop switching -->
+    <keybind key="W-1">
+      <action name="GoToDesktop">
+        <to>1</to>
+        <wrap>no</wrap>
+      </action>
+    </keybind>
+    <keybind key="W-2">
+      <action name="GoToDesktop">
+        <to>2</to>
+        <wrap>no</wrap>
+      </action>
+    </keybind>
+    <keybind key="W-3">
+      <action name="GoToDesktop">
+        <to>3</to>
+        <wrap>no</wrap>
+      </action>
+    </keybind>
+    <keybind key="W-4">
+      <action name="GoToDesktop">
+        <to>4</to>
+        <wrap>no</wrap>
+      </action>
+    </keybind>
+    <keybind key="W-5">
+      <action name="GoToDesktop">
+        <to>1</to>
+        <wrap>no</wrap>
+      </action>
+    </keybind>
     <keybind key="C-A-Left">
       <action name="GoToDesktop">
         <to>left</to>
@@ -627,6 +657,10 @@
       <maximized>yes</maximized>
     </application>
     <application name="urxvt">
+      <desktop>3</desktop>
+      <maximized>yes</maximized>
+    </application>
+    <application name="xfce4-terminal">
       <desktop>3</desktop>
       <maximized>yes</maximized>
     </application>
