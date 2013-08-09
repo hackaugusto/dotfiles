@@ -1,3 +1,55 @@
+" Vundle required!
+set nocompatible
+filetype off
+
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+
+" required! 
+Bundle 'gmarik/vundle' 
+
+" vim.org
+Bundle 'cpp.vim'
+Bundle 'php.vim'
+Bundle 'smarty.vim'
+" Bundle 'html.vim'
+Bundle 'javascript.vim'
+Bundle 'python.vim'
+Bundle 'django.vim'
+" Bundle 'haskell.vim'
+Bundle 'javacomplete'
+Bundle 'SQLComplete.vim'
+" Bundle 'OmniCppComplete'
+" Bundle 'pythoncomplete'
+Bundle 'tpope/vim-haml'
+Bundle 'jnwhiteh/vim-golang'
+Bundle 'spf13/vim-gocode'
+Bundle 'tpope/vim-markdown'
+
+Bundle 'python_match.vim'
+" Bundle 'align'
+Bundle 'checksyntax'
+Bundle 'HTML-AutoCloseTag'
+Bundle 'matchit.zip'
+Bundle 'prettyprint.vim'
+Bundle 'SearchComplete'
+Bundle 'Syntastic'
+Bundle 'netrw.vim'
+Bundle 'SuperTab'
+Bundle 'SQLUtilities'
+" Bundle 'fly.vim'
+
+" github
+Bundle 'hallettj/jslint.vim'
+Bundle 'digitaltoad/vim-jade'
+Bundle 'vim-scripts/SyntaxComplete'
+Bundle 'scrooloose/syntastic'
+Bundle 'paradigm/vim-multicursor'
+Bundle 'davidhalter/jedi'
+
+" required!
+filetype plugin indent on     
+
 " General stuff
 set shiftwidth=4 softtabstop=4 tabstop=4 expandtab
 set backup swapfile updatetime=20000 updatecount=200
@@ -10,6 +62,7 @@ set wildmenu
 set modeline
 set nocompatible
 set encoding=utf-8
+set tags=./tags,./TAGS,tags,TAGS;/
 
 " netrw
 let g:netrw_browse_split=3 " open new files one a new tab
@@ -40,6 +93,11 @@ set background=dark
 "set statusline=\ \%f%m%r%h%w\ ::\ %y\ [%{&ff}]\%=\ [%p%%:\ %l/%L]\ 
 set rtp+=/usr/lib/python2.7/site-packages/powerline/bindings/vim/plugin/powerline.vim
 set laststatus=2
+
+map <Up> k
+map <Down> j
+map <Left> :bnext<CR>
+map <Right> :bprev<CR>
 
 syntax on
 if has('autocmd')
@@ -187,9 +245,10 @@ endfunction
 
 augroup Python
   autocmd!
+  autocmd FileType python set relativenumber
   autocmd FileType python abbreviate #i import
   autocmd FileType python map @i ^i#i
-  autocmd FileType python set number omnifunc=pythoncomplete#Complete completeopt-=preview
+  autocmd FileType python set omnifunc=pythoncomplete#Complete completeopt-=preview
   autocmd FileType python set expandtab nowrap shiftwidth=4 softtabstop=4
   autocmd FileType python let g:SuperTabDefaultCompletionType='context'
   autocmd FileType python let python_highlight_all=1
@@ -198,6 +257,10 @@ augroup Python
   autocmd BufWritePre *.py :%s/\s\+$//e
   autocmd BufReadPost *.py call ConfigureSyntastic('python')
   " autocmd BufWritePost *.py call Flake8()
+  " autocmd FileType python let ropevim_vim_completion=1
+  " autocmd FileType python let ropevim_extended_complete = 1
+  " autocmd FileType python let g:ropevim_autoimport_modules = ["os.*", "django.*"]
+  " autocmd FileType python imap <c-space> <C-R>=RopeCodeAssistInsertMode()<CR>
 augroup END
 
 augroup Perl

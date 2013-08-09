@@ -4,7 +4,8 @@
 
 # Force sourcing of /etc/profile (correctly set XDG variables for su and sudo)
 . /etc/profile
-# . /usr/share/zsh/site-contrib/powerline.zsh
+. /usr/share/zsh/site-contrib/powerline.zsh
+. /usr/share/zsh/plugins/zsh-syntax-highlight/zsh-syntax-highlighting.zsh
 
 #---[ Aliases ]---
 function python_fallback(){
@@ -65,11 +66,15 @@ function smart_listing(){
     \ls --color=auto $show_all $argv
 }
 
+urlencode() { python -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1])" $1 }
+urldecode() { python -c "import sys, urllib as ul; print ul.unquote_plus(sys.argv[1])" $1 }
+
 eval `dircolors`
-alias chromium='chromium --ignore-gpu-blacklist'
+#alias chromium='chromium --ignore-gpu-blacklist'
 #alias ls='ls --color=auto' # replaced by smart_listing
 alias ls=smart_listing
-alias python=python_fallback
+alias l=ls
+#alias python=python_fallback
 #alias grep='grep --color=auto'
 
 # colored pagination 
