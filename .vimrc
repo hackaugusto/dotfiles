@@ -1,4 +1,5 @@
-" Vundle required!
+" Vundle - https://github.com/gmarik/vundle
+" required!
 set nocompatible
 filetype off
 
@@ -8,11 +9,9 @@ call vundle#rc()
 " required! 
 Bundle 'gmarik/vundle' 
 
-" vim.org
 Bundle 'cpp.vim'
 Bundle 'php.vim'
 Bundle 'smarty.vim'
-" Bundle 'html.vim'
 Bundle 'javascript.vim'
 Bundle 'python.vim'
 Bundle 'django.vim'
@@ -21,13 +20,9 @@ Bundle 'javacomplete'
 Bundle 'SQLComplete.vim'
 " Bundle 'OmniCppComplete'
 " Bundle 'pythoncomplete'
-Bundle 'tpope/vim-haml'
-Bundle 'jnwhiteh/vim-golang'
-Bundle 'spf13/vim-gocode'
-Bundle 'tpope/vim-markdown'
 
 Bundle 'python_match.vim'
-" Bundle 'align'
+Bundle 'Align'
 Bundle 'checksyntax'
 Bundle 'HTML-AutoCloseTag'
 Bundle 'matchit.zip'
@@ -37,15 +32,36 @@ Bundle 'Syntastic'
 Bundle 'netrw.vim'
 Bundle 'SuperTab'
 Bundle 'SQLUtilities'
+Bundle 'indenthtml.vim'
 " Bundle 'fly.vim'
 
-" github
+Bundle 'nono/vim-handlebars'
+Bundle 'kchmck/vim-coffee-script'
+Bundle 'leshill/vim-json'
+Bundle 'othree/html5.vim'
+Bundle 'tpope/vim-haml'
+Bundle 'jnwhiteh/vim-golang'
+Bundle 'spf13/vim-gocode'
+Bundle 'tpope/vim-markdown'
+Bundle 'wavded/vim-stylus'
+Bundle 'groenewege/vim-less'
 Bundle 'hallettj/jslint.vim'
 Bundle 'digitaltoad/vim-jade'
 Bundle 'vim-scripts/SyntaxComplete'
 Bundle 'scrooloose/syntastic'
 Bundle 'paradigm/vim-multicursor'
 Bundle 'davidhalter/jedi'
+Bundle 'mutewinter/vim-tmux'
+Bundle 'mutewinter/vim-css3-syntax'
+Bundle 'mutewinter/nginx.vim'
+
+" some plugins might be CRLF ended, be nice and use LF only:
+"
+" find ~/.vim -type f -not -path '*/.git/*' -print0
+"   | xargs -0 file -N
+"   | grep CRLF
+"   | cut -d ':' -f 1
+"   | parallel --files cat {} \| tr -d '\\r' \| sponge {}
 
 " required!
 filetype plugin indent on     
