@@ -54,6 +54,10 @@ Bundle 'davidhalter/jedi'
 Bundle 'mutewinter/vim-tmux'
 Bundle 'mutewinter/vim-css3-syntax'
 Bundle 'mutewinter/nginx.vim'
+Bundle 'bogado/file-line'
+Bundle 'tpope/vim-commentary'
+Bundle 'tpope/vim-surround'
+Bundle 'file:///mnt/extra/code/rust.vim'
 
 " some plugins might be CRLF ended, be nice and use LF only:
 "
@@ -77,6 +81,7 @@ set hlsearch
 set wildmenu
 set modeline
 set nocompatible
+set relativenumber
 set encoding=utf-8
 set tags=./tags,./TAGS,tags,TAGS;/
 
@@ -114,6 +119,11 @@ map <Up> k
 map <Down> j
 map <Left> :bnext<CR>
 map <Right> :bprev<CR>
+" map <C-'> ciw'<C-r>"'<Esc>
+nnoremap <c-j> <c-w>j
+nnoremap <c-k> <c-w>k
+nnoremap <c-h> <c-w>h
+nnoremap <c-l> <c-w>l
 
 syntax on
 if has('autocmd')
