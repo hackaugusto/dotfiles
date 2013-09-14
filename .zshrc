@@ -419,8 +419,8 @@ elif [[ $TERM = 'linux' ]]; then;
     bindkey '[2~'	overwrite-mode	  # Insert
     bindkey '[3~'	delete-char	  # Del
     bindkey '[4~'	end-of-line	  # End	
-    bindkey '[D'	backward-word	  # CTRL <-
-    bindkey '[C'	forward-word	  # CTRL ->
+    # bindkey '[D'	backward-word	  # CTRL <-
+    # bindkey '[C'	forward-word	  # CTRL ->
 elif [[ $TERM = 'xterm' ]]; then;
     bindkey 'OH'	beginning-of-line # Home
     bindkey '[2~'	overwrite-mode	  # Insert
