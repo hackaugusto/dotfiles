@@ -9,6 +9,14 @@ call vundle#rc()
 " required! 
 Bundle 'gmarik/vundle' 
 
+" some plugins might be CRLF ended, be nice and use LF only:
+"
+" find ~/.vim -type f -not -path '*/.git/*' -print0
+"   | xargs -0 file -N
+"   | grep CRLF
+"   | cut -d ':' -f 1
+"   | parallel --files cat {} \| tr -d '\\r' \| sponge {}
+"
 Bundle 'cpp.vim'
 Bundle 'php.vim'
 Bundle 'smarty.vim'
@@ -28,13 +36,20 @@ Bundle 'HTML-AutoCloseTag'
 Bundle 'matchit.zip'
 Bundle 'prettyprint.vim'
 Bundle 'SearchComplete'
-Bundle 'Syntastic'
+" Bundle 'Syntastic'
 Bundle 'netrw.vim'
 Bundle 'SuperTab'
 Bundle 'SQLUtilities'
 Bundle 'indenthtml.vim'
 " Bundle 'fly.vim'
 
+Bundle 'tpope/vim-dispatch'
+Bundle 'szw/vim-tags'
+" (needs compilation)
+" requires clang and jedi
+" Bundle 'Valloric/YouCompleteMe' " installed the AUR package
+
+Bundle 'hackaugusto/javascript.vim'
 Bundle 'nono/vim-handlebars'
 Bundle 'kchmck/vim-coffee-script'
 Bundle 'leshill/vim-json'
@@ -58,14 +73,6 @@ Bundle 'bogado/file-line'
 Bundle 'tpope/vim-commentary'
 Bundle 'tpope/vim-surround'
 Bundle 'file:///mnt/extra/code/rust.vim'
-
-" some plugins might be CRLF ended, be nice and use LF only:
-"
-" find ~/.vim -type f -not -path '*/.git/*' -print0
-"   | xargs -0 file -N
-"   | grep CRLF
-"   | cut -d ':' -f 1
-"   | parallel --files cat {} \| tr -d '\\r' \| sponge {}
 
 " required!
 filetype plugin indent on     
@@ -112,7 +119,7 @@ set background=dark
 "colorscheme solarized
 
 "set statusline=\ \%f%m%r%h%w\ ::\ %y\ [%{&ff}]\%=\ [%p%%:\ %l/%L]\ 
-set rtp+=/usr/lib/python2.7/site-packages/powerline/bindings/vim/plugin/powerline.vim
+"set rtp+=/usr/lib/python2.7/site-packages/powerline/bindings/vim/plugin/powerline.vim
 set laststatus=2
 
 map <Up> k
@@ -134,7 +141,7 @@ endif
 
 runtime ftplugin/man.vim
 
-" jk is faster to exist insert mode 
+" jk is faster to exit insert mode 
 inoremap jk <esc>
 
 if !exists("autocmd_latex")
