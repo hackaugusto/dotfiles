@@ -4,8 +4,12 @@
 
 # Force sourcing of /etc/profile (correctly set XDG variables for su and sudo)
 . /etc/profile
-. /usr/share/zsh/site-contrib/powerline.zsh
-. /usr/share/zsh/plugins/zsh-syntax-highlight/zsh-syntax-highlighting.zsh
+
+# load extras if installed on the system
+f='/usr/share/zsh/site-contrib/powerline.zsh'
+[[ -f $f ]] && . $f
+f='/usr/share/zsh/plugins/zsh-syntax-highlight/zsh-syntax-highlighting.zsh'
+[[ -f $f ]] && . $f
 
 #---[ Aliases ]---
 function python_fallback(){
