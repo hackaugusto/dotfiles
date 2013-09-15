@@ -25,6 +25,7 @@ Bundle 'django.vim'
 " Bundle 'haskell.vim'
 Bundle 'javacomplete'
 Bundle 'SQLComplete.vim'
+" Bundle 'man.vim'
 " Bundle 'OmniCppComplete'
 " Bundle 'pythoncomplete'
 
@@ -35,42 +36,48 @@ Bundle 'HTML-AutoCloseTag'
 Bundle 'matchit.zip'
 Bundle 'prettyprint.vim'
 Bundle 'SearchComplete'
-" Bundle 'Syntastic'
 Bundle 'netrw.vim'
 Bundle 'SuperTab'
 Bundle 'SQLUtilities'
 Bundle 'indenthtml.vim'
 " Bundle 'fly.vim'
 
-Bundle 'tpope/vim-dispatch'
-Bundle 'szw/vim-tags'
 " (needs compilation)
 " requires clang and jedi
 " Bundle 'Valloric/YouCompleteMe' " installed the AUR package
+"
+" YouCompleteMe comes with jedi
+" Bundle 'davidhalter/jedi'
+" Bundle 'digitaltoad/vim-jade'
 
-Bundle 'hackaugusto/javascript.vim'
-Bundle 'nono/vim-handlebars'
-Bundle 'kchmck/vim-coffee-script'
-Bundle 'leshill/vim-json'
-Bundle 'othree/html5.vim'
-Bundle 'tpope/vim-haml'
-Bundle 'jnwhiteh/vim-golang'
-Bundle 'spf13/vim-gocode'
-Bundle 'tpope/vim-markdown'
-Bundle 'wavded/vim-stylus'
+Bundle 'bogado/file-line'
 Bundle 'groenewege/vim-less'
 Bundle 'hallettj/jslint.vim'
-Bundle 'digitaltoad/vim-jade'
-Bundle 'vim-scripts/SyntaxComplete'
-Bundle 'scrooloose/syntastic'
-Bundle 'paradigm/vim-multicursor'
-Bundle 'davidhalter/jedi'
-Bundle 'mutewinter/vim-tmux'
-Bundle 'mutewinter/vim-css3-syntax'
+Bundle 'jnwhiteh/vim-golang'
+Bundle 'kchmck/vim-coffee-script'
+Bundle 'leshill/vim-json'
 Bundle 'mutewinter/nginx.vim'
-Bundle 'bogado/file-line'
+Bundle 'mutewinter/vim-css3-syntax'
+Bundle 'mutewinter/vim-tmux'
+Bundle 'nono/vim-handlebars'
+Bundle 'othree/html5.vim'
+Bundle 'paradigm/vim-multicursor'
+Bundle 'spf13/vim-gocode'
 Bundle 'tpope/vim-commentary'
+Bundle 'tpope/vim-dispatch'
+Bundle 'tpope/vim-haml'
+Bundle 'tpope/vim-markdown'
 Bundle 'tpope/vim-surround'
+Bundle 'vim-scripts/SyntaxComplete'
+Bundle 'wavded/vim-stylus'
+
+" Bundle 'scrooloose/syntastic' -- Added `flake8-python2` into 
+Bundle 'hackaugusto/syntastic'
+" Bundle 'vim-scripts/javascript.vim' -- fixed windows line ending
+Bundle 'hackaugusto/javascript.vim'
+" Bundle 'szw/vim-tags' -- added upwards search for `g:vim_tags_directories`
+Bundle 'hackaugusto/vim-tags'
+
 Bundle 'file:///mnt/extra/code/rust.vim'
 
 " required!
@@ -87,16 +94,18 @@ set hlsearch
 set wildmenu
 set modeline
 set nocompatible
-set relativenumber
-set encoding=utf-8
-set tags=./tags,./TAGS,tags,TAGS;/
+set relativenumber number
+"set encoding=utf-8 fileencoding=utf-8
+" `;` is for upward searching, for more info `:help file-searching`
+set tags=./tags,tags;
 
 " netrw
 let g:netrw_browse_split=3 " open new files one a new tab
 
-let g:checksyntax = -1 " dont load checksyntax, it blinks the screen while saving php files
-let g:syntastic_enable_signs = 1 
+" let g:checksyntax = -1 " dont load checksyntax, it blinks the screen while saving php files
+" let g:syntastic_debug = 1
 let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
 let g:syntastic_mode_map = { 'mode': 'active',
                            \ 'active_filetypes': ['ruby', 'php', 'python'],
                            \ 'passive_filetypes': [] }
@@ -131,17 +140,15 @@ nnoremap <c-k> <c-w>k
 nnoremap <c-h> <c-w>h
 nnoremap <c-l> <c-w>l
 
+" jk is faster to exit insert mode 
+inoremap jk <esc>
+
 syntax on
 if has('autocmd')
   filetype on
   filetype plugin on
   filetype indent on
 endif
-
-runtime ftplugin/man.vim
-
-" jk is faster to exit insert mode 
-inoremap jk <esc>
 
 if !exists("autocmd_latex")
   autocmd BufNewFile,BufRead tex let autocmd_latex=1
@@ -151,7 +158,7 @@ endif
 
 augroup Lisp
   autocmd!
-  autocmd FileType lisp set number showmatch
+  autocmd FileType lisp set showmatch
 augroup END
 
 augroup Css
@@ -159,41 +166,38 @@ augroup Css
   autocmd FileType css set omnifunc=csscomplete#CompleteCSS
 augroup END
 
-augroup SH
-  autocmd!
-  autocmd FileType sh set number
-augroup END
+" augroup SH
+"   autocmd!
+"   autocmd FileType sh set number
+" augroup END
 
 augroup Zsh 
   autocmd!
   autocmd FileType zsh set shiftwidth=4 softtabstop=4 tabstop=4 expandtab
-  autocmd FileType zsh set number
 augroup END
 
 augroup Vim
   autocmd!
   autocmd FileType vim set shiftwidth=2 softtabstop=2 tabstop=2 expandtab
-  autocmd FileType vim set number
 augroup END
 
 augroup JAVASCRIPT
   autocmd!
   " autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
   autocmd FileType javascript set shiftwidth=4 softtabstop=4 tabstop=4
-  autocmd FileType javascript set number cindent
+  autocmd FileType javascript set cindent
   autocmd FileType javascript let g:JSLintHighlightErrorLine = 0
 augroup END
 
 augroup CSHARP
   autocmd!
   autocmd FileType cs set shiftwidth=4 softtabstop=4 tabstop=4
-  autocmd FileType cs set number cindent
+  autocmd FileType cs set cindent
 augroup END
 
 augroup HASKELL
   autocmd!
   autocmd FileType haskell set shiftwidth=4 softtabstop=4 tabstop=4
-  autocmd FileType haskell set number
 augroup END
 
 augroup XML
@@ -211,7 +215,6 @@ augroup END
 augroup Cobra
   autocmd!
   autocmd FileType cobra set shiftwidth=4 softtabstop=4 tabstop=4 expandtab nocindent noautoindent
-  autocmd FileType cobra set number
 augroup END
 
 augroup HTMLDJANGO
@@ -234,7 +237,7 @@ augroup END
 
 augroup PHP
   autocmd!
-  autocmd FileType php set cindent number
+  autocmd FileType php set cindent
   autocmd FileType php let php_sql_query = 1
   autocmd FileType php let php_htmlInStrings = 1
   autocmd FileType php let php_smart_members = 1
@@ -242,7 +245,7 @@ augroup END
 
 augroup Java
   autocmd!
-  autocmd FileType java set cindent number expandtab
+  autocmd FileType java set cindent expandtab
   autocmd FileType java set complete=.,i,d omnifunc=javacomplete#Complete 
   autocmd FileType java let g:SuperTabDefaultCompletionType='context'
   autocmd FileType java set shiftwidth=4 softtabstop=4 tabstop=4 
@@ -266,7 +269,6 @@ function FindDjangoSettings()
     let syspath = system("python -c 'import sys; print sys.path' | tr '\n' ' ' ")
     " let curpath = '/' . join(outarray[:-2], '/')
 
-
     execute 'python import sys, os'
     " execute 'python sys.path.append("' . curpath . '")'
     " execute 'python sys.path.append("' . syspath . '")'
@@ -277,7 +279,6 @@ endfunction
 
 augroup Python
   autocmd!
-  autocmd FileType python set relativenumber
   autocmd FileType python abbreviate #i import
   autocmd FileType python map @i ^i#i
   autocmd FileType python set omnifunc=pythoncomplete#Complete completeopt-=preview
@@ -297,7 +298,7 @@ augroup END
 
 augroup Perl
   autocmd!
-  autocmd FileType perl set autoindent smartindent number cindent
+  autocmd FileType perl set autoindent smartindent cindent
   autocmd FileType perl set shiftwidth=4 softtabstop=4 tabstop=4
   autocmd FileType perl set makeprg=perl\ -c\ %\ $* errorformat=%f:%l:%m
   autocmd FileType perl let perl_include_pod=1
@@ -306,7 +307,7 @@ augroup END
 
 augroup C-Files
   autocmd!
-  autocmd FileType cpp,c,h set cindent number
+  autocmd FileType cpp,c,h set cindent
   autocmd FileType cpp,c,h set complete=.,i,d omnifunc=ccomplete#Complete
   autocmd FileType cpp,c,h let g:SuperTabDefaultCompletionType='context'
   autocmd FileType cpp,c,h set cscopetag cscopetagorder=0
