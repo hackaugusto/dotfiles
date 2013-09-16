@@ -70,8 +70,27 @@ function smart_listing(){
     \ls --color=auto $show_all $argv
 }
 
-urlencode() { python -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1])" $1 }
-urldecode() { python -c "import sys, urllib as ul; print ul.unquote_plus(sys.argv[1])" $1 }
+# https://nicholassterling.wordpress.com/2012/03/30/a-zsh-map-function/
+function map_() {
+  print -- "${(e)2}"
+}
+function map() {
+  typeset f="$1"; shift
+  typeset x
+  typeset result=0
+  for x; map_ "$x" "$f" || result=$?
+  return $result
+}
+function mapa() {
+  typeset f="\$[ $1 ]"; shift
+  map "$f" "$@"
+}
+
+# urlencode() { python -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1])" $1 }
+function urlencode() { php -r '$s = isset($argv[1]) ? $argv[1] : fgets(STDIN); echo urlencode($s) . "\n";' $@ }
+function urldecode() { python -c "import sys, urllib as ul; print ul.unquote_plus(sys.argv[1])" $1 }
+function urlencodestream() { mapa urlencode }
+function format() { python2.7 -c "import sys; print sys.argv[1].format(*(sys.argv[2:] if len(sys.argv) > 2 else sys.stdin))" $@; }
 
 eval `dircolors`
 #alias chromium='chromium --ignore-gpu-blacklist'
@@ -79,17 +98,16 @@ eval `dircolors`
 alias ls=smart_listing
 alias l=ls
 #alias python=python_fallback
-#alias grep='grep --color=auto'
 
 # colored pagination 
 export ACK_PAGER_COLOR="less -x4SRFX"
-if (( ! $+commands[ack] && $+commands[ack-grep] )); then;
+if (( ! $+commands[ack] && $+commands[ack-grep] )); then
     alias ack='ack-grep';
 fi
-
+#alias grep='grep --color=auto'
 #alias grep='ack --pager="less -R"'
 #alias ack='ack --pager="less -R"'
-alias grep='ack'
+
 alias vi='vim'
 alias gcc='colorgcc'
 #alias cat='wrapper cat -g'
@@ -439,7 +457,11 @@ fi
 
 #---[ Startup ]---
 
-fortune
+# to run `xargs zsh -i -c "shell_function"` without showing fortune
+if [[ -z $_FORTUNE ]]; then
+    fortune
+    export _FORTUNE=1
+fi
 
 #+++[ Startup ]+++
 
