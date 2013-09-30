@@ -110,10 +110,12 @@ fi
 
 if (( $+commands[wdiff] )); then
     # TODO: [- or -] may happen inside a regex, needs to change the start and end for deletion
+    filter_changes='/\[-/,/-\]/; /{\+/,/\+}/'
+
     if (( $+commands[cwdiff] )); then
-        function _diff(){ \wdiff $@ | awk '/\[-/;/-\]/; /{\+/,/\+}/' | cwdiff -f }
+        function _diff(){ \wdiff $@ | awk $filter_changes | cwdiff -f }
     else
-        function _diff(){ \wdiff $@ | awk '/\[-/;/-\]/; /{\+/,/\+}/' }
+        function _diff(){ \wdiff $@ | awk $filter_changes }
     fi
 elif (( $+commands[colordiff] && $+commands[diff] )); then
     function _diff(){ \diff $@ | colordiff }
