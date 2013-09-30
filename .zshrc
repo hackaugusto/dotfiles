@@ -109,10 +109,11 @@ fi
 #alias ack='ack --pager="less -R"'
 
 if (( $+commands[wdiff] )); then
+    # TODO: [- or -] may happen inside a regex, needs to change the start and end for deletion
     if (( $+commands[cwdiff] )); then
-        function _diff(){ \wdiff $@ | grep -P '\[-.*-\]|{\+.*\+}' | cwdiff -f }
+        function _diff(){ \wdiff $@ | awk '/\[-/;/-\]/; /{\+/,/\+}/' | cwdiff -f }
     else
-        function _diff(){ \wdiff $@ | grep -P '\[-.*-\]|{\+.*\+}' }
+        function _diff(){ \wdiff $@ | awk '/\[-/;/-\]/; /{\+/,/\+}/' }
     fi
 elif (( $+commands[colordiff] && $+commands[diff] )); then
     function _diff(){ \diff $@ | colordiff }
