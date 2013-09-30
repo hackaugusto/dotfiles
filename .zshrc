@@ -108,6 +108,20 @@ fi
 #alias grep='ack --pager="less -R"'
 #alias ack='ack --pager="less -R"'
 
+if (( $+commands[wdiff] )); then
+    if (( $+commands[cwdiff] )); then
+        function _diff(){ \wdiff $@ | grep -P '\[-.*-\]|{\+.*\+}' | cwdiff -f }
+    else
+        function _diff(){ \wdiff $@ | grep -P '\[-.*-\]|{\+.*\+}' }
+    fi
+elif (( $+commands[colordiff] && $+commands[diff] )); then
+    function _diff(){ \diff $@ | colordiff }
+fi
+
+if whence _diff > /dev/null; then
+    alias diff=_diff
+fi
+
 alias vi='vim'
 alias gcc='colorgcc'
 #alias cat='wrapper cat -g'
@@ -363,7 +377,7 @@ fi;
 #+++[ ZSH OPTIONS ]+++
 
 # Don't expand files matching:
-fignore=(.o .c~ .old .pro)
+fignore=(.o .old .pro .pyc \~)
 
 #---[ Environment ]---
 
