@@ -398,6 +398,8 @@ export MANSECT=3:1:9:8:2:5:4:7:6:n
 # highlight with less
 PAGER='less'
 BROWSER='less'
+
+export LESS='-R'
 export LESS_TERMCAP_mb=$'\E[01;31m'
 export LESS_TERMCAP_md=$'\E[01;31m'
 export LESS_TERMCAP_me=$'\E[0m'

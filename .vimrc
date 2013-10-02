@@ -168,6 +168,9 @@ nnoremap <c-k> <c-w>k
 nnoremap <c-h> <c-w>h
 nnoremap <c-l> <c-w>l
 
+" open tag in a new tab
+nnoremap <silent><C-]> <C-w><C-]><C-w>T
+
 " jk is faster to exit insert mode 
 inoremap jk <esc>
 inoremap JK <esc>
@@ -178,6 +181,7 @@ nnoremap <space>w :w<cr>
 nnoremap <space>q :q<cr>
 
 nnoremap <space>n :nohl<cr>
+nnoremap <space>p :set nopaste<cr>
 
 " Disable <f1>'s default help functionality.
 nnoremap <f1> <esc>
@@ -334,7 +338,7 @@ augroup Python
   autocmd FileType python let g:tags_global_tags = {'py/stdlib': '/usr/lib/python2.7'}
   " autocmd FileType python let g:flake8_builtins="_,apply"
   autocmd FileType python call FindDjangoSettings()
-  autocmd BufWritePre *.py :%s/\s\+$//e
+  autocmd BufWritePre *.py :%s/\s\+$//e|''
   autocmd BufReadPost *.py call ConfigureSyntastic('python')
   " autocmd BufWritePost *.py call Flake8()
   " autocmd FileType python let ropevim_vim_completion=1
