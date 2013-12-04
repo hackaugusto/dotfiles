@@ -256,6 +256,10 @@
       </action>
     </keybind>
 
+    <keybind key="W-F8">
+      <action name="ToggleAlwaysOnTop" />
+    </keybind>
+
     <!-- Keybindings for window switching with the arrow keys -->
     <keybind key="W-S-Right">
       <action name="DirectionalCycleWindows">
@@ -652,6 +656,7 @@
   </menu>
 
   <applications>
+    <application class="*"><decor>no</decor></application>
     <application name="chromium">
       <desktop>2</desktop>
       <maximized>yes</maximized>

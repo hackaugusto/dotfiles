@@ -2,6 +2,19 @@
 (scroll-bar-mode -1)
 (menu-bar-mode -1)
 (tool-bar-mode -1)
+(setq-default inhibit-startup-screen t
+              initial-scratch-message nil
+              truncate-lines t
+              default-truncate-lines t
+              column-number-mode t
+              line-number-mode t
+              tab-width 4
+              indent-tabs-mode nil
+              fill-column 80
+              make-backup-files nil
+              read-file-name-completion-ignore-case t
+              savehist-file "~/.emacs.d/savehist"
+              use-dialog-box nil)
 
 (defun add-elpa-repositories () "Configure ELPA repos" (interactive)
   (progn
@@ -36,39 +49,59 @@
       (eval-print-last-sexp))))
 
 (setq el-get-sources
-    '((
-	 :name evil-relative-linum
-	 :localname "evil-relative-linum"
-	 :type http
-	 :depends linum+
-	 :url "https://raw.github.com/tarao/evil-plugins/master/evil-relative-linum.el")
-	(:name elscreen :type elpa)
-    (:name package :post-init (add-elpa-repositories))))
+      '((:name package :post-init
+               (progn
+                 (add-elpa-repositories)
+                 (if (not (file-exists-p "~/.emacs.d/elpa/"))
+                     (package-refresh-contents))))
+        (:name evil-relative-linum :localname "evil-relative-linum" :type http
+               :depends linum+ :url
+               "https://raw.github.com/tarao/evil-plugins/master/evil-relative-linum.el")
+        (:name elscreen :type elpa)))
 
 
+;; Order matters!
 (setq my-el-get-packages
     (append
-      '(auto-complete
-        key-chord
+      '(ag
+        auto-complete
+        coffee-mode
+        css-mode
         deferred
+        django-mode
         evil
         evil-surround
+        flymake
+        flymake-coffee
+        flymake-css
+        flymake-cursor
+        flymake-haml
+        flymake-sass
+        flymake-shell
+        ;;flyphpcs
         jedi
-        multiple-cursors
+        key-chord
         markdown-mode
-        coffee-mode
-        css-mode) 
+        magit
+        multiple-cursors
+        smex
+        yasnippet)
        (mapcar 'el-get-source-name el-get-sources)))
 
 (el-get 'sync my-el-get-packages)
 
 ;; mini modes
 (evil-mode 1)
-(global-linum-mode)
-(elscreen-start)
 (key-chord-mode 1)
+(elscreen-start)
+(global-linum-mode)
+(show-paren-mode t)
+(savehist-mode t)
 
 ;; evil mode alias
+(evil-ex-define-cmd "tabnew" 'elscreen-create)
+(evil-ex-define-cmd "tabe[dit]" 'elscreen-find-file)
+(evil-ex-define-cmd "q[uit]" 'elscreen-kill)
 (define-key evil-normal-state-map "gt" 'elscreen-next)
 (define-key evil-normal-state-map "gT" 'elscreen-previous)
 (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
@@ -81,6 +114,7 @@
 (add-hook 'python-mode-hook 'autopair-mode)
 (add-hook 'python-mode-hook 'yas-minor-mode)
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
 ;; (defalias 'yes-or-no-p 'y-or-no-p)
 
 (setq jedi:setup-keys t)
