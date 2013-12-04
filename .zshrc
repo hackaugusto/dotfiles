@@ -98,6 +98,7 @@ eval `dircolors`
 alias ls=smart_listing
 alias l=ls
 #alias python=python_fallback
+#alias grep='grep --color=auto'
 
 # colored pagination 
 export ACK_PAGER_COLOR="less -x4SRFX"
@@ -126,6 +127,8 @@ if whence _diff > /dev/null; then
 fi
 
 alias vi='vim'
+alias emacs='emacs -nw'
+alias em='emacs'
 alias gcc='colorgcc'
 #alias cat='wrapper cat -g'
 alias ...='cd ../..'

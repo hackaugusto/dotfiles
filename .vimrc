@@ -245,6 +245,12 @@ augroup CSHARP
   autocmd FileType cs set cindent
 augroup END
 
+augroup LATEX
+  autocmd!
+  autocmd FileType tex let g:tex_comment_nospell=1
+  autocmd FileType tex syn match texComment /%.*$/ contains=@texCommentGroup,@NoSpell
+augroup END
+
 augroup HASKELL
   autocmd!
   autocmd FileType haskell set shiftwidth=4 softtabstop=4 tabstop=4
