@@ -24,23 +24,31 @@ Bundle 'python.vim'
 Bundle 'django.vim'
 " Bundle 'haskell.vim'
 Bundle 'javacomplete'
-Bundle 'SQLComplete.vim'
-" Bundle 'man.vim'
 " Bundle 'OmniCppComplete'
 " Bundle 'pythoncomplete'
+Bundle 'ack.vim'
+" Bundle 'ag.vim'
+" Bundle 'man.vim'
 
-Bundle 'python_match.vim'
+" Required by SQLComplete
+" Bundle 'dbext.vim'
+" Tries to complete after every dot, very annoying (probably because of YouCompleteMe)
+" Bundle 'SQLComplete.vim'
+
 Bundle 'Align'
-Bundle 'checksyntax'
-Bundle 'HTML-AutoCloseTag'
-Bundle 'matchit.zip'
-Bundle 'prettyprint.vim'
-Bundle 'SearchComplete'
-Bundle 'netrw.vim'
-Bundle 'SuperTab'
-Bundle 'SQLUtilities'
-Bundle 'indenthtml.vim'
 " Bundle 'fly.vim'
+Bundle 'HTML-AutoCloseTag'
+Bundle 'indenthtml.vim'
+Bundle 'matchit.zip'
+Bundle 'netrw.vim'
+Bundle 'prettyprint.vim'
+Bundle 'python_match.vim'
+" /<Up> not working
+" Bundle 'SearchComplete'
+Bundle 'SQLUtilities'
+
+" Replaced by YouCompleteMe
+" Bundle 'SuperTab'
 
 " (needs compilation)
 " requires clang and jedi
@@ -52,7 +60,6 @@ Bundle 'indenthtml.vim'
 
 Bundle 'bogado/file-line'
 Bundle 'groenewege/vim-less'
-Bundle 'hallettj/jslint.vim'
 Bundle 'jnwhiteh/vim-golang'
 Bundle 'kchmck/vim-coffee-script'
 Bundle 'leshill/vim-json'
@@ -68,10 +75,15 @@ Bundle 'tpope/vim-dispatch'
 Bundle 'tpope/vim-haml'
 Bundle 'tpope/vim-markdown'
 Bundle 'tpope/vim-surround'
-Bundle 'vim-scripts/SyntaxComplete'
+" omnicomplete from syntax highlight
+Bundle 'vim-scripts/SyntaxComplete'  
 Bundle 'wavded/vim-stylus'
 
-" Bundle 'scrooloose/syntastic' -- Added `flake8-python2` into 
+" Replaced by syntastic
+" Bundle 'checksyntax'
+" Bundle 'hallettj/jslint.vim'
+
+" Bundle 'scrooloose/syntastic' -- Added `flake8-python2` 
 Bundle 'hackaugusto/syntastic'
 " Bundle 'vim-scripts/javascript.vim' -- fixed windows line ending
 Bundle 'hackaugusto/javascript.vim'
@@ -79,6 +91,13 @@ Bundle 'hackaugusto/javascript.vim'
 Bundle 'hackaugusto/vim-tags'
 
 Bundle 'file:///mnt/extra/code/rust.vim'
+
+if has("autocmd") && exists("+omnifunc") 
+  autocmd Filetype * 
+    \ if &omnifunc == "" | 
+    \   setlocal omnifunc=syntaxcomplete#Complete | 
+    \ endif 
+endif 
 
 " required!
 filetype plugin indent on     
@@ -95,6 +114,7 @@ set wildmenu
 set modeline
 set nocompatible
 set relativenumber number
+set pastetoggle=<insert>
 "set encoding=utf-8 fileencoding=utf-8
 " `;` is for upward searching, for more info `:help file-searching`
 set tags=./tags,tags;
@@ -134,14 +154,44 @@ map <Up> k
 map <Down> j
 map <Left> :bnext<CR>
 map <Right> :bprev<CR>
+
+" next/previous buffer
+nnoremap ]b :bnext<cr>
+nnoremap [b :bprevious<cr>
+" next/previous tag
+nnoremap ]t :tnext<cr>
+nnoremap [t :tprevious<cr>
+
 " map <C-'> ciw'<C-r>"'<Esc>
 nnoremap <c-j> <c-w>j
 nnoremap <c-k> <c-w>k
 nnoremap <c-h> <c-w>h
 nnoremap <c-l> <c-w>l
 
+" open tag in a new tab
+nnoremap <silent><C-]> <C-w><C-]><C-w>T
+
 " jk is faster to exit insert mode 
 inoremap jk <esc>
+inoremap JK <esc>
+
+" https://github.com/paradigm/dotfiles/blob/master/.vimrc
+" use ZZ for write and quit
+nnoremap <space>w :w<cr>
+nnoremap <space>q :q<cr>
+
+nnoremap <space>n :nohl<cr>
+nnoremap <space>p :set nopaste<cr>
+
+" Disable <f1>'s default help functionality.
+nnoremap <f1> <esc>
+inoremap <f1> <esc>
+
+" TODO: not a vim problem, but related
+"   I want to use the `[ and `] marks, but in with my current X.org settings
+"   I need to  type the ` twice while shift is holded, figure out at least
+"   how can I change X's the keyboard configuration to return `[ with a single `
+"   keystrke
 
 syntax on
 if has('autocmd')
@@ -285,9 +335,10 @@ augroup Python
   autocmd FileType python set expandtab nowrap shiftwidth=4 softtabstop=4
   autocmd FileType python let g:SuperTabDefaultCompletionType='context'
   autocmd FileType python let python_highlight_all=1
+  autocmd FileType python let g:tags_global_tags = {'py/stdlib': '/usr/lib/python2.7'}
   " autocmd FileType python let g:flake8_builtins="_,apply"
   autocmd FileType python call FindDjangoSettings()
-  autocmd BufWritePre *.py :%s/\s\+$//e
+  autocmd BufWritePre *.py :%s/\s\+$//e|''
   autocmd BufReadPost *.py call ConfigureSyntastic('python')
   " autocmd BufWritePost *.py call Flake8()
   " autocmd FileType python let ropevim_vim_completion=1
