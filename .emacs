@@ -2,6 +2,8 @@
 (scroll-bar-mode -1)
 (menu-bar-mode -1)
 (tool-bar-mode -1)
+(savehist-mode t)
+
 (setq-default inhibit-startup-screen t
               initial-scratch-message nil
               truncate-lines t
@@ -15,6 +17,9 @@
               read-file-name-completion-ignore-case t
               savehist-file "~/.emacs.d/savehist"
               use-dialog-box nil)
+
+(setq debug-on-error t)
+(setq stack-trace-on-error t)
 
 (defun add-elpa-repositories () "Configure ELPA repos" (interactive)
   (progn
@@ -39,6 +44,7 @@
 ;;(cask-initialize)
 
 (add-to-list 'load-path "~/.emacs.d/el-get/el-get")
+(setq el-get-verbose t)
 ;; jedi recipe is available only on master [04/12/2113]
 (unless (require 'el-get nil 'noerror)
   (with-current-buffer
@@ -48,15 +54,24 @@
       (goto-char (point-max))
       (eval-print-last-sexp))))
 
+;; see: el-get/el-get-custom.el
 (setq el-get-sources
-      '((:name package :post-init
+      '((:name package :after
                (progn
                  (add-elpa-repositories)
-                 (if (not (file-exists-p "~/.emacs.d/elpa/"))
+                 (if (not (or
+                            (file-exists-p "~/.emacs.d/el-get/package/elpa/")
+                            (file-exists-p "~/.emacs.d/elpa/")))
                      (package-refresh-contents))))
         (:name evil-relative-linum :localname "evil-relative-linum" :type http
                :depends linum+ :url
                "https://raw.github.com/tarao/evil-plugins/master/evil-relative-linum.el")
+        (:name evil :depends (undo-tree auto-complete))
+        (:name auto-complete :load ("auto-complete.el" "auto-complete-config.el")
+               :after (progn (global-auto-complete-mode t)))
+        ;; jedi does not work with IPv6 (when /etc/hosts alias localhost host to ::1)
+        (:name jedi
+               :before (progn (setq jedi:server-args '("--address" "127.0.0.1"))))
         (:name elscreen :type elpa)))
 
 
@@ -78,16 +93,20 @@
         flymake-haml
         flymake-sass
         flymake-shell
+        ;;flymake-rust
         ;;flyphpcs
-        jedi
         key-chord
         markdown-mode
         magit
         multiple-cursors
+        ;;rust-mode
         smex
         yasnippet)
        (mapcar 'el-get-source-name el-get-sources)))
 
+;; if gnutls complains, wait for it (the emacs wiki recepies are being downloaded)
+;; needs to be sync'ed!
+;; (setq el-get-is-lazy t)
 (el-get 'sync my-el-get-packages)
 
 ;; mini modes
@@ -96,7 +115,6 @@
 (elscreen-start)
 (global-linum-mode)
 (show-paren-mode t)
-(savehist-mode t)
 
 ;; evil mode alias
 (evil-ex-define-cmd "tabnew" 'elscreen-create)
@@ -109,6 +127,27 @@
 ;;(define-key evil-insert-state-map "jk" 'evil-normal-state)
 (key-chord-define-global "jk" 'evil-normal-state)
 
+;; esc quits
+(defun minibuffer-keyboard-quit ()
+  "Abort recursive edit.
+In Delete Selection mode, if the mark is active, just deactivate it;
+then it takes a second \\[keyboard-quit] to abort the minibuffer."
+  (interactive)
+  (if (and delete-selection-mode transient-mark-mode mark-active)
+      (setq deactivate-mark  t)
+    (when (get-buffer "*Completions*") (delete-windows-on "*Completions*"))
+    (abort-recursive-edit)))
+(define-key evil-normal-state-map [escape] 'keyboard-quit)
+(define-key evil-visual-state-map [escape] 'keyboard-quit)
+(define-key minibuffer-local-map [escape] 'minibuffer-keyboard-quit)
+(define-key minibuffer-local-ns-map [escape] 'minibuffer-keyboard-quit)
+(define-key minibuffer-local-completion-map [escape] 'minibuffer-keyboard-quit)
+(define-key minibuffer-local-must-match-map [escape] 'minibuffer-keyboard-quit)
+(define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)
+
+(setq jedi:setup-keys t)
+(setq jedi:complete-on-dot t)
+(add-hook 'python-mode-hook 'auto-complete-mode)
 (add-hook 'python-mode-hook 'jedi:setup)
 (add-hook 'python-mode-hook 'jedi:ac-setup)
 (add-hook 'python-mode-hook 'autopair-mode)
