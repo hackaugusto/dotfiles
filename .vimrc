@@ -76,8 +76,9 @@ Bundle 'tpope/vim-haml'
 Bundle 'tpope/vim-markdown'
 Bundle 'tpope/vim-surround'
 " omnicomplete from syntax highlight
-Bundle 'vim-scripts/SyntaxComplete'  
+Bundle 'vim-scripts/SyntaxComplete'
 Bundle 'wavded/vim-stylus'
+" Bundle 'Yggdroot/indentLine'
 
 " Replaced by syntastic
 " Bundle 'checksyntax'
@@ -93,14 +94,14 @@ Bundle 'hackaugusto/vim-tags'
 Bundle 'file:///mnt/extra/code/rust.vim'
 
 if has("autocmd") && exists("+omnifunc") 
-  autocmd Filetype * 
-    \ if &omnifunc == "" | 
-    \   setlocal omnifunc=syntaxcomplete#Complete | 
-    \ endif 
+  autocmd Filetype *
+    \ if &omnifunc == "" |
+    \   setlocal omnifunc=syntaxcomplete#Complete |
+    \ endif
 endif 
 
 " required!
-filetype plugin indent on     
+filetype plugin indent on
 
 " General stuff
 set shiftwidth=4 softtabstop=4 tabstop=4 expandtab
@@ -118,6 +119,7 @@ set pastetoggle=<insert>
 "set encoding=utf-8 fileencoding=utf-8
 " `;` is for upward searching, for more info `:help file-searching`
 set tags=./tags,tags;
+set listchars=tab:→→,eol:↲,trail:•
 
 " netrw
 let g:netrw_browse_split=3 " open new files one a new tab
@@ -150,6 +152,11 @@ set background=dark
 "set rtp+=/usr/lib/python2.7/site-packages/powerline/bindings/vim/plugin/powerline.vim
 set laststatus=2
 
+nmap <silent> <m-down> :call ScrollOtherWindow("down")<CR>
+nmap <silent> <m-up> :call ScrollOtherWindow("up")<CR>
+nmap <silent> j :call ScrollOtherWindow("down")<CR>
+nmap <silent> k :call ScrollOtherWindow("up")<CR>
+
 map <Up> k
 map <Down> j
 map <Left> :bnext<CR>
@@ -171,7 +178,7 @@ nnoremap <c-l> <c-w>l
 " open tag in a new tab
 nnoremap <silent><C-]> <C-w><C-]><C-w>T
 
-" jk is faster to exit insert mode 
+" jk is faster to exit insert mode
 inoremap jk <esc>
 inoremap JK <esc>
 
@@ -181,7 +188,9 @@ nnoremap <space>w :w<cr>
 nnoremap <space>q :q<cr>
 
 nnoremap <space>n :nohl<cr>
-nnoremap <space>p :set nopaste<cr>
+nnoremap <space>p :set paste!<cr>
+
+nnoremap <c-s> :w
 
 " Disable <f1>'s default help functionality.
 nnoremap <f1> <esc>
@@ -191,7 +200,7 @@ inoremap <f1> <esc>
 "   I want to use the `[ and `] marks, but in with my current X.org settings
 "   I need to  type the ` twice while shift is holded, figure out at least
 "   how can I change X's the keyboard configuration to return `[ with a single `
-"   keystrke
+"   keystroke
 
 syntax on
 if has('autocmd')
@@ -379,3 +388,13 @@ augroup C-Files
   autocmd FileType cpp,c,h map @w iwhile(){}<Esc>2k3li
   autocmd FileType cpp,c,h map @f ifor(){}<Esc>2k3li
 augroup END
+
+" custom functions
+fun! ScrollOtherWindow(dir)
+  if a:dir == "down"
+    let move = "\<C-E>"
+    elseif a:dir == "up"
+    let move = "\<C-Y>"
+  endif
+  exec "normal \<C-W>p" . move . "\<C-W>p"
+endfun
