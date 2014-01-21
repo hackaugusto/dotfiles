@@ -93,21 +93,37 @@ function urlencodestream() { mapa urlencode }
 function format() { python2.7 -c "import sys; print sys.argv[1].format(*(sys.argv[2:] if len(sys.argv) > 2 else sys.stdin))" $@; }
 
 eval `dircolors`
+
+# shortcuts
+alias l=ls
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias -s tex=vim
+alias -s c=vim
+alias -s cpp=vim
+
+# tricks
+#alias python=python_fallback
+#alias cat='wrapper cat -g'
+alias ls=smart_listing
+
+# default params
 #alias chromium='chromium --ignore-gpu-blacklist'
 #alias ls='ls --color=auto' # replaced by smart_listing
-alias ls=smart_listing
-alias l=ls
-#alias python=python_fallback
+alias emacs='emacs -nw'
+alias vi='vim -p'
+alias gcc='colorgcc'
+alias difftree='rsync -crv --dry-run '
+alias info='info --vi-keys'
 #alias grep='grep --color=auto'
+#alias grep='ack --pager="less -R"'
+#alias ack='ack --pager="less -R"'
 
-# colored pagination 
 export ACK_PAGER_COLOR="less -x4SRFX"
 if (( ! $+commands[ack] && $+commands[ack-grep] )); then
     alias ack='ack-grep';
 fi
-#alias grep='grep --color=auto'
-#alias grep='ack --pager="less -R"'
-#alias ack='ack --pager="less -R"'
+alias ag='ag --pager="less -R"'
 
 if (( $+commands[wdiff] )); then
     # TODO: [- or -] may happen inside a regex, needs to change the start and end for deletion
@@ -125,19 +141,6 @@ fi
 if whence _diff > /dev/null; then
     alias diff=_diff
 fi
-
-alias vi='vim'
-alias emacs='emacs -nw'
-alias em='emacs'
-alias gcc='colorgcc'
-#alias cat='wrapper cat -g'
-alias ...='cd ../..'
-alias ....='cd ../../..'
-alias difftree='rsync -crv --dry-run '
-alias info='info --vi-keys'
-
-# `alias -s` suffix alias, specifies the program to open the determined suffix
-alias -s tex=vim c=vim cpp=vim
 
 #+++[ Aliases ]+++
 
@@ -252,6 +255,7 @@ source ~/.zsh/func/git-extras.plugin.zsh
 
 zmodload zsh/complist
 autoload -Uz compinit
+autoload -U zargs
 autoload -U promptinit
 autoload -U zgitinit add-zsh-hook
 compinit
