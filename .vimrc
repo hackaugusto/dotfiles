@@ -1,67 +1,29 @@
-" Vundle - https://github.com/gmarik/vundle
-" required!
-set nocompatible
-filetype off
-
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
-
-" required! 
-Bundle 'gmarik/vundle' 
-
-" some plugins might be CRLF ended, be nice and use LF only:
+" Some plugins might be CRLF ended, be nice and use LF only:
 "
 " find ~/.vim -type f -not -path '*/.git/*' -print0
 "   | xargs -0 file -N
 "   | grep CRLF
 "   | cut -d ':' -f 1
 "   | parallel --files cat {} \| tr -d '\\r' \| sponge {}
-"
+
+set nocompatible
+filetype off
+
+" https://github.com/gmarik/vundle
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+
+Bundle 'gmarik/vundle' 
+
 Bundle 'cpp.vim'
 Bundle 'php.vim'
 Bundle 'smarty.vim'
 Bundle 'python.vim'
 Bundle 'django.vim'
 " Bundle 'haskell.vim'
-Bundle 'javacomplete'
-" Bundle 'OmniCppComplete'
-" Bundle 'pythoncomplete'
-Bundle 'ack.vim'
-" Bundle 'ag.vim'
-" Bundle 'man.vim'
-
-" Required by SQLComplete
-" Bundle 'dbext.vim'
-" Tries to complete after every dot, very annoying (probably because of YouCompleteMe)
-" Bundle 'SQLComplete.vim'
-
-Bundle 'Align'
-" Bundle 'fly.vim'
-Bundle 'HTML-AutoCloseTag'
-Bundle 'indenthtml.vim'
-Bundle 'matchit.zip'
-Bundle 'netrw.vim'
-Bundle 'prettyprint.vim'
-Bundle 'python_match.vim'
-" /<Up> not working
-" Bundle 'SearchComplete'
-Bundle 'SQLUtilities'
-
-" Replaced by YouCompleteMe
-" Bundle 'SuperTab'
-
-" (needs compilation)
-" requires clang and jedi
-" Bundle 'Valloric/YouCompleteMe' " installed the AUR package
-"
-" YouCompleteMe comes with jedi
-" Bundle 'davidhalter/jedi'
 " Bundle 'digitaltoad/vim-jade'
-
-Bundle 'bogado/file-line'
 Bundle 'groenewege/vim-less'
 Bundle 'jnwhiteh/vim-golang'
-Bundle 'justinmk/vim-sneak'
 Bundle 'kchmck/vim-coffee-script'
 Bundle 'leshill/vim-json'
 Bundle 'mutewinter/nginx.vim'
@@ -69,30 +31,57 @@ Bundle 'mutewinter/vim-css3-syntax'
 Bundle 'mutewinter/vim-tmux'
 Bundle 'nono/vim-handlebars'
 Bundle 'othree/html5.vim'
-Bundle 'paradigm/vim-multicursor'
 Bundle 'spf13/vim-gocode'
 Bundle 'tpope/vim-commentary'
-Bundle 'tpope/vim-dispatch'
 Bundle 'tpope/vim-haml'
 Bundle 'tpope/vim-markdown'
-Bundle 'tpope/vim-surround'
-" omnicomplete from syntax highlight
-Bundle 'vim-scripts/SyntaxComplete'
+" Bundle 'vim-scripts/javascript.vim'
+" fixed windows line ending
+Bundle 'hackaugusto/javascript.vim'   
 Bundle 'wavded/vim-stylus'
+Bundle 'file:///mnt/extra/code/rust.vim'
+
+Bundle 'ack.vim'
+" Bundle 'ag.vim'
+" Bundle 'man.vim'
+Bundle 'Align'
+Bundle 'HTML-AutoCloseTag'
+Bundle 'indenthtml.vim'
+Bundle 'matchit.zip'
+Bundle 'netrw.vim'
+Bundle 'prettyprint.vim'
+Bundle 'python_match.vim'
+Bundle 'SQLUtilities'
+
+Bundle 'tpope/vim-surround'
+" Bundle 'justinmk/vim-sneak'         " / with incsearch works just as fine
+Bundle 'bogado/file-line'
+"Bundle 'paradigm/vim-multicursor'
+Bundle 'terryma/vim-multiple-cursors'
+Bundle 'tpope/vim-dispatch'
+" Bundle 'szw/vim-tags'               
+" added upwards search for `g:vim_tags_directories`
+Bundle 'hackaugusto/vim-tags'         
 " Bundle 'Yggdroot/indentLine'
 
-" Replaced by syntastic
-" Bundle 'checksyntax'
 " Bundle 'hallettj/jslint.vim'
+" Bundle 'fly.vim'
+" Bundle 'checksyntax'                " Replaced by syntastic
+Bundle 'scrooloose/syntastic' 
 
-" Bundle 'scrooloose/syntastic' -- Added `flake8-python2` 
-Bundle 'hackaugusto/syntastic'
-" Bundle 'vim-scripts/javascript.vim' -- fixed windows line ending
-Bundle 'hackaugusto/javascript.vim'
-" Bundle 'szw/vim-tags' -- added upwards search for `g:vim_tags_directories`
-Bundle 'hackaugusto/vim-tags'
+" Bundle 'altercation/vim-colors-solarized'
 
-Bundle 'file:///mnt/extra/code/rust.vim'
+Bundle 'javacomplete'
+" Bundle 'OmniCppComplete'
+" Bundle 'pythoncomplete'
+" Bundle 'dbext.vim'                  " Required by SQLComplete
+" Bundle 'SQLComplete.vim'            " Tries to complete after every dot, very annoying (probably because of YouCompleteMe)
+" omnicomplete based on syntax highlight
+Bundle 'vim-scripts/SyntaxComplete'   
+" Bundle 'SuperTab'                   " Replaced by YouCompleteMe
+" Bundle 'Valloric/YouCompleteMe'     " (needs compilation) requires clang and jedi. installed the AUR package
+" Bundle 'davidhalter/jedi'           " YouCompleteMe comes with jedi
+" Bundle 'SearchComplete'             " /<Up> not working
 
 if has("autocmd") && exists("+omnifunc") 
   autocmd Filetype *
@@ -101,30 +90,47 @@ if has("autocmd") && exists("+omnifunc")
     \ endif
 endif 
 
-" required!
-filetype plugin indent on
+if has('autocmd')
+  filetype plugin indent on
+endif
 
-" General stuff
-set shiftwidth=4 softtabstop=4 tabstop=4 expandtab
-set backup swapfile updatetime=20000 updatecount=200
-" allow to backscape over anything within insert mode
+syntax on                             " syntax must be before highlight
+colorscheme torte
+
+"set t_Co=16
+"set t_Co=256
+"set background=dark
+"let g:solarized_termcolors=16
+
+highlight clear TabSel 
+highlight clear TabFill
+highlight clear TabLine 
+highlight clear TabLineSel
+highlight clear TabLineFill
+highlight clear StatusLine
+highlight clear StatusLineNC
+highlight TabLineSel cterm=bold
+highlight TabLine ctermfg=Cyan cterm=NONE
+
 set backspace=indent,eol,start
-set noerrorbells novisualbell
-set ttyfast showcmd hidden
-set hlsearch
-set wildmenu
+set backup swapfile updatetime=20000 updatecount=200 undolevels=1000
+set encoding=utf-8 fileencoding=utf-8
+set hlsearch incsearch
+set listchars=tab:→→,eol:↲,trail:•
+set magic
 set modeline
 set nocompatible
-set relativenumber number
+set noerrorbells novisualbell
 set pastetoggle=<insert>
-"set encoding=utf-8 fileencoding=utf-8
-" `;` is for upward searching, for more info `:help file-searching`
-set tags=./tags,tags;
-set listchars=tab:→→,eol:↲,trail:•
+set relativenumber number
+set shiftwidth=4 softtabstop=4 tabstop=4 expandtab
+set tags=./tags,tags;                 " :help file-searching
+set ttyfast showcmd hidden
+set wildmenu
+set laststatus=2
+set statusline=%M%h%y\ %t\ %F\ %p%%\ %l/%L\ %=[%{&ff},%{&ft}]\ [a=\%03.3b]\ [h=\%02.2B]\ [%l,%v]
 
-" netrw
-let g:netrw_browse_split=3 " open new files one a new tab
-
+let g:netrw_browse_split=3            " open files on a new tab
 " let g:checksyntax = -1 " dont load checksyntax, it blinks the screen while saving php files
 " let g:syntastic_debug = 1
 let g:syntastic_check_on_open = 1
@@ -133,55 +139,35 @@ let g:syntastic_mode_map = { 'mode': 'active',
                            \ 'active_filetypes': ['ruby', 'php', 'python'],
                            \ 'passive_filetypes': [] }
 
-highlight clear TabSel 
-highlight clear TabFill
-highlight clear TabLine 
-highlight clear TabLineSel
-highlight clear TabLineFill
-highlight TabLineSel cterm=bold
-highlight TabLine ctermfg=Cyan cterm=NONE
-highlight clear StatusLine
-highlight clear StatusLineNC
-
-" set t_Co=16
-set t_Co=256
-set background=dark
-"let g:solarized_termcolors=16
-"colorscheme solarized
-
-"set statusline=\ \%f%m%r%h%w\ ::\ %y\ [%{&ff}]\%=\ [%p%%:\ %l/%L]\ 
-"set rtp+=/usr/lib/python2.7/site-packages/powerline/bindings/vim/plugin/powerline.vim
-set laststatus=2
-
-nmap <silent> <m-down> :call ScrollOtherWindow("down")<CR>
-nmap <silent> <m-up> :call ScrollOtherWindow("up")<CR>
-nmap <silent> j :call ScrollOtherWindow("down")<CR>
-nmap <silent> k :call ScrollOtherWindow("up")<CR>
+nmap <silent> <m-down> :call LineScrollOtherWindow("down")<CR>
+nmap <silent> <m-up> :call LineScrollOtherWindow("up")<CR>
+nmap <silent> <m-u> :call PageScrollOtherWindow("down")<CR>
+nmap <silent> <m-d> :call PageScrollOtherWindow("up")<CR>
+nmap <silent> e :call LineScrollOtherWindow("down")<CR>
+nmap <silent> y :call LineScrollOtherWindow("up")<CR>
+nmap <silent> u :call PageScrollOtherWindow("down")<CR>
+nmap <silent> d :call PageScrollOtherWindow("up")<CR>
 
 map <Up> k
 map <Down> j
 map <Left> :bnext<CR>
 map <Right> :bprev<CR>
 
-" next/previous buffer
 nnoremap ]b :bnext<cr>
 nnoremap [b :bprevious<cr>
-" next/previous tag
 nnoremap ]t :tnext<cr>
 nnoremap [t :tprevious<cr>
 
-" map <C-'> ciw'<C-r>"'<Esc>
 nnoremap <c-j> <c-w>j
 nnoremap <c-k> <c-w>k
 nnoremap <c-h> <c-w>h
 nnoremap <c-l> <c-w>l
 
-" open tag in a new tab
 nnoremap <silent><C-]> <C-w><C-]><C-w>T
 
-" jk is faster to exit insert mode
 inoremap jk <esc>
 inoremap JK <esc>
+inoremap Jk <esc>
 
 " https://github.com/paradigm/dotfiles/blob/master/.vimrc
 " use ZZ for write and quit
@@ -191,9 +177,8 @@ nnoremap <space>q :q<cr>
 nnoremap <space>n :nohl<cr>
 nnoremap <space>p :set paste!<cr>
 
-nnoremap <c-s> :w
+" nnoremap <c-s> :w
 
-" Disable <f1>'s default help functionality.
 nnoremap <f1> <esc>
 inoremap <f1> <esc>
 
@@ -203,18 +188,49 @@ inoremap <f1> <esc>
 "   how can I change X's the keyboard configuration to return `[ with a single `
 "   keystroke
 
-syntax on
-if has('autocmd')
-  filetype on
-  filetype plugin on
-  filetype indent on
-endif
-
 if !exists("autocmd_latex")
   autocmd BufNewFile,BufRead tex let autocmd_latex=1
   autocmd BufNewFile,BufRead tex setlocal textwidth=80
   autocmd BufNewFile,BufRead tex let g:tex_flavor = "latex"
 endif
+
+function! LineScrollOtherWindow(dir)
+  if a:dir == "down"
+    let move = "\<C-E>"
+    elseif a:dir == "up"
+    let move = "\<C-Y>"
+  endif
+  exec "normal \<C-W>p" . move . "\<C-W>p"
+endfun
+
+function! PageScrollOtherWindow(dir)
+  if a:dir == "down"
+    let move = "\<C-U>"
+    elseif a:dir == "up"
+    let move = "\<C-D>"
+  endif
+  exec "normal \<C-W>p" . move . "\<C-W>p"
+endfun
+
+function ConfigureSyntastic(type)
+  if a:type == 'python' && has('python')
+    let builtins = system("python2 -c 'print(\",\".join(dir(__builtins__) + [\"__name__\", \"__file__\", \"__loader__\", \"__package__\", \"__main__\"]))'")
+    let g:syntastic_python_flake8_post_args = " --builtins=".builtins
+  endif
+endfunction
+
+function FindDjangoSettings()
+  if strlen($VIRTUAL_ENV) && has('python')
+    let output  = system("find $VIRTUAL_ENV \\( -wholename '*/lib/*' -or -wholename '*/install/' \\) -or \\( -name 'settings.py' -print0 \\) | tr '\n' ' '")
+    let outarray= split(output, '[\/]\+')
+    let module  = outarray[-2] . '.' . 'settings'
+    let syspath = system("python -c 'import sys; print sys.path' | tr '\n' ' ' ")
+
+    execute 'python import sys, os'
+    execute 'python sys.path = ' . syspath
+    execute 'python os.environ.setdefault("DJANGO_SETTINGS_MODULE", "' . module . '")'
+  endif
+endfunction
 
 augroup Lisp
   autocmd!
@@ -269,8 +285,6 @@ augroup END
 augroup XML
   autocmd!
   autocmd FileType xml set shiftwidth=2 softtabstop=2 tabstop=2 expandtab nocindent noautoindent
-  "autocmd FileType xml source ~/.vim/ftplugin/html_autoclosetag.vim
-  "autocmd FileType xhtml,html source ~/.vim/ftplugin/closetag.vim
 augroup END
 
 augroup JADE
@@ -296,9 +310,6 @@ augroup HTML
   autocmd FileType xhtml,html let g:SuperTabDefaultCompletionType='context'
   autocmd FileType htmldjango set omnifunc=htmlcomplete#CompleteTags
   autocmd FileType xhtml,html set shiftwidth=2 softtabstop=2 tabstop=2
-
-" autocmd FileType xhtml,html so ~/.vim/ftplugin/html_autoclosetag.vim
-" autocmd FileType xhtml,html so ~/.vim/ftplugin/closetag.vim
 augroup END
 
 augroup PHP
@@ -315,33 +326,7 @@ augroup Java
   autocmd FileType java set complete=.,i,d omnifunc=javacomplete#Complete 
   autocmd FileType java let g:SuperTabDefaultCompletionType='context'
   autocmd FileType java set shiftwidth=4 softtabstop=4 tabstop=4 
-
-  "autocmd BufRead *.java set efm=%A\ %#[javac]\ %f:%l:\ %m,%-Z\ %#[javac]\ %p^,%-C%.%#
-  "autocmd BufRead set makeprg=ant\ -find\ build.xml
 augroup END
-
-function ConfigureSyntastic(type)
-  if a:type == 'python' && has('python')
-    let builtins = system("python2 -c 'print(\",\".join(dir(__builtins__) + [\"__name__\", \"__file__\", \"__loader__\", \"__package__\", \"__main__\"]))'")
-    let g:syntastic_python_flake8_post_args = " --builtins=".builtins
-  endif
-endfunction
-
-function FindDjangoSettings()
-  if strlen($VIRTUAL_ENV) && has('python')
-    let output  = system("find $VIRTUAL_ENV \\( -wholename '*/lib/*' -or -wholename '*/install/' \\) -or \\( -name 'settings.py' -print0 \\) | tr '\n' ' '")
-    let outarray= split(output, '[\/]\+')
-    let module  = outarray[-2] . '.' . 'settings'
-    let syspath = system("python -c 'import sys; print sys.path' | tr '\n' ' ' ")
-    " let curpath = '/' . join(outarray[:-2], '/')
-
-    execute 'python import sys, os'
-    " execute 'python sys.path.append("' . curpath . '")'
-    " execute 'python sys.path.append("' . syspath . '")'
-    execute 'python sys.path = ' . syspath
-    execute 'python os.environ.setdefault("DJANGO_SETTINGS_MODULE", "' . module . '")'
-  endif
-endfunction
 
 augroup Python
   autocmd!
@@ -354,7 +339,8 @@ augroup Python
   autocmd FileType python let g:tags_global_tags = {'py/stdlib': '/usr/lib/python2.7'}
   " autocmd FileType python let g:flake8_builtins="_,apply"
   autocmd FileType python call FindDjangoSettings()
-  autocmd BufWritePre *.py :%s/\s\+$//e|''
+  " autocmd BufWritePre *.py :%s/\s\+$//e|''
+  autocmd BufWritePre *.py :%s/\s\+$//e
   autocmd BufReadPost *.py call ConfigureSyntastic('python')
   " autocmd BufWritePost *.py call Flake8()
   " autocmd FileType python let ropevim_vim_completion=1
@@ -389,13 +375,3 @@ augroup C-Files
   autocmd FileType cpp,c,h map @w iwhile(){}<Esc>2k3li
   autocmd FileType cpp,c,h map @f ifor(){}<Esc>2k3li
 augroup END
-
-" custom functions
-fun! ScrollOtherWindow(dir)
-  if a:dir == "down"
-    let move = "\<C-E>"
-    elseif a:dir == "up"
-    let move = "\<C-Y>"
-  endif
-  exec "normal \<C-W>p" . move . "\<C-W>p"
-endfun
