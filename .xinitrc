@@ -1,5 +1,7 @@
 #!/usr/bin/zsh 
 
+# cp /etc/X11/xinit/xserverrc ~/.xserverrc
+
 if [ -d /etc/X11/xinit/xinitrc.d ]; then
     for f in /etc/X11/xinit/xinitrc.d/*; do
         [ -x "$f" ] && . "$f"
@@ -12,18 +14,12 @@ xset +fp /usr/share/fonts/local
 xset fp rehash
 numlockx &
 
-if [ -f ~/.Xdefaults ]; then
-    xrdb -merge ~/.Xdefaults
-fi
-
-if [ -f ~/.Xmodmap ]; then
-    xmodmap ~/.Xmodmap
-fi
+[[ -f ~/.Xdefaults ]] && xrdb -merge ~/.Xdefaults
+[[ -f ~/.Xmodmap ]] && xmodmap ~/.Xmodmap
 
 # does not work here
 # stty stop undef
 
 #exec xmonad
-#exec openbox-session
-exec openbox
 #exec $1
+exec openbox-session

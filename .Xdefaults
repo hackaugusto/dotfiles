@@ -1,9 +1,17 @@
 ! xlsfonts
 ! gtk2fontsel
-!URxvt.font: xft:Terminus:size=9:antialias=true
-URxvt.font: xft:DejaVu Sans Mono:size=8:antialias=true 
-!URxvt.font: xft:Andale Mono:size=10:antialias=true 
-URxvt.boldFont: xft:Terminus:size=8:antialias=true
+URxvt.font: xft:Terminus:size=9:antialias=true
+! URxvt.font: xft:Inconsolata:size=9:antialias=true
+! URxvt.font: xft:ProFont:size=10:antialias=true
+! URxvt.letterSpace: 2
+! URxvt.font: xft:Consolas:size=9:antialias=true
+! URxvt.font: xft:DejaVu Sans Mono:size=10:antialias=true
+! URxvt.font: xft:Andale Mono:size=8:antialias=true
+! URxvt.letterSpace: 2
+! URxvt.font: xft:monaco:size=9
+! URxvt.letterSpace: -2
+
+! URxvt.boldFont: xft:Terminus:size=8:antialias=true
 
 ! these fonts are too spaced
 !URxvt.font: xft:DejaVu Sans:size=8:antialias=true 
@@ -27,19 +35,20 @@ URxvt*lineSpace: 1
 
 !URxvt*depth: 32
 !URxvt*background: rgba:1111/1111/1111/dddd
-URxvt*background: #000
-URxvt*foreground: #fff
+!URxvt*background: #000
+!URxvt*background: rgba:0000/0000/0200/d600
+!URxvt*foreground: #fff
 !URxvt*transparent: true
 !URxvt*inheritPixmap: true
 !URxvt*tintColor: black
 !URxvt*shading: 18
-URxvt*depth: 32
-URxvt*background: rgba:0000/0000/0200/d600
+!URxvt*depth: 32
 
-Xft*dpi: 96
-Xft*antialias: true
-Xft*hiting: full
-Xft.hinstyle: hintslight
-Xft.rgba: rgb
+! Xft*dpi: 96
+! Xft*antialias: 1
+! Xft*hiting: 1
+! Xft.hinstyle: hintsfull
+! Xft.rgba: rgb
 
-#include "/home/hack/.colours/custom"
+!#include "/home/hack/.colours/custom"
+#include "/home/hack/.colours/solarized"

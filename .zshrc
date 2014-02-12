@@ -2,14 +2,12 @@
 # (c) 2011 by Augusto Hack <hack dot augusto at gmail dot com>
 #
 
-# Force sourcing of /etc/profile (correctly set XDG variables for su and sudo)
-. /etc/profile
+function load(){
+    [[ -f $1 ]] && . $1
+}
 
-# load extras if installed on the system
-f='/usr/share/zsh/site-contrib/powerline.zsh'
-[[ -f $f ]] && . $f
-f='/usr/share/zsh/plugins/zsh-syntax-highlight/zsh-syntax-highlighting.zsh'
-[[ -f $f ]] && . $f
+load '/usr/share/zsh/site-contrib/powerline.zsh'
+load '/usr/share/zsh/plugins/zsh-syntax-highlight/zsh-syntax-highlighting.zsh'
 
 #---[ Aliases ]---
 function python_fallback(){
