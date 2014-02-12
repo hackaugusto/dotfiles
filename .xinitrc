@@ -11,7 +11,14 @@ xsetroot -cursor_name left_ptr
 xset +fp /usr/share/fonts/local
 xset fp rehash
 numlockx &
-xrdb -merge ~/.Xdefaults
+
+if [ -f ~/.Xdefaults ]; then
+    xrdb -merge ~/.Xdefaults
+fi
+
+if [ -f ~/.Xmodmap ]; then
+    xmodmap ~/.Xmodmap
+fi
 
 # does not work here
 # stty stop undef

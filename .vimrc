@@ -20,6 +20,7 @@ Bundle 'php.vim'
 Bundle 'smarty.vim'
 Bundle 'python.vim'
 Bundle 'django.vim'
+Bundle "ekalinin/Dockerfile.vim"
 " Bundle 'haskell.vim'
 " Bundle 'digitaltoad/vim-jade'
 Bundle 'groenewege/vim-less'
