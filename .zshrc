@@ -2,14 +2,12 @@
 # (c) 2011 by Augusto Hack <hack dot augusto at gmail dot com>
 #
 
-# Force sourcing of /etc/profile (correctly set XDG variables for su and sudo)
-. /etc/profile
+function load(){
+    [[ -f $1 ]] && . $1
+}
 
-# load extras if installed on the system
-f='/usr/share/zsh/site-contrib/powerline.zsh'
-[[ -f $f ]] && . $f
-f='/usr/share/zsh/plugins/zsh-syntax-highlight/zsh-syntax-highlighting.zsh'
-[[ -f $f ]] && . $f
+load '/usr/share/zsh/site-contrib/powerline.zsh'
+load '/usr/share/zsh/plugins/zsh-syntax-highlight/zsh-syntax-highlighting.zsh'
 
 #---[ Aliases ]---
 function python_fallback(){
@@ -92,7 +90,7 @@ function urldecode() { python -c "import sys, urllib as ul; print ul.unquote_plu
 function urlencodestream() { mapa urlencode }
 function format() { python2.7 -c "import sys; print sys.argv[1].format(*(sys.argv[2:] if len(sys.argv) > 2 else sys.stdin))" $@; }
 
-eval `dircolors`
+#eval `dircolors`
 
 # shortcuts
 alias l=ls
@@ -416,23 +414,23 @@ export LESS_TERMCAP_ue=$'\E[0m'
 export LESS_TERMCAP_us=$'\E[01;32m'
 
 # UTF-8 Sexiness!
-#export LESSCHARSET="utf-8"
-#export LOCALE="en_US.utf8"
-#export LANG=en_US.utf8
-#export LC="en_US.utf8"
-#export LC_CTYPE="en_US.utf8"
-#export LC_NUMERIC="en_US.utf8"
-#export LC_TIME="en_US.utf8"
-#export LC_COLLATE="en_US.utf8"
-#export LC_MONETARY="en_US.utf8"
-#export LC_MESSAGES="en_US.utf8"
-#export LC_PAPER="en_US.utf8"
-#export LC_NAME="en_US.utf8"
-#export LC_ADDRESS="en_US.utf8"
-#export LC_TELEPHONE="en_US.utf8"
-#export LC_MEASUREMENT="en_US.utf8"
-#export LC_IDENTIFICATION="en_US.utf8"
-#export LC_ALL="en_US.utf8"
+# export LESSCHARSET="utf-8"
+# export LOCALE="en_US.utf8"
+# export LANG=en_US.utf8
+# export LC="en_US.utf8"
+# export LC_CTYPE="en_US.utf8"
+# export LC_NUMERIC="en_US.utf8"
+# export LC_TIME="en_US.utf8"
+# export LC_COLLATE="en_US.utf8"
+# export LC_MONETARY="en_US.utf8"
+# export LC_MESSAGES="en_US.utf8"
+# export LC_PAPER="en_US.utf8"
+# export LC_NAME="en_US.utf8"
+# export LC_ADDRESS="en_US.utf8"
+# export LC_TELEPHONE="en_US.utf8"
+# export LC_MEASUREMENT="en_US.utf8"
+# export LC_IDENTIFICATION="en_US.utf8"
+# export LC_ALL="en_US.utf8"
 
 #+++Manual+++
 
