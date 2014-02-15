@@ -80,6 +80,7 @@
     (append
       '(ag
         auto-complete
+        ;;auto-complete-clang-async
         coffee-mode
         css-mode
         deferred
@@ -91,6 +92,7 @@
         flymake-css
         flymake-cursor
         flymake-haml
+        ;;flymake-php
         flymake-sass
         flymake-shell
         ;;flymake-rust
@@ -122,7 +124,11 @@
 (evil-ex-define-cmd "q[uit]" 'elscreen-kill)
 (define-key evil-normal-state-map "gt" 'elscreen-next)
 (define-key evil-normal-state-map "gT" 'elscreen-previous)
-(define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
+;;(define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
+;;(define-key evil-normal-state-map (kbd "C-<up>") 'keyboard-up)
+;;(define-key evil-normal-state-map (kbd "C-<dow>") 'keyboard-down)
+;;(define-key evil-normal-state-map (kbd "C-<right>") 'keyboard-right)
+;;(define-key evil-normal-state-map (kbd "C-<left>") 'keyboard-left)
 ;;(define-key evil-visual-state-map "jk" 'evil-normal-state)
 ;;(define-key evil-insert-state-map "jk" 'evil-normal-state)
 (key-chord-define-global "jk" 'evil-normal-state)
@@ -149,8 +155,8 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 (setq jedi:complete-on-dot t)
 (add-hook 'python-mode-hook 'auto-complete-mode)
 (add-hook 'python-mode-hook 'jedi:setup)
-(add-hook 'python-mode-hook 'jedi:ac-setup)
-(add-hook 'python-mode-hook 'autopair-mode)
+;; called by jedi:setup: (add-hook 'python-mode-hook 'jedi:ac-setup)
+;; (add-hook 'python-mode-hook 'autopair-mode)
 (add-hook 'python-mode-hook 'yas-minor-mode)
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
