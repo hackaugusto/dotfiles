@@ -258,6 +258,11 @@ augroup Vim
   autocmd FileType vim set shiftwidth=2 softtabstop=2 tabstop=2 expandtab
 augroup END
 
+augroup Yaml
+  autocmd!
+  autocmd FileType yaml set shiftwidth=2 softtabstop=2 tabstop=2 expandtab
+augroup END
+
 augroup JAVASCRIPT
   autocmd!
   " autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
