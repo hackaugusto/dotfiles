@@ -1,6 +1,4 @@
-# .zshrc
-# (c) 2011 by Augusto Hack <hack dot augusto at gmail dot com>
-#
+# Augusto Hack <hack dot augusto at gmail dot com>
 
 function load(){
     [[ -f $1 ]] && . $1
