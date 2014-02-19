@@ -1,4 +1,4 @@
-#!/usr/bin/zsh 
+#!/bin/zsh
 
 # cp /etc/X11/xinit/xserverrc ~/.xserverrc
 
@@ -14,12 +14,27 @@ xset +fp /usr/share/fonts/local
 xset fp rehash
 numlockx &
 
-[[ -f ~/.Xdefaults ]] && xrdb -merge ~/.Xdefaults
-[[ -f ~/.Xmodmap ]] && xmodmap ~/.Xmodmap
+#use localectl instead
+#setxkbmap -layout br
 
 # does not work here
 # stty stop undef
 
+[[ -f ~/.Xdefaults ]] && xrdb -merge ~/.Xdefaults
+[[ -f ~/.Xmodmap ]] && xmodmap ~/.Xmodmap
+
+
 #exec xmonad
+#exec openbox-session
+#exec openbox
 #exec $1
-exec openbox-session
+
+if [[ $1 == "gnome" ]]; then
+    exec gnome-session
+elif [[ $1 == "unity" ]]; then
+    exec lightdm-session
+elif [[ -z $1 ]]; then
+    exec openbox-session
+else
+    exec $1
+fi

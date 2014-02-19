@@ -235,6 +235,12 @@
         <menu>client-menu</menu>
       </action>
     </keybind>
+    <keybind key="A-Up">
+      <action name="Maximize">
+        <menu>client-menu</menu>
+      </action>
+    </keybind>
+
 
     <!-- Keybindings for window switching -->
     <keybind key="A-Tab">
@@ -283,6 +289,15 @@
     </keybind>
 
     <!-- Keybindings for running applications -->
+    <keybind key="W-f">
+      <action name="Execute">
+        <startupnotify>
+          <enabled>true</enabled>
+          <name>Firefox</name>
+        </startupnotify>
+        <command>firefox</command>
+      </action>
+    </keybind>
     <keybind key="W-g">
       <action name="Execute">
         <startupnotify>
@@ -660,6 +675,9 @@
     <application name="chromium">
       <desktop>2</desktop>
       <maximized>yes</maximized>
+    </application>
+    <application class="Firefox*">
+      <desktop>2</desktop>
     </application>
     <application name="urxvt">
       <desktop>3</desktop>
