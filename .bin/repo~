@@ -1,5 +1,0 @@
-#!/usr/bin/sh
-
-alias python=python2
-repo_google @argv
-unalias python
