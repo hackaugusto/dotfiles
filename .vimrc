@@ -36,6 +36,7 @@ Bundle 'spf13/vim-gocode'
 Bundle 'tpope/vim-commentary'
 Bundle 'tpope/vim-haml'
 Bundle 'tpope/vim-markdown'
+Bundle 'tpope/vim-fugitive'
 " Bundle 'vim-scripts/javascript.vim'
 " fixed windows line ending
 Bundle 'hackaugusto/javascript.vim'   
@@ -96,7 +97,8 @@ if has('autocmd')
 endif
 
 syntax on                             " syntax must be before highlight
-colorscheme torte
+" colorscheme torte                   " use this with solarized
+colorschem zellner                    " use this with erosion
 
 "set t_Co=16
 "set t_Co=256
@@ -138,7 +140,7 @@ let g:netrw_browse_split=3            " open files on a new tab
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 let g:syntastic_mode_map = { 'mode': 'active',
-                           \ 'active_filetypes': ['ruby', 'php', 'python'],
+                           \ 'active_filetypes': ['ruby', 'php', 'python', 'c'],
                            \ 'passive_filetypes': [] }
 
 nmap <silent> <m-down> :call LineScrollOtherWindow("down")<CR>
