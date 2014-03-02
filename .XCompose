@@ -7,8 +7,8 @@
 <Multi_key> <apostrophe> <apostrophe>                                 : "´"   acute              # ACUTE ACCENT
 <dead_grave> <space>                                                  : "`"   grave              # GRAVE ACCENT
 <dead_grave> <dead_grave>                                             : "`"   grave              # GRAVE ACCENT
-<dead_grave> <quotedbl>                                               : "´\""   acute            # ACUTE ACCENT + DOUBLE QUOTE
-<dead_grave> <apostrophe>                                             : "´'"   acute             # ACUTE ACCENT + APOSTROPHE
+<dead_grave> <quotedbl>                                               : "`\""   grave            # ACUTE ACCENT + DOUBLE QUOTE
+<dead_grave> <apostrophe>                                             : "`'"   grave             # ACUTE ACCENT + APOSTROPHE
 <dead_circumflex> <space>                                             : "^"   asciicircum        # CIRCUMFLEX ACCENT
 <dead_circumflex> <dead_circumflex>                                   : "^"   asciicircum        # CIRCUMFLEX ACCENT
 <dead_abovering> <space>                                              : "°"   degree             # DEGREE SIGN
@@ -41,7 +41,7 @@
 <dead_iota> <space>                                                   : "ͺ"   U37a               # GREEK YPOGEGRAMMENI
 <dead_iota> <dead_iota>                                               : "ͺ"   U37a               # GREEK YPOGEGRAMMENI
 <Multi_key> <minus> <minus> <space>                                   : "­"   U00ad              # SOFT HYPHEN
-<Multi_key> <plus> <plus>                                             : "                        # " numbersign NUMBER SIGN
+<Multi_key> <plus> <plus>                                             : "#" numbersign           # NUMBER SIGN
 <Multi_key> <apostrophe> <space>                                      : "'"   apostrophe         # APOSTROPHE
 <Multi_key> <space> <apostrophe>                                      : "'"   apostrophe         # APOSTROPHE
 <Multi_key> <A> <T>                                                   : "@"   at                 # COMMERCIAL AT
