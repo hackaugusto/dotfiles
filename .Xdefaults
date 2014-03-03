@@ -1,26 +1,6 @@
-! xlsfonts
-! gtk2fontsel
+! use xlsfonts or gtk2fontsel to see the fonts
+
 URxvt.font: xft:Terminus:size=9:antialias=true
-! URxvt.font: xft:tewi:size=14:antialias=true
-! URxvt.font: xft:Inconsolata:size=9:antialias=true
-! URxvt.font: xft:ProFont:size=10:antialias=true
-! URxvt.letterSpace: 2
-! URxvt.font: xft:Consolas:size=9:antialias=true
-! URxvt.font: xft:DejaVu Sans Mono:size=10:antialias=true
-! URxvt.font: xft:Andale Mono:size=8:antialias=true
-! URxvt.letterSpace: 2
-! URxvt.font: xft:monaco:size=9
-! URxvt.letterSpace: -2
-
-! URxvt.boldFont: xft:Terminus:size=8:antialias=true
-
-! these fonts are too spaced
-!URxvt.font: xft:DejaVu Sans:size=8:antialias=true 
-!URxvt.font: xft:Bitstream Vera Sans Mono:size=8:antialias=true
-!URxvt.font: xft:Ubuntu Mono:size=10:antialias=true
-!URxvt.font: xft:Ubuntu Condensed:size=8:antialias=true
-
-URxvt*termName: rxvt
 URxvt.scrollBar: false
 URxvt*keysym.Shift-Up: command:\033]720;1\007
 URxvt*urlLauncher: chromium
@@ -31,26 +11,5 @@ URxvt*bordless: true
 URxvt*borderwidth: 0
 URxvt*internalBorder: 0
 URxvt*lineSpace: 1
-! SHOULD be set on LC_CTYPE
-!URxvt*imLocale: en_US.UTF-8
 
-!URxvt*depth: 32
-!URxvt*background: rgba:1111/1111/1111/dddd
-!URxvt*background: #000
-!URxvt*background: rgba:0000/0000/0200/d600
-!URxvt*foreground: #fff
-!URxvt*transparent: true
-!URxvt*inheritPixmap: true
-!URxvt*tintColor: black
-!URxvt*shading: 18
-!URxvt*depth: 32
-
-! Xft*dpi: 96
-! Xft*antialias: 1
-! Xft*hiting: 1
-! Xft.hinstyle: hintsfull
-! Xft.rgba: rgb
-
-! #include "/home/hack/.colours/custom"
-! #include "/home/hack/.colours/solarized"
 #include "/home/hack/.colours/erosion"

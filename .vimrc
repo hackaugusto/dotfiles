@@ -99,19 +99,13 @@ endif
 syntax on                             " syntax must be before highlight
 " colorscheme torte                   " use this with solarized
 colorschem zellner                    " use this with erosion
-
-"set t_Co=16
-"set t_Co=256
-"set background=dark
-"let g:solarized_termcolors=16
+set background=dark
 
 highlight clear TabSel 
 highlight clear TabFill
 highlight clear TabLine 
 highlight clear TabLineSel
 highlight clear TabLineFill
-highlight clear StatusLine
-highlight clear StatusLineNC
 highlight TabLineSel cterm=bold
 highlight TabLine ctermfg=Cyan cterm=NONE
 
@@ -123,7 +117,6 @@ set hlsearch incsearch
 set listchars=tab:→→,eol:↲,trail:•
 set magic
 set modeline
-set nocompatible
 set noerrorbells novisualbell
 set pastetoggle=<insert>
 set relativenumber number
