@@ -1,5 +1,13 @@
 include "%L"
 
-<dead_grave> <apostrophe>      : "`'"  grave              # GRAVE ACCENT + APOSTROPHE
-<dead_grave> <quotedbl>        : "`\"" grave              # GRAVE ACCENT + DOUBLE QUOTE
-<dead_circumflex> <numbersign> : "^#"  asciicircum        # CIRCUMFLEX ACCENT + NUMBER SIGN
+<dead_grave> <apostrophe>       : "`'"  apostrophe      # GRAVE ACCENT + APOSTROPHE
+<dead_grave> <quotedbl>         : "`\"" quotedbl        # GRAVE ACCENT + DOUBLE QUOTE
+<dead_grave> <bracketleft>      : "`["  bracketleft     # GRAVE ACCENT + LEFT SQUARE BRACKET
+<dead_grave> <bracketright>     : "`]"  bracketright    # GRAVE ACCENT + RIGHT SQUARE BRACKET
+<dead_grave> <numbersign>       : "`#"  numbersign      # GRAVE ACCENT + NUMBER SIGN
+
+<dead_circumflex> <apostrophe>       : "^'"  apostrophe      # CIRCUMFLEX ACCENT + APOSTROPHE
+<dead_circumflex> <quotedbl>         : "^\"" quotedbl        # CIRCUMFLEX ACCENT + DOUBLE QUOTE
+<dead_circumflex> <bracketleft>      : "^["  bracketleft     # CIRCUMFLEX ACCENT + LEFT SQUARE BRACKET
+<dead_circumflex> <bracketright>     : "^]"  bracketright    # CIRCUMFLEX ACCENT + RIGHT SQUARE BRACKET
+<dead_circumflex> <numbersign>       : "^#"  numbersign      # CIRCUMFLEX ACCENT + NUMBER SIGN

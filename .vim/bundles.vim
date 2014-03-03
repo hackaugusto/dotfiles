@@ -1,0 +1,59 @@
+" Some plugins might be CRLF ended, be nice and use LF only:
+"
+" find ~/.vim -type f -not -path '*/.git/*' -print0
+"   | xargs -0 file -N
+"   | grep CRLF
+"   | cut -d ':' -f 1
+"   | parallel --files cat {} \| tr -d '\\r' \| sponge {}
+
+" https://github.com/gmarik/vundle
+set nocompatible
+filetype off
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+
+Bundle 'gmarik/vundle' 
+
+Bundle 'ack.vim'
+Bundle 'Align'
+Bundle 'bogado/file-line'
+Bundle 'cpp.vim'
+Bundle 'django.vim'
+Bundle "ekalinin/Dockerfile.vim"
+Bundle 'file:///mnt/extra/code/rust.vim'
+Bundle 'groenewege/vim-less'
+Bundle 'hackaugusto/javascript.vim'   
+Bundle 'hackaugusto/vim-tags'         
+Bundle 'HTML-AutoCloseTag'
+Bundle 'indenthtml.vim'
+Bundle 'javacomplete'
+Bundle 'jnwhiteh/vim-golang'
+Bundle 'kchmck/vim-coffee-script'
+Bundle 'leshill/vim-json'
+Bundle 'matchit.zip'
+Bundle 'mutewinter/nginx.vim'
+Bundle 'mutewinter/vim-css3-syntax'
+Bundle 'mutewinter/vim-tmux'
+Bundle 'netrw.vim'
+Bundle 'nono/vim-handlebars'
+Bundle 'othree/html5.vim'
+"Bundle 'paradigm/vim-multicursor'
+Bundle 'php.vim'
+Bundle 'prettyprint.vim'
+Bundle 'python_match.vim'
+Bundle 'python.vim'
+Bundle 'scrooloose/syntastic' 
+" Bundle 'SearchComplete'             " /<Up> not working
+Bundle 'smarty.vim'
+Bundle 'spf13/vim-gocode'
+Bundle 'SQLUtilities'
+" Bundle 'SuperTab'                   " Replaced by YouCompleteMe
+Bundle 'terryma/vim-multiple-cursors'
+Bundle 'tpope/vim-commentary'
+Bundle 'tpope/vim-dispatch'
+Bundle 'tpope/vim-fugitive'
+Bundle 'tpope/vim-haml'
+Bundle 'tpope/vim-markdown'
+Bundle 'tpope/vim-surround'
+Bundle 'vim-scripts/SyntaxComplete'   
+Bundle 'wavded/vim-stylus'
