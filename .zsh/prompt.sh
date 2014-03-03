@@ -49,16 +49,14 @@ myprompt() {
 }
 
 export PS2="> "
+export RPS1="%F{blue}%T%f"
 
 if [[ $UID -eq '0' ]]; then;
     export PS1="%F{red}%n%f %1. %(?.%#.%F{red}%#%f) "
-    export RPS1="%F{magenta}%T%f"
 elif [[ $USER = 'dev' ]]; then;
     export PS1="%F{yellow}%n%f %1.%# "
-    export RPS1="%F{magenta}%T%f"
 else;
     export PS1="%F{cyan}%n%f %1.%\$(git_branchstatus) \$(myprompt) "
-    export RPS1="%F{magenta}%T%f"
 fi;
 
 # show the hostname when we are connected through ssh
