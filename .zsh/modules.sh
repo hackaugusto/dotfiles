@@ -1,5 +1,8 @@
+# vim:ft=zsh:ts=4:sts=4:sw=4:
+
 fpath=($fpath $HOME/.zsh/func)
-. ~/.zsh/func/git-extras.plugin.zsh
+load ~/.zsh/func/git-extras.plugin.zsh
+load ~/.zsh/zsh-autosuggestions/autosuggestions.zsh
 
 zmodload zsh/complist
 autoload -Uz compinit

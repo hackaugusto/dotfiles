@@ -10,13 +10,15 @@ function require() {
 require ~/.zsh/modules.sh
 require ~/.zsh/alias.sh
 require ~/.zsh/env.sh
-require ~/.zsh/completion.sh
 require ~/.zsh/options.sh
 require ~/.zsh/prompt.sh
-require ~/.zsh/bindkey.sh
 
 load /usr/share/zsh/site-contrib/powerline.zsh
 load /usr/share/zsh/plugins/zsh-syntax-highlight/zsh-syntax-highlighting.zsh
+
+# we need to load the plugins before
+require ~/.zsh/completion.sh
+require ~/.zsh/bindkey.sh
 
 # to run `xargs zsh -i -c "shell_function"` without showing fortune
 if [[ -z $_FORTUNE ]]; then

@@ -1,3 +1,5 @@
+# vim:ft=zsh:ts=4:sts=4:sw=4:
+
 git_filestatus() {
     zgit_isgit      || return 1
     zgit_inworktree || return 1
@@ -24,7 +26,7 @@ git_filestatus() {
 git_branchstatus() {
     zgit_isgit || return 1
 
-    local -a ahead behind 
+    local -a ahead behind
 
     if zgit_tracking_merge &> /dev/null; then
         echo -n "  %F{green}[git:$(zgit_head)"
@@ -68,5 +70,5 @@ if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
     else;
         export PS1="%M $PS1"
     fi;
-fi; 
+fi;
 #add-zsh-hook precmd gitprompt

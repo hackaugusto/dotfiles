@@ -1,3 +1,10 @@
+# vim:ft=zsh:ts=4:sts=4:sw=4:
+
+# does not have a easy way to discard the prediction, using
+# tarruda/zsh-autosuggestions instead
+# autoload predict-on
+# predict-on
+
 # the widget complete-word must be used to do the completion instead of expand-complete,
 # otherwise the _expand completer will not work
 zstyle ':completion:*' completer _expand _complete _correct _approximate
@@ -21,8 +28,22 @@ function _pip_completion {
     local words cword
     read -Ac words
     read -cn cword
-    reply=( $( COMP_WORDS="$words[*]" \
-        COMP_CWORD=$(( cword-1 )) \
-        PIP_AUTO_COMPLETE=1 $words[1] ) )
+    reply=($(COMP_WORDS="$words[*]" COMP_CWORD=$(( cword-1 )) PIP_AUTO_COMPLETE=1 $words[1]))
 }
 compctl -K _pip_completion pip2
+
+function zle-line-init () {
+    # make sure the terminal is in application mode, when zle is
+    # active. Only then are the values from $terminfo valid.
+    if (( ${+terminfo[smkx]} )) && (( ${+terminfo[rmkx]} )); then
+        printf '%s' "${terminfo[smkx]}"
+    fi
+    zle -l | grep autosuggest-start >& /dev/null && zle autosuggest-start
+}
+function zle-line-finish () {
+    if (( ${+terminfo[smkx]} )) && (( ${+terminfo[rmkx]} )); then
+        printf '%s' "${terminfo[rmkx]}"
+    fi
+}
+zle -N zle-line-init
+zle -N zle-line-finish

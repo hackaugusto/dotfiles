@@ -4,6 +4,9 @@
 *.swp
 *.old
 
+# ignore .zsh submodules
+.zsh/*/
+
 # ignore bytecode, object code, erros
 *.pyc
 *.swo

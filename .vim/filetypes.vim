@@ -39,7 +39,7 @@ augroup END
 "   autocmd FileType sh set number
 " augroup END
 
-augroup Zsh 
+augroup Zsh
   autocmd!
   autocmd FileType zsh set shiftwidth=4 softtabstop=4 tabstop=4 expandtab
 augroup END
@@ -115,9 +115,9 @@ augroup END
 augroup Java
   autocmd!
   autocmd FileType java set cindent expandtab
-  autocmd FileType java set complete=.,i,d omnifunc=javacomplete#Complete 
+  autocmd FileType java set complete=.,i,d omnifunc=javacomplete#Complete
   autocmd FileType java let g:SuperTabDefaultCompletionType='context'
-  autocmd FileType java set shiftwidth=4 softtabstop=4 tabstop=4 
+  autocmd FileType java set shiftwidth=4 softtabstop=4 tabstop=4
 augroup END
 
 augroup Python

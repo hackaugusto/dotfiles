@@ -1,3 +1,5 @@
+# vim:ft=zsh:ts=4:sts=4:sw=4:
+
 alias l=ls
 alias ...='cd ../..'
 alias ....='cd ../../..'
@@ -88,7 +90,7 @@ function smart_listing(){
     for arg in $@; do
         if [[ $arg == '-B' ]]; then
             argv[$i]=()
-        elif [[ $arg == '-a' ]]; then 
+        elif [[ $arg == '-a' ]]; then
             show_all=true
             argv[$i]=()
         elif [[ $arg == '-A' ]]; then

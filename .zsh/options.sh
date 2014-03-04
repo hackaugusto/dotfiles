@@ -1,3 +1,5 @@
+# vim:ft=zsh:ts=4:sts=4:sw=4:
+
 limit -s coredumpsize 0
 fignore=(.o .old .pro .pyc \~)
 umask 0027
@@ -23,7 +25,7 @@ setopt ALWAYS_TO_END AUTO_LIST	NO_LIST_BEEP NO_BEEP
 # KSH_GLOB		        *, +, and ? have the same meaning as with regular expressions, BUT it needs to be right BEFORE a group, ex.: ?(example)
 # PROMPT_SUBST          allows expansion and substitution in the prompt
 # NO_NOMATCH            set so that `git log HEAD^` does not try to glob and give the error "zsh: no matches found: HEAD^"
-setopt EXTENDED_GLOB GLOB_DOTS NOMATCH KSH_GLOB PROMPT_SUBST 
+setopt EXTENDED_GLOB GLOB_DOTS NOMATCH KSH_GLOB PROMPT_SUBST
 
 # EXTENDED_HISTORY	    save commands in history at this format ":begin of the command:time elapsed:command"
 # HIST_IGNORE_DUPS	    insert the new command and remove all older duplications of this
