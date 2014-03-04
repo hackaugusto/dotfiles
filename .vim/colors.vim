@@ -5,7 +5,7 @@ syntax on
 " colorscheme torte
 
 " use this with erosion
-colorschem zellner
+colorscheme zellner
 set background=dark
 
 highlight clear TabSel 

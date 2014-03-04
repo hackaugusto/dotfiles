@@ -14,7 +14,6 @@ set tags=./tags,tags;
 set ttyfast showcmd hidden
 set wildmenu
 set laststatus=2
-set statusline=%M%h%y\ %t\ %F\ %p%%\ %l/%L\ %=[%{&ff},%{&ft}]\ [a=\%03.3b]\ [h=\%02.2B]\ [%l,%v]
 
 " open files on a new tab
 let g:netrw_browse_split=3
@@ -23,6 +22,7 @@ let g:netrw_browse_split=3
 " let g:checksyntax = -1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
+let g:syntastic_stl_format = "%t errors (line %F)"
 let g:syntastic_mode_map = { 'mode': 'active',
                            \ 'active_filetypes': ['ruby', 'php', 'python', 'c'],
                            \ 'passive_filetypes': [] }
