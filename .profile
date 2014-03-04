@@ -13,6 +13,7 @@
 # Execute the ssh agent before running X so that all GUI share the same session
 command -v ssh-agent >/dev/null 2>&1 && [[ -z $SSH_AGENT_PID ]] && eval $(ssh-agent) >/dev/null 2>&1
 eval $(dircolors)
+stty -ixon
 
 # [[ ! -z $DISPLAY && -f ~/.Xmodmap ]] && xmodmap ~/.Xmodmap      # remaps Caps to Ctrl (remapping caps with x11 keymap options)
 [[ -z $DISPLAY && $XDG_VTNR -eq 1 ]] && exec startx

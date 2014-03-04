@@ -44,7 +44,7 @@ endfunction
 
 function! Diff(one,other)
   if a:one != a:other
-    return a:other
+    return a:one
   endif
 endfunction
 
