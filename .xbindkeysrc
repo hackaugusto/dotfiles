@@ -1,0 +1,6 @@
+"amixer set Master playback 1-"
+    m:0x10 + c:122
+    Mod2 + XF86AudioLowerVolume
+"amixer set Master playback 1+"
+    m:0x10 + c:123
+    Mod2 + XF86AudioRaiseVolume

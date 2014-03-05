@@ -1,9 +1,25 @@
+# ignore backups
 *~
+\#.*\#
 *.swp
+*.old
+
+# ignore .zsh submodules
+.zsh/*/
+
+# ignore bytecode, object code, erros
 *.pyc
 *.swo
-settings_local.py
-.idea
-logfile*
-media
-static_root
+*.o
+*.hi
+*.errors
+
+# xmonad binary
+xmonad-x86_64-linux
+
+# never add any private key to the repository
+identity
+id_dsa
+id_ecdsa
+id_ed25519
+id_rsa

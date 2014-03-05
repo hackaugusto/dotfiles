@@ -7,3 +7,5 @@
 	tool = vimdiff
 [color]
 	ui = true
+[core]
+	autocrlf = input

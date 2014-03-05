@@ -14,20 +14,9 @@ xset +fp /usr/share/fonts/local
 xset fp rehash
 numlockx &
 
-#use localectl instead
-#setxkbmap -layout br
-
-# does not work here
-# stty stop undef
-
-[[ -f ~/.Xdefaults ]] && xrdb -merge ~/.Xdefaults
-[[ -f ~/.Xmodmap ]] && xmodmap ~/.Xmodmap
-
-
-#exec xmonad
-#exec openbox-session
-#exec openbox
-#exec $1
+[[ -f $HOME/.Xdefaults ]] && xrdb -merge ~/.Xdefaults
+[[ -f $HOME/.xbindkeysrc ]] && xbindkeys 2> /dev/null
+# [[ -f $HOME/.Xmodmap ]] && xmodmap ~/.Xmodmap         # CTRL changed with x's keyboard options 'ctrl:nocaps,ctrl:lctrl_meta'
 
 if [[ $1 == "gnome" ]]; then
     exec gnome-session

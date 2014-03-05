@@ -1,4 +1,4 @@
-;; standard emacs configurations (uptop because I want these configs applied before el-get blocks)
+;; Standard emacs configurations (uptop because I want these configs applied before el-get blocks)
 (scroll-bar-mode -1)
 (menu-bar-mode -1)
 (tool-bar-mode -1)
@@ -97,6 +97,7 @@
         flymake-shell
         ;;flymake-rust
         ;;flyphpcs
+        full-ack
         key-chord
         markdown-mode
         magit
@@ -124,13 +125,13 @@
 (evil-ex-define-cmd "q[uit]" 'elscreen-kill)
 (define-key evil-normal-state-map "gt" 'elscreen-next)
 (define-key evil-normal-state-map "gT" 'elscreen-previous)
-;;(define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
-;;(define-key evil-normal-state-map (kbd "C-<up>") 'keyboard-up)
-;;(define-key evil-normal-state-map (kbd "C-<dow>") 'keyboard-down)
-;;(define-key evil-normal-state-map (kbd "C-<right>") 'keyboard-right)
-;;(define-key evil-normal-state-map (kbd "C-<left>") 'keyboard-left)
-;;(define-key evil-visual-state-map "jk" 'evil-normal-state)
-;;(define-key evil-insert-state-map "jk" 'evil-normal-state)
+(define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
+(define-key evil-normal-state-map (kbd "C-<up>") 'keyboard-up)
+(define-key evil-normal-state-map (kbd "C-<dow>") 'keyboard-down)
+(define-key evil-normal-state-map (kbd "C-<right>") 'keyboard-right)
+(define-key evil-normal-state-map (kbd "C-<left>") 'keyboard-left)
+(define-key evil-visual-state-map "jk" 'evil-normal-state)
+(define-key evil-insert-state-map "jk" 'evil-normal-state)
 (key-chord-define-global "jk" 'evil-normal-state)
 
 ;; esc quits
