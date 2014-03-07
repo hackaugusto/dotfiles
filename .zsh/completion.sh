@@ -39,7 +39,7 @@ function zle-line-init () {
     if (( ${+terminfo[smkx]} )) && (( ${+terminfo[rmkx]} )); then
         printf '%s' "${terminfo[smkx]}"
     fi
-    zle -l | grep autosuggest-start >& /dev/null && zle autosuggest-start
+    # zle -l | grep autosuggest-start >& /dev/null && zle autosuggest-start
 }
 function zle-line-finish () {
     if (( ${+terminfo[smkx]} )) && (( ${+terminfo[rmkx]} )); then

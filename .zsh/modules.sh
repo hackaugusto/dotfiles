@@ -2,7 +2,7 @@
 
 fpath=($fpath $HOME/.zsh/func)
 load ~/.zsh/func/git-extras.plugin.zsh
-load ~/.zsh/zsh-autosuggestions/autosuggestions.zsh
+# load ~/.zsh/zsh-autosuggestions/autosuggestions.zsh
 
 zmodload zsh/complist
 autoload -Uz compinit
