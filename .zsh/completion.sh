@@ -10,6 +10,7 @@
 zstyle ':completion:*' completer _expand _complete _correct _approximate
 zstyle ':completion:*' format '%d:'
 zstyle ':completion:*' group-name ''
+# DO NOT forget to eval(`dircolors`)
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 #zstyle ':completion:*' matcher-list 'r:|[._-]=* r:|=*'
 zstyle ':completion:*' matcher-list 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'

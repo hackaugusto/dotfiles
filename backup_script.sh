@@ -27,4 +27,3 @@ cd $dest
 
 git commit -m 'automatic update';
 git push origin;
-

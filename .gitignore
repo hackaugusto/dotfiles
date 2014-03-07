@@ -7,12 +7,13 @@
 # ignore .zsh submodules
 .zsh/*/
 
-# ignore bytecode, object code, erros
+# ignore bytecode, object code, erros, tags
 *.pyc
 *.swo
 *.o
 *.hi
 *.errors
+tags
 
 # xmonad binary
 xmonad-x86_64-linux
