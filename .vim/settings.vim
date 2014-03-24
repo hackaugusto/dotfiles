@@ -63,14 +63,16 @@ if has('autocmd')
 endif
 
 if executable('ag')
-  set grepprg=ag\ --nogroup\ --noheading\ --column\ --smart-case\ --nocolor\ --follow
   set grepformat=%f:%l:%c:%m
+  set grepprg=ag\ --nogroup\ --noheading\ --column\ --smart-case\ --nocolor\ --follow
+  let g:ackprg="ag\\ --nogroup\\ --noheading\\ --column\\ --smart-case\\ --nocolor\\ --follow"
   let g:unite_source_grep_command='ag'
   let g:unite_source_grep_default_opts='--nogroup --noheading --column --smart-case --nocolor --follow -C0'
   let g:unite_source_grep_recursive_opt=''
 elseif executable('ack')
-  set grepprg=ack\ --nogroup\ --column\ --smart-case\ --nocolor\ --follow\ $*
   set grepformat=%f:%l:%c:%m
+  set grepprg=ack\ --nogroup\ --column\ --smart-case\ --nocolor\ --follow\ $*
+  let g:ackprg="ack\\ --nogroup\\ --column\\ --smart-case\\ --nocolor\\ --follow\\ $*"
   let g:unite_source_grep_command='ack'
   let g:unite_source_grep_default_opts='--no-heading --no-color -a -C4'
   let g:unite_source_grep_recursive_opt=''
