@@ -10,7 +10,8 @@ set statusline+=%*
 set statusline+=\ %t
 
 set statusline+=%{Space(Bracket(Comma(One(&paste,'paste'),Equal(&ff,'unix'),Equal(&fenc,'utf-8'),&ft)))}
-set statusline+=%{fugitive#head(7)}
+set statusline+=%{virtualenv#statusline()}
+set statusline+=%{Space(VCSChanges())}%{fugitive#head(7)}
 
 set statusline+=%=
 
@@ -62,6 +63,25 @@ function! StatuslineCurrentHighlight()
       return '[' . name . ']'
   endif
   return ''
+endfunction
+
+function! VCSChanges()
+  let hunks = sy#repo#get_stats()
+  let parts = []
+
+  if hunks[0] > 0
+    call add(parts, get(g:, 'signify_sign_add', '+') . hunks[0])
+  endif
+
+  if hunks[1] > 0
+    call add(parts, get(g:, 'signify_sign_change', '!') . hunks[1])
+  endif
+
+  if hunks[2] > 0
+    call add(parts, get(g:, 'signify_sign_delete_first_line', '-') . hunks[2])
+  endif
+
+  return join(parts)
 endfunction
 
 autocmd cursorhold,bufwritepost * unlet! b:statusline_trailing_space_warning

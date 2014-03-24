@@ -1,4 +1,3 @@
-;; Standard emacs configurations (uptop because I want these configs applied before el-get blocks)
 (scroll-bar-mode -1)
 (menu-bar-mode -1)
 (tool-bar-mode -1)
@@ -16,10 +15,25 @@
               make-backup-files nil
               read-file-name-completion-ignore-case t
               savehist-file "~/.emacs.d/savehist"
-              use-dialog-box nil)
+              use-dialog-box nil
+              show-paren-delay 0)
 
-(setq debug-on-error t)
-(setq stack-trace-on-error t)
+;; Debugging
+;(setq debug-on-error t)
+;(setq stack-trace-on-error t)
+;(setq el-get-verbose t)
+
+(add-hook 'linum-before-numbering-hook
+  (lambda ()
+    (setq-local linum-format-fmt
+      (let ((width (length (number-to-string (count-lines (point-min) (point-max))))))
+        (concat "%" (number-to-string width) "d")))))
+
+(defun linum-format-func (line)
+  (concat
+    (propertize (format linum-format-fmt line) 'face 'linum)
+    (propertize " " 'face 'mode-line)))
+(setq linum-format 'linum-format-func)
 
 (defun add-elpa-repositories () "Configure ELPA repos" (interactive)
   (progn
@@ -30,21 +44,8 @@
     (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/") t)
     (add-to-list 'package-archives '("SC" . "http://joseito.republika.pl/sunrise-commander/") t)))
 
-;; must be set before the library is loaded
-(setq linum-format "%d ")
-
-;; replaced by el-get
-
-;; el-get sets package-archive on the :post-init for package.el and initialize it
-;;(require 'package)
-;;(add-elpa-repositories)
-;;(package-initialize)
-
-;;(require 'cask "~/.emacs.d/cask/cask.el")
-;;(cask-initialize)
-
 (add-to-list 'load-path "~/.emacs.d/el-get/el-get")
-(setq el-get-verbose t)
+
 ;; jedi recipe is available only on master [04/12/2113]
 (unless (require 'el-get nil 'noerror)
   (with-current-buffer
@@ -63,53 +64,56 @@
                             (file-exists-p "~/.emacs.d/el-get/package/elpa/")
                             (file-exists-p "~/.emacs.d/elpa/")))
                      (package-refresh-contents))))
-        (:name evil-relative-linum :localname "evil-relative-linum" :type http
-               :depends linum+ :url
-               "https://raw.github.com/tarao/evil-plugins/master/evil-relative-linum.el")
+        ;(:name linum+ localname "linum+": type http
+        ;       :depend linum :url "github.com/tarao/elisp/raw/master/linum+.el")
+        ;(:name evil-relative-linum :localname "evil-relative-linum" :type http
+        ;       :depends linum+ :url "https://raw.github.com/tarao/evil-plugins/master/evil-relative-linum.el")
         (:name evil :depends (undo-tree auto-complete))
         (:name auto-complete :load ("auto-complete.el" "auto-complete-config.el")
                :after (progn (global-auto-complete-mode t)))
-        ;; jedi does not work with IPv6 (when /etc/hosts alias localhost host to ::1)
-        (:name jedi
-               :before (progn (setq jedi:server-args '("--address" "127.0.0.1"))))
         (:name elscreen :type elpa)))
 
-
-;; Order matters!
 (setq my-el-get-packages
     (append
       '(ag
         auto-complete
-        ;;auto-complete-clang-async
+        ;auto-complete-clang-async
         coffee-mode
         css-mode
+        cl
+        cl-lib
+        color-theme
+        dash
         deferred
         django-mode
         evil
         evil-surround
+        expand-region
+        fliplr
         flymake
         flymake-coffee
         flymake-css
         flymake-cursor
         flymake-haml
-        ;;flymake-php
+        ;flymake-php
         flymake-sass
         flymake-shell
-        ;;flymake-rust
-        ;;flyphpcs
+        ;flymake-rust
+        ;flyphpcs
         full-ack
         key-chord
         markdown-mode
         magit
         multiple-cursors
-        ;;rust-mode
+        org-mode
+        ;rust-mode
         smex
         yasnippet)
-       (mapcar 'el-get-source-name el-get-sources)))
+        (mapcar 'el-get-source-name el-get-sources)))
 
 ;; if gnutls complains, wait for it (the emacs wiki recepies are being downloaded)
 ;; needs to be sync'ed!
-;; (setq el-get-is-lazy t)
+; (setq el-get-is-lazy t)
 (el-get 'sync my-el-get-packages)
 
 ;; mini modes
@@ -118,13 +122,14 @@
 (elscreen-start)
 (global-linum-mode)
 (show-paren-mode t)
+(smex-initialize)
 
 ;; evil mode alias
-(evil-ex-define-cmd "tabnew" 'elscreen-create)
-(evil-ex-define-cmd "tabe[dit]" 'elscreen-find-file)
-(evil-ex-define-cmd "q[uit]" 'elscreen-kill)
-(define-key evil-normal-state-map "gt" 'elscreen-next)
-(define-key evil-normal-state-map "gT" 'elscreen-previous)
+;(evil-ex-define-cmd "tabnew" 'elscreen-create)
+;(evil-ex-define-cmd "tabe[dit]" 'elscreen-find-file)
+;(evil-ex-define-cmd "q[uit]" 'elscreen-kill)
+;(define-key evil-normal-state-map "gt" 'elscreen-next)
+;(define-key evil-normal-state-map "gT" 'elscreen-previous)
 (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
 (define-key evil-normal-state-map (kbd "C-<up>") 'keyboard-up)
 (define-key evil-normal-state-map (kbd "C-<dow>") 'keyboard-down)
@@ -157,11 +162,11 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 (add-hook 'python-mode-hook 'auto-complete-mode)
 (add-hook 'python-mode-hook 'jedi:setup)
 ;; called by jedi:setup: (add-hook 'python-mode-hook 'jedi:ac-setup)
-;; (add-hook 'python-mode-hook 'autopair-mode)
+; (add-hook 'python-mode-hook 'autopair-mode)
 (add-hook 'python-mode-hook 'yas-minor-mode)
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
-;; (defalias 'yes-or-no-p 'y-or-no-p)
+; (defalias 'yes-or-no-p 'y-or-no-p)
 
 (setq jedi:setup-keys t)
 (setq jedi:complete-on-dot t)
