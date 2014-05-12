@@ -1,6 +1,11 @@
 ! use xlsfonts or gtk2fontsel to see the fonts
 
-URxvt.font: xft:Terminus:size=9:antialias=true
+Xft.antialias: true
+Xft.hinting: true
+Xft.hintstyle: hintfull
+Xft.rgba: rgb
+
+URxvt.font: xft:Terminus:size=9
 URxvt.scrollBar: false
 URxvt*keysym.Shift-Up: command:\033]720;1\007
 URxvt*urlLauncher: chromium
