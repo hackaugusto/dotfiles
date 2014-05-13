@@ -163,86 +163,22 @@
         <wrap>no</wrap>
       </action>
     </keybind>
-    <keybind key="W-5">
-      <action name="GoToDesktop">
-        <to>1</to>
-        <wrap>no</wrap>
-      </action>
-    </keybind>
     <keybind key="C-A-Left">
-      <action name="GoToDesktop">
+      <action name="SendToDesktop">
         <to>left</to>
         <wrap>no</wrap>
       </action>
     </keybind>
     <keybind key="C-A-Right">
-      <action name="GoToDesktop">
-        <to>right</to>
-        <wrap>no</wrap>
-      </action>
-    </keybind>
-    <keybind key="C-A-Up">
-      <action name="GoToDesktop">
-        <to>up</to>
-        <wrap>no</wrap>
-      </action>
-    </keybind>
-    <keybind key="C-A-Down">
-      <action name="GoToDesktop">
-        <to>down</to>
-        <wrap>no</wrap>
-      </action>
-    </keybind>
-    <keybind key="C-S-A-Left">
-      <action name="SendToDesktop">
-        <to>left</to>
-        <wrap>no</wrap>
-      </action>
-    </keybind>
-    <keybind key="C-S-A-Right">
       <action name="SendToDesktop">
         <to>right</to>
         <wrap>no</wrap>
       </action>
-    </keybind>
-    <keybind key="C-S-A-Up">
-      <action name="SendToDesktop">
-        <to>up</to>
-        <wrap>no</wrap>
-      </action>
-    </keybind>
-    <keybind key="C-S-A-Down">
-      <action name="SendToDesktop">
-        <to>down</to>
-        <wrap>no</wrap>
-      </action>
-    </keybind>
-    <keybind key="W-d">
-      <action name="ToggleShowDesktop"/>
     </keybind>
 
-    <!-- Keybindings for windows -->
     <keybind key="A-F4">
       <action name="Close"/>
     </keybind>
-    <keybind key="A-Escape">
-      <action name="Lower"/>
-      <action name="FocusToBottom"/>
-      <action name="Unfocus"/>
-    </keybind>
-    <keybind key="A-space">
-      <action name="ShowMenu">
-        <menu>client-menu</menu>
-      </action>
-    </keybind>
-    <keybind key="A-Up">
-      <action name="Maximize">
-        <menu>client-menu</menu>
-      </action>
-    </keybind>
-
-
-    <!-- Keybindings for window switching -->
     <keybind key="A-Tab">
       <action name="NextWindow">
         <finalactions>
@@ -262,8 +198,41 @@
       </action>
     </keybind>
 
+    <!--
     <keybind key="W-F8">
       <action name="ToggleAlwaysOnTop" />
+    </keybind>
+    -->
+
+    <keybind key="W-Up">
+      <action name="ToggleMaximize">
+        <direction>both</direction>
+      </action>
+    </keybind>
+    <keybind key="W-C-Up">
+        <action name="GrowToEdge">
+            <direction>north</direction>
+        </action>
+    </keybind>
+    <keybind key="W-C-Down">
+        <action name="GrowToEdge">
+            <direction>south</direction>
+        </action>
+    </keybind>
+    <keybind key="W-C-Left">
+        <action name="GrowToEdge">
+            <direction>west</direction>
+        </action>
+    </keybind>
+    <keybind key="W-C-Right">
+        <action name="GrowToEdge">
+            <direction>east</direction>
+        </action>
+    </keybind>
+    <keybind key="W-space">
+      <action name="ShowMenu">
+        <menu>client-menu</menu>
+      </action>
     </keybind>
 
     <!-- Keybindings for window switching with the arrow keys -->

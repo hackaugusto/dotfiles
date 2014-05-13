@@ -66,6 +66,7 @@ augroup END
 augroup LATEX
   autocmd!
   autocmd FileType tex let g:tex_comment_nospell=1
+  autocmd FileType tex set spell
   autocmd FileType tex syn match texComment /%.*$/ contains=@texCommentGroup,@NoSpell
 augroup END
 
