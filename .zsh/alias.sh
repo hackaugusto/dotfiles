@@ -54,26 +54,18 @@ if (( $+commands[python] )); then
 fi
 
 # https://nicholassterling.wordpress.com/2012/03/30/a-zsh-map-function/
-function map_() {
-    print -- "${(e)2}"
-}
-
-function map() {
-    typeset f="$1"
-    shift
-    typeset x
-    typeset result=0
-
-    for x; {
-        map_ "$x" "$f" || result=$?
-    }
-
-    return $result
-}
-
 function mapa() {
     typeset f="\$[ $1 ]"; shift
     map "$f" "$@"
+}
+
+# arch's: /usr/lib/initcpio/functions
+map() {
+    local r=0
+    for _ in "${@:2}"; do
+        "$1" "$_" || (( $# > 255 ? r=1 : ++r ))
+    done
+    return $r
 }
 
 function urlencodestream() {

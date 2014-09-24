@@ -17,12 +17,13 @@ nnoremap <c-k> <c-w>k
 nnoremap <c-h> <c-w>h
 nnoremap <c-l> <c-w>l
 
+" Use Ctrl + C or Ctrl + [ or Alt + <normal mode action>
 " quick <esc>
-inoremap jk <esc>
-inoremap JK <esc>
-inoremap Jk <esc>
-nnoremap <f1> <esc>
-inoremap <f1> <esc>
+" inoremap jk <esc>
+" inoremap JK <esc>
+" inoremap Jk <esc>
+" nnoremap <f1> <esc>
+" inoremap <f1> <esc>
 
 " center the search
 nnoremap <silent> n nzz

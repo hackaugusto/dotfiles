@@ -25,3 +25,6 @@ if [[ -z $_FORTUNE ]]; then
     fortune
     export _FORTUNE=1
 fi
+
+# OPAM configuration
+. /home/hack/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true

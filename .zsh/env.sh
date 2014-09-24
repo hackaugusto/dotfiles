@@ -7,7 +7,10 @@ export CLASSPATH=~/projects/java:$CLASSPATH
 export EDITOR=vim
 export _JAVA_OPTIONS='-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true -Dswing.defaultlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel'
 export MANSECT=3:1:9:8:2:5:4:7:6:n
-export PATH=~/.bin:$PATH
+export PATH=$HOME/.bin:$PATH
+if [ -d ~/.cask ]; then
+    export PATH=$HOME/.cask/bin:$PATH
+fi
 # export PATH=~/.bin:$PATH:~/.android_sdk/tools:~/.android_sdk/platform-tools
 export PAGER='less'
 # export PAGER='most -s'
