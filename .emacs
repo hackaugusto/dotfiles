@@ -19,9 +19,9 @@
               show-paren-delay 0)
 
 ;; Debugging
-;(setq debug-on-error t)
-;(setq stack-trace-on-error t)
-;(setq el-get-verbose t)
+(setq debug-on-error t)
+(setq stack-trace-on-error t)
+(setq el-get-verbose t)
 
 (add-hook 'linum-before-numbering-hook
   (lambda ()
@@ -80,7 +80,7 @@
         ;auto-complete-clang-async
         coffee-mode
         css-mode
-        cl
+        ;cl
         cl-lib
         color-theme
         dash
@@ -89,7 +89,7 @@
         evil
         evil-surround
         expand-region
-        fliplr
+        ;fliplr
         flymake
         flymake-coffee
         flymake-css

@@ -10,7 +10,8 @@ alias -s cpp=vim
 
 alias ag='ag --pager="less -R"'
 alias difftree='rsync -crv --dry-run '
-# on terminal ESC acts as Meta, horrible to use the evil mode
+# screen: maptimeout 5
+# tmux: set -g escape-time 0
 #alias emacs='emacs -nw'
 alias gcc='colorgcc'
 alias info='info --vi-keys'

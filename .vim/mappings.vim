@@ -42,6 +42,9 @@ nnoremap <leader>n :nohl<cr>
 nnoremap <leader>p :set paste!<cr>
 nnoremap <leader>d :bdelete<cr>
 
+" Open current line on GitHub
+noremap <silent> <leader>o :!echo `git url`/blob/`git rev-parse --abbrev-ref HEAD`/%\#L<C-R>=line('.')<CR> \| xargs open<CR><CR>
+
 " file_rec/async requires Shougo/vimproc.vim
 nnoremap <silent> <leader>f :<c-u>Unite -no-split -default-action=tabopen -toggle buffer file_mru bookmark file_rec/async:!<cr><c-u>
 nnoremap <silent> <leader>t :<c-u>Unite -no-split -default-action=open -quick-match tab buffer<cr>

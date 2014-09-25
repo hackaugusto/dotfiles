@@ -267,6 +267,15 @@
         <command>firefox</command>
       </action>
     </keybind>
+    <keybind key="W-e">
+      <action name="Execute">
+        <startupnotify>
+          <enabled>true</enabled>
+          <name>emacs</name>
+        </startupnotify>
+        <command>emacs</command>
+      </action>
+    </keybind>
     <keybind key="W-g">
       <action name="Execute">
         <startupnotify>

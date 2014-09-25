@@ -1,5 +1,6 @@
 syntax on                         " syntax must be before highlight
-colorscheme zellner               " use this with erosion
+colorscheme jellybeans            " use this with erosion
+" colorscheme zellner             " use this with erosion
 " colorscheme torte               " use this with solarized
 " set t_Co=256                    " $TERM must contain 256color
 set background=dark

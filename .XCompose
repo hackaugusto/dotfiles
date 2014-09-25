@@ -6,6 +6,26 @@ include "%L"
 <dead_grave> <bracketright>     : "`]"  bracketright    # GRAVE ACCENT + RIGHT SQUARE BRACKET
 <dead_grave> <numbersign>       : "`#"  numbersign      # GRAVE ACCENT + NUMBER SIGN
 
+# these letters already are mapped : aeiounoy
+<dead_grave> b                  : "`b"                  # GRAVE ACCENT + NUMBER SIGN
+<dead_grave> c                  : "`c"                  # GRAVE ACCENT + NUMBER SIGN
+<dead_grave> d                  : "`d"                  # GRAVE ACCENT + NUMBER SIGN
+<dead_grave> f                  : "`f"                  # GRAVE ACCENT + NUMBER SIGN
+<dead_grave> g                  : "`g"                  # GRAVE ACCENT + NUMBER SIGN
+<dead_grave> h                  : "`h"                  # GRAVE ACCENT + NUMBER SIGN
+<dead_grave> j                  : "`j"                  # GRAVE ACCENT + NUMBER SIGN
+<dead_grave> k                  : "`k"                  # GRAVE ACCENT + NUMBER SIGN
+<dead_grave> l                  : "`l"                  # GRAVE ACCENT + NUMBER SIGN
+<dead_grave> m                  : "`m"                  # GRAVE ACCENT + NUMBER SIGN
+<dead_grave> p                  : "`p"                  # GRAVE ACCENT + NUMBER SIGN
+<dead_grave> q                  : "`q"                  # GRAVE ACCENT + NUMBER SIGN
+<dead_grave> r                  : "`r"                  # GRAVE ACCENT + NUMBER SIGN
+<dead_grave> s                  : "`s"                  # GRAVE ACCENT + NUMBER SIGN
+<dead_grave> t                  : "`t"                  # GRAVE ACCENT + NUMBER SIGN
+<dead_grave> v                  : "`v"                  # GRAVE ACCENT + NUMBER SIGN
+<dead_grave> x                  : "`x"                  # GRAVE ACCENT + NUMBER SIGN
+<dead_grave> z                  : "`z"                  # GRAVE ACCENT + NUMBER SIGN
+
 <dead_circumflex> <apostrophe>       : "^'"  apostrophe      # CIRCUMFLEX ACCENT + APOSTROPHE
 <dead_circumflex> <quotedbl>         : "^\"" quotedbl        # CIRCUMFLEX ACCENT + DOUBLE QUOTE
 <dead_circumflex> <bracketleft>      : "^["  bracketleft     # CIRCUMFLEX ACCENT + LEFT SQUARE BRACKET

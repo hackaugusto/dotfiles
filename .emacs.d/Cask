@@ -1,8 +1,12 @@
 (source gnu)
+(source org)
+(source melpa-stable)
 (source melpa)
+(source marmalade)
 
 (depends-on "cask")
 
+(depends-on "ack")
 (depends-on "ag")
 (depends-on "bind-key")
 (depends-on "dash")
@@ -16,6 +20,7 @@
 (depends-on "idle-highlight-mode")
 (depends-on "jedi")
 (depends-on "magit")
+(depends-on "ipython")
 (depends-on "markdown-mode")
 (depends-on "multiple-cursors")
 (depends-on "nyan-mode")
@@ -47,6 +52,7 @@
 (depends-on "undo-tree")
 
 (depends-on "auto-complete")
+(depends-on "auto-complete-clang")
 (depends-on "flycheck")
 (depends-on "flycheck-cask")
 (depends-on "flymake")

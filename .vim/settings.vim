@@ -3,7 +3,7 @@ set backup swapfile updatetime=20000 updatecount=200 undolevels=1000
 set encoding=utf-8 fileencoding=utf-8
 set hlsearch incsearch
 set laststatus=2
-set listchars=tab:→→,eol:↲,trail:•
+set listchars=tab:>-,eol:↲,trail:•
 set magic
 set modeline
 set noerrorbells novisualbell
@@ -19,7 +19,7 @@ let g:netrw_browse_split = 3                " open files on a new tab
 let g:neomru#file_mru_limit = 20            " use with -no-split
 let g:startify_files_number = 20
 let g:startify_skiplist = ['\~$']
-let g:ycm_filetype_whitelist = {'noop': 1}  " diable for everything while testing neocomplete
+" let g:ycm_filetype_whitelist = {'noop': 1}  " diable for everything while testing neocomplete
 let g:signify_sign_add = '+'
 let g:signify_sign_delete_first_line = '-'
 let g:signify_sign_change = '~'
@@ -48,7 +48,7 @@ let g:unite_source_menu_menus.git.command_candidates = [
     \['▷ git cd', 'Gcd'],
     \]
 
-call neocomplete#initialize()
+" call neocomplete#initialize()
 call unite#filters#matcher_default#use(['matcher_fuzzy'])
 call unite#filters#sorter_default#use(['sorter_rank'])
 call unite#set_profile('files', 'smartcase', 1)
@@ -67,16 +67,18 @@ endif
 
 if executable('ag')
   set grepformat=%f:%l:%c:%m
-  set grepprg=ag\ --nogroup\ --noheading\ --column\ --smart-case\ --nocolor\ --follow
-  let g:ackprg="ag\\ --nogroup\\ --noheading\\ --column\\ --smart-case\\ --nocolor\\ --follow"
+  set grepprg=ag\ --nogroup\ --noheading\ --column\ --smart-case\ --nocolor\ --follow\ --nobreak
+  let g:ackprg="ag\\ --nogroup\\ --noheading\\ --column\\ --smart-case\\ --nocolor\\ --follow\\ --nobreak"
   let g:unite_source_grep_command='ag'
   let g:unite_source_grep_default_opts='--nogroup --noheading --column --smart-case --nocolor --follow -C0'
   let g:unite_source_grep_recursive_opt=''
 elseif executable('ack')
   set grepformat=%f:%l:%c:%m
   set grepprg=ack\ --nogroup\ --column\ --smart-case\ --nocolor\ --follow\ $*
-  let g:ackprg="ack\\ --nogroup\\ --column\\ --smart-case\\ --nocolor\\ --follow\\ $*"
+  " let g:ackprg="ack\\ --nogroup\\ --column\\ --smart-case\\ --nocolor\\ --follow\\ $*"
   let g:unite_source_grep_command='ack'
   let g:unite_source_grep_default_opts='--no-heading --no-color -a -C4'
   let g:unite_source_grep_recursive_opt=''
 endif
+
+let g:ackprg="ag\\ --nogroup\\ --noheading\\ --column\\ --smart-case\\ --nocolor\\ --follow\\ --nobreak"

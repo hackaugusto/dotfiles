@@ -7,14 +7,17 @@ endfunction
 
 function FindDjangoSettings()
   if strlen($VIRTUAL_ENV) && has('python')
-    let output  = system("find $VIRTUAL_ENV \\( -wholename '*/lib/*' -or -wholename '*/install/' \\) -or \\( -name 'settings.py' -print0 \\) | tr '\n' ' '")
+    let output  = system("find $VIRTUAL_ENV '(' -name 'settings' -type d ')' -or '(' -name 'settings.py' -not -wholename '*site-packages*' ')' | tr '\n' ' '")
     let outarray= split(output, '[\/]\+')
-    let module  = outarray[-2] . '.' . 'settings'
-    let syspath = system("python -c 'import sys; print sys.path' | tr '\n' ' ' ")
 
-    execute 'python import sys, os'
-    execute 'python sys.path = ' . syspath
-    execute 'python os.environ.setdefault("DJANGO_SETTINGS_MODULE", "' . module . '")'
+    if len(outarray)
+      let module  = outarray[-2] . '.' . 'settings'
+      let syspath = system("python -c 'import sys; print sys.path' | tr '\n' ' ' ")
+
+      execute 'python import sys, os'
+      execute 'python sys.path = ' . syspath
+      execute 'python os.environ.setdefault("DJANGO_SETTINGS_MODULE", "' . module . '")'
+    endif
   endif
 endfunction
 
@@ -23,6 +26,9 @@ if !exists("autocmd_latex")
   autocmd BufNewFile,BufRead tex setlocal textwidth=80
   autocmd BufNewFile,BufRead tex let g:tex_flavor = "latex"
 endif
+
+" highlight from the beginning of the file
+autocmd BufEnter * :syntax sync fromstart
 
 augroup Lisp
   autocmd!
