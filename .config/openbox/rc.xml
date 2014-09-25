@@ -641,6 +641,10 @@
 
   <applications>
     <application class="*"><decor>no</decor></application>
+    <application name="emacs">
+      <desktop>3</desktop>
+      <maximized>yes</maximized>
+    </application>
     <application name="chromium">
       <desktop>2</desktop>
       <maximized>yes</maximized>
@@ -680,7 +684,7 @@
   # order that they appear in this list
 
 
-    # each rule element can be left out or set to 'default' to specify to not 
+    # each rule element can be left out or set to 'default' to specify to not
     # change that attribute of the window
 
     <decor>yes</decor>

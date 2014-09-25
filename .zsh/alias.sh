@@ -10,7 +10,8 @@ alias -s cpp=vim
 
 alias ag='ag --pager="less -R"'
 alias difftree='rsync -crv --dry-run '
-alias emacs='emacs -nw'
+# on terminal ESC acts as Meta, horrible to use the evil mode
+#alias emacs='emacs -nw'
 alias gcc='colorgcc'
 alias info='info --vi-keys'
 alias vi='vim -p'
