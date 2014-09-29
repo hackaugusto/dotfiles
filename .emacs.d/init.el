@@ -21,24 +21,24 @@
 
 (defvar current-line 0)
 
+(defun add-to-hooks (fun hooks)
+  (dolist (hook hooks)
+    (add-hook hook fun)))
+
 (defadvice linum-update (before set-current-line activate)
   (setq current-line (line-number-at-pos)))
 
 (defun font-lock-comment-annotations ()
   (font-lock-add-keywords
    nil '(("\\<\\(FIX\\(ME\\)?\\|TODO\\|OPTIMIZE\\|HACK\\|REFACTOR\\):"
-          1 font-lock-warning-face t))))
-
-(defun add-to-hooks (fun hooks)
-  (dolist (hook hooks)
-    (add-hook hook fun)))
+	  1 font-lock-warning-face t))))
 
 (defun linum-format-func (line)
   (let ((width_ceiling (ceiling (log (count-lines (point-min) (point-max)) 10)))
-        (width (length (number-to-string (count-lines (point-min) (point-max)))))
-        (line-number (if (= line current-line) current-line (abs (- line current-line)))))
+	(width (length (number-to-string (count-lines (point-min) (point-max)))))
+	(line-number (if (= line current-line) current-line (abs (- line current-line)))))
     (propertize (format (format "%%%dd " width) line-number)
-                'face 'linum)))
+		'face 'linum)))
 
 (defun minibuffer-keyboard-quit ()
   (interactive)
@@ -69,11 +69,11 @@
   (if (projectile-project-p)
       (helm-projectile)
       (helm-other-buffer '(helm-source-files-in-current-dir
-                           helm-source-recentf
-                           helm-source-buffers-list
-                           helm-source-elscreen
-                           )
-                         "*helm-my-buffers*")))
+			   helm-source-recentf
+			   helm-source-buffers-list
+			   helm-source-elscreen
+			   )
+			 "*helm-my-buffers*")))
 
 (defun strip-^m ()
   (interactive)
@@ -134,12 +134,12 @@
 
 (setq hippie-expand-try-functions-list
       '(yas/hippie-try-expand
-        try-expand-all-abbrevs
-        try-expand-dabbrev
-        try-expand-dabbrev-from-kill
-        try-expand-dabbrev-all-buffers
-        try-complete-file-name-partially
-        try-complete-file-name))
+	try-expand-all-abbrevs
+	try-expand-dabbrev
+	try-expand-dabbrev-from-kill
+	try-expand-dabbrev-all-buffers
+	try-complete-file-name-partially
+	try-complete-file-name))
 
 (setq ;ac-auto-show-menu 0.8
       ac-auto-show-menu nil
@@ -200,7 +200,7 @@
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 (add-hook 'after-init-hook #'global-flycheck-mode)
 (add-hook 'prog-mode-hook 'font-lock-comment-annotations)
-(add-hook 'before-save-hook 'delete-trailing-whitespace)
+(add-hook 'before-save-hook 'whitespace-cleanup) ; respect tab configuration (better than delete-trailing-space)
 
 (add-hook
  'python-mode-hook
@@ -208,15 +208,27 @@
    (jedi:setup)
    (which-function-mode)
    (define-key python-mode-map (kbd "RET") 'newline-and-indent)
+   (key-chord-define python-mode-map [?\ ?\ ] 'inferior-python-mode) ; this can take some time
    (key-chord-define python-mode-map "gd" 'jedi:goto-definition)
    (key-chord-define python-mode-map "]d" 'er/mark-defun)))
+
+(add-hook
+ 'inferior-python-mode-hook
+ (lambda ()
+   (indent-guide-mode -1)))
+
+(add-to-hooks
+ (lambda ()
+   ; be sure to not use tabs
+   (setq indent-tabs-mode -1))
+ '(python-mode-hook inferior-python-mode-hook))
 
 (add-hook
  'linum-before-numbering-hook
  (lambda ()
    (setq-local linum-format-fmt
-               (let ((width (length (number-to-string (count-lines (point-min) (point-max))))))
-                 (concat "%" (number-to-string width) "d")))))
+	       (let ((width (length (number-to-string (count-lines (point-min) (point-max))))))
+		 (concat "%" (number-to-string width) "d")))))
 (add-hook
  'LaTeX-mode-hook
  (lambda ()
@@ -265,7 +277,6 @@
 (define-key ac-mode-map (kbd "M-TAB") 'auto-complete)
 
 (key-chord-define-global "]b" 'er/expand-region)
-
 
 (global-evil-search-highlight-persist t)
 ;(global-relative-line-numbers-mode t)
