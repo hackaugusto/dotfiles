@@ -12,6 +12,8 @@
  '(helm-source-header ((t (:weight bold :height 1.3)))))
 
 (custom-set-variables
+ '(evil-complete-next-line-func 'hippie-expand)
+ '(evil-complete-previous-line-func 'hippie-expand)
  '(elscreen-tab-display-control nil)
  '(elscreen-tab-display-kill-screen nil))
 
@@ -72,100 +74,140 @@
                            helm-source-elscreen
                            )
                          "*helm-my-buffers*")))
+
+(defun strip-^m ()
+  (interactive)
+  (goto-char (point-min))
+  (while (search-forward "\r" nil nil)
+    (replace-match "\\")))
+
 ; disable the interface
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
 (tooltip-mode -1)
 
-(auto-complete-mode)
-(ac-config-default)
-(ido-mode 1)
-(flx-ido-mode 1)
-(ido-ubiquitous-mode 1)
-(smex-initialize)
-(electric-indent-mode)
-(sackspace-global-mode 1)
-(show-paren-mode 1)
-(superword-mode 1)
-(global-linum-mode)
-(global-git-gutter-mode 1)
-(indent-guide-global-mode)
-(semantic-mode)
-(smartparens-global-mode 1)
-(projectile-global-mode)
 (require 'expand-region)
 (require 'saveplace)
+(require 'helm-config)
 
-(require 'helm-config) ; this cant go in the Cask file
-(helm-mode 1)
-;(helm-ag)
+(ac-config-default)
+(auto-complete-mode)
+(column-number-mode t)
+(electric-indent-mode)
+(file-name-shadow-mode t)
+(line-number-mode t)
+(global-evil-surround-mode)
+;gutter is clashing with relative number
+;(global-git-gutter-mode t)
+(global-linum-mode)
+(helm-mode t)
+(indent-guide-global-mode)
+(key-chord-mode t)
+(projectile-global-mode)
+;(sackspace-global-mode t)
+(savehist-mode t)
+(semantic-mode)
+(show-paren-mode t)
+(smartparens-global-mode t)
+(yas-minor-mode)
+(smex-initialize)
+(superword-mode t)
 
-; _must_ be before (evil-mode 1)
+; _must_ be before (ido-mode t)
+(flx-ido-mode t)
+(ido-ubiquitous t)
+
+; _must_ be before (evil-mode t)
 (global-evil-leader-mode)
-(global-evil-tabs-mode 1)
+(global-evil-tabs-mode t)
 (evil-leader/set-leader "SPC")
 
-(global-evil-surround-mode)
-(evil-mode 1)
-(key-chord-mode 1)
-
-(add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
-(setq-default inhibit-startup-screen t
-              initial-scratch-message nil
-              savehist-mode t
-              truncate-lines t
-              default-truncate-lines t
-              column-number-mode t
-              line-number-mode t
-              tab-width 4
-              indent-tabs-mode nil ; expand tabs
-              fill-column 80
-              make-backup-files nil
-              read-file-name-completion-ignore-case t
-              savehist-file "~/.emacs.d/savehist"
-              save-place t
-              use-dialog-box nil
-              show-paren-delay 0)
-
-(setq color-theme-is-global t
-      jedi:complete-on-dot t
-      undo-tree-save-history t
-      linum-format 'linum-format-func
-      ido-enable-flex-matching t
-      ido-everywhere t
-      helm-quick-update t
-      helm-buffers-fuzzy-matching t
-      key-chord-two-keys-delay 0.3
-      large-file-warning-threshold 100000000 ; 100M
-      visible-bell nil
-      initial-major-mode 'text-mode
-      redisplay-dont-pause t
-      save-place-file "~/.emacs.d/saveplace"
-      tooltip-use-echo-area t
-      ac-auto-start 2
-      ac-auto-show-menu nil
-      ;ac-auto-show-menu 0.8
-      ac-use-quick-help nil
-      ac-use-fuzzy t
-      ac-quick-help-delay 0.3
-      ac-quick-help-height 50)
-
-(setq auto-mode-alist (append '(("/PKGBUILD$" . pkgbuild-mode)) auto-mode-alist))
+(ido-mode t)
+(evil-mode t)
 
 (prefer-coding-system 'utf-8)
+(add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
+
+(setq auto-mode-alist
+      (append '(("/PKGBUILD$" . pkgbuild-mode)) auto-mode-alist))
+
+(setq hippie-expand-try-functions-list
+      '(yas/hippie-try-expand
+        try-expand-all-abbrevs
+        try-expand-dabbrev
+        try-expand-dabbrev-from-kill
+        try-expand-dabbrev-all-buffers
+        try-complete-file-name-partially
+        try-complete-file-name))
+
+(setq ;ac-auto-show-menu 0.8
+      ac-auto-show-menu nil
+      ac-auto-start 2
+      ac-quick-help-delay 0.3
+      ac-quick-help-height 50
+      ac-use-fuzzy t
+      ac-use-quick-help nil
+      jedi:complete-on-dot t
+      read-file-name-completion-ignore-case t
+
+      backup-by-copying t
+      backup-directory-alist '(("." . "~/.emacs.d/backups"))
+      delete-old-versions t
+      version-control t
+      kept-new-versions 2
+      kept-old-versions 5
+      make-backup-files t
+
+      bookmark-default-file "~/.emacs.d/bookmarks"
+
+      color-theme-is-global t
+      default-truncate-lines t
+      fill-column 80
+
+      helm-buffers-fuzzy-matching t
+      helm-quick-update t
+      ido-enable-flex-matching t
+      ido-everywhere t
+
+      indent-tabs-mode nil ; expand tabs
+      inhibit-startup-screen t
+      initial-major-mode 'text-mode
+      initial-scratch-message nil
+      tooltip-use-echo-area t
+      use-dialog-box nil
+      visible-bell nil
+
+      redisplay-dont-pause t
+      key-chord-two-keys-delay 0.3
+      large-file-warning-threshold 100000000 ; 100M
+      show-paren-delay 0
+
+      undo-tree-save-history t
+      savehist-additional-variables '(search-ring regexp-search-ring)
+      savehist-file "~/.emacs.d/savehist"
+      save-place-file "~/.emacs.d/saveplace"
+      save-place t
+
+      linum-format 'linum-format-func
+      tab-width 4
+      truncate-lines t)
+
+(if (not (file-exists-p "~/.emacs.d/backups"))
+    (mkdir "~/.emacs.d/backups" t))
 
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 (add-hook 'after-init-hook #'global-flycheck-mode)
 (add-hook 'prog-mode-hook 'font-lock-comment-annotations)
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 (add-hook
  'python-mode-hook
  (lambda ()
    (jedi:setup)
-   (yas-minor-mode)
    (which-function-mode)
+   (define-key python-mode-map (kbd "RET") 'newline-and-indent)
    (key-chord-define python-mode-map "gd" 'jedi:goto-definition)
    (key-chord-define python-mode-map "]d" 'er/mark-defun)))
 
@@ -178,6 +220,7 @@
 (add-hook
  'LaTeX-mode-hook
  (lambda ()
+   (latex-preview-pane-mode)
    (push '(?~ . ("\\texttt{" . "}")) evil-surround-pairs-alist)
    (push '(?= . ("\\verb=" . "=")) evil-surround-pairs-alist)
    (push '(?/ . ("\\emph{" . "}")) evil-surround-pairs-alist)
@@ -213,11 +256,14 @@
 ;(global-set-key (kbd "C-x C-b") 'ibuffer)
 (global-set-key (kbd "M-x") 'smex)
 (global-set-key (kbd "M-X") 'smex-major-mode-commands)
+(global-set-key [(control tab)] 'hippie-expand)
+
 (define-key 'help-command (kbd "C-l") 'find-library)
 (define-key 'help-command (kbd "C-f") 'find-function)
 (define-key 'help-command (kbd "C-k") 'find-function-on-key)
 (define-key 'help-command (kbd "C-v") 'find-variable)
 (define-key ac-mode-map (kbd "M-TAB") 'auto-complete)
+
 (key-chord-define-global "]b" 'er/expand-region)
 
 
