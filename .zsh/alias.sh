@@ -10,12 +10,19 @@ alias -s cpp=vim
 
 alias ag='ag --pager="less -R"'
 alias difftree='rsync -crv --dry-run '
-# screen: maptimeout 5
-# tmux: set -g escape-time 0
-#alias emacs='emacs -nw'
+# disable Esc as meta in the multiplexers, otherwise evil is unusable
+#     screen: maptimeout 5
+#     tmux: set -g escape-time 0
+alias emacs='emacs -nw'
 alias gcc='colorgcc'
 alias info='info --vi-keys'
 alias vi='vim -p'
+
+function ecask() {
+    # TODO: figure out how to escape ' inside a alias
+    emacs -Q -nw --eval "(require 'cask \"/home/hack/.cask/cask.el\")" -f cask-initialize $@
+}
+alias ecask=ecask
 
 #alias chromium='chromium --ignore-gpu-blacklist'
 #alias grep='grep --color=auto'
