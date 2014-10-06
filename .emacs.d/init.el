@@ -1,5 +1,6 @@
 (require 'cask "~/.cask/cask.el")
 (cask-initialize)
+(require 'evil)
 
 (load-theme 'wombat)
 (custom-set-faces
@@ -25,6 +26,12 @@
   (dolist (hook hooks)
     (add-hook hook fun)))
 
+(defun def-keys (map key def &rest bindings)
+  (while key
+    (define-key map (read-kbd-macro key) def)
+    (setq key (pop bindings)
+	  def (pop bindings))))
+
 (defadvice linum-update (before set-current-line activate)
   (setq current-line (line-number-at-pos)))
 
@@ -40,12 +47,25 @@
     (propertize (format (format "%%%dd " width) line-number)
 		'face 'linum)))
 
+(defun python-highlight-pdb ()
+  (interactive)
+  ; TODO: evil-search-highlight-persist-remove-all should not remove this
+  (highlight-regexp "pdb\\.\\(set_trace\\|post_mortem\\|run\\(call\\|ctx\\|eval\\)?\\)([^)\n\r]*)")
+  (highlight-regexp "import\\( \\|.*[, ]\\)pdb"))
+
 (defun minibuffer-keyboard-quit ()
   (interactive)
   (if (and delete-selection-mode transient-mark-mode mark-active)
       (setq deactivate-mark  t)
     (when (get-buffer "*Completions*") (delete-windows-on "*Completions*"))
     (abort-recursive-edit)))
+
+(defun multicursor-next-like-this-force-normal (rawarg)
+  (interactive "P")
+  (if (and (evil-visual-state-p)
+	   (> (count-lines (marker-position evil-visual-beginning) (marker-position evil-visual-end)) 1))
+    (mc/edit-lines rawarg)
+    (mc/mark-next-like-this (prefix-numeric-value rawarg))))
 
 (defun esc-evil (prompt)
   (cond
@@ -81,46 +101,44 @@
   (while (search-forward "\r" nil nil)
     (replace-match "\\")))
 
-; disable the interface
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
 (tooltip-mode -1)
+(blink-cursor-mode -1)
 
 (require 'expand-region)
 (require 'saveplace)
-(require 'helm-config)
 
 (ac-config-default)
 (auto-complete-mode)
-(column-number-mode t)
-(electric-indent-mode)
 (file-name-shadow-mode t)
 (line-number-mode t)
-(global-evil-surround-mode)
 ;gutter is clashing with relative number
 ;(global-git-gutter-mode t)
 (global-linum-mode)
-(helm-mode t)
-(indent-guide-global-mode)
 (key-chord-mode t)
-(projectile-global-mode)
 ;(sackspace-global-mode t)
 (savehist-mode t)
-(semantic-mode)
 (show-paren-mode t)
 (smartparens-global-mode t)
-(yas-minor-mode)
-(smex-initialize)
 (superword-mode t)
 
 ; _must_ be before (ido-mode t)
 (flx-ido-mode t)
-(ido-ubiquitous t)
+(ido-ubiquitous-mode t)
+
+;helm conflicts with smex
+;(require 'helm-config)
+;(helm-mode t)
 
 ; _must_ be before (evil-mode t)
+(smex-initialize)
+(global-evil-surround-mode)
 (global-evil-leader-mode)
 (global-evil-tabs-mode t)
+(global-evil-search-highlight-persist t)
+(global-relative-line-numbers-mode t)
 (evil-leader/set-leader "SPC")
 
 (ido-mode t)
@@ -199,14 +217,24 @@
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 (add-hook 'after-init-hook #'global-flycheck-mode)
-(add-hook 'prog-mode-hook 'font-lock-comment-annotations)
 (add-hook 'before-save-hook 'whitespace-cleanup) ; respect tab configuration (better than delete-trailing-space)
+
+(add-hook
+ 'prog-mode-hook
+ (lambda ()
+   (semantic-mode)
+   (yas-minor-mode)
+   (indent-guide-global-mode)
+   (projectile-global-mode)
+   (font-lock-comment-annotations)
+   (electric-indent-mode)))
 
 (add-hook
  'python-mode-hook
  (lambda ()
    (jedi:setup)
    (which-function-mode)
+   (python-highlight-pdb)
    (define-key python-mode-map (kbd "RET") 'newline-and-indent)
    (key-chord-define python-mode-map [?\ ?\ ] 'inferior-python-mode) ; this can take some time
    (key-chord-define python-mode-map "gd" 'jedi:goto-definition)
@@ -233,6 +261,9 @@
  'LaTeX-mode-hook
  (lambda ()
    (latex-preview-pane-mode)
+   (ispell-change-dictionary "pt_BR")
+   (flyspell-mode)
+   (auto-fill-mode)
    (push '(?~ . ("\\texttt{" . "}")) evil-surround-pairs-alist)
    (push '(?= . ("\\verb=" . "=")) evil-surround-pairs-alist)
    (push '(?/ . ("\\emph{" . "}")) evil-surround-pairs-alist)
@@ -264,56 +295,22 @@
    (push '(?~ . ("``" . "``")) evil-surround-pairs-alist))
  '(markdown-mode-hook rst-mode-hook python-mode-hook))
 
+(evil-define-command evil-insert-paste-after ()
+  (evil-normal-state)
+  (evil-paste-after 1))
+
+(evil-define-command evil-insert-paste-before ()
+  (evil-normal-state)
+  (evil-paste-before 1))
+
 ; prefer helm-for-files
 ;(global-set-key (kbd "C-x C-b") 'ibuffer)
 (global-set-key (kbd "M-x") 'smex)
 (global-set-key (kbd "M-X") 'smex-major-mode-commands)
 (global-set-key [(control tab)] 'hippie-expand)
-
-(define-key 'help-command (kbd "C-l") 'find-library)
-(define-key 'help-command (kbd "C-f") 'find-function)
-(define-key 'help-command (kbd "C-k") 'find-function-on-key)
-(define-key 'help-command (kbd "C-v") 'find-variable)
-(define-key ac-mode-map (kbd "M-TAB") 'auto-complete)
-
-(key-chord-define-global "]b" 'er/expand-region)
-
-(global-evil-search-highlight-persist t)
-;(global-relative-line-numbers-mode t)
-(evil-leader/set-key "n" 'evil-search-highlight-persist-remove-all)
-(evil-leader/set-key "w" 'save-buffer)
-(evil-leader/set-key "q" 'elscreen-kill)
-(evil-leader/set-key "s" 'split-window-horizontally)
-(evil-leader/set-key "x" 'helm-M-x)
-(evil-leader/set-key "k" 'helm-kill-ring)
-(evil-leader/set-key "f" 'helm-open-vcs-files)
-(evil-leader/set-key "F" 'helm-find-files)
-(evil-leader/set-key "i" 'helm-semantic-or-imenu)
-(evil-leader/set-key "m" 'helm-man-woman)
-(evil-leader/set-key "/" 'helm-projectile-ag)
-
-; C-u bound universal-argument will be shadowed
-(define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
-(define-key evil-normal-state-map (kbd "C-<up>") 'keyboard-up)
-(define-key evil-normal-state-map (kbd "C-<dow>") 'keyboard-down)
-(define-key evil-normal-state-map (kbd "C-<right>") 'keyboard-right)
-(define-key evil-normal-state-map (kbd "C-<left>") 'keyboard-left)
-
-(define-key evil-normal-state-map (kbd "C-j") 'windmove-down)
-(define-key evil-normal-state-map (kbd "C-k") 'windmove-up)
-;would shadow help
-;(define-key evil-normal-state-map (kbd "C-h") 'windmove-left)
-(define-key evil-normal-state-map (kbd "C-l") 'windmove-right)
-
-(define-key evil-normal-state-map (kbd "j") 'evil-next-visual-line)
-(define-key evil-normal-state-map (kbd "k") 'evil-previous-visual-line)
-(define-key evil-visual-state-map (kbd "j") 'evil-next-line)
-(define-key evil-visual-state-map (kbd "k") 'evil-previous-line)
-
-(key-chord-define-global "jk" 'evil-normal-state)
-
 (global-set-key [escape] 'evil-exit-emacs-state)
-(define-key evil-normal-state-map [escape] 'keyboard-quit)
+
+(define-key ac-mode-map (kbd "M-TAB") 'auto-complete)
 (define-key evil-visual-state-map [escape] 'keyboard-quit)
 (define-key evil-operator-state-map (kbd "C-c") 'keyboard-quit)
 (define-key minibuffer-local-map [escape] 'minibuffer-keyboard-quit)
@@ -322,3 +319,51 @@
 (define-key minibuffer-local-must-match-map [escape] 'minibuffer-keyboard-quit)
 (define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)
 (define-key key-translation-map (kbd "C-c") 'esc-evil)
+(define-key evil-normal-state-map [escape] 'keyboard-quit)
+
+(key-chord-define-global "]b" 'er/expand-region)
+(key-chord-define-global "jk" 'evil-normal-state)
+
+(def-keys 'help-command
+  "C-l" 'find-library
+  "C-f" 'find-function
+  "C-k" 'find-function-on-key
+  "C-v" 'find-variable)
+
+(def-keys evil-visual-state-map
+  "j" 'evil-next-line
+  "k" 'evil-previous-line)
+
+(def-keys evil-insert-state-map
+  "M-P" 'evil-insert-paste-before
+  "M-p" 'evil-insert-paste-after)
+
+(evil-leader/set-key
+  "F" 'helm-find-files
+  "f" 'helm-open-vcs-files
+  "/" 'helm-projectile-ag
+  "i" 'helm-semantic-or-imenu
+  "k" 'helm-kill-ring
+  "m" 'mc/mark-next-like-thi ; multicursor-next-like-this-force-normal
+  "M" 'mc/edit-lines
+  "n" 'evil-search-highlight-persist-remove-all
+  "q" 'elscreen-kill
+  "s" 'split-window-horizontally
+  "w" 'save-buffer
+  "x" 'helm-M-x)
+
+(def-keys evil-normal-state-map
+  "C-u" 'evil-scroll-up ; C-u bound universal-argument will be shadowed
+  "C-<up>" 'keyboard-up
+  "C-<dow>" 'keyboard-down
+  "C-<right>" 'keyboard-right
+  "C-<left>" 'keyboard-left
+
+  "C-j" 'windmove-down
+  "C-k" 'windmove-up
+  ;would shadow help
+  ;"C-h" 'windmove-left
+  "C-l" 'windmove-right
+
+  "j" 'evil-next-visual-line
+  "k" 'evil-previous-visual-line)
