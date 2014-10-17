@@ -17,6 +17,17 @@ nnoremap <c-k> <c-w>k
 nnoremap <c-h> <c-w>h
 nnoremap <c-l> <c-w>l
 
+" change tab
+nnoremap <m-1> :gt1
+nnoremap <m-2> :gt2
+nnoremap <m-3> :gt3
+nnoremap <m-4> :gt4
+nnoremap <m-5> :gt5
+nnoremap <m-6> :gt6
+nnoremap <m-7> :gt7
+nnoremap <m-8> :gt8
+nnoremap <m-9> :tablast
+
 " Use Ctrl + C or Ctrl + [ or Alt + <normal mode action>
 " quick <esc>
 " inoremap jk <esc>
