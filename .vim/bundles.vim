@@ -83,3 +83,4 @@ Bundle 'Kocha/vim-unite-tig'
 
 " colortheme
 Bundle 'nanotech/jellybeans.vim'
+Bundle 'whatyouhide/vim-gotham'

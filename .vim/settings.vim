@@ -1,6 +1,7 @@
 set backspace=indent,eol,start
 set backup swapfile updatetime=20000 updatecount=200 undolevels=1000
 set encoding=utf-8 fileencoding=utf-8
+set guioptions=
 set hlsearch incsearch
 set laststatus=2
 set listchars=tab:>-,eol:↲,trail:•

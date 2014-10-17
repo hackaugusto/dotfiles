@@ -11,11 +11,12 @@ nnoremap ]t :tnext<cr>
 nnoremap [t :tprevious<cr>
 " nnoremap <silent> <c-]> <c-w><c-]><c-w>T
 
+" Use the original ^w hjkl
 " change window
-nnoremap <c-j> <c-w>j
-nnoremap <c-k> <c-w>k
-nnoremap <c-h> <c-w>h
-nnoremap <c-l> <c-w>l
+" nnoremap <c-j> <c-w>j
+" nnoremap <c-k> <c-w>k
+" nnoremap <c-h> <c-w>h
+" nnoremap <c-l> <c-w>l
 
 " change tab
 nnoremap <m-1> :gt1
