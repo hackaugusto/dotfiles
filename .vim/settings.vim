@@ -49,10 +49,13 @@ let g:unite_source_menu_menus.git.command_candidates = [
     \['▷ git cd', 'Gcd'],
     \]
 
+highlight ExtraWhitespace ctermbg=red guibg=red
+match ExtraWhitespace /\s\+$\| \+\ze\t\+\|[^\t]\zs\t\+/
+
 " call neocomplete#initialize()
 call unite#filters#matcher_default#use(['matcher_fuzzy'])
 call unite#filters#sorter_default#use(['sorter_rank'])
-call unite#set_profile('files', 'smartcase', 1)
+" call unite#set_profile('files', 'smartcase', 1)
 call unite#custom#source('line,outline','matchers','matcher_fuzzy')
 
 if has("autocmd") && exists("+omnifunc")
