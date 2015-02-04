@@ -12,7 +12,7 @@ function FindDjangoSettings()
 
     if len(outarray)
       let module  = outarray[-2] . '.' . 'settings'
-      let syspath = system("python -c 'import sys; print sys.path' | tr '\n' ' ' ")
+      let syspath = system("python -c 'import sys; print(sys.path)' | tr '\n' ' ' ")
 
       execute 'python import sys, os'
       execute 'python sys.path = ' . syspath
@@ -99,7 +99,6 @@ augroup END
 augroup HTMLDJANGO
   autocmd!
   autocmd FileType htmldjango set shiftwidth=2 softtabstop=2 tabstop=2
-
   autocmd FileType htmldjango set omnifunc=htmlcomplete#CompleteTags
   autocmd FileType htmldjango let g:SuperTabDefaultCompletionType='context'
 augroup END
@@ -107,7 +106,7 @@ augroup END
 augroup HTML
   autocmd!
   autocmd FileType xhtml,html let g:SuperTabDefaultCompletionType='context'
-  autocmd FileType htmldjango set omnifunc=htmlcomplete#CompleteTags
+  autocmd FileType xhtml,html set omnifunc=htmlcomplete#CompleteTags
   autocmd FileType xhtml,html set shiftwidth=2 softtabstop=2 tabstop=2
 augroup END
 

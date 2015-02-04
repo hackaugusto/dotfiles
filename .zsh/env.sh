@@ -1,5 +1,12 @@
 # vim:ft=zsh:ts=4:sts=4:sw=4:
 
+function deduplicate_path() {
+    # split the path, remove duplicates and re-add at the end
+    IFS=':'
+    duplicates=$@
+    echo "${${=PATH}:|duplicates}:${duplicates}"
+}
+
 export BROWSER='less'
 # export BROWSER='most -s'
 export ACK_PAGER_COLOR="less -x4SRFX"
@@ -10,6 +17,9 @@ export MANSECT=3:1:9:8:2:5:4:7:6:n
 export PATH=$HOME/.bin:$PATH
 if [ -d ~/.cask ]; then
     export PATH=$HOME/.cask/bin:$PATH
+fi
+if [[ "$OSTYPE" = darwin* ]]; then
+    export PATH=$(deduplicate_path '/sbin' '/bin' '/usr/bin')
 fi
 # export PATH=~/.bin:$PATH:~/.android_sdk/tools:~/.android_sdk/platform-tools
 export PAGER='less'
