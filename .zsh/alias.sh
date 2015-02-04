@@ -125,6 +125,14 @@ alias ls=smart_listing
 #     fi;
 # }
 #alias python=python_fallback
+function python_fallback(){
+    if [ $+commands[ptpython] -eq 0 ]; then
+        \python $@
+    else
+        \ptpython $@
+    fi
+}
+alias python=python_fallback
 
 # function catwrapper(){
 #     prog=$1; shift;
