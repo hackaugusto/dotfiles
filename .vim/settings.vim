@@ -24,30 +24,50 @@ let g:startify_skiplist = ['\~$']
 let g:signify_sign_add = '+'
 let g:signify_sign_delete_first_line = '-'
 let g:signify_sign_change = '~'
+
+"let g:ycm_filetype_specific_completion_to_disable = {
+"  \'python': 1
+"  \}
+let g:ycm_complete_in_comments = 1
+let g:ycm_collect_identifiers_from_tags_files = 1
+let g:ycm_seed_identifiers_with_syntax = 1
+let g:ycm_add_preview_to_completeopt = 1
+let g:ycm_key_invoke_completion = ''              " using tab for this
+
+" using jedi for the goto feature
+let g:jedi#completions_enabled = 0
+
+let g:UltiSnipsExpandTrigger = '<C-j>'
+let g:UltiSnipsJumpForwardTrigger = '<tab>'
+let g:UltiSnipsJumpBackwardTrigger = '<s-tab>'
+augroup BufEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=g:UltiSnips_Complete()<cr>"
+
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 let g:syntastic_stl_format = "%t errors (line %F)"
-let g:syntastic_mode_map = { 'mode': 'active',
-                           \ 'active_filetypes': ['ruby', 'php', 'python', 'c'],
-                           \ 'passive_filetypes': [] }
+let g:syntastic_mode_map = {
+  \'mode': 'active',
+  \'active_filetypes': ['ruby', 'php', 'python', 'c'],
+  \'passive_filetypes': [] }
+
 let g:unite_source_menu_menus = {}
 let g:unite_source_menu_menus.git = {'description' : 'git'}
 let g:unite_source_menu_menus.git.command_candidates = [
-    \['▷ tig', 'Unite tig -no-split'],
-    \['▷ git status', 'Gstatus'],
-    \['▷ git diff', 'Gdiff'],
-    \['▷ git commit', 'Gcommit'],
-    \['▷ git log', 'exe "silent Glog | Unite quickfix"'],
-    \['▷ git blame', 'Gblame'],
-    \['▷ git stage', 'Gwrite'],
-    \['▷ git checkout', 'Gread'],
-    \['▷ git rm', 'Gremove'],
-    \['▷ git mv', 'exe "Gmove " input("directory: ")'],
-    \['▷ git push', 'Git! push'],
-    \['▷ git pull', 'Git! pull'],
-    \['▷ git prompt', 'exe "Git! " input("git ")'],
-    \['▷ git cd', 'Gcd'],
-    \]
+  \['tig', 'Unite tig -no-split'],
+  \['git status', 'Gstatus'],
+  \['git diff', 'Gdiff'],
+  \['git commit', 'Gcommit'],
+  \['git log', 'exe "silent Glog | Unite quickfix"'],
+  \['git blame', 'Gblame'],
+  \['git stage', 'Gwrite'],
+  \['git checkout', 'Gread'],
+  \['git rm', 'Gremove'],
+  \['git mv', 'exe "Gmove " input("directory: ")'],
+  \['git push', 'Git! push'],
+  \['git pull', 'Git! pull'],
+  \['git prompt', 'exe "Git! " input("git ")'],
+  \['git cd', 'Gcd'],
+  \]
 
 highlight ExtraWhitespace ctermbg=red guibg=red
 match ExtraWhitespace /\s\+$\| \+\ze\t\+\|[^\t]\zs\t\+/

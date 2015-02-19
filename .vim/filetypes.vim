@@ -135,16 +135,18 @@ augroup Python
   autocmd FileType python let g:SuperTabDefaultCompletionType='context'
   autocmd FileType python let python_highlight_all=1
   autocmd FileType python let g:tags_global_tags = {'py/stdlib': '/usr/lib/python2.7'}
-  " autocmd FileType python let g:flake8_builtins="_,apply"
+  " disable jedi doc-preview
+  autocmd FileType python setlocal completeopt-=preview
   autocmd FileType python call FindDjangoSettings()
-  " autocmd BufWritePre *.py :%s/\s\+$//e|''
-  autocmd BufWritePre *.py :%s/\s\+$//e
-  autocmd BufReadPost *.py call ConfigureSyntastic('python')
-  " autocmd BufWritePost *.py call Flake8()
+  " autocmd FileType python let g:flake8_builtins="_,apply"
   " autocmd FileType python let ropevim_vim_completion=1
   " autocmd FileType python let ropevim_extended_complete = 1
   " autocmd FileType python let g:ropevim_autoimport_modules = ["os.*", "django.*"]
   " autocmd FileType python imap <c-space> <C-R>=RopeCodeAssistInsertMode()<CR>
+  autocmd BufReadPost *.py call ConfigureSyntastic('python')
+  autocmd BufWritePre *.py :%s/\s\+$//e
+  " autocmd BufWritePre *.py :%s/\s\+$//e|''
+  " autocmd BufWritePost *.py call Flake8()
 augroup END
 
 augroup Perl

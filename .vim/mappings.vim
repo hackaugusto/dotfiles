@@ -52,10 +52,13 @@ nnoremap <leader>w :w<cr>
 nnoremap <leader>q :q<cr>
 nnoremap <leader>n :nohl<cr>
 nnoremap <leader>p :set paste!<cr>
-nnoremap <leader>d :bdelete<cr>
+
+" nnoremap <leader>d :bdelete<cr>       " using <leader>d from jedi
+let g:jedi#usages_command = '<leader>u' " <leader>n is mapped to :nohl
+let g:ycm_key_detailed_diagnostics = '' " using <leader>d from jedi
 
 " Open current line on GitHub
-noremap <silent> <leader>o :!echo `git url`/blob/`git rev-parse --abbrev-ref HEAD`/%\#L<C-R>=line('.')<CR> \| xargs open<CR><CR>
+noremap <silent> <leader>ogh :!echo `git url`/blob/`git rev-parse --abbrev-ref HEAD`/%\#L<C-R>=line('.')<CR> \| xargs open<CR><CR>
 
 " file_rec/async requires Shougo/vimproc.vim
 nnoremap <silent> <leader>f :<c-u>Unite -no-split -default-action=tabopen -toggle buffer file_mru bookmark file_rec/async:!<cr><c-u>
@@ -66,28 +69,28 @@ nnoremap <silent> <leader>/ :<c-u>Unite -no-quit -buffer-name=search grep:.<cr>
 nnoremap <silent> <leader>g :<c-u>Unite -silent -quick-match menu:git<CR>
 
 function! LineScrollOtherWindow(dir)
-  if a:dir == "down"
-    let move = "\<c-e>"
-    elseif a:dir == "up"
-    let move = "\<c-y>"
+  if a:dir == 'down'
+    let move = '\<c-e>'
+    elseif a:dir == 'up'
+    let move = '\<c-y>'
   endif
-  exec "normal \<c-w>p" . move . "\<c-w>p"
+  exec 'normal \<c-w>p' . move . '\<c-w>p'
 endfun
 
 function! PageScrollOtherWindow(dir)
-  if a:dir == "down"
-    let move = "\<c-u>"
-    elseif a:dir == "up"
-    let move = "\<c-d>"
+  if a:dir == 'down'
+    let move = '\<c-u>'
+    elseif a:dir == 'up'
+    let move = '\<c-d>'
   endif
-  exec "normal \<c-w>p" . move . "\<c-w>p"
+  exec 'normal \<c-w>p' . move . '\<c-w>p'
 endfun
 
-nmap <silent> <m-down> :call LineScrollOtherWindow("down")<cr>
-nmap <silent> <m-up> :call LineScrollOtherWindow("up")<cr>
-nmap <silent> <m-u> :call PageScrollOtherWindow("down")<cr>
-nmap <silent> <m-d> :call PageScrollOtherWindow("up")<cr>
-nmap <silent> e :call LineScrollOtherWindow("down")<cr>
-nmap <silent> y :call LineScrollOtherWindow("up")<cr>
-nmap <silent> u :call PageScrollOtherWindow("down")<cr>
-nmap <silent> d :call PageScrollOtherWindow("up")<cr>
+nmap <silent> <m-down> :call LineScrollOtherWindow('down')<cr>
+nmap <silent> <m-up> :call LineScrollOtherWindow('up')<cr>
+nmap <silent> <m-u> :call PageScrollOtherWindow('down')<cr>
+nmap <silent> <m-d> :call PageScrollOtherWindow('up')<cr>
+nmap <silent> e :call LineScrollOtherWindow('down')<cr>
+nmap <silent> y :call LineScrollOtherWindow('up')<cr>
+nmap <silent> u :call PageScrollOtherWindow('down')<cr>
+nmap <silent> d :call PageScrollOtherWindow('up')<cr>

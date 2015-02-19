@@ -1,4 +1,4 @@
-source ~/.vim/bundles.vim
+source ~/.vim/plugins.vim
 source ~/.vim/settings.vim      " configs for the bundles and vim
 source ~/.vim/statusline.vim
 source ~/.vim/colors.vim
