@@ -6,8 +6,9 @@
 # or
 # setxkbmap -layout br,us -model abnt2,pc105 -variant ,dvorak -option terminate:ctrl_alt_bksp,grp:alt_shift_toggle
 
-[[ -f /etc/profile ]] && . /etc/profile                         # XDG variables and LANG, LC_*
-[[ -f $HOME/.nvm/nvm.sh ]] && . $HOME/.nvm/nvm.sh               # This loads NVM
+[[ -f /etc/profile ]] && . /etc/profile                                         # XDG variables and LANG, LC_*
+[[ -f $HOME/.nvm/nvm.sh ]] && . $HOME/.nvm/nvm.sh                               # This loads NVM
+[[ -d $HOME/.npm_global/bin ]] && export PATH="$HOME/.npm_global/bin:$PATH"
 
 # TODO: find a way add the key on first use without manually calling ssh-add
 # Execute the ssh agent before running X so that all GUI share the same session
