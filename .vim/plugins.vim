@@ -14,13 +14,13 @@ set rtp+=~/.vim/bundle/Vundle.vim/
 " Alternative to vundle#rc, offers speed up by modifying rtp only when end()
 " called later.
 call vundle#begin()
-  Plugin 'gmarik/vundle'
+  Plugin 'gmarik/Vundle.vim'
 
-  " auto-complete
-  " Plugin 'SearchComplete'             " /<Up> not working
-  Plugin 'Shougo/neocomplete.vim'
-  " Plugin 'Valloric/YouCompleteMe'     " installed through pacman
-  Plugin 'davidhalter/jedi-vim'
+  " AUTOCOMPLETE
+  " Plugin 'SearchComplete'                 " /<Up> not working
+  " Plugin 'Shougo/neocomplete.vim'
+  " Plugin 'Valloric/YouCompleteMe'         " installed through pacman
+  Plugin 'davidhalter/jedi-vim'             " used for navigation
   Plugin 'SirVer/ultisnips'
   Plugin 'honza/vim-snippets'
   Plugin 'SuperTab'
@@ -28,7 +28,7 @@ call vundle#begin()
   Plugin 'ack.vim'
   " this plugin adds to many mappings
   " Plugin 'Align'
-  " Plugin 'amitdev/vimpy'  " not a good plugin
+  " Plugin 'amitdev/vimpy'                  " not a good plugin
   Plugin 'bogado/file-line'
   " Plugin 'bling/vim-bufferline'
   Plugin 'cpp.vim'
@@ -63,14 +63,14 @@ call vundle#begin()
   Plugin 'prettyprint.vim'
   Plugin 'python_match.vim'
   Plugin 'python.vim'
+  " Plugin 'Raimondi/delimitMate'
   Plugin 'rhysd/vim-operator-surround'
   Plugin 'scrooloose/syntastic'
   Plugin 'Shougo/neomru.vim'
   Plugin 'Shougo/unite-help'
   Plugin 'Shougo/unite.vim'
   " Plugin 'Shougo/unite-outline'
-  " Plugin 'Shougo/vimproc.vim' - Do not forget to run make in vimproc directory
-  Plugin 'Shougo/vimproc.vim'
+  Plugin 'Shougo/vimproc.vim'               " Do not forget to run make in vimproc directory
   Plugin 'Shougo/vimshell.vim'
   " Plugin 'smarty.vim'
   Plugin 'sjl/gundo.vim'
@@ -97,3 +97,4 @@ call vundle#begin()
   Plugin 'whatyouhide/vim-gotham'
 
 call vundle#end()
+filetype plugin indent on

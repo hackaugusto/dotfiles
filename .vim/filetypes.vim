@@ -30,6 +30,9 @@ endif
 " highlight from the beginning of the file
 autocmd BufEnter * :syntax sync fromstart
 
+" Disable documentation preview
+autocmd BufEnter * set completeopt-=preview
+
 augroup Lisp
   autocmd!
   autocmd FileType lisp set showmatch

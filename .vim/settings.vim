@@ -16,31 +16,40 @@ set tags=./tags,tags;
 set ttyfast showcmd hidden
 set wildmenu
 
+autocmd BufEnter * highlight ExtraWhitespace ctermbg=red guibg=red
+autocmd BufEnter * match ExtraWhitespace /\s\+$\| \+\ze\t\+\|[^\t]\zs\t\+/
+
 let g:netrw_browse_split = 3                " open files on a new tab
-let g:neomru#file_mru_limit = 20            " use with -no-split
+
 let g:startify_files_number = 20
 let g:startify_skiplist = ['\~$']
-" let g:ycm_filetype_whitelist = {'noop': 1}  " diable for everything while testing neocomplete
+
 let g:signify_sign_add = '+'
 let g:signify_sign_delete_first_line = '-'
 let g:signify_sign_change = '~'
 
+let g:UltiSnipsExpandTrigger = '<tab>'
+let g:UltiSnipsJumpForwardTrigger = '<tab>'
+let g:UltiSnipsJumpBackwardTrigger = '<s-tab>'
+
+" call neocomplete#initialize()
+
+"let g:ycm_filetype_whitelist = {'noop': 1}  " diable for everything while testing neocomplete
 "let g:ycm_filetype_specific_completion_to_disable = {
 "  \'python': 1
 "  \}
+" more configuration on mappings.vim
 let g:ycm_complete_in_comments = 1
 let g:ycm_collect_identifiers_from_tags_files = 1
 let g:ycm_seed_identifiers_with_syntax = 1
-let g:ycm_add_preview_to_completeopt = 1
-let g:ycm_key_invoke_completion = ''              " using tab for this
+let g:ycm_add_preview_to_completeopt = 0          " disable docs
+
+" ycm compatibility
+let g:EclimCompletionMethod = 'omnifunc'
 
 " using jedi for the goto feature
 let g:jedi#completions_enabled = 0
-
-let g:UltiSnipsExpandTrigger = '<C-j>'
-let g:UltiSnipsJumpForwardTrigger = '<tab>'
-let g:UltiSnipsJumpBackwardTrigger = '<s-tab>'
-augroup BufEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=g:UltiSnips_Complete()<cr>"
+let g:jedi#auto_vim_configuration = 0             " don't want completeopt=longest,preview neither inoremap <C-c> <ESC>
 
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
@@ -49,6 +58,8 @@ let g:syntastic_mode_map = {
   \'mode': 'active',
   \'active_filetypes': ['ruby', 'php', 'python', 'c'],
   \'passive_filetypes': [] }
+
+let g:neomru#file_mru_limit = 20            " use with -no-split
 
 let g:unite_source_menu_menus = {}
 let g:unite_source_menu_menus.git = {'description' : 'git'}
@@ -69,10 +80,6 @@ let g:unite_source_menu_menus.git.command_candidates = [
   \['git cd', 'Gcd'],
   \]
 
-highlight ExtraWhitespace ctermbg=red guibg=red
-match ExtraWhitespace /\s\+$\| \+\ze\t\+\|[^\t]\zs\t\+/
-
-" call neocomplete#initialize()
 call unite#filters#matcher_default#use(['matcher_fuzzy'])
 call unite#filters#sorter_default#use(['sorter_rank'])
 " call unite#set_profile('files', 'smartcase', 1)

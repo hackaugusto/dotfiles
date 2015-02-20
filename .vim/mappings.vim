@@ -1,3 +1,23 @@
+function! g:UltiSnips_Complete()
+  call UltiSnips#ExpandSnippetOrJump()
+  if g:ulti_expand_or_jump_res == 0
+    if pumvisible()
+      return "\<C-N>"
+    else
+      return "\<TAB>"
+    endif
+  endif
+  return ""
+endfunction
+
+function! g:UltiSnips_Reverse()
+  call UltiSnips#JumpBackwards()
+  if g:ulti_jump_backwards_res == 0
+    return "\<C-P>"
+  endif
+  return ""
+endfunction
+
 let mapleader = ' '
 
 map <up> <c-y>k
@@ -45,17 +65,26 @@ nnoremap <silent> # #zz
 nnoremap <silent> g* g*zz
 nnoremap <silent> g# g#zz
 nnoremap <silent> <C-o> <C-o>zz
-nnoremap <silent> <C-i> <C-i>zz 
+nnoremap <silent> <C-i> <C-i>zz
 
 " ZZ for write and quit
 nnoremap <leader>w :w<cr>
 nnoremap <leader>q :q<cr>
 nnoremap <leader>n :nohl<cr>
 nnoremap <leader>p :set paste!<cr>
+" nnoremap <leader>d :bdelete<cr>             " using <leader>d from jedi
 
-" nnoremap <leader>d :bdelete<cr>       " using <leader>d from jedi
-let g:jedi#usages_command = '<leader>u' " <leader>n is mapped to :nohl
-let g:ycm_key_detailed_diagnostics = '' " using <leader>d from jedi
+" AUTOCOMPLETE
+
+" integrate UltiSnips with YCM
+let g:ycm_key_list_select_completion = []
+let g:ycm_key_list_previous_completion = []
+let g:ycm_key_invoke_completion = ''          " using completion on two characters and on semantic characters
+let g:ycm_key_detailed_diagnostics = ''       " using <leader>d from jedi
+let g:jedi#usages_command = '<leader>u'       " <leader>n is mapped to :nohl
+
+autocmd BufEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=g:UltiSnips_Complete()<cr>"
+autocmd BufEnter * exec "inoremap <silent> " . g:UltiSnipsJumpBackwardTrigger . " <C-R>=g:UltiSnips_Reverse()<cr>"
 
 " Open current line on GitHub
 noremap <silent> <leader>ogh :!echo `git url`/blob/`git rev-parse --abbrev-ref HEAD`/%\#L<C-R>=line('.')<CR> \| xargs open<CR><CR>
