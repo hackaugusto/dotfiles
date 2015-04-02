@@ -19,7 +19,8 @@ set wildmenu
 autocmd BufEnter * highlight ExtraWhitespace ctermbg=red guibg=red
 autocmd BufEnter * match ExtraWhitespace /\s\+$\| \+\ze\t\+\|[^\t]\zs\t\+/
 
-let g:netrw_browse_split = 3                " open files on a new tab
+let g:netrw_browse_split = 3                            " open files on a new tab
+let g:netrw_list_hide = '[.]pyc$,[.]pyo$,[~]$,[.]swp$'  " hide python objects and vim backups
 
 let g:startify_files_number = 20
 let g:startify_skiplist = ['\~$']
