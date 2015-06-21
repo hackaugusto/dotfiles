@@ -140,3 +140,13 @@ alias python=python_fallback
 #     $prog $@ | pygmentize $pyg_args;
 # }
 # alias cat='wrapper cat -g'
+#
+
+function lyrics() {
+    [ $# -ne 2 ] && echo 'lyrics <bandname> <musicname>' && return 1
+
+    UA='Mozilla/5.0 (X11; Linux x86_64; rv:35.0) Gecko/20100101 Firefox/35.0'
+    curl --silent -A$UA http://www.azlyrics.com/lyrics/$1/$2.html | awk '/start of lyrics/,/end of lyrics/ { print $0 }' | sed 's/<[^>]*>//g'
+
+    # curl --silent 'http://letras.mus.br/$1/$2/' | awk '/id="div_letra"/,/id="js-adsenseplayer"/ { print $0 }' | sed 's/<[^>]*>//g'
+}
