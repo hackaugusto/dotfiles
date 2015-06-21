@@ -43,6 +43,9 @@ let g:ycm_complete_in_comments = 1
 let g:ycm_collect_identifiers_from_tags_files = 1
 let g:ycm_seed_identifiers_with_syntax = 1
 let g:ycm_add_preview_to_completeopt = 0          " disable docs
+let g:ycm_filetype_specific_completion_to_disable = {
+      \ 'java': 1
+      \}
 
 " ycm compatibility
 let g:EclimCompletionMethod = 'omnifunc'
@@ -57,7 +60,7 @@ let g:syntastic_stl_format = "%t errors (line %F)"
 let g:syntastic_mode_map = {
   \'mode': 'active',
   \'active_filetypes': ['ruby', 'php', 'python', 'c'],
-  \'passive_filetypes': [] }
+  \'passive_filetypes': ['tex'] }
 
 let g:neomru#file_mru_limit = 20            " use with -no-split
 
