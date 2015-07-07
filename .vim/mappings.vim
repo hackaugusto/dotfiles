@@ -72,6 +72,7 @@ nnoremap <leader>w :w<cr>
 nnoremap <leader>q :q<cr>
 nnoremap <leader>n :nohl<cr>
 nnoremap <leader>p :set paste!<cr>
+nnoremap <leader>P :set paste<cr>:put  *<CR>:set nopaste<cr>
 " nnoremap <leader>d :bdelete<cr>             " using <leader>d from jedi
 
 " AUTOCOMPLETE
