@@ -13,6 +13,9 @@ require ~/.zsh/env.sh
 require ~/.zsh/options.sh
 require ~/.zsh/prompt.sh
 
+require ~/.zsh/zgen.sh
+require ~/.zsh/plugins.sh
+
 load /usr/share/zsh/site-contrib/powerline.zsh
 load /usr/share/zsh/plugins/zsh-syntax-highlight/zsh-syntax-highlighting.zsh
 

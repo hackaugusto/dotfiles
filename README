@@ -1,0 +1,3 @@
+To use my configuration with a new box just run:
+
+bash <(curl https://raw.githubusercontent.com/hackaugusto/dotfiles/master/install.sh)
