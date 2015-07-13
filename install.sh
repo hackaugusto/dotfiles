@@ -77,8 +77,8 @@ link .xmonad
 link .zprofile
 link .zshrc
 
-repo 'https://github.com/gmarik/Vundle.vim.git' "${HOME}/.vim/bundle/Vundle.vim"
 link .vim
+repo 'https://github.com/gmarik/Vundle.vim.git' "${HOME}/.vim/bundle/Vundle.vim"
 vim -u ${HOME}/.vim/plugins.vim +PluginUpdate +qa
 
 repo 'https://github.com/cask/cask.git' "${HOME}/.cask"
@@ -87,6 +87,7 @@ link .emacs.d
 
 link .zsh
 link .bin
+link .colours
 
 mkdir -p ${HOME}/.config
 link .config/flake8

@@ -16,11 +16,6 @@ running() {
 }
 
 gpgagent() {
-    [ -z "${GPG_TTY}" ] && {
-        GPG_TTY=$(tty)
-        export GPG_TTY
-    }
-
     [ ! -z "${SSH_AUTH_SOCK}" ] && return
 
     [ -e $HOME/.gnupg/S.gpg-agent.ssh ] && {
@@ -65,11 +60,17 @@ keyagent() {
 [ -f $HOME/.nvm/nvm.sh ] && . $HOME/.nvm/nvm.sh                               # This loads NVM
 hash npm 2>&1 && export PATH="$(npm config get prefix)/bin:$PATH"
 
-# Execute the agent before running X so that all GUI share the same session
-keyagent
+# ssh-agent should be executed before the x server (to share the agent among all pty)
+[ -z "$DISPLAY" ] && bin gpg-agent || keyagent
+
+# otherwise we use the gpg-agent and we need to run it after x server
+# (otherwise the dialog box wont work)
+[ -n "$DISPLAY" ] && keyagent
 
 eval $(dircolors)
 stty -ixon
+
+export GPG_TTY=$(tty)
 
 # [[ ! -z $DISPLAY && -f ~/.Xmodmap ]] && xmodmap ~/.Xmodmap      # remaps Caps to Ctrl (remapping caps with x11 keymap options)
 [ -z "$DISPLAY" -a "$XDG_VTNR" -eq 1 ] && exec startx

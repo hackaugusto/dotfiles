@@ -53,6 +53,28 @@ function sshkey(){
 }
 alias ssh=sshkey
 
+env() {
+    [ ! $# -eq 1 ] && return
+    project=$1
+    work=${WORK:-~/work}
+    python=${PYTHON:-python3.4}
+    version=${python#python}
+    venv=$work/envs/${project}-${version}/
+
+    [ ! -d $venv ] && {
+        mkdir -p $(dirname ${venv})
+        virtualenv-${version} $venv
+    }
+
+    source ${venv}/bin/activate
+    [ -d $work/projects/$project ] && cd $work/projects/$project
+}
+
+env-2.7() {
+    PYTHON=python2.7
+    env $@
+}
+
 #alias chromium='chromium --ignore-gpu-blacklist'
 #alias grep='grep --color=auto'
 #alias grep='ack --pager="less -R"'
