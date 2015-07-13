@@ -1,3 +1,4 @@
 [[ -f ~/.profile ]] && . ~/.profile
 
-. /home/hack/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
+# zsh specific
+. ~/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
