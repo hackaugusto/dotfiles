@@ -63,31 +63,36 @@ repo 'https://github.com/hackaugusto/dotfiles.git' "$REPO"
 
 link .bash_profile
 link .bashrc
-link .gitignore_global
-link .pdbrc
 link .profile
-link .pythonrc
-link .screenrc
-link .tmux.conf
-link .vimrc
-link .xbindkeysrc
-link .XCompose
-link .xinitrc
-link .xmonad
 link .zprofile
 link .zshrc
+link .zsh
+
+link .xinitrc
+link .xbindkeysrc
+link .XCompose
+link .Xdefaults
+link .colours
+
+link .bin
+link .gitignore_global
+link .pdbrc
+link .pythonrc
+link .xmonad
+link .screenrc
+link .tmux.conf
 
 link .vim
+link .vimrc
 repo 'https://github.com/gmarik/Vundle.vim.git' "${HOME}/.vim/bundle/Vundle.vim"
 vim -u ${HOME}/.vim/plugins.vim +PluginUpdate +qa
 
-repo 'https://github.com/cask/cask.git' "${HOME}/.cask"
-link .emacs.d
-(cd ${HOME}/.emacs.d/; ${HOME}/.cask/bin/cask install)
+mkdir -p ${HOME}/.emacs.d
+link .emacs.d/init.el
+link .emacs.d/Cask
 
-link .zsh
-link .bin
-link .colours
+repo 'https://github.com/cask/cask.git' "${HOME}/.cask"
+(cd ${HOME}/.emacs.d/; ${HOME}/.cask/bin/cask install)
 
 mkdir -p ${HOME}/.config
 link .config/flake8

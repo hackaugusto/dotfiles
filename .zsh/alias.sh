@@ -18,11 +18,18 @@ alias gcc='colorgcc'
 alias info='info --vi-keys'
 alias vi='vim -p'
 
+alias drop-caches='echo 3 | sudo tee /proc/sys/vm/drop_caches'
+
 function ecask() {
     # TODO: figure out how to escape ' inside a alias
     emacs -Q -nw --eval "(require 'cask \"/home/hack/.cask/cask.el\")" -f cask-initialize $@
 }
 alias ecask=ecask
+
+function sshkeygen() {
+    \ssh-keygen -o $@
+}
+alias ssh-keygen=sshkeygen
 
 function sshaddkey() {
     if [ -e ~/.gnupg/gpg-agent.conf ]; then
@@ -157,7 +164,7 @@ function smart_listing(){
     else
         show_all='-B'
     fi
-    \ls --color=auto $show_all $argv
+    \ls --classify --color=auto $show_all $argv
 }
 alias ls=smart_listing
 

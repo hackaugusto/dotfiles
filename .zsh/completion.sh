@@ -25,13 +25,13 @@ zstyle ':completion:*:warnings' format '%B no matches for: %d%b'
 
 zstyle :compinstall filename '/home/hack/.zshrc'
 
-function _pip_completion {
-    local words cword
-    read -Ac words
-    read -cn cword
-    reply=($(COMP_WORDS="$words[*]" COMP_CWORD=$(( cword-1 )) PIP_AUTO_COMPLETE=1 $words[1]))
-}
-compctl -K _pip_completion pip2
+# function _pip_completion {
+#     local words cword
+#     read -Ac words
+#     read -cn cword
+#     reply=($(COMP_WORDS="$words[*]" COMP_CWORD=$(( cword-1 )) PIP_AUTO_COMPLETE=1 $words[1]))
+# }
+# compctl -K _pip_completion pip2
 
 function zle-line-init () {
     # make sure the terminal is in application mode, when zle is

@@ -1,0 +1,3 @@
+#!/usr/bin/env zsh
+
+ssh -N -l hackaugusto -D 8060 srv1.vpn.ufsc.br
