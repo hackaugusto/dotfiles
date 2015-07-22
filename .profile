@@ -60,7 +60,7 @@ keyagent() {
 
 [ -f /etc/profile ] && . /etc/profile                                         # XDG variables and LANG, LC_*
 [ -f $HOME/.nvm/nvm.sh ] && . $HOME/.nvm/nvm.sh                               # This loads NVM
-hash npm 2>&1 && export PATH="$(npm config get prefix)/bin:$PATH"
+bin npm && export PATH="$(npm config get prefix)/bin:$PATH"
 
 # ssh-agent should be executed before the x server (to share the agent among all pty)
 [ -z "$DISPLAY" ] && bin gpg-agent || keyagent
