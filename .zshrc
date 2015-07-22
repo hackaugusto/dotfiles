@@ -14,6 +14,9 @@ require ~/.zsh/options.sh
 require ~/.zsh/prompt.sh
 
 require ~/.zsh/zgen.sh
+zgen-selfupdate() {
+    wget "https://raw.githubusercontent.com/tarjoilija/zgen/master/zgen.zsh" -O ~/.zsh/zgen.sh
+}
 require ~/.zsh/plugins.sh
 
 load /usr/share/zsh/site-contrib/powerline.zsh

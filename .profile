@@ -45,6 +45,8 @@ keyagent() {
         return
     }
 
+    ssh-keygen -H
+
     bin gpg-agent && {
         eval $(gpg-agent --sh --enable-ssh-support --daemon) >/dev/null 2>&1
         gpgagent && return
