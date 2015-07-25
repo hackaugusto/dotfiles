@@ -209,3 +209,17 @@ function lyrics() {
 
     # curl --silent 'http://letras.mus.br/$1/$2/' | awk '/id="div_letra"/,/id="js-adsenseplayer"/ { print $0 }' | sed 's/<[^>]*>//g'
 }
+
+function color() {
+    [ $# -ne 1 ] && echo "${0} <file>"
+
+    source ~/work/envs/tools-2.7/bin/activate
+
+    cat ${1} | pygmentize -l ${1/*./} -f html -O noclasses > "${1}.html"
+}
+
+function git-report() {
+    [ $# -ne 1 ] && echo "${0} [author]" && return 1
+
+    git log --author $1 --author-date-order --all --no-merges --date=relative --abbrev-commit "--pretty=format:[%ar] %an %H" --stat
+}

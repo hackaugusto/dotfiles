@@ -5,7 +5,9 @@ function require() {
     [[ -f $1 ]] || echo "Missing file $1"
     [[ -f $1 ]] && . $1
 }
-
+function bin() {
+    command -v $1 >/dev/null 2>&1
+}
 # require '/etc/profile'        # this is done in /etc/.zprofile
 require ~/.zsh/modules.sh
 require ~/.zsh/alias.sh
@@ -28,7 +30,7 @@ require ~/.zsh/bindkey.sh
 
 # to run `xargs zsh -i -c "shell_function"` without showing fortune
 if [[ -z $_FORTUNE ]]; then
-    fortune
+    bin fortune && fortune
     export _FORTUNE=1
 fi
 
