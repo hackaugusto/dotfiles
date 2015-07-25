@@ -17,6 +17,7 @@ alias emacs='emacs -nw'
 alias gcc='colorgcc'
 alias info='info --vi-keys'
 alias vi='vim -p'
+alias vim='vim -p'
 
 alias drop-caches='echo 3 | sudo tee /proc/sys/vm/drop_caches'
 
