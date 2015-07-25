@@ -87,6 +87,15 @@ link .vimrc
 repo 'https://github.com/gmarik/Vundle.vim.git' "${HOME}/.vim/bundle/Vundle.vim"
 vim -u ${HOME}/.vim/plugins.vim +PluginUpdate +qa
 
+msg 'Building vim plugins'
+find -L ${HOME}/.vim -iname Makefile | grep -v html5.vim | while read plugin; do
+    info $plugin
+    (
+        cd $(dirname $plugin);
+        make
+    ) > /dev/null
+done
+
 mkdir -p ${HOME}/.emacs.d
 link .emacs.d/init.el
 link .emacs.d/Cask
@@ -102,3 +111,18 @@ mkdir -p ${HOME}/.config/openbox
 link .config/openbox/autostart.sh
 link .config/openbox/multimonitor.xml
 link .config/openbox/rc.xml
+
+if hash pacman > /dev/null 2>&1; then
+    # adobe-source-sans-pro-fonts ttf-droid
+    pacman -S ttf-dejavu \
+        ttf-liberation\
+        cantarell-fonts\
+        font-mathematica\
+        xorg-fonts-100dpi\
+        xorg-fonts-75dpi\
+        xorg-fonts-alias\
+        xorg-fonts-encodings\
+        xorg-fonts-misc
+
+    bash <(curl aur.sh) -S ttf-google-fonts-git
+fi
