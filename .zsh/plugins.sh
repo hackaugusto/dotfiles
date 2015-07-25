@@ -38,6 +38,7 @@ if ! zgen saved; then
     zgen load StackExchange/blackbox
     zgen load zsh-users/zsh-completions
     zgen load zsh-users/zsh-syntax-highlighting
+    zgen load rust-lang/zsh-config
 
     zgen save
 fi
