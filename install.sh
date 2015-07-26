@@ -84,17 +84,7 @@ link .tmux.conf
 
 link .vim
 link .vimrc
-repo 'https://github.com/gmarik/Vundle.vim.git' "${HOME}/.vim/bundle/Vundle.vim"
-vim -u ${HOME}/.vim/plugins.vim +PluginUpdate +qa
-
-msg 'Building vim plugins'
-find -L ${HOME}/.vim -iname Makefile | grep -v html5.vim | while read plugin; do
-    info $plugin
-    (
-        cd $(dirname $plugin);
-        make
-    ) > /dev/null
-done
+vim -u ${HOME}/.vim/plugins.vim +PluginInstall +qa
 
 mkdir -p ${HOME}/.emacs.d
 link .emacs.d/init.el
