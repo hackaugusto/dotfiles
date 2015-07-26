@@ -1,5 +1,5 @@
 #!/usr/bin/bash
-# vim: ts=4 sts=4 sw=4 et:
+# vim: ts=4 sts=4 sw=4 et ft=sh:
 
 error () {
     printf "$(tput bold)$(tput setaf 1) -> $1$(tput sgr0)\n" >&2
@@ -22,21 +22,26 @@ die() {
     exit 1
 }
 
+bin() {
+    hash $1 2> /dev/null
+}
+
 require_bin() {
     [ $# -ne 1 ] && die "${0} needs 1 argument: ${0} binary"
 
-    hash $1 2> /dev/null || {
+    bin $1 || {
         die "Required binary was not found ${1}"
     }
 }
 
 link() {
-    [ $# -ne 1 ] && die "link needs one argument (got $#): link [file]"
+    [ $# -lt 1 -o $# -gt 2 ] && die "link needs one or two arguments (got $#): link <file> [destination]"
 
     file=$1
-    target=$HOME/$file
-    original=$REPO/$file
+    target=$HOME/${2:-$1}
+    original=$REPO/$1
 
+    [ -e "$target" -a "$FORCE" -eq 1 ] && unlink $target
     [ -e $target ] && info "${target} already exists, skipping"
     [ ! -e $target ] && {
         info "${target} created"
@@ -53,6 +58,79 @@ repo() {
     [ ! -d $directory ] && \git clone $url $directory
     [ -d $directory ] && (cd $directory && \git pull)
 }
+
+archlinux() {
+    msg "Installing packages"
+    # adobe-source-sans-pro-fonts
+    # ttf-droid
+    packages=( \
+        ttf-dejavu
+        ttf-liberation
+        ttf-dejavu
+        ttf-fira-mono
+        ttf-fira-sans
+        cantarell-fonts
+        font-mathematica
+        xorg-fonts-100dpi
+        xorg-fonts-75dpi
+        xorg-fonts-alias
+        xorg-fonts-encodings
+        xorg-fonts-misc
+        git
+        zsh
+        gvim
+        sudo
+    )
+
+    to_install=()
+    for pack in $packages; do
+        pacman -Qq $pack > /dev/null 2>&1 || to_install+=("$pack")
+    done
+
+    if [ "${#to_install}" -gt 0 ]; then
+        sudo pacman -Sy $to_install
+    else
+        info "All official packages are installed"
+    fi
+
+    if ! hash aura > /dev/null 2>&1; then
+        require_bin curl
+        sudo bash <(curl aur.sh) -S aura-bin
+    fi
+
+    if hash aura > /dev/null 2>&1; then
+        # ttf-google-fonts-git
+        aur_packages=( \
+            neovim-git
+            python2-neovim-git
+        )
+
+        aur_to_install=()
+        for aur in $aur_packages; do
+            pacman -Qq $aur > /dev/null 2>&1 || aur_to_install+=("$aur")
+        done
+
+        if [ "${#aur_to_install}" -gt 0 ]; then
+            sudo aura -A $aur_to_install
+        else
+            info "All aur packages are installed"
+        fi
+    fi
+}
+
+FORCE=0
+while getopts "f" opt; do
+    case $opt in
+        f)
+            FORCE=1
+            ;;
+    esac
+done
+shift $(($OPTIND-1))
+
+if hash pacman > /dev/null 2>&1; then
+    archlinux
+fi
 
 require_bin git
 require_bin vim
@@ -84,11 +162,15 @@ link .tmux.conf
 
 link .vim
 link .vimrc
+link .vim .nvim
+link .vimrc .nvimrc
+
+msg 'Vim plugins'
 repo 'https://github.com/gmarik/Vundle.vim.git' "${HOME}/.vim/bundle/Vundle.vim"
 vim -u ${HOME}/.vim/plugins.vim +PluginUpdate +qa
 
-msg 'Building vim plugins'
-find -L ${HOME}/.vim -iname Makefile | grep -v html5.vim | while read plugin; do
+# TODO: use neobundle or vim-plug
+find -L ${HOME}/.vim -iname Makefile | grep -v -e html5.vim -e Dockerfile | while read plugin; do
     info $plugin
     (
         cd $(dirname $plugin);
@@ -111,18 +193,3 @@ mkdir -p ${HOME}/.config/openbox
 link .config/openbox/autostart.sh
 link .config/openbox/multimonitor.xml
 link .config/openbox/rc.xml
-
-if hash pacman > /dev/null 2>&1; then
-    # adobe-source-sans-pro-fonts ttf-droid
-    pacman -S ttf-dejavu \
-        ttf-liberation\
-        cantarell-fonts\
-        font-mathematica\
-        xorg-fonts-100dpi\
-        xorg-fonts-75dpi\
-        xorg-fonts-alias\
-        xorg-fonts-encodings\
-        xorg-fonts-misc
-
-    bash <(curl aur.sh) -S ttf-google-fonts-git
-fi
