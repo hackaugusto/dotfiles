@@ -6,7 +6,10 @@
 
 # ignore .zsh submodules
 .zsh/*/
+
+# vim
 .vim/bundle
+.vim/.netrwhist
 
 # ignore bytecode, object code, erros, tags
 *.pyc

@@ -166,7 +166,7 @@ link .vim .nvim
 link .vimrc .nvimrc
 
 msg 'Vim plugins'
-repo 'https://github.com/gmarik/Vundle.vim.git' "${HOME}/.vim/bundle/Vundle.vim"
+repo 'https://github.com/hackaugusto/Vundle.vim.git' "${HOME}/.vim/bundle/Vundle.vim"
 vim -u ${HOME}/.vim/plugins.vim +PluginUpdate +qa
 
 # TODO: use neobundle or vim-plug

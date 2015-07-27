@@ -14,7 +14,7 @@ set rtp+=~/.vim/bundle/Vundle.vim/
 " Alternative to vundle#rc, offers speed up by modifying rtp only when end()
 " called later.
 call vundle#begin()
-  Plugin 'gmarik/Vundle.vim'
+  Plugin 'hackaugusto/Vundle.vim'
 
   " AUTOCOMPLETE
   " Plugin 'SearchComplete'                 " /<Up> not working
