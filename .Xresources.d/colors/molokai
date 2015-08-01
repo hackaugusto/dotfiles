@@ -1,0 +1,36 @@
+! Molokai theme
+*background: #000000
+*foreground: #ffffff
+*cursorColor: #d0d0d0
+
+! black dark/light
+*color0: #000000
+*color8: #303030
+
+! red dark/light
+*color1: #960050
+*color9: #ff0090
+
+! green dark/light
+*color2: #66aa11
+*color10: #80ff00
+
+! yellow dark/light
+*color3: #c47f2c
+*color11: #ffba68
+
+! blue dark/light
+*color4: #30309b
+*color12: #5f5fee
+
+! magenta dark/light
+*color5: #7e40a5
+*color13: #bb88dd
+
+! cyan dark/light
+*color6: #3579a8
+*color14: #4eb4fa
+
+! white dark/light
+*color7: #9999aa
+*color15: #ffffff

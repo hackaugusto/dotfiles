@@ -149,8 +149,8 @@ link .zsh
 link .xinitrc
 link .xbindkeysrc
 link .XCompose
-link .Xdefaults
-link .colours
+link .Xresources
+link .Xresources.d
 
 link .bin
 link .gitignore_global

@@ -14,7 +14,7 @@ xset +fp /usr/share/fonts/local
 xset fp rehash
 numlockx &
 
-[[ -f $HOME/.Xdefaults ]] && xrdb -merge ~/.Xdefaults
+[[ -f $HOME/.Xresources ]] && xrdb -I$HOME ~/.Xresources
 [[ -f $HOME/.xbindkeysrc ]] && xbindkeys 2> /dev/null
 # [[ -f $HOME/.Xmodmap ]] && xmodmap ~/.Xmodmap         # CTRL changed with x's keyboard options 'ctrl:nocaps,ctrl:lctrl_meta'
 

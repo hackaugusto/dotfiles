@@ -17,4 +17,4 @@ URxvt*borderwidth: 0
 URxvt*internalBorder: 0
 URxvt*lineSpace: 1
 
-#include "/home/hack/.colours/erosion"
+#include ".Xresources.d/colors/erosion"
