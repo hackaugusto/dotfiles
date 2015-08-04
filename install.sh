@@ -60,6 +60,9 @@ repo() {
 }
 
 archlinux() {
+    root=''
+    [ $UID = 0 ] || root='sudo'
+    
     msg "Installing packages"
     # adobe-source-sans-pro-fonts
     # ttf-droid
@@ -88,14 +91,14 @@ archlinux() {
     done
 
     if [ "${#to_install}" -gt 0 ]; then
-        sudo pacman -Sy $to_install
+        $root pacman -Sy $to_install
     else
         info "All official packages are installed"
     fi
 
     if ! hash aura > /dev/null 2>&1; then
         require_bin curl
-        sudo bash <(curl aur.sh) -S aura-bin
+        $root bash <(curl aur.sh) -S aura-bin
     fi
 
     if hash aura > /dev/null 2>&1; then
@@ -111,7 +114,7 @@ archlinux() {
         done
 
         if [ "${#aur_to_install}" -gt 0 ]; then
-            sudo aura -A $aur_to_install
+            $root aura -A $aur_to_install
         else
             info "All aur packages are installed"
         fi
