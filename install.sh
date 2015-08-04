@@ -83,6 +83,15 @@ archlinux() {
         zsh
         gvim
         sudo
+        ctags
+        openbox
+        python
+        python2
+        firefox
+        chromium
+        xorg
+        tmux
+        emacs
     )
 
     to_install=()
