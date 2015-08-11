@@ -7,13 +7,9 @@
 # or
 # setxkbmap -layout br,us -model abnt2,pc105 -variant ,dvorak -option terminate:ctrl_alt_bksp,grp:alt_shift_toggle
 
-bin() {
-    command -v $1 >/dev/null 2>&1
-}
-
-running() {
-    pgrep -x -u "${USER}" $1 >/dev/null 2>&1
-}
+function load(){ [[ -f $1 ]] && . $1 }
+bin() { command -v $1 >/dev/null 2>&1 }
+running() { pgrep -x -u "${USER}" $1 >/dev/null 2>&1 }
 
 gpgagent() {
     [ ! -z "${SSH_AUTH_SOCK}" ] && return
@@ -59,8 +55,10 @@ keyagent() {
     }
 }
 
-[ -f /etc/profile ] && . /etc/profile                                         # XDG variables and LANG, LC_*
-[ -f $HOME/.nvm/nvm.sh ] && . $HOME/.nvm/nvm.sh                               # This loads NVM
+load /etc/profile           # XDG variables and LANG, LC_*
+load $HOME/.nvm/nvm.sh      # This loads NVM
+load ~/.config/user-dirs.dirs
+
 bin npm && export PATH="$(npm config get prefix)/bin:$PATH"
 
 # ssh-agent should be executed before the x server (to share the agent among all pty)

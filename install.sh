@@ -41,6 +41,10 @@ link() {
     target=$HOME/${2:-$1}
     original=$REPO/$1
 
+    [ ! -e "$original" ] && {
+        error "File ${original} does not exists, cannot create link ${target}"
+        return
+    }
     [ -e "$target" -a "$FORCE" -eq 1 ] && unlink $target
     [ -e $target ] && info "${target} already exists, skipping"
     [ ! -e $target ] && {
@@ -151,6 +155,9 @@ link .xbindkeysrc
 link .XCompose
 link .Xresources
 link .Xresources.d
+
+mkdir -p $HOME/.config/fontconfig/conf.d
+link /etc/fonts/conf.avail/10-sub-pixel-rgb.conf .config/fontconfig/conf.d/10-sub-pixel-rgb.conf
 
 link .bin
 link .gitignore_global

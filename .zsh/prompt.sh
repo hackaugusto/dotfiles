@@ -51,7 +51,10 @@ myprompt() {
 }
 
 export PS2="> "
-export RPS1="%F{blue}%T%f"
+
+local HOUR="%F{blue}%T%f"
+local JOBS="%1(j,%F{yellow}%j%f ,)"
+export RPS1="${JOBS}${HOUR}"
 
 if [[ $UID -eq '0' ]]; then;
     export PS1="%F{red}%n%f %1. %(?.%#.%F{red}%#%f) "
@@ -63,12 +66,5 @@ fi;
 
 # show the hostname when we are connected through ssh
 if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
-    if [[ $UID -eq '0' ]]; then;
-        export PS1="%M $PS1"
-    elif [[ $USER = 'dev' ]]; then;
-        export PS1="%M $PS1"
-    else;
-        export PS1="%M $PS1"
-    fi;
+    export PS1="%M $PS1"
 fi;
-#add-zsh-hook precmd gitprompt
