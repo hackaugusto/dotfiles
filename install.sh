@@ -66,7 +66,7 @@ repo() {
 archlinux() {
     root=''
     [ $UID = 0 ] || root='sudo'
-    
+
     msg "Installing packages"
     # adobe-source-sans-pro-fonts
     # ttf-droid
@@ -83,6 +83,7 @@ archlinux() {
         xorg-fonts-alias
         xorg-fonts-encodings
         xorg-fonts-misc
+        terminus-font
         git
         zsh
         gvim
@@ -91,11 +92,28 @@ archlinux() {
         openbox
         python
         python2
+        python-virtualenv
+        python2-virtualenv
+        python-virtualenvwrapper
         firefox
         chromium
+        flashplugin
+        lib32-flashplugin
+        alsa-oss
+        alsa-tools
+        alsa-utils
         xorg
         tmux
         emacs
+        openssh
+        openntpd
+        pssh
+        xorg-xinit
+        rxvt-unicode
+        xclip
+        base-devel
+        tree
+        the_silver_searcher
     )
 
     to_install=()

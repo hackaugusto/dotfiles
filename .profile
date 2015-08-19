@@ -7,7 +7,7 @@
 # or
 # setxkbmap -layout br,us -model abnt2,pc105 -variant ,dvorak -option terminate:ctrl_alt_bksp,grp:alt_shift_toggle
 
-function load(){ [[ -f $1 ]] && . $1 }
+load(){ [[ -f $1 ]] && . $1 }
 bin() { command -v $1 >/dev/null 2>&1 }
 running() { pgrep -x -u "${USER}" $1 >/dev/null 2>&1 }
 
@@ -42,7 +42,7 @@ keyagent() {
     }
 
     ssh-keygen -H > /dev/null 2>&1
-    rm ~/.ssh/known_hosts.old
+    [ -e ~/.ssh/known_hosts.old ] && rm ~/.ssh/known_hosts.old
 
     bin gpg-agent && {
         eval $(gpg-agent --sh --enable-ssh-support --daemon) >/dev/null 2>&1
@@ -72,6 +72,10 @@ eval $(dircolors)
 stty -ixon
 
 export GPG_TTY=$(tty)
+
+export WORKON_HOME=~/work/envs
+export PROJECT_HOME=~/work/projects
+load /usr/bin/virtualenvwrapper_lazy.sh
 
 # [[ ! -z $DISPLAY && -f ~/.Xmodmap ]] && xmodmap ~/.Xmodmap      # remaps Caps to Ctrl (remapping caps with x11 keymap options)
 [ -z "$DISPLAY" -a "$XDG_VTNR" -eq 1 ] && exec startx
