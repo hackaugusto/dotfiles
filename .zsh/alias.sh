@@ -21,6 +21,21 @@ alias vim='vim -p'
 
 alias drop-caches='echo 3 | sudo tee /proc/sys/vm/drop_caches'
 
+# aur.sh is currently broken for aur4
+function aurdl() {
+    local cwd destination package
+
+    cwd=$(pwd)
+    destination=${BUILDDIR:-$PWD}
+    for package in ${@##-*}; do
+        cd "$destination"
+        curl "https://aur.archlinux.org/cgit/aur.git/snapshot/$package.tar.gz" | tar xz
+        cd "$package"
+        makepkg ${@##[^\-]*}
+    done
+    cd $cwd
+}
+
 function ecask() {
     # TODO: figure out how to escape ' inside a alias
     emacs -Q -nw --eval "(require 'cask \"/home/hack/.cask/cask.el\")" -f cask-initialize $@
