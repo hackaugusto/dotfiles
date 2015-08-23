@@ -16,8 +16,17 @@ set tags=./tags,tags;
 set ttyfast showcmd hidden
 set wildmenu
 
-autocmd BufEnter * highlight ExtraWhitespace ctermbg=red guibg=red
-autocmd BufEnter * match ExtraWhitespace /\s\+$\| \+\ze\t\+\|[^\t]\zs\t\+/
+function! s:highlight_mixed_spaces()
+  " dont bother highlighting system files
+  if stridx(@%, "/usr") != 0
+    echomsg &filetype
+
+    highlight ExtraWhitespace ctermbg=red guibg=red
+    match ExtraWhitespace /\s\+$\| \+\ze\t\+\|[^\t]\zs\t\+/
+  endif
+endfunction
+
+autocmd BufReadPost * call s:highlight_mixed_spaces()
 
 let g:netrw_browse_split = 3                            " open files on a new tab
 let g:netrw_list_hide = '[.]pyc$,[.]pyo$,[~]$,[.]swp$'  " hide python objects and vim backups

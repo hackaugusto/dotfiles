@@ -21,6 +21,12 @@ function FindDjangoSettings()
   endif
 endfunction
 
+function s:source_if_exists(path)
+  if filereadable(a:path)
+    exec "source " . a:path
+  endif
+endfunction
+
 if !exists("autocmd_latex")
   autocmd BufNewFile,BufRead tex let autocmd_latex=1
   autocmd BufNewFile,BufRead tex setlocal textwidth=80
@@ -32,6 +38,10 @@ autocmd BufEnter * :syntax sync fromstart
 
 " Disable documentation preview
 autocmd BufEnter * set completeopt-=preview
+
+" Asymptote
+autocmd BufNewFile,BufRead *.asy setfiletype asy
+autocmd Syntax asy call s:source_if_exists("/usr/share/texmf-dist/asymptote/asy.vim")
 
 augroup Lisp
   autocmd!
