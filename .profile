@@ -41,8 +41,8 @@ keyagent() {
         return
     }
 
-    ssh-keygen -H > /dev/null 2>&1
-    [ -e ~/.ssh/known_hosts.old ] && rm ~/.ssh/known_hosts.old
+    # ssh-keygen -H > /dev/null 2>&1
+    # [ -e ~/.ssh/known_hosts.old ] && rm ~/.ssh/known_hosts.old
 
     bin gpg-agent && {
         eval $(gpg-agent --sh --enable-ssh-support --daemon) >/dev/null 2>&1

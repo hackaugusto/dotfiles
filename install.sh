@@ -85,6 +85,7 @@ archlinux() {
         xorg-fonts-misc
         terminus-font
         git
+        tig
         zsh
         gvim
         sudo
