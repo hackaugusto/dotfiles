@@ -39,6 +39,7 @@ if ! zgen saved; then
     zgen load zsh-users/zsh-completions
     zgen load zsh-users/zsh-syntax-highlighting
     zgen load rust-lang/zsh-config
+    # zgen load vifon/deer
 
     zgen save
 fi

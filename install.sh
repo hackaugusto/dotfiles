@@ -84,17 +84,31 @@ archlinux() {
         xorg-fonts-encodings
         xorg-fonts-misc
         terminus-font
+
         git
         zsh
+        openssh
+        pssh
+        tmux
+        rxvt-unicode
         gvim
+        emacs
         sudo
         ctags
-        openbox
         python
         python2
         python-virtualenv
         python2-virtualenv
         python-virtualenvwrapper
+        base-devel
+        tree
+        the_silver_searcher
+
+        xorg
+        openbox
+        obconf
+        xorg-xinit
+        xclip
         firefox
         chromium
         flashplugin
@@ -102,18 +116,7 @@ archlinux() {
         alsa-oss
         alsa-tools
         alsa-utils
-        xorg
-        tmux
-        emacs
-        openssh
         openntpd
-        pssh
-        xorg-xinit
-        rxvt-unicode
-        xclip
-        base-devel
-        tree
-        the_silver_searcher
     )
 
     to_install=()
@@ -137,6 +140,7 @@ archlinux() {
         aur_packages=( \
             neovim-git
             python2-neovim-git
+            notify-osd-customizable
         )
 
         aur_to_install=()

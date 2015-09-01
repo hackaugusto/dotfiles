@@ -7,9 +7,15 @@
 # or
 # setxkbmap -layout br,us -model abnt2,pc105 -variant ,dvorak -option terminate:ctrl_alt_bksp,grp:alt_shift_toggle
 
-load(){ [[ -f $1 ]] && . $1 }
 bin() { command -v $1 >/dev/null 2>&1 }
 running() { pgrep -x -u "${USER}" $1 >/dev/null 2>&1 }
+load(){
+    local file
+
+    for file in $@; do
+        test -r "$file"  && . "$file"
+    done
+}
 
 gpgagent() {
     [ ! -z "${SSH_AUTH_SOCK}" ] && return
@@ -55,7 +61,7 @@ keyagent() {
     }
 }
 
-load /etc/profile           # XDG variables and LANG, LC_*
+load /etc/profile           # XDG variables and LANG, LC_* (this sources only *.sh files)
 load $HOME/.nvm/nvm.sh      # This loads NVM
 load ~/.config/user-dirs.dirs
 

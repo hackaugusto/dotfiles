@@ -124,3 +124,6 @@ nmap <silent> e :call LineScrollOtherWindow('down')<cr>
 nmap <silent> y :call LineScrollOtherWindow('up')<cr>
 nmap <silent> u :call PageScrollOtherWindow('down')<cr>
 nmap <silent> d :call PageScrollOtherWindow('up')<cr>
+
+vmap <Enter> <Plug>(EasyAlign)
+nmap ga <Plug>(EasyAlign)
