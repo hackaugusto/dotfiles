@@ -70,6 +70,8 @@ archlinux() {
     msg "Installing packages"
     # adobe-source-sans-pro-fonts
     # ttf-droid
+    # using systemd-timesyncd instead of openntpd: timedatectl set-ntp true
+    # gccfortran, lapack -> scipy
     packages=( \
         ttf-dejavu
         ttf-liberation
@@ -83,9 +85,11 @@ archlinux() {
         xorg-fonts-alias
         xorg-fonts-encodings
         xorg-fonts-misc
+        numlockx
         terminus-font
 
         git
+        tig
         zsh
         openssh
         pssh
@@ -109,14 +113,24 @@ archlinux() {
         obconf
         xorg-xinit
         xclip
+        lapack
         firefox
         chromium
+        mplayer
+        youtube-dl
         flashplugin
         lib32-flashplugin
         alsa-oss
         alsa-tools
         alsa-utils
-        openntpd
+        gcc-fortran
+        texlive-most
+        unzip
+        evince
+        htop
+        net-tools
+        virtualbox
+        virtualbox-guest-iso
     )
 
     to_install=()
@@ -141,6 +155,7 @@ archlinux() {
             neovim-git
             python2-neovim-git
             notify-osd-customizable
+            packer-io
         )
 
         aur_to_install=()
