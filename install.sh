@@ -107,6 +107,8 @@ archlinux() {
         base-devel
         tree
         the_silver_searcher
+        dnsutils
+        graphviz
 
         xorg
         openbox
@@ -144,18 +146,21 @@ archlinux() {
         info "All official packages are installed"
     fi
 
-    if ! hash aura > /dev/null 2>&1; then
+    if ! bin aura; then
         require_bin curl
         $root bash <(curl aur.sh) -S aura-bin
     fi
 
-    if hash aura > /dev/null 2>&1; then
+    if bin aura; then
         # ttf-google-fonts-git
         aur_packages=( \
             neovim-git
             python2-neovim-git
             notify-osd-customizable
             packer-io
+            terraform
+            fzf
+            fzf-extras-git
         )
 
         aur_to_install=()
@@ -181,7 +186,7 @@ while getopts "f" opt; do
 done
 shift $(($OPTIND-1))
 
-if hash pacman > /dev/null 2>&1; then
+if bin pacman; then
     archlinux
 fi
 
