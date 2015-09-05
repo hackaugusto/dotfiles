@@ -5,5 +5,5 @@ then
     load /etc/profile.d/*.zsh
 fi
 
-# zsh specific
-. ~/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
+load ~/.opam/opam-init/init.zsh
+bin pip && eval "`pip completion --zsh`"

@@ -109,6 +109,8 @@ archlinux() {
         the_silver_searcher
         dnsutils
         graphviz
+        wget
+        ncdu
 
         xorg
         openbox

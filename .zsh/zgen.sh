@@ -32,14 +32,15 @@ if [[ -z "${ZGEN_OH_MY_ZSH_BRANCH}" ]]; then
     ZGEN_OH_MY_ZSH_BRANCH=master
 fi
 
--zgen-encode-url () {
+-zgen-encode-url() {
     # Remove characters from a url that don't work well in a filename.
     # Inspired by -anti-get-clone-dir() method from antigen.
     autoload -U regexp-replace
-    regexp-replace 1 '/' '-SLASH-'
-    regexp-replace 1 ':' '-COLON-'
-    regexp-replace 1 '\|' '-PIPE-'
-    echo $1
+    url=$1
+    regexp-replace url '/' '-SLASH-'
+    regexp-replace url ':' '-COLON-'
+    regexp-replace url '\|' '-PIPE-'
+    echo $url
 }
 
 -zgen-get-clone-dir() {
