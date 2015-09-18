@@ -111,6 +111,12 @@ archlinux() {
         graphviz
         wget
         ncdu
+        bsdiff
+        colordiff
+        dwdiff
+        moreutils
+        gdb
+        strace
 
         xorg
         openbox
@@ -127,6 +133,8 @@ archlinux() {
         alsa-oss
         alsa-tools
         alsa-utils
+        pulseaudio
+        pulseaudio-alsa
         gcc-fortran
         texlive-most
         unzip
@@ -218,6 +226,7 @@ link /etc/fonts/conf.avail/10-sub-pixel-rgb.conf .config/fontconfig/conf.d/10-su
 link .bin
 link .gitignore_global
 link .pdbrc
+link .gdbinit
 link .pythonrc
 link .xmonad
 link .screenrc
@@ -256,3 +265,12 @@ mkdir -p ${HOME}/.config/openbox
 link .config/openbox/autostart.sh
 link .config/openbox/multimonitor.xml
 link .config/openbox/rc.xml
+
+if bin pacman; then
+    echo
+    echo
+    msg 'Edit the /etc/makepkg.conf file and remove the strip option:'
+    echo 'OPTIONS+=(debug !strip)'
+    echo
+    echo
+fi

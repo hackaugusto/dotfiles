@@ -113,16 +113,17 @@ if executable('ag')
   set grepformat=%f:%l:%c:%m
   set grepprg=ag\ --nogroup\ --noheading\ --column\ --smart-case\ --nocolor\ --follow\ --nobreak
   let g:ackprg="ag\\ --nogroup\\ --noheading\\ --column\\ --smart-case\\ --nocolor\\ --follow\\ --nobreak"
-  let g:unite_source_grep_command='ag'
-  let g:unite_source_grep_default_opts='--nogroup --noheading --column --smart-case --nocolor --follow -C0'
-  let g:unite_source_grep_recursive_opt=''
+  let g:unite_source_grep_command = 'ag'
+  let g:unite_source_grep_default_opts =
+  \ '-i --vimgrep --hidden --ignore ' .
+  \ '''.hg'' --ignore ''.svn'' --ignore ''.git'' --ignore ''.bzr'''
+  let g:unite_source_grep_recursive_opt = ''
 elseif executable('ack')
   set grepformat=%f:%l:%c:%m
   set grepprg=ack\ --nogroup\ --column\ --smart-case\ --nocolor\ --follow\ $*
   " let g:ackprg="ack\\ --nogroup\\ --column\\ --smart-case\\ --nocolor\\ --follow\\ $*"
-  let g:unite_source_grep_command='ack'
-  let g:unite_source_grep_default_opts='--no-heading --no-color -a -C4'
-  let g:unite_source_grep_recursive_opt=''
+  let g:unite_source_grep_command = 'ack'
+  let g:unite_source_grep_default_opts =
+  \ '-i --no-heading --no-color -k -H'
+  let g:unite_source_grep_recursive_opt = ''
 endif
-
-let g:ackprg="ag\\ --nogroup\\ --noheading\\ --column\\ --smart-case\\ --nocolor\\ --follow\\ --nobreak"
