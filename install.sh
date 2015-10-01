@@ -117,6 +117,11 @@ archlinux() {
         moreutils
         gdb
         strace
+        parallel
+        pypy
+        pypy3
+        clang
+        boost
 
         xorg
         openbox
@@ -143,6 +148,7 @@ archlinux() {
         net-tools
         virtualbox
         virtualbox-guest-iso
+        gecko-mediaplayer
     )
 
     to_install=()

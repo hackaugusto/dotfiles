@@ -1,10 +1,10 @@
 ! use xlsfonts or gtk2fontsel to see the fonts
 
-# The autohinter and subpixel rendering are not designed to work together and
-# should not be used in combination.
+! The autohinter and subpixel rendering are not designed to work together and
+! should not be used in combination.
 Xft.antialias: true
-# Xft.hinting: true
-# Xft.hintstyle: hintfull
+! Xft.hinting: true
+! Xft.hintstyle: hintfull
 Xft.rgba: rgb
 
 URxvt.font: xft:Terminus:size=9
