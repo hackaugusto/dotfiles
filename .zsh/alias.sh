@@ -14,10 +14,13 @@ alias difftree='rsync -crv --dry-run '
 #     screen: maptimeout 5
 #     tmux: set -g escape-time 0
 alias emacs='emacs -nw'
-alias gcc='colorgcc'
+# alias gcc='colorgcc'
 alias info='info --vi-keys'
 alias vi='vim -p'
 alias vim='vim -p'
+# TODO: need to figure out how to use neovim and <alt>+letter as <esc>+letter
+# alias vi='nvim -p'
+# alias vim='nvim -p'
 
 alias drop-caches='echo 3 | sudo tee /proc/sys/vm/drop_caches'
 

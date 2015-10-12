@@ -5,3 +5,4 @@ source ~/.vim/colors.vim
 source ~/.vim/mappings.vim
 source ~/.vim/filetypes.vim
 source ~/.vim/spell.vim
+source ~/.vim/tmux.vim

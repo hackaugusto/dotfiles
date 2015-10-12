@@ -285,6 +285,15 @@
         <command>chromium</command>
       </action>
     </keybind>
+    <keybind key="W-n">
+      <action name="Execute">
+        <startupnotify>
+          <enabled>true</enabled>
+          <name>Chromium</name>
+        </startupnotify>
+        <command>urxvt -e nvim +terminal</command>
+      </action>
+    </keybind>
     <keybind key="W-t">
       <action name="Execute">
         <startupnotify>

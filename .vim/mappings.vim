@@ -18,6 +18,18 @@ function! g:UltiSnips_Reverse()
   return ""
 endfunction
 
+if has('nvim')
+  " https://github.com/neovim/neovim/issues/2068
+  " inoremap <M-a> <Esc>a - same sequence as á
+  inoremap <M-b> <Esc>b
+  inoremap <M-h> <Esc>h
+  inoremap <M-j> <Esc>j
+  inoremap <M-k> <Esc>k
+  inoremap <M-l> <Esc>l
+  inoremap <M-n> <Esc>n
+  inoremap <M-w> <Esc>w
+endif
+
 let mapleader = ' '
 
 map <up> <c-y>k
