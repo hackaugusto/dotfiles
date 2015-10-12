@@ -111,6 +111,12 @@ archlinux() {
         graphviz
         wget
         ncdu
+        valgrind
+        ltrace
+        strace
+        perf
+        ftjam
+        boost
 
         xorg
         openbox
