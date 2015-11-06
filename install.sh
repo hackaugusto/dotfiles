@@ -143,12 +143,20 @@ archlinux() {
         gcc-fortran
         texlive-most
         unzip
+        zip
         evince
         htop
         net-tools
         virtualbox
         virtualbox-guest-iso
+        scrot
         gecko-mediaplayer
+        gst-libav
+        gst-plugins-bad
+        gst-plugins-base
+        gst-plugins-good
+        gst-plugins-ugly
+        gstreamer0.10-plugins
     )
 
     to_install=()

@@ -80,7 +80,7 @@ env() {
     [ ! $# -eq 1 ] && return
     project=$1
     work=${WORK:-~/work}
-    python=${PYTHON:-python3.4}
+    python=${PYTHON:-python3.5}
     version=${python#python}
     venv=$work/envs/${project}-${version}/
 

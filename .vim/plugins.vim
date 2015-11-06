@@ -88,5 +88,6 @@ call vundle#begin()
   Plugin 'spf13/vim-gocode'
   Plugin 'SQLUtilities'
   Plugin 'vim-scripts/SyntaxComplete'
+  Plugin 'python.vim'
 call vundle#end()
 filetype plugin indent on

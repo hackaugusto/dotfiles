@@ -19,8 +19,6 @@ set wildmenu
 function! s:highlight_mixed_spaces()
   " dont bother highlighting system files
   if stridx(@%, "/usr") != 0
-    echomsg &filetype
-
     highlight ExtraWhitespace ctermbg=red guibg=red
     match ExtraWhitespace /\s\+$\| \+\ze\t\+\|[^\t]\zs\t\+/
   endif
