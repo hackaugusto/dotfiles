@@ -1,46 +1,57 @@
-function! g:UltiSnips_Complete()
-  call UltiSnips#ExpandSnippetOrJump()
-  if g:ulti_expand_or_jump_res == 0
-    if pumvisible()
-      return "\<C-N>"
-    else
-      return "\<TAB>"
-    endif
+function! g:HandleTab()
+  call UltiSnips#ExpandSnippet()
+
+  if g:ulti_expand_res == 1
+    return ""
   endif
-  return ""
+
+  if pumvisible()
+    return "\<c-n>"
+  else
+    return "\<tab>"
+  endif
 endfunction
 
-function! g:UltiSnips_Reverse()
-  call UltiSnips#JumpBackwards()
-  if g:ulti_jump_backwards_res == 0
-    return "\<C-P>"
+function! g:HandleShiftTab()
+  if pumvisible()
+    return "\<c-p>"
   endif
-  return ""
+
+  return "\<s-tab>"
 endfunction
+
+" cannot use <expr> here because UltiSnips uses `botright new` that is
+" disallowed in the <expr> context
+autocmd BufEnter * exec "inoremap <tab> <c-r>=g:HandleTab()<cr>"
+autocmd BufEnter * exec "inoremap <s-tab> <c-r>=g:HandleShiftTab()<cr>"
 
 if has('nvim')
   " https://github.com/neovim/neovim/issues/2068
-  " inoremap <M-a> <Esc>a - same sequence as á
-  inoremap <M-b> <Esc>b
-  inoremap <M-h> <Esc>h
-  inoremap <M-j> <Esc>j
-  inoremap <M-k> <Esc>k
-  inoremap <M-l> <Esc>l
-  inoremap <M-n> <Esc>n
-  inoremap <M-w> <Esc>w
+  " inoremap <m-a> <esc>a - same sequence as á
+  inoremap <m-b> <esc>b
+  inoremap <m-h> <esc>h
+  inoremap <m-j> <esc>j
+  inoremap <m-k> <esc>k
+  inoremap <m-l> <esc>l
+  inoremap <m-n> <esc>n
+  inoremap <m-w> <esc>w
 endif
 
 let mapleader = ' '
 
+" move just the content
 map <up> <c-y>k
 map <down> <c-e>j
-" map <left> :bnext<cr>
-" map <right> :bprev<cr>
 
-nnoremap ]b :bnext<cr>
-nnoremap [b :bprevious<cr>
-nnoremap ]t :tnext<cr>
-nnoremap [t :tprevious<cr>
+" change buffers
+map <left> :bnext<cr>
+map <right> :bprev<cr>
+
+" I don't use these at all
+" nnoremap ]b :bnext<cr>
+" nnoremap [b :bprevious<cr>
+" nnoremap ]t :tnext<cr>
+" nnoremap [t :tprevious<cr>
 " nnoremap <silent> <c-]> <c-w><c-]><c-w>T
 
 " Use the original ^w hjkl
@@ -50,16 +61,19 @@ nnoremap [t :tprevious<cr>
 " nnoremap <c-h> <c-w>h
 " nnoremap <c-l> <c-w>l
 
-" change tab
-nnoremap <m-1> :gt1
-nnoremap <m-2> :gt2
-nnoremap <m-3> :gt3
-nnoremap <m-4> :gt4
-nnoremap <m-5> :gt5
-nnoremap <m-6> :gt6
-nnoremap <m-7> :gt7
-nnoremap <m-8> :gt8
-nnoremap <m-9> :tablast
+" This mappings were to change tab, but since <m-1> is also a openbox mapping
+" it never gets to vim, and there is no <a-1> in the terminal (it's the same
+" code sequence as <esc>1 and vim assumes it is a <esc>)
+" just use 1gt, 2gt, etc.
+" nnoremap <m-1> :gt1
+" nnoremap <m-2> :gt2
+" nnoremap <m-3> :gt3
+" nnoremap <m-4> :gt4
+" nnoremap <m-5> :gt5
+" nnoremap <m-6> :gt6
+" nnoremap <m-7> :gt7
+" nnoremap <m-8> :gt8
+" nnoremap <m-9> :tablast
 
 " Use Ctrl + C or Ctrl + [ or Alt + <normal mode action>
 " quick <esc>
@@ -85,19 +99,15 @@ nnoremap <leader>q :q<cr>
 nnoremap <leader>n :nohl<cr>
 nnoremap <leader>p :set paste!<cr>
 nnoremap <leader>P :set paste<cr>:put  *<CR>:set nopaste<cr>
+nnoremap <leader>b :set background=<C-R>=&background == 'dark' ? 'light' : 'dark'<CR><CR>
+" inspired by unimpaired
+nnoremap <leader>c :setlocal <C-R>=<SID>toggle('cursorline')<CR><CR>
+nnoremap <leader>u :setlocal <C-R>=<SID>toggle('cursorcolumn')<CR><CR>
+nnoremap <leader>l :setlocal <C-R>=<SID>toggle('list')<CR><CR>
+nnoremap <leader>r :setlocal <C-R>=<SID>toggle('relativenumber')<CR><CR>
+nnoremap <leader>s :setlocal <C-R>=<SID>toggle('spell')<CR><CR>
 " nnoremap <leader>d :bdelete<cr>             " using <leader>d from jedi
 
-" AUTOCOMPLETE
-
-" integrate UltiSnips with YCM
-let g:ycm_key_list_select_completion = []
-let g:ycm_key_list_previous_completion = []
-let g:ycm_key_invoke_completion = ''          " using completion on two characters and on semantic characters
-let g:ycm_key_detailed_diagnostics = ''       " using <leader>d from jedi
-let g:jedi#usages_command = '<leader>u'       " <leader>n is mapped to :nohl
-
-autocmd BufEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=g:UltiSnips_Complete()<cr>"
-autocmd BufEnter * exec "inoremap <silent> " . g:UltiSnipsJumpBackwardTrigger . " <C-R>=g:UltiSnips_Reverse()<cr>"
 
 " Open current line on GitHub
 noremap <silent> <leader>ogh :!echo `git url`/blob/`git rev-parse --abbrev-ref HEAD`/%\#L<C-R>=line('.')<CR> \| xargs open<CR><CR>

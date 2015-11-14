@@ -19,8 +19,10 @@ call vundle#begin()
   " AUTOCOMPLETE
   " Plugin 'Shougo/neocomplete.vim'
   " Plugin 'Valloric/YouCompleteMe'         " installed through pacman
-  Plugin 'davidhalter/jedi-vim'             " used for navigation
-  Plugin 'SuperTab'
+  Plugin 'davidhalter/jedi-vim'             " ycm installs the jedi library, not the vim plugin
+                                            " using function signature and jumping around (could use :YcmCompleter GoToDefinition)
+  " Plugin 'ervandew/supertab'              " supertab conflicts with ultisnips and YouCompleteMe superseeds it
+  Plugin 'racer-rust/vim-racer'
 
   " snippets
   Plugin 'SirVer/ultisnips'                 " snippet plugin
@@ -69,7 +71,7 @@ call vundle#begin()
   Plugin 'tpope/vim-markdown'
   Plugin 'tpope/vim-repeat'
   Plugin 'tpope/vim-surround'
-  Plugin 'tpope/vim-unimpaired'
+  " Plugin 'tpope/vim-unimpaired'           " rolled my own version, also this is conflicting with python.vim
   Plugin 'tsukkee/unite-tag'
   Plugin 'visualrepeat'
 
@@ -88,5 +90,8 @@ call vundle#begin()
   Plugin 'spf13/vim-gocode'
   Plugin 'SQLUtilities'
   Plugin 'vim-scripts/SyntaxComplete'
+  Plugin 'python.vim'                     " blocks movements (function, class, etc)
+  Plugin 'jneen/ragel.vim'
+  Plugin 'dccmx/vim-lemon-syntax'
 call vundle#end()
 filetype plugin indent on

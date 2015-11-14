@@ -85,45 +85,13 @@ archlinux() {
         xorg-fonts-alias
         xorg-fonts-encodings
         xorg-fonts-misc
-        numlockx
         terminus-font
-
-        git
-        tig
-        zsh
-        openssh
-        pssh
-        tmux
-        rxvt-unicode
-        gvim
-        emacs
-        sudo
-        ctags
-        python
-        python2
-        python-virtualenv
-        python2-virtualenv
-        python-virtualenvwrapper
-        base-devel
-        tree
-        the_silver_searcher
-        dnsutils
-        graphviz
-        wget
-        ncdu
-        valgrind
-        ltrace
-        strace
-        perf
-        ftjam
-        boost
-
         xorg
+        numlockx
         openbox
         obconf
         xorg-xinit
         xclip
-        lapack
         firefox
         chromium
         mplayer
@@ -141,6 +109,49 @@ archlinux() {
         net-tools
         virtualbox
         virtualbox-guest-iso
+        scrot
+        seahorse
+        fortune-mod
+        zsh
+        tmux
+        rxvt-unicode
+
+        base-devel
+        clang
+        clang-analyzer
+        clang-tools-extra
+        pypy
+        pypy3
+        python
+        python2
+        python-virtualenv
+        python2-virtualenv
+        python-virtualenvwrapper
+        git
+        tig
+        fossil
+        lapack
+        openssh
+        pssh
+        gvim
+        emacs
+        sudo
+        ctags
+        tree
+        the_silver_searcher
+        dnsutils
+        graphviz
+        wget
+        ncdu
+        valgrind
+        ltrace
+        strace
+        perf
+        ftjam
+        boost
+        sysstat
+        wrk
+        wrk2-git
     )
 
     to_install=()
@@ -162,6 +173,9 @@ archlinux() {
     if bin aura; then
         # ttf-google-fonts-git
         aur_packages=( \
+            pm2ml
+            python3-xcpf
+            powerpill
             neovim-git
             python2-neovim-git
             notify-osd-customizable
@@ -169,6 +183,8 @@ archlinux() {
             terraform
             fzf
             fzf-extras-git
+            rust-src
+            rust-racer
         )
 
         aur_to_install=()

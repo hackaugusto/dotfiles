@@ -36,31 +36,48 @@ let g:signify_sign_add = '+'
 let g:signify_sign_delete_first_line = '-'
 let g:signify_sign_change = '~'
 
-let g:UltiSnipsExpandTrigger = '<tab>'
+" Using custom <tab> mapping to handle the menu (it's defined on mappings.vim)
+let g:UltiSnipsExpandTrigger = '<Plugin>'         " UltiSnips has no settings to disable automatic mappings, so create one that cannot be used
+let g:ycm_key_list_select_completion = []
+let g:ycm_key_list_previous_completion = []
+
+" These mappings are added when a snippet is found and restored afterwards, so
+" there is not a compatibility problem.
 let g:UltiSnipsJumpForwardTrigger = '<tab>'
 let g:UltiSnipsJumpBackwardTrigger = '<s-tab>'
 
+" stoped using neocomplete in favor of YouCompleteMe
 " call neocomplete#initialize()
+"let g:ycm_filetype_whitelist = {'noop': 1}       " disable for everything while testing neocomplete
 
-"let g:ycm_filetype_whitelist = {'noop': 1}  " diable for everything while testing neocomplete
-"let g:ycm_filetype_specific_completion_to_disable = {
-"  \'python': 1
-"  \}
-" more configuration on mappings.vim
+let g:ycm_key_detailed_diagnostics = ''           " using <leader>d from jedi
+let g:ycm_key_invoke_completion = ''              " using completion on two characters and on semantic characters
 let g:ycm_complete_in_comments = 1
 let g:ycm_collect_identifiers_from_tags_files = 1
 let g:ycm_seed_identifiers_with_syntax = 1
 let g:ycm_add_preview_to_completeopt = 0          " disable docs
+let g:ycm_server_keep_logfiles = 0
+let g:ycm_server_log_level = 'info'
 let g:ycm_filetype_specific_completion_to_disable = {
-      \ 'java': 1
-      \}
+  \ 'java': 1
+  \}
+let g:ycm_semantic_triggers =  {
+  \ 'rust': ['.', '::']
+  \}
 
 " ycm compatibility
 let g:EclimCompletionMethod = 'omnifunc'
 
 " using jedi for the goto feature
+let g:jedi#usages_command = '<leader>u'           " <leader>n is mapped to :nohl
 let g:jedi#completions_enabled = 0
 let g:jedi#auto_vim_configuration = 0             " don't want completeopt=longest,preview neither inoremap <C-c> <ESC>
+let g:jedi#goto_command = 'gd'
+let g:jedi#popup_on_dot = 1
+let g:jedi#popup_select_first = 1
+let g:jedi#show_call_signatures = 1
+let g:jedi#use_tabs_not_buffers = 1
+let g:jedi#smart_auto_mappings = 0
 
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0

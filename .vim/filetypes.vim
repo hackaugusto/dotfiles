@@ -187,4 +187,15 @@ augroup C-Files
   autocmd FileType cpp,c,h map @s iif(){}<Esc>2k3li
   autocmd FileType cpp,c,h map @w iwhile(){}<Esc>2k3li
   autocmd FileType cpp,c,h map @f ifor(){}<Esc>2k3li
+
+if !exists("/usr/share/clang/clang-format.py")
+  autocmd FileType cpp,c,h map <leader>f :pyfile /usr/share/clang/clang-format.py<cr>
+  autocmd FileType cpp,c,h imap <leader>f <c-o>:pyfile /usr/share/clang/clang-format.py<cr>
+endif
+augroup END
+
+augroup RUST
+  autocmd FileType rust set hidden
+  autocmd FileType rust let g:racer_cmd = "/usr/bin/racer"
+  autocmd FileType rust let $RUST_SRC_PATH = "/usr/src/rust/src/"
 augroup END
