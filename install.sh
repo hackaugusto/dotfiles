@@ -73,83 +73,102 @@ archlinux() {
     # using systemd-timesyncd instead of openntpd: timedatectl set-ntp true
     # gccfortran, lapack -> scipy
     packages=( \
+        cantarell-fonts
+        font-mathematica
+        terminus-font
         ttf-dejavu
-        ttf-liberation
         ttf-dejavu
         ttf-fira-mono
         ttf-fira-sans
-        cantarell-fonts
-        font-mathematica
+        ttf-liberation
         xorg-fonts-100dpi
         xorg-fonts-75dpi
         xorg-fonts-alias
         xorg-fonts-encodings
         xorg-fonts-misc
-        terminus-font
-        xorg
-        numlockx
-        openbox
-        obconf
-        xorg-xinit
-        xclip
-        firefox
+
         chromium
-        mplayer
-        youtube-dl
-        flashplugin
-        lib32-flashplugin
+        evince
+        firefox
+        numlockx
+        obconf
+        openbox
+        texlive-most
+        xclip
+        xorg
+        xorg-xinit
+
         alsa-oss
         alsa-tools
         alsa-utils
-        gcc-fortran
-        texlive-most
-        unzip
-        evince
-        htop
-        net-tools
-        virtualbox
-        virtualbox-guest-iso
-        scrot
-        seahorse
+        flashplugin
+        gecko-mediaplayer
+        gst-libav
+        gst-plugins-bad
+        gst-plugins-base
+        gst-plugins-good
+        gst-plugins-ugly
+        gstreamer0.10-plugins
+        lib32-flashplugin
+        mplayer
+        pulseaudio
+        pulseaudio-alsa
+        youtube-dl
+
+        emacs
         fortune-mod
-        zsh
-        tmux
+        gvim
+        htop
+        ncdu
         rxvt-unicode
+        scrot
+        sudo
+        the_silver_searcher
+        tmux
+        tree
+        unzip
+        wget
+        zip
+        zsh
 
         base-devel
+        boost
+        bsdiff
         clang
         clang-analyzer
         clang-tools-extra
+        colordiff
+        ctags
+        dnsutils
+        dwdiff
+        fossil
+        ftjam
+        gcc-fortran
+        gdb
+        git
+        graphviz
+        lapack
+        ltrace
+        moreutils
+        net-tools
+        openssh
+        parallel
+        perf
+        pssh
         pypy
         pypy3
         python
         python2
-        python-virtualenv
         python2-virtualenv
+        python-virtualenv
         python-virtualenvwrapper
-        git
-        tig
-        fossil
-        lapack
-        openssh
-        pssh
-        gvim
-        emacs
-        sudo
-        ctags
-        tree
-        the_silver_searcher
-        dnsutils
-        graphviz
-        wget
-        ncdu
-        valgrind
-        ltrace
+        seahorse
         strace
-        perf
-        ftjam
-        boost
         sysstat
+        tig
+        valgrind
+        virtualbox
+        virtualbox-guest-iso
         wrk
         wrk2-git
     )
@@ -234,12 +253,13 @@ link .XCompose
 link .Xresources
 link .Xresources.d
 
-mkdir -p $HOME/.config/fontconfig/conf.d
-link /etc/fonts/conf.avail/10-sub-pixel-rgb.conf .config/fontconfig/conf.d/10-sub-pixel-rgb.conf
+# mkdir -p $HOME/.config/fontconfig/conf.d
+# link /etc/fonts/conf.avail/10-sub-pixel-rgb.conf .config/fontconfig/conf.d/10-sub-pixel-rgb.conf
 
 link .bin
 link .gitignore_global
 link .pdbrc
+link .gdbinit
 link .pythonrc
 link .xmonad
 link .screenrc
@@ -278,3 +298,12 @@ mkdir -p ${HOME}/.config/openbox
 link .config/openbox/autostart.sh
 link .config/openbox/multimonitor.xml
 link .config/openbox/rc.xml
+
+if bin pacman; then
+    echo
+    echo
+    msg 'Edit the /etc/makepkg.conf file and remove the strip option:'
+    echo 'OPTIONS+=(debug !strip)'
+    echo
+    echo
+fi

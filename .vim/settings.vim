@@ -124,23 +124,29 @@ if has('autocmd')
   filetype plugin indent on
 endif
 
+let g:unite_source_grep_recursive_opt = ''
+
 if executable('ag')
-  " Use ag in unite grep source.
+  set grepformat=%f:%l:%c:%m
+  set grepprg=ag\ --nogroup\ --noheading\ --column\ --smart-case\ --nocolor\ --follow\ --nobreak
+  let g:ackprg="ag\\ --nogroup\\ --noheading\\ --column\\ --smart-case\\ --nocolor\\ --follow\\ --nobreak"
   let g:unite_source_grep_command = 'ag'
   let g:unite_source_grep_default_opts =
-  \ '-i --vimgrep --hidden --ignore ' .
-  \ '''.hg'' --ignore ''.svn'' --ignore ''.git'' --ignore ''.bzr'''
-  let g:unite_source_grep_recursive_opt = ''
+    \ '-i --vimgrep --hidden --ignore ' .
+    \ '''.hg'' --ignore ''.svn'' --ignore ''.git'' --ignore ''.bzr'''
 elseif executable('pt')
-  " Use pt in unite grep source.
-  " https://github.com/monochromegane/the_platinum_searcher
   let g:unite_source_grep_command = 'pt'
   let g:unite_source_grep_default_opts = '--nogroup --nocolor'
-  let g:unite_source_grep_recursive_opt = ''
 elseif executable('ack')
-  " Use ack in unite grep source.
+  set grepformat=%f:%l:%c:%m
+  set grepprg=ack\ --nogroup\ --column\ --smart-case\ --nocolor\ --follow\ $*
+  let g:unite_source_grep_command = 'ack'
+  let g:unite_source_grep_default_opts =
+    \ '-i --no-heading --no-color -k -H'
+elseif executable('ack-grep')
+  set grepformat=%f:%l:%c:%m
+  set grepprg=ack\ --nogroup\ --column\ --smart-case\ --nocolor\ --follow\ $*
   let g:unite_source_grep_command = 'ack-grep'
   let g:unite_source_grep_default_opts =
-  \ '-i --no-heading --no-color -k -H'
-  let g:unite_source_grep_recursive_opt = ''
+    \ '-i --no-heading --no-color -k -H'
 endif
