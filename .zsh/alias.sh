@@ -241,3 +241,21 @@ function git-report() {
 
     git log --author $1 --author-date-order --all --no-merges --date=relative --abbrev-commit "--pretty=format:[%ar] %an %H" --stat
 }
+
+function slugify() {
+    # rely on the fact that this function is defined on my .zshrc
+    [ $# -eq 0 ] && xargs -I{} zsh -ic "slugify '{}'" && return
+
+    echo $@ | tr '[:upper:]' '[:lower:]' | sed 's,\s,_,g'
+}
+
+function cores() {
+    awk '/^processor/ {cpu++} END {print cpu}' /proc/cpuinfo
+}
+
+function pxargs() {
+    threads=$(cores)
+    serverlist=$1
+    shift 1
+    xargs -a $serverlist -I"SERVER" -P${threads} -n1 sh -c "$@"
+}
