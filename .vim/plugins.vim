@@ -77,21 +77,22 @@ call vundle#begin()
 
   " highlight and file specific
   Plugin 'chase/vim-ansible-yaml'
+  Plugin 'dccmx/vim-lemon-syntax'
   Plugin 'django.vim'
   Plugin 'hackaugusto/javascript.vim'
   Plugin 'hail2u/vim-css3-syntax'
   Plugin 'HTML-AutoCloseTag'
+  Plugin 'jeaye/color_coded'
+  Plugin 'jneen/ragel.vim'
   Plugin 'nathanaelkane/vim-indent-guides'
   Plugin 'netrw.vim'
   Plugin 'prettyprint.vim'
   Plugin 'python_match.vim'
+  Plugin 'python.vim'                     " blocks movements (function, class, etc)
   Plugin 'sheerun/vim-polyglot'
   Plugin 'sjl/gundo.vim'
   Plugin 'spf13/vim-gocode'
   Plugin 'SQLUtilities'
   Plugin 'vim-scripts/SyntaxComplete'
-  Plugin 'python.vim'                     " blocks movements (function, class, etc)
-  Plugin 'jneen/ragel.vim'
-  Plugin 'dccmx/vim-lemon-syntax'
 call vundle#end()
 filetype plugin indent on

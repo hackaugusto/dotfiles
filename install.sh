@@ -72,6 +72,10 @@ archlinux() {
     # ttf-droid
     # using systemd-timesyncd instead of openntpd: timedatectl set-ntp true
     # gccfortran, lapack -> scipy
+    #
+    # docker:
+    #   systemctl enable docker.socket
+    #   gpasswd -a <user>  docker
     packages=( \
         cantarell-fonts
         font-mathematica
@@ -114,11 +118,13 @@ archlinux() {
         pulseaudio
         pulseaudio-alsa
         youtube-dl
+        youtube-viewer
 
         emacs
         fortune-mod
         gvim
         htop
+        mosh
         ncdu
         rxvt-unicode
         scrot
@@ -130,16 +136,20 @@ archlinux() {
         wget
         zip
         zsh
+        moreutils
 
         base-devel
         boost
         bsdiff
+        cargo
         clang
         clang-analyzer
         clang-tools-extra
         colordiff
         ctags
         dnsutils
+        docker
+        docker-compose
         dwdiff
         fossil
         ftjam
@@ -149,7 +159,6 @@ archlinux() {
         graphviz
         lapack
         ltrace
-        moreutils
         net-tools
         openssh
         parallel
@@ -162,6 +171,9 @@ archlinux() {
         python2-virtualenv
         python-virtualenv
         python-virtualenvwrapper
+        re2c
+        re2
+        rust
         seahorse
         strace
         sysstat
@@ -192,9 +204,8 @@ archlinux() {
     if bin aura; then
         # ttf-google-fonts-git
         aur_packages=( \
-            pm2ml
-            python3-xcpf
             powerpill
+            reflector
             neovim-git
             python2-neovim-git
             notify-osd-customizable
@@ -204,6 +215,7 @@ archlinux() {
             fzf-extras-git
             rust-src
             rust-racer
+            bear
         )
 
         aur_to_install=()
@@ -275,13 +287,25 @@ repo 'https://github.com/hackaugusto/Vundle.vim.git' "${HOME}/.vim/bundle/Vundle
 vim -u ${HOME}/.vim/plugins.vim +PluginUpdate +qa
 
 # TODO: use neobundle or vim-plug
-find -L ${HOME}/.vim -iname Makefile | grep -v -e html5.vim -e Dockerfile | while read plugin; do
+find -L ${HOME}/.vim -iname Makefile | grep -v -e html5.vim -e Dockerfile -e color_coded | while read plugin; do
     info $plugin
     (
         cd $(dirname $plugin);
         make
     ) > /dev/null
 done
+
+info 'color_coded'
+(
+    cd ~/.vim/bundle/color_coded
+    mkdir build
+    cd build
+    cmake ..
+    make
+    make install
+    make clean
+    make clean_clang
+)
 
 mkdir -p ${HOME}/.emacs.d
 link .emacs.d/init.el
@@ -306,4 +330,26 @@ if bin pacman; then
     echo 'OPTIONS+=(debug !strip)'
     echo
     echo
+    msg 'Add the Xyne repo into the /etc/pacman.conf'
+    echo
+    echo '[xyne-x86_64]'
+    echo 'SigLevel = Required'
+    echo 'Server = http://xyne.archlinux.ca/repos/xyne'
+    echo
+    echo
 fi
+
+grep -i '^pt_br.utf-?8' || {
+    error 'Missing locale pt_br on file /etc/locale.gen'
+    info 'echo "pt_BR.UTF-8" >> /etc/local.gen'
+}
+
+grep -i '^en_us.utf-?8' || {
+    error 'Missing locale en_us on file /etc/locale.gen'
+    info 'echo "en_US.UTF-8" >> /etc/local.gen'
+}
+
+[ ! -e /etc/localtime ] || {
+    erro 'Missing /etc/localtime file'
+    info 'ln -s /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime'
+}
