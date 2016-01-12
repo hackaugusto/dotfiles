@@ -66,6 +66,11 @@ load $HOME/.nvm/nvm.sh      # This loads NVM
 load ~/.config/user-dirs.dirs
 
 bin npm && export PATH="$(npm config get prefix)/bin:$PATH"
+bin go && {
+    [ ! -e ~/.go ] && mkdir -p ~/go/{bin,src}
+    [ -d ~/.go ] && export GOPATH="${HOME}/.go"
+    [ -d ~/.go ] && export PATH="$PATH:$GOPATH/bin"
+}
 
 # ssh-agent should be executed before the x server (to share the agent among all pty)
 [ -z "$DISPLAY" ] && bin gpg-agent || keyagent
