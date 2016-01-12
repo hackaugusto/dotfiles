@@ -18,6 +18,7 @@ alias emacs='emacs -nw'
 alias info='info --vi-keys'
 alias vi='vim -p'
 alias vim='vim -p'
+alias gdb='gdb --silent --nowindows'
 # TODO: need to figure out how to use neovim and <alt>+letter as <esc>+letter
 # alias vi='nvim -p'
 # alias vim='nvim -p'
@@ -187,29 +188,7 @@ function smart_listing(){
 }
 alias ls=smart_listing
 
-# function python_fallback(){
-#     if  [[ $# == 0 ]]; then
-#         /usr/bin/env python;
-#         return;
-#     fi;
-#     error=$(/usr/bin/env python $@ 2&>1)
-#     if [[ $? != 0 ]]; then;
-#         /usr/bin/env python2 $@;
-#         if [[ $? != 0 ]]; then;
-#             echo $error;
-#             return $?;
-#         fi;
-#     fi;
-# }
-#alias python=python_fallback
-function python_fallback(){
-    if [ $+commands[ptpython] -eq 0 ]; then
-        \python $@
-    else
-        \ptpython $@
-    fi
-}
-alias python=python_fallback
+(( $+commands[ptpython] )) && alias python=ptpython
 
 # function catwrapper(){
 #     prog=$1; shift;
