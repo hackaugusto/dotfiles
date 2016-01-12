@@ -77,6 +77,7 @@ call vundle#begin()
   Plugin 'visualrepeat'
 
   " highlight and file specific
+  Plugin 'digitaltoad/vim-jade'
   Plugin 'chase/vim-ansible-yaml'
   Plugin 'dccmx/vim-lemon-syntax'
   Plugin 'django.vim'

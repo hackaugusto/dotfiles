@@ -26,6 +26,8 @@ endfunction
 
 autocmd BufReadPost * call s:highlight_mixed_spaces()
 
+let g:limelight_conceal_ctermfg = 'gray'
+
 let g:netrw_browse_split = 3                            " open files on a new tab
 let g:netrw_list_hide = '[.]pyc$,[.]pyo$,[~]$,[.]swp$'  " hide python objects and vim backups
 

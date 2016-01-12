@@ -137,6 +137,7 @@ archlinux() {
         zip
         zsh
         moreutils
+        pigz
 
         base-devel
         boost
@@ -183,6 +184,10 @@ archlinux() {
         virtualbox-guest-iso
         wrk
         wrk2-git
+        uwsgi
+        uwsgi-plugin-python2
+        uwsgi-plugin-python
+        uwsgi-plugin-pypy
     )
 
     to_install=()
