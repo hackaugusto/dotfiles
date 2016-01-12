@@ -52,7 +52,7 @@ let g:UltiSnipsJumpBackwardTrigger = '<s-tab>'
 
 let g:ycm_key_detailed_diagnostics = ''           " using <leader>d from jedi
 let g:ycm_key_invoke_completion = ''              " using completion on two characters and on semantic characters
-let g:ycm_complete_in_comments = 1
+let g:ycm_complete_in_comments = 0
 let g:ycm_collect_identifiers_from_tags_files = 1
 let g:ycm_seed_identifiers_with_syntax = 1
 let g:ycm_add_preview_to_completeopt = 0          " disable docs
@@ -80,12 +80,16 @@ let g:jedi#use_tabs_not_buffers = 1
 let g:jedi#smart_auto_mappings = 0
 
 let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
+let g:syntastic_aggregate_errors = 1
+let g:syntastic_check_on_wq = 1
 let g:syntastic_stl_format = "%t errors (line %F)"
 let g:syntastic_mode_map = {
   \'mode': 'active',
   \'active_filetypes': ['ruby', 'php', 'python', 'c'],
   \'passive_filetypes': ['tex'] }
+" prefer the clang's compilation database
+let g:syntastic_cpp_clang_check_post_args = ""
+let g:syntastic_cpp_clang_tidy_post_args = ""
 
 let g:neomru#file_mru_limit = 20            " use with -no-split
 

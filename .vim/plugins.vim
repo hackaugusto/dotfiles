@@ -23,6 +23,7 @@ call vundle#begin()
                                             " using function signature and jumping around (could use :YcmCompleter GoToDefinition)
   " Plugin 'ervandew/supertab'              " supertab conflicts with ultisnips and YouCompleteMe superseeds it
   Plugin 'racer-rust/vim-racer'
+  Plugin 'rdnetto/YCM-Generator'
 
   " snippets
   Plugin 'SirVer/ultisnips'                 " snippet plugin

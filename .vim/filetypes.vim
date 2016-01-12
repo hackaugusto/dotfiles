@@ -188,9 +188,16 @@ augroup C-Files
   autocmd FileType cpp,c,h map @w iwhile(){}<Esc>2k3li
   autocmd FileType cpp,c,h map @f ifor(){}<Esc>2k3li
 
+  " use the configuration files
+  "   - .syntastic_c_config
+  "   - .syntastic_cpp_config
+  "   - .syntastic_clang_check_config
+  "   - .syntastic_clang_tidy_config
+  autocmd FileType c,h let g:syntastic_c_compiler_options='-std=gnu++11'
+  autocmd FileType cpp,h let g:syntastic_cpp_compiler_options='-std=gnu++11'
+
 if !exists("/usr/share/clang/clang-format.py")
   autocmd FileType cpp,c,h map <leader>f :pyfile /usr/share/clang/clang-format.py<cr>
-  autocmd FileType cpp,c,h imap <leader>f <c-o>:pyfile /usr/share/clang/clang-format.py<cr>
 endif
 augroup END
 
