@@ -1,6 +1,8 @@
 #!/usr/bin/bash
 # vim: ts=4 sts=4 sw=4 et ft=sh:
 
+set -e
+
 error () {
     printf "$(tput bold)$(tput setaf 1) -> $1$(tput sgr0)\n" >&2
 }
@@ -182,8 +184,6 @@ archlinux() {
         valgrind
         virtualbox
         virtualbox-guest-iso
-        wrk
-        wrk2-git
         uwsgi
         uwsgi-plugin-python2
         uwsgi-plugin-python
@@ -221,6 +221,8 @@ archlinux() {
             rust-src
             rust-racer
             bear
+            wrk
+            wrk2-git
         )
 
         aur_to_install=()
