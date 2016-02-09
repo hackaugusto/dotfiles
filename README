@@ -1,3 +1,5 @@
 To use my configuration with a new box just run:
 
-bash <(curl https://raw.githubusercontent.com/hackaugusto/dotfiles/master/install.sh)
+zsh <(curl https://raw.githubusercontent.com/hackaugusto/dotfiles/master/install.sh)
+
+Most of the script works with bash, except for the array manipulation used for installing Arch's packages.
