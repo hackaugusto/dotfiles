@@ -1,6 +1,8 @@
 #!/usr/bin/bash
 # vim: ts=4 sts=4 sw=4 et ft=sh:
 
+set -e
+
 error () {
     printf "$(tput bold)$(tput setaf 1) -> $1$(tput sgr0)\n" >&2
 }
@@ -182,8 +184,6 @@ archlinux() {
         valgrind
         virtualbox
         virtualbox-guest-iso
-        wrk
-        wrk2-git
         uwsgi
         uwsgi-plugin-python2
         uwsgi-plugin-python
@@ -200,6 +200,9 @@ archlinux() {
     else
         info "All official packages are installed"
     fi
+
+    # anything bellow needs to run unprivileged, mostly because of makepkg
+    [ $UID = 0 ] && return
 
     if ! bin aura; then
         require_bin curl
@@ -221,6 +224,8 @@ archlinux() {
             rust-src
             rust-racer
             bear
+            wrk
+            wrk2-git
         )
 
         aur_to_install=()
@@ -344,17 +349,43 @@ if bin pacman; then
     echo
 fi
 
-grep -i '^pt_br.utf-?8' || {
+SUDO=''
+[ $UID = 0 ] || SUDO='sudo'
+
+$SUDO grep -i '^pt_br.utf-?8' /etc/locale.gen || {
     error 'Missing locale pt_br on file /etc/locale.gen'
     info 'echo "pt_BR.UTF-8" >> /etc/local.gen'
 }
 
-grep -i '^en_us.utf-?8' || {
+$SUDO grep -i '^en_us.utf-?8' /etc/locale.gen || {
     error 'Missing locale en_us on file /etc/locale.gen'
     info 'echo "en_US.UTF-8" >> /etc/local.gen'
 }
 
-[ ! -e /etc/localtime ] || {
+[ ! -e /etc/locale.conf ] && {
+    echo
+    echo 'Run the following command to set the system locale'
+    msg 'localectl set-locale en_us.utf8'
+    echo
+    echo
+    echo 'Run the following command to set X.org keymap'
+    msg 'localectl set-x11-keymap br,us abnt2,pc105 ,dvorak terminate:ctrl_alt_bksp,grp:rctrl_toggle,ctrl:nocaps,ctrl:lctrl_meta'
+    echo or
+    msg 'setxkbmap -layout br,us -model abnt2,pc105 -variant ,dvorak -option terminate:ctrl_alt_bksp,grp:alt_shift_toggle'
+    echo
+    echo
+}
+
+[ ! -e /etc/hostname ] && {
+    erro 'Missing /etc/hostname file'
+    info 'hostnamectl set-hostname <hostname>'
+    echo
+    info 'And add the hostname into the /etc/hosts file'
+    echo
+    echo
+}
+
+[ ! -e /etc/localtime ] && {
     erro 'Missing /etc/localtime file'
     info 'ln -s /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime'
 }
