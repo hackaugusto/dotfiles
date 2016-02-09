@@ -7,3 +7,4 @@ fi
 
 load ~/.opam/opam-init/init.zsh
 bin pip && eval "`pip completion --zsh`"
+bin vex && eval "$(vex --shell-config zsh)"

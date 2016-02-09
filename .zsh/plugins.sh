@@ -43,5 +43,18 @@ if ! zgen saved; then
     zgen load rust-lang/zsh-config
     # zgen load vifon/deer
 
+    # TODO: PR for zgen support
+    #
+    # pyenv install 2.7.8
+    # pyenv install 3.5.1
+    # VERSION_ALIAS="2.7.8-debug" PYTHON_CONFIGURE_OPTS="--with-pydebug" pyenv install 2.7
+    # VERSION_ALIAS="3.5.1-debug" PYTHON_CONFIGURE_OPTS="--with-pydebug" pyenv install 3.5.1
+    #
+    # git clone https://github.com/wyplay/pytracemalloc.git
+    # cat pytracemalloc/patches/2.7/pep445.patch | filterdiff --strip=1 | VERSION_ALIAS="2.7.8-trace" PYTHON_CONFIGURE_OPTS="--with-pydebug --enable-shared" pyenv install -p -v 2.7.8
+    zgen load yyuu/pyenv
+    git clone https://github.com/s1341/pyenv-alias.git ~/.pyenv/plugins/pyenv-alias
+    git clone https://github.com/yyuu/pyenv-virtualenv.git ~/.pyenv/plugins/pyenv-virtualenv
+
     zgen save
 fi
