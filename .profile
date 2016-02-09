@@ -17,6 +17,19 @@ load(){
     done
 }
 
+haspath() {
+    # $1 needs to have regex specila characters escaped, otherwise this function will fail
+    ! [[ ! $PATH =~ "^$1:|:$1:|:$1$" ]]
+}
+
+path_addonce_start() {
+    haspath $1 || export PATH="$1:$PATH"
+}
+
+path_addonce_end() {
+    haspath $1 || export PATH="$PATH:$1"
+}
+
 gpgagent() {
     [ ! -z "${SSH_AUTH_SOCK}" ] && return
 
@@ -75,16 +88,81 @@ keyagent() {
     }
 }
 
+python_pytracemalloc() {
+    # Helper to build a patched version of CPython-2.7.8 with pytracemalloc
+    # support manager with pythonz
+    pythonz_dists=~/.pythonz/dists
+
+    python278="${pythonz_dists}/Python-2.7.8.tgz"
+    pytracemalloc12="${pythonz_dists}/pytracemalloc-1.2.tar.gz"
+    pythontrace278="${pythonz_dists}/Python-trace-2.7.8.tgz"
+
+    [ ! -d $pythonz_dists ] && mkdir -p $pythonz_dists
+    [ ! -f $python278 ] && wget -O $python278 http://www.python.org/ftp/python/2.7.8/Python-2.7.8.tgz
+    [ ! -f $pytracemalloc12 ] && wget -O $pytracemalloc12 https://pypi.python.org/packages/source/p/pytracemalloc/pytracemalloc-1.2.tar.gz
+    [ ! -f $pythontrace278 ] && {
+        TMPDIR=$(mktemp -d)
+        # trap "rm -rf ${TMPDIR}" SIGKILL SIGHUP EXIT INT
+
+        tar -xzf $python278 -C $TMPDIR
+        tar -xzf $pytracemalloc12 -C $TMPDIR
+
+        (
+            cd $TMPDIR/Python-2.7.8
+            patch -p1 < ../pytracemalloc-1.2/patches/2.7/pep445.patch
+            cd $TMPDIR
+            tar czf $pythontrace278 ./Python-2.7.8
+        )
+    }
+
+    pythonz install --file $pythontrace278 2.7.8-trace
+
+}
+
+configure_runtimes() {
+    # CASK
+    [[ -d ~/.cask ]] && path_addonce_end "$HOME/.cask/bin"
+
+    # GO
+    bin go && {
+        [ ! -e ~/.go ] && mkdir -p ~/go/{bin,src}
+        [ -d ~/.go ] && export GOPATH="${HOME}/.go"
+        [ -d ~/.go ] && path_addonce_end "$GOPATH/bin"
+    }
+
+    # NODE
+    bin npm && path_addonce_start "$(npm config get prefix)/bin"
+
+    # PYTHON
+    export WORKON_HOME=~/work/envs
+    export PROJECT_HOME=~/work/projects
+    load /usr/bin/virtualenvwrapper_lazy.sh
+
+    # https://docs.python.org/2/install/index.html#alternate-installation-the-user-scheme
+    USER_BASE=$(python -m site --user-base)
+    path_addonce_start "${USER_BASE}/bin"
+
+    # pythonz really don't cut it, I need multiple versions and the ability to
+    # patch the source before compilation, so I need to use pyenv
+    #
+    # - patch before compilation [issue #91] and [https://github.com/yyuu/pyenv/tree/master/plugins/python-build#applying-patches-to-python-before-compiling]
+    # - multiple versions [issue #167 and #218] and [https://github.com/s1341/pyenv-alias]
+    [ -d ~/.zgen/yyuu/pyenv-master/ ] && {
+        export PYENV_VIRTUALENV_DISABLE_PROMPT=1
+        export PYENV_ROOT="$HOME/.pyenv"
+        export PATH="$HOME/.zgen/yyuu/pyenv-master/bin:$HOME/.zgen/yyuu/pyenv-master/plugins/python-build/bin:$PATH"
+        eval "$(pyenv init -)"
+    }
+
+    # LOCAL BINs
+    path_addonce_start "$HOME/.bin"
+}
+
 load /etc/profile           # XDG variables and LANG, LC_* (this sources only *.sh files)
 load $HOME/.nvm/nvm.sh      # This loads NVM
 load ~/.config/user-dirs.dirs
 
-bin npm && export PATH="$(npm config get prefix)/bin:$PATH"
-bin go && {
-    [ ! -e ~/.go ] && mkdir -p ~/go/{bin,src}
-    [ -d ~/.go ] && export GOPATH="${HOME}/.go"
-    [ -d ~/.go ] && export PATH="$PATH:$GOPATH/bin"
-}
+configure_runtimes
 
 # ssh-agent should be executed before the x server (to share the agent among all pty)
 [ -z "$DISPLAY" ] && bin gpg-agent || keyagent
@@ -97,10 +175,6 @@ eval $(dircolors)
 stty -ixon
 
 export GPG_TTY=$(tty)
-
-export WORKON_HOME=~/work/envs
-export PROJECT_HOME=~/work/projects
-load /usr/bin/virtualenvwrapper_lazy.sh
 
 # [[ ! -z $DISPLAY && -f ~/.Xmodmap ]] && xmodmap ~/.Xmodmap      # remaps Caps to Ctrl (remapping caps with x11 keymap options)
 [ -z "$DISPLAY" -a "$XDG_VTNR" -eq 1 ] && exec startx

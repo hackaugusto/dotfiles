@@ -15,6 +15,7 @@ set rtp+=~/.vim/bundle/Vundle.vim/
 " called later.
 call vundle#begin()
   Plugin 'hackaugusto/Vundle.vim'
+  Plugin 'editorconfig/editorconfig-vim'
 
   " AUTOCOMPLETE
   " Plugin 'Shougo/neocomplete.vim'
