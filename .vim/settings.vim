@@ -66,6 +66,10 @@ let g:ycm_filetype_specific_completion_to_disable = {
 let g:ycm_semantic_triggers =  {
   \ 'rust': ['.', '::']
   \}
+" right now ycm is using too much memory (about 4G), and it's unusable
+let g:ycm_filetype_blacklist = {
+  \ 'python' : 1,
+  \}
 
 " ycm compatibility
 let g:EclimCompletionMethod = 'omnifunc'
