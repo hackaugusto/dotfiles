@@ -141,6 +141,8 @@ archlinux() {
         moreutils
         pigz
 
+        abs
+
         base-devel
         boost
         bsdiff
@@ -200,7 +202,7 @@ archlinux() {
     else
         info "All official packages are installed"
     fi
-    
+
     # anything bellow needs to run unprivileged, mostly because of makepkg
     [ $UID = 0 ] && return
 

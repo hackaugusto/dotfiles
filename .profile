@@ -29,12 +29,26 @@ gpgagent() {
     return 1
 }
 
+set_if_exists() {
+    variable=$1
+    value=$2
+
+    # cant use double indirection because of syntax differences between bash
+    # and zsh
+    eval "[ -z \"\${$variable}\" -a -x '$value' ] && $variable=$value"
+}
+
 # TODO: try keychain and envoy
 keyagent() {
-    # SSH_ASKPASS -> seahorse-ssh-askpass, openssh-askpass, x11-ssh-askpass
     # ssh-keygen -t rsa -b 4096 -C "$(whoami)@$(hostname)-$(date -I)"
     local gnupginf sshsocket
     sshsocket=${XDG_RUNTIME_DIR:-/run}/ssh-agent.socket
+
+    # package seahorse 3.18.0-2 doesnt set SSH_ASKPASS
+    set_if_exists SSH_ASKPASS /usr/lib/seahorse/seahorse-ssh-askpass
+    set_if_exists SSH_ASKPASS /usr/bin/qt4-ssh-askpass
+    set_if_exists SSH_ASKPASS /usr/bin/openssh-askpass
+    set_if_exists SSH_ASKPASS /usr/bin/x11-ssh-askpass
 
     [ ! -z "${SSH_AUTH_SOCK}" ] && return
 
