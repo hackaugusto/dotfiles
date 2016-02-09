@@ -200,6 +200,9 @@ archlinux() {
     else
         info "All official packages are installed"
     fi
+    
+    # anything bellow needs to run unprivileged, mostly because of makepkg
+    [ $UID = 0 ] && return
 
     if ! bin aura; then
         require_bin curl
