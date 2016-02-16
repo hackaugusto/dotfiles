@@ -65,6 +65,12 @@ repo() {
     [ -d $directory ] && (cd $directory && \git pull)
 }
 
+is_readable() {
+    [ $# -ne 1 ] && die "is_readable needs one arguments (got $#): repo [path]"
+
+    [ -r $1 ] && error "$1 is not readable"
+}
+
 archlinux() {
     root=''
     [ $UID = 0 ] || root='sudo'
@@ -95,7 +101,10 @@ archlinux() {
 
         chromium
         evince
+        feh
         firefox
+        gimp
+        nautilus
         numlockx
         obconf
         openbox
@@ -126,10 +135,14 @@ archlinux() {
         fortune-mod
         gvim
         htop
+        iotop
+        moreutils
         mosh
         ncdu
+        pigz
         rxvt-unicode
         scrot
+        smartmontools
         sudo
         the_silver_searcher
         tmux
@@ -138,10 +151,9 @@ archlinux() {
         wget
         zip
         zsh
-        moreutils
-        pigz
 
         abs
+        arch-install-scripts
 
         base-devel
         boost
@@ -164,9 +176,13 @@ archlinux() {
         graphviz
         lapack
         ltrace
+        lua
         net-tools
+        mono
+        npm
         openssh
         parallel
+        patchutils
         perf
         pssh
         pypy
@@ -206,9 +222,6 @@ archlinux() {
     # anything bellow needs to run unprivileged, mostly because of makepkg
     [ $UID = 0 ] && return
 
-    # anything bellow needs to run unprivileged, mostly because of makepkg
-    [ $UID = 0 ] && return
-
     if ! bin aura; then
         require_bin curl
         $root bash <(curl aur.sh) -S aura-bin
@@ -216,16 +229,18 @@ archlinux() {
 
     if bin aura; then
         # ttf-google-fonts-git
+        # reflector
+        # terraform
+        # fzf
+        # fzf-extras-git
+        # packer-io
         aur_packages=( \
+            secp256k1-git
+            chromium-pepper-flash-dev
             powerpill
-            reflector
             neovim-git
             python2-neovim-git
             notify-osd-customizable
-            packer-io
-            terraform
-            fzf
-            fzf-extras-git
             rust-src
             rust-racer
             bear
@@ -394,3 +409,10 @@ $SUDO grep -i '^en_us.utf-?8' /etc/locale.gen || {
     erro 'Missing /etc/localtime file'
     info 'ln -s /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime'
 }
+
+is_readable /etc/hostname
+is_readable /etc/locale.conf
+is_readable /var
+is_readable /var/lib
+is_readable /var/lib/pacman/local/ALPM_DB_VERSION
+is_readable /var/log
