@@ -44,11 +44,12 @@ if ! zgen saved; then
     # zgen load vifon/deer
 
     # TODO: PR for zgen support
+    # Force the use of ucs4 because arch's is compiled with it
     #
-    # pyenv install 2.7.8
-    # pyenv install 3.5.1
-    # VERSION_ALIAS="2.7.8-debug" PYTHON_CONFIGURE_OPTS="--with-pydebug" pyenv install 2.7
-    # VERSION_ALIAS="3.5.1-debug" PYTHON_CONFIGURE_OPTS="--with-pydebug" pyenv install 3.5.1
+    # PYTHON_CONFIGURE_OPTS="--enable-shared --enable-unicode=ucs4" pyenv install 2.7.8
+    # PYTHON_CONFIGURE_OPTS="--enable-shared --enable-unicode=ucs4" pyenv install 3.5.1
+    # VERSION_ALIAS="2.7.8-debug" PYTHON_CONFIGURE_OPTS="--with-pydebug --enable-shared --enable-unicode=ucs4" pyenv install 2.7
+    # VERSION_ALIAS="3.5.1-debug" PYTHON_CONFIGURE_OPTS="--with-pydebug --enable-shared --enable-unicode=ucs4" pyenv install 3.5.1
     #
     # git clone https://github.com/haypo/pytracemalloc.git
     # cat pytracemalloc/patches/2.7/pep445.patch | filterdiff --strip=1 | VERSION_ALIAS="2.7.8-trace" PYTHON_CONFIGURE_OPTS="--with-pydebug --enable-shared --enable-unicode=ucs4" pyenv install -p -v 2.7.8

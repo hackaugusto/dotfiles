@@ -19,7 +19,7 @@ call vundle#begin()
 
   " AUTOCOMPLETE
   " Plugin 'Shougo/neocomplete.vim'
-  " Plugin 'Valloric/YouCompleteMe'         " installed through pacman
+  " Plugin 'Valloric/YouCompleteMe'         " installed through pacman/AUR
   Plugin 'davidhalter/jedi-vim'             " ycm installs the jedi library, not the vim plugin
                                             " using function signature and jumping around (could use :YcmCompleter GoToDefinition)
   " Plugin 'ervandew/supertab'              " supertab conflicts with ultisnips and YouCompleteMe superseeds it

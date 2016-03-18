@@ -136,13 +136,17 @@ archlinux() {
         gvim
         htop
         iotop
+        jq
+        lib32-alsa-plugins
         moreutils
         mosh
         ncdu
+        octave
         pigz
         rxvt-unicode
         scrot
         smartmontools
+        steam
         sudo
         the_silver_searcher
         tmux
@@ -151,9 +155,12 @@ archlinux() {
         wget
         zip
         zsh
+        gnu-netcat
 
         abs
         arch-install-scripts
+
+        tk # required by gitk
 
         base-devel
         boost
@@ -174,11 +181,12 @@ archlinux() {
         gdb
         git
         graphviz
+        kdesdk-kcachegrind
         lapack
         ltrace
         lua
-        net-tools
         mono
+        net-tools
         npm
         openssh
         parallel
@@ -192,20 +200,20 @@ archlinux() {
         python2-virtualenv
         python-virtualenv
         python-virtualenvwrapper
-        re2c
         re2
+        re2c
         rust
         seahorse
         strace
         sysstat
         tig
+        uwsgi
+        uwsgi-plugin-pypy
+        uwsgi-plugin-python
+        uwsgi-plugin-python2
         valgrind
         virtualbox
         virtualbox-guest-iso
-        uwsgi
-        uwsgi-plugin-python2
-        uwsgi-plugin-python
-        uwsgi-plugin-pypy
     )
 
     to_install=()
@@ -252,6 +260,8 @@ archlinux() {
             bear
             wrk
             wrk2-git
+            flamegraph-git
+            vim-youcompleteme-git
         )
 
         aur_to_install=()

@@ -7,9 +7,29 @@ snippet #! "#!" b
 $0
 endsnippet
 
+snippet coding "coding"
+# -*- coding: utf8 -*-
+endsnippet
+
 snippet ifmain "ifmain" b
 if __name__ == '__main__':
 	main($0)
+endsnippet
+
+snippet argpaser "argument parser essentials" b
+import argparse
+parser = argparse.ArgumentParser()
+parser.add_argument()
+args = parser.parse_args()
+endsnippet
+
+
+snippet main "ifmain with a parser" b
+if __name__ == '__main__':
+	import argparse
+	parser = argparse.ArgumentParser()
+	parser.add_argument()
+	args = parser.parse_args()
 endsnippet
 
 snippet for "for" b
@@ -21,6 +41,17 @@ snippet class "class" b
 class ${1:Class}(${2:object}):
 	def __init__(self$3):
 		${4:pass}
+endsnippet
+
+snippet def "function" b
+def ${1:function}(${2:arguments}):
+	${3:${VISUAL:pass}}
+endsnippet
+
+snippet postmortem "postmortem" b
+try:
+except:
+    import pdb; pdb.post_mortem()
 endsnippet
 
 snippet slotclass "class with slots" b
@@ -229,16 +260,6 @@ def __index__(self):
 def __coerce__(self, other):
 	${25:pass}
 endsnippet
-
-snippet def "function with docstrings" b
-def ${1:function}(`!p
-if snip.indent:
-	snip.rv = 'self' + (", " if len(t[2]) else "")`${2:arg1}):
-	`!p snip.rv = triple_quotes(snip)`${4:TODO: Docstring for $1.}`!p
-write_function_docstring(t, snip) `
-	${5:${VISUAL:pass}}
-endsnippet
-
 
 snippet defc "class method with docstrings" b
 @classmethod

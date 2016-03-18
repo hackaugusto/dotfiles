@@ -96,6 +96,7 @@ let g:syntastic_mode_map = {
 " prefer the clang's compilation database
 let g:syntastic_cpp_clang_check_post_args = ""
 let g:syntastic_cpp_clang_tidy_post_args = ""
+" let g:syntastic_python_checkers = ["flake8", "pep8", "pyflakes", "python"]
 
 let g:neomru#file_mru_limit = 20            " use with -no-split
 
