@@ -53,6 +53,8 @@ set_if_exists() {
 
 # TODO: try keychain and envoy
 keyagent() {
+    # don't forget to add the key with ssh-add
+
     # ssh-keygen -t rsa -b 4096 -C "$(whoami)@$(hostname)-$(date -I)"
     local gnupginf sshsocket
     sshsocket=${XDG_RUNTIME_DIR:-/run}/ssh-agent.socket

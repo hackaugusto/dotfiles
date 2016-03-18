@@ -234,6 +234,12 @@ archlinux() {
         # fzf
         # fzf-extras-git
         # packer-io
+
+        # to compile vim-youcompleteme-git Hans Wennborg needs to be added into
+        # the keyring:
+        #
+        # http://llvm.org/releases/download.html#3.7.0 PGP sig (Hans Wennborg <hans@chromium.org> 0x0FC3042E345AD05D)
+        # gpg --recv-keys 0fc3042e345ad05d
         aur_packages=( \
             secp256k1-git
             chromium-pepper-flash-dev
@@ -288,6 +294,9 @@ link .profile
 link .zprofile
 link .zshrc
 link .zsh
+
+link .gnupg/gpg.conf
+link .gnupg/gpg-agent.conf
 
 link .xinitrc
 link .xbindkeysrc
