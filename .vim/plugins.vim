@@ -85,7 +85,7 @@ call vundle#begin()
   Plugin 'hackaugusto/javascript.vim'
   Plugin 'hail2u/vim-css3-syntax'
   Plugin 'HTML-AutoCloseTag'
-  Plugin 'jeaye/color_coded'
+  " Plugin 'jeaye/color_coded'
   Plugin 'jneen/ragel.vim'
   Plugin 'nathanaelkane/vim-indent-guides'
   Plugin 'netrw.vim'

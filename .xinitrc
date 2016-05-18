@@ -12,6 +12,7 @@ fi
 xsetroot -cursor_name left_ptr
 xset +fp /usr/share/fonts/local
 xset fp rehash
+xset -b
 numlockx &
 
 [[ -f $HOME/.Xresources ]] && xrdb -I$HOME ~/.Xresources

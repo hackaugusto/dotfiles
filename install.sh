@@ -36,6 +36,7 @@ require_bin() {
     }
 }
 
+# TODO: warn if the file exists and it is NOT a link
 link() {
     [ $# -lt 1 -o $# -gt 2 ] && die "link needs one or two arguments (got $#): link <file> [destination]"
 
@@ -71,7 +72,7 @@ is_readable() {
     [ -r $1 ] && error "$1 is not readable"
 }
 
-archlinux() {
+arch_pacman() {
     root=''
     [ $UID = 0 ] || root='sudo'
 
@@ -99,7 +100,14 @@ archlinux() {
         xorg-fonts-encodings
         xorg-fonts-misc
 
+        acpi
+        iw
+        wireless_tools
+        ifplugd
+        wpa_actiond
+
         chromium
+        dialog
         evince
         feh
         firefox
@@ -108,9 +116,7 @@ archlinux() {
         numlockx
         obconf
         openbox
-        texlive-most
         xclip
-        xorg
         xorg-xinit
 
         alsa-oss
@@ -119,11 +125,6 @@ archlinux() {
         flashplugin
         gecko-mediaplayer
         gst-libav
-        gst-plugins-bad
-        gst-plugins-base
-        gst-plugins-good
-        gst-plugins-ugly
-        gstreamer0.10-plugins
         lib32-flashplugin
         mplayer
         pulseaudio
@@ -162,7 +163,6 @@ archlinux() {
 
         tk # required by gitk
 
-        base-devel
         boost
         bsdiff
         cargo
@@ -171,7 +171,7 @@ archlinux() {
         clang-tools-extra
         colordiff
         ctags
-        dnsutils
+        cmake
         docker
         docker-compose
         dwdiff
@@ -180,11 +180,14 @@ archlinux() {
         gcc-fortran
         gdb
         git
+        go
         graphviz
         kdesdk-kcachegrind
         lapack
         ltrace
         lua
+        luajit
+        llvm
         mono
         net-tools
         npm
@@ -215,6 +218,16 @@ archlinux() {
         virtualbox
         virtualbox-guest-iso
     )
+    # pacman -Qq won't know that the group was installed
+    # texlive-most
+    # xorg
+    # gst-plugins-bad
+    # gst-plugins-base
+    # gst-plugins-good
+    # gst-plugins-ugly
+    # gstreamer0.10-plugins
+    # dnsutils
+    # base-devel
 
     to_install=()
     for pack in $packages; do
@@ -226,13 +239,16 @@ archlinux() {
     else
         info "All official packages are installed"
     fi
+}
 
+arch_aur(){
     # anything bellow needs to run unprivileged, mostly because of makepkg
     [ $UID = 0 ] && return
 
     if ! bin aura; then
         require_bin curl
-        $root bash <(curl aur.sh) -S aura-bin
+        bash <(curl aur.sh) -S aura-bin
+        $root pacman -U aura-bin/*.pkg.*
     fi
 
     if bin aura; then
@@ -242,6 +258,9 @@ archlinux() {
         # fzf
         # fzf-extras-git
         # packer-io
+        # powerpill
+        # neovim-git
+        # python2-neovim-git
 
         # to compile vim-youcompleteme-git Hans Wennborg needs to be added into
         # the keyring:
@@ -251,9 +270,6 @@ archlinux() {
         aur_packages=( \
             secp256k1-git
             chromium-pepper-flash-dev
-            powerpill
-            neovim-git
-            python2-neovim-git
             notify-osd-customizable
             rust-src
             rust-racer
@@ -266,14 +282,8 @@ archlinux() {
 
         aur_to_install=()
         for aur in $aur_packages; do
-            pacman -Qq $aur > /dev/null 2>&1 || aur_to_install+=("$aur")
+            pacman -Qq $aur > /dev/null 2>&1 || $root aura -A $aur
         done
-
-        if [ "${#aur_to_install}" -gt 0 ]; then
-            $root aura -A $aur_to_install
-        else
-            info "All aur packages are installed"
-        fi
     fi
 }
 
@@ -286,10 +296,6 @@ while getopts "f" opt; do
     esac
 done
 shift $(($OPTIND-1))
-
-if bin pacman; then
-    archlinux
-fi
 
 require_bin git
 require_bin vim
@@ -305,8 +311,8 @@ link .zprofile
 link .zshrc
 link .zsh
 
-link .gnupg/gpg.conf
-link .gnupg/gpg-agent.conf
+# link .gnupg/gpg.conf
+# link .gnupg/gpg-agent.conf
 
 link .xinitrc
 link .xbindkeysrc
@@ -318,7 +324,6 @@ link .Xresources.d
 # link /etc/fonts/conf.avail/10-sub-pixel-rgb.conf .config/fontconfig/conf.d/10-sub-pixel-rgb.conf
 
 link .bin
-link .gitignore_global
 link .pdbrc
 link .gdbinit
 link .pythonrc
@@ -326,10 +331,33 @@ link .xmonad
 link .screenrc
 link .tmux.conf
 
+# git config --global core.excludesfile '~/.gitignore_global'
+link .gitignore_global
+
 link .vim
 link .vimrc
 link .vim .nvim
 link .vimrc .nvimrc
+
+mkdir -p ${HOME}/.emacs.d
+link .emacs.d/init.el
+link .emacs.d/Cask
+
+mkdir -p ${HOME}/.config
+link .config/flake8
+link .config/user-dirs.dirs
+
+mkdir -p ${HOME}/.config/openbox
+link .config/openbox/autostart.sh
+link .config/openbox/multimonitor.xml
+link .config/openbox/rc.xml
+
+# Depedencies for compilation
+if bin pacman; then
+    arch_pacman
+fi
+
+# Anything that needs to be compiles goes after here
 
 msg 'Vim plugins'
 repo 'https://github.com/hackaugusto/Vundle.vim.git' "${HOME}/.vim/bundle/Vundle.vim"
@@ -347,6 +375,7 @@ done
 info 'color_coded'
 (
     cd ~/.vim/bundle/color_coded
+    [ -d ./build ] && rm -rf ./build
     mkdir build
     cd build
     cmake ..
@@ -356,21 +385,8 @@ info 'color_coded'
     make clean_clang
 )
 
-mkdir -p ${HOME}/.emacs.d
-link .emacs.d/init.el
-link .emacs.d/Cask
-
 repo 'https://github.com/cask/cask.git' "${HOME}/.cask"
 (cd ${HOME}/.emacs.d/; ${HOME}/.cask/bin/cask install)
-
-mkdir -p ${HOME}/.config
-link .config/flake8
-link .config/user-dirs.dirs
-
-mkdir -p ${HOME}/.config/openbox
-link .config/openbox/autostart.sh
-link .config/openbox/multimonitor.xml
-link .config/openbox/rc.xml
 
 if bin pacman; then
     echo
@@ -386,6 +402,8 @@ if bin pacman; then
     echo 'Server = http://xyne.archlinux.ca/repos/xyne'
     echo
     echo
+
+    arch_aur
 fi
 
 SUDO=''
@@ -404,7 +422,7 @@ $SUDO grep -i '^en_us.utf-?8' /etc/locale.gen || {
 [ ! -e /etc/locale.conf ] && {
     echo
     echo 'Run the following command to set the system locale'
-    msg 'localectl set-locale en_us.utf8'
+    msg 'localectl set-locale LANG=en_US.UTF-8'
     echo
     echo
     echo 'Run the following command to set X.org keymap'
