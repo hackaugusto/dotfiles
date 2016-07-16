@@ -7,6 +7,8 @@ function deduplicate_path() {
     echo "${${=PATH}:|duplicates}:${duplicates}"
 }
 
+export PASSWORD_STORE_DIR="${HOME}/.data/password"
+
 export BROWSER='less'
 # export BROWSER='most -s'
 export ACK_PAGER_COLOR="less -x4SRFX"

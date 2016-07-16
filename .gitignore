@@ -19,6 +19,8 @@
 *.errors
 tags
 
+.ptpython/history
+
 # xmonad binary
 xmonad-x86_64-linux
 

@@ -189,7 +189,8 @@ function smart_listing(){
 }
 alias ls=smart_listing
 
-(( $+commands[ptpython] )) && alias python=ptpython
+# this confuses pyenv and setup.py cannot be executed corretly by ptpython
+# (( $+commands[ptpython] )) && alias python=ptpython
 
 # function catwrapper(){
 #     prog=$1; shift;
