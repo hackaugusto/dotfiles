@@ -35,7 +35,8 @@ gpgagent() {
 
     [ -e $HOME/.gnupg/S.gpg-agent.ssh ] && {
         unset SSH_AGENT_PID
-        export SSH_AUTH_SOCK="${HOME}/.gnupg/S.gpg-agent.ssh"
+        # export SSH_AUTH_SOCK="${HOME}/.gnupg/S.gpg-agent.ssh"
+        export SSH_AUTH_SOCK="/run/user/$UID/gnupg/S.gpg-agent.ssh"
         return
     }
 
