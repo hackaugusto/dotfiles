@@ -1,29 +1,35 @@
 # -*- ksh -*-
-#
-# If you use the GNU debugger gdb to debug the Python C runtime, you
-# might find some of the following commands useful.  Copy this to your
-# ~/.gdbinit file and it'll get loaded into gdb automatically when you
-# start it up.  Then, at the gdb prompt you can do things like:
-#
-#    (gdb) pyo apyobjectptr
-#    <module 'foobar' (built-in)>
-#    refcounts: 1
-#    address    : 84a7a2c
-#    $1 = void
-#    (gdb)
+
+# set width 0
+set prompt \033[0;33m(gdb)\033[0m 
+set confirm off
+set pagination off
+set print pretty on
+set history save on
+
+define ll
+    list *$pc
+end
 
 # Prints a representation of the object to stderr, along with the
 # number of reference counts it current has and the hex address the
 # object is allocated at.  The argument must be a PyObject*
+#
+# (gdb) pyo apyobjectptr
+# <module 'foobar' (built-in)>
+# refcounts: 1
+# address    : 84a7a2c
+# $1 = void
+# (gdb)
 define pyo
-print _PyObject_Dump($arg0)
+    print _PyObject_Dump($arg0)
 end
 
 # Prints a representation of the object to stderr, along with the
 # number of reference counts it current has and the hex address the
 # object is allocated at.  The argument must be a PyGC_Head*
 define pyg
-print _PyGC_Dump($arg0)
+    print _PyGC_Dump($arg0)
 end
 
 # print the local variables of the current frame
@@ -85,19 +91,6 @@ define pyframe
 #    printf ":1\n"
 end
 
-### Use these at your own risk.  It appears that a bug in gdb causes it
-### to crash in certain circumstances.
-
-#define up
-#    up-silently 1
-#    printframe
-#end
-
-#define down
-#    down-silently 1
-#    printframe
-#end
-
 define printframe
     if $pc > PyEval_EvalFrameEx && $pc < PyEval_EvalCodeEx
     pyframe
@@ -146,14 +139,41 @@ define pystackv
 end
 
 # generally useful macro to print a Unicode string
-def pu
-  set $uni = $arg0
-  set $i = 0
-  while (*$uni && $i++<100)
-    if (*$uni < 0x80)
-      print *(char*)$uni++
-    else
-      print /x *(short*)$uni++
+define pu
+    set $uni = $arg0
+    set $i = 0
+    while (*$uni && $i++<100)
+        if (*$uni < 0x80)
+            print *(char*)$uni++
+        else
+            print /x *(short*)$uni++
+        end
     end
-  end
+end
+
+shell test -e /tmp/gdb_color && rm /tmp/gdb_color
+shell mkfifo /tmp/gdb_color
+
+define hook-quit
+    shell rm -f /tmp/gdb_color
+end
+
+define color_on
+    set logging redirect on
+    set logging on /tmp/gdb_color
+end
+
+define color_off
+    set logging off
+    set logging redirect off
+    # wait for the pygmentize to return
+    shell sleep 1
+end
+
+define hook-list
+    shell cat /tmp/gdb_color | pygmentize -lcpp &
+    color_on
+end
+define hookpost-list
+    color_off
 end

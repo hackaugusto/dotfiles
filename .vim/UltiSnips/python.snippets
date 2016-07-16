@@ -16,13 +16,20 @@ if __name__ == '__main__':
 	main($0)
 endsnippet
 
+snippet pdb "Set PDB breakpoint" b
+import pdb; pdb.set_trace()
+endsnippet
+
+snippet ipdb "Set IPDB breakpoint" b
+import ipdb; ipdb.set_trace()
+endsnippet
+
 snippet argpaser "argument parser essentials" b
 import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument()
 args = parser.parse_args()
 endsnippet
-
 
 snippet main "ifmain with a parser" b
 if __name__ == '__main__':
@@ -51,7 +58,7 @@ endsnippet
 snippet postmortem "postmortem" b
 try:
 except:
-    import pdb; pdb.post_mortem()
+    import pdb; pdb.xpm()  # requires pdb++
 endsnippet
 
 snippet slotclass "class with slots" b
@@ -389,23 +396,6 @@ finally:
 	${7:pass}
 endsnippet
 
-
-#####################
-# Assertions & Tests #
-#####################
-
-snippet pdb "Set PDB breakpoint" b
-import pdb; pdb.set_trace()
-endsnippet
-
-snippet ipdb "Set IPDB breakpoint" b
-import ipdb; ipdb.set_trace()
-endsnippet
-
-snippet pudb "Set PUDB breakpoint" b
-import pudb; pudb.set_trace()
-endsnippet
-
 snippet ae "Assert equal" b
 self.assertEqual(${1:${VISUAL:first}},${2:second})
 endsnippet
@@ -466,4 +456,3 @@ snippet doc "doc block (triple quotes)"
 ${1:${VISUAL:doc}}
 `!p snip.rv = triple_quotes(snip)`
 endsnippet
-

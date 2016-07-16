@@ -50,26 +50,26 @@ let g:UltiSnipsJumpBackwardTrigger = '<s-tab>'
 
 " stoped using neocomplete in favor of YouCompleteMe
 " call neocomplete#initialize()
-"let g:ycm_filetype_whitelist = {'noop': 1}       " disable for everything while testing neocomplete
+"let g:ycm_filetype_whitelist = {'noop': 1}               " disable for everything while testing neocomplete
 
-let g:ycm_key_detailed_diagnostics = ''           " using <leader>d from jedi
-let g:ycm_key_invoke_completion = ''              " using completion on two characters and on semantic characters
+let g:ycm_key_detailed_diagnostics = ''                   " using <leader>d from jedi
+let g:ycm_key_invoke_completion = ''                      " using completion on two characters and on semantic characters
 let g:ycm_complete_in_comments = 0
 let g:ycm_collect_identifiers_from_tags_files = 1
 let g:ycm_seed_identifiers_with_syntax = 1
-let g:ycm_add_preview_to_completeopt = 0          " disable docs
+let g:ycm_add_preview_to_completeopt = 0                  " disable docs
 let g:ycm_server_keep_logfiles = 0
 let g:ycm_server_log_level = 'info'
+let g:ycm_server_python_interpreter = '/usr/bin/python2'  " skip pyenv's shims (ycm prefers py2, if using a py3 env it will fail)
 let g:ycm_filetype_specific_completion_to_disable = {
   \ 'java': 1
   \}
 let g:ycm_semantic_triggers =  {
   \ 'rust': ['.', '::']
   \}
-" right now ycm is using too much memory (about 4G), and it's unusable
-let g:ycm_filetype_blacklist = {
-  \ 'python' : 1,
-  \}
+" let g:ycm_filetype_blacklist = {
+"   \ 'python' : 1,
+"   \}
 
 " ycm compatibility
 let g:EclimCompletionMethod = 'omnifunc'
@@ -96,7 +96,7 @@ let g:syntastic_mode_map = {
 " prefer the clang's compilation database
 let g:syntastic_cpp_clang_check_post_args = ""
 let g:syntastic_cpp_clang_tidy_post_args = ""
-" let g:syntastic_python_checkers = ["flake8", "pep8", "pyflakes", "python"]
+let g:syntastic_python_checkers = ['pep8', 'pyflakes', 'python']  " disable flake8
 
 let g:neomru#file_mru_limit = 20            " use with -no-split
 

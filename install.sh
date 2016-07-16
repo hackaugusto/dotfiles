@@ -85,6 +85,23 @@ arch_pacman() {
     # docker:
     #   systemctl enable docker.socket
     #   gpasswd -a <user>  docker
+    #
+    # pacman -Qq won't know that the group was installed
+    # texlive-most
+    # xorg
+    # gst-plugins-bad
+    # gst-plugins-base
+    # gst-plugins-good
+    # gst-plugins-ugly
+    # gstreamer0.10-plugins
+    # dnsutils
+    # base-devel
+    #
+    # network managers:
+    # wicd / networkmanager
+    #
+    # network monitor:
+    # darkstat
     packages=( \
         cantarell-fonts
         font-mathematica
@@ -112,12 +129,18 @@ arch_pacman() {
         feh
         firefox
         gimp
+        libreoffice
         nautilus
         numlockx
         obconf
         openbox
+        pass
         xclip
         xorg-xinit
+
+        wine
+        winetricks
+        # winetricks corefonts
 
         alsa-oss
         alsa-tools
@@ -133,12 +156,15 @@ arch_pacman() {
         youtube-viewer
 
         emacs
+        expect
         fortune-mod
+        gnu-netcat
         gvim
         htop
         iotop
         jq
         lib32-alsa-plugins
+	    lua-lpeg
         moreutils
         mosh
         ncdu
@@ -153,10 +179,10 @@ arch_pacman() {
         tmux
         tree
         unzip
+	    vis
         wget
         zip
         zsh
-        gnu-netcat
 
         abs
         arch-install-scripts
@@ -178,7 +204,9 @@ arch_pacman() {
         fossil
         ftjam
         gcc-fortran
+        gcc-multilib
         gdb
+        lldb
         git
         go
         graphviz
@@ -188,6 +216,7 @@ arch_pacman() {
         lua
         luajit
         llvm
+        lsof
         mono
         net-tools
         npm
@@ -196,6 +225,7 @@ arch_pacman() {
         patchutils
         perf
         pssh
+        pygmentize
         pypy
         pypy3
         python
@@ -218,16 +248,6 @@ arch_pacman() {
         virtualbox
         virtualbox-guest-iso
     )
-    # pacman -Qq won't know that the group was installed
-    # texlive-most
-    # xorg
-    # gst-plugins-bad
-    # gst-plugins-base
-    # gst-plugins-good
-    # gst-plugins-ugly
-    # gstreamer0.10-plugins
-    # dnsutils
-    # base-devel
 
     to_install=()
     for pack in $packages; do
@@ -268,16 +288,23 @@ arch_aur(){
         # http://llvm.org/releases/download.html#3.7.0 PGP sig (Hans Wennborg <hans@chromium.org> 0x0FC3042E345AD05D)
         # gpg --recv-keys 0fc3042e345ad05d
         aur_packages=( \
-            secp256k1-git
-            chromium-pepper-flash-dev
-            notify-osd-customizable
-            rust-src
-            rust-racer
             bear
+            chromium-pepper-flash-dev
+            # colout-git - using pygmentize directly
+            dropbox
+            flamegraph-git
+            neovim-git
+            notify-osd-customizable
+            powerpill
+            python2-neovim-git
+            rust-racer
+            rust-src
+            rr
+            secp256k1-git
+            vim-youcompleteme-git
             wrk
             wrk2-git
-            flamegraph-git
-            vim-youcompleteme-git
+            pup-git
         )
 
         aur_to_install=()
@@ -326,6 +353,7 @@ link .Xresources.d
 link .bin
 link .pdbrc
 link .gdbinit
+link .gdbpython
 link .pythonrc
 link .xmonad
 link .screenrc
