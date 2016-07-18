@@ -1,0 +1,100 @@
+# vim:set ft=gdb sts=4 sw=4 ts=4:
+
+define pyb
+    break PyEval_EvalFrameEx if (strcmp((((PyStringObject *)(PyEval_EvalFrameEx::f->f_code->co_name))->ob_sval), $arg0) == 0)
+end
+
+define pyp
+    pyprint $arg0
+end
+
+define pygc
+    print _PyGC_Dump($arg0)
+end
+
+define pyprint
+    # assigning just prevents gdb from printing the NULL return value
+    set $__pyunusedvoid = _PyObject_Dump($arg0)
+end
+
+define pylineno
+    py-find-lineno f
+    printf "%d\n", $__pylinenumber
+end
+
+define pyunicode
+  set $__pyunicode = $arg0 
+
+  set $__i = 0
+  while (*$__pyunicode && $__i++ < 100)
+    if (*$__pyunicode < 0x80) 
+        print *(char*)$__pyunicode++
+    else
+        print /x *(short*)$__pyunicode++
+    end
+  end
+end
+
+define pyframe
+    set $__pyframe = $arg0
+    set $__pycode = $__pyframe->f_code
+    set $__pynames = $__pycode->co_varnames
+
+    py-find-lineno $__pyframe
+
+    set $__filename = (char *)((PyStringObject *)$__pycode->co_filename)->ob_sval
+    set $__function = (char *)((PyStringObject *)$__pycode->co_name)->ob_sval
+    printf "%s (%d): %s\n", $__filename, $__pylinenumber , $__function
+
+    set $__i = 0
+    while $__i < $__pycode->co_nlocals
+        if $__pyframe->f_localsplus + $_i != 0
+            set $__pylocal = PyTuple_GetItem($__pynames, $__i)
+            set $__pyname = PyString_AsString($__pylocal)
+
+            printf "%s:\n", $__pyname
+            pyp $__pyframe->f_localsplus[$__i]
+        end
+
+        set $__i = $__i + 1
+    end
+end
+
+define pystack
+    while $pc < Py_Main || $pc > Py_GetArgcArgv
+        if $pc > PyEval_EvalFrameEx && $pc < PyEval_EvalCodeEx
+            set $frame = f
+            pyframe $frame
+        else
+            frame
+        end
+        up-silently 1
+    end
+    select-frame 0
+end
+
+define py-find-lineno
+    set $__pyframe = $arg0
+
+    set $__continue = 1
+    set $__pycode = $__pyframe->f_code
+    set $__lasti = $__pyframe->f_lasti
+    set $__sz = ((PyStringObject *)$__pycode->co_lnotab)->ob_size/2
+    set $__p = (unsigned char *)((PyStringObject *)$__pycode->co_lnotab)->ob_sval
+    set $__ad = 0
+
+    set $__pylinenumber = $__pycode->co_firstlineno
+
+    while ($__sz-1 >= 0 && $__continue)
+      set $__sz = $__sz - 1
+      set $__ad = $__ad + *$__p
+      set $__p = $__p + 1
+
+      if ($__ad > $__lasti)
+	    set $__continue = 0
+      else
+        set $__pylinenumber = $__pylinenumber + *$__p
+        set $__p = $__p + 1
+      end
+    end
+end

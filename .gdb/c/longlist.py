@@ -1,4 +1,4 @@
-python
+#!/usr/bin/python
 # vim:ft=python ts=4 sw=4 sts=4:
 import os
 import os.path
@@ -16,7 +16,7 @@ import sys
 #     sys.path.append(lib_path)
 
 
-from pycparser import parse_file, c_generator
+from pycparser import parse_file, c_parser, c_generator
 import pygments.lexers
 import pygments.formatters
 
@@ -31,18 +31,19 @@ class LongList(gdb.Command):
         try:
             sal = gdb.selected_frame().find_sal()
         except gdb.error:
-            gdb.write('No frame is currently selected')
+            gdb.write('No frame is currently selected\n')
             return
 
         filename = sal.symtab.fullname()
         linenum = sal.line
 
         if filename is None:
-            gdb.write('Unknow current file')
+            gdb.write('Unknow current file\n')
             return
 
-        function = gdb.newest_frame().function()
+        function = gdb.newest_frame().function().name
 
+        # gdb.write('{}:{}:{}'.format(filename, function, linenum))
         if os.path.exists(filename) and filename.endswith('.c'):
             with open(filename) as code_handler:
                 code = code_handler.read()

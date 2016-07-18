@@ -1,0 +1,6 @@
+# vim:set ft=gdb sts=4 sw=4 ts=4:
+
+# TODO: improve longlist and use it instead
+define ll
+    list *$pc
+end

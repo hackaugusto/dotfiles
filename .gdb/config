@@ -1,0 +1,13 @@
+# vim:set ft=gdb sts=4 sw=4 ts=4:
+
+# this breaks command listing
+# set width 0
+
+# this breaks with layout asm
+# set prompt \033[0;33m(gdb)\033[0m 
+
+set confirm off
+set breakpoint pending on
+set pagination off
+set print pretty on
+set history save on

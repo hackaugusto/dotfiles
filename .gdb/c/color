@@ -1,0 +1,30 @@
+# vim:set ft=gdb sts=4 sw=4 ts=4:
+
+# run the listing throught pygmentize
+
+shell test -e /tmp/gdb_color && rm /tmp/gdb_color
+shell mkfifo /tmp/gdb_color
+
+define hook-quit
+    shell rm -f /tmp/gdb_color
+end
+
+define color_on
+    set logging redirect on
+    set logging on /tmp/gdb_color
+end
+
+define color_off
+    set logging off
+    set logging redirect off
+    # wait for the pygmentize to return
+    shell sleep 1
+end
+
+define hook-list
+    shell cat /tmp/gdb_color | pygmentize -lcpp &
+    color_on
+end
+define hookpost-list
+    color_off
+end

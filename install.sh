@@ -352,12 +352,17 @@ link .Xresources.d
 
 link .bin
 link .pdbrc
-link .gdbinit
-link .gdbpython
 link .pythonrc
 link .xmonad
 link .screenrc
 link .tmux.conf
+
+link .gdbinit
+link ~/.gdb/config
+link ~/.gdb/c/locallist
+link ~/.gdb/c/color
+link ~/.gdb/c/longlist.py
+link ~/.gdb/py/libpython.py
 
 # git config --global core.excludesfile '~/.gitignore_global'
 link .gitignore_global
