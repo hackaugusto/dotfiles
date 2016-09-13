@@ -3,3 +3,4 @@ max-line-length = 160
 
 [pep8]
 max-line-length = 160
+ignore = E501

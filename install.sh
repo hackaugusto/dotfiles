@@ -155,6 +155,7 @@ arch_pacman() {
         youtube-dl
         youtube-viewer
 
+        aria2
         emacs
         expect
         fortune-mod
@@ -179,6 +180,7 @@ arch_pacman() {
         tmux
         tree
         unzip
+        unrar
 	    vis
         wget
         zip
@@ -189,6 +191,7 @@ arch_pacman() {
 
         tk # required by gitk
 
+        apache
         boost
         bsdiff
         cargo
@@ -206,6 +209,7 @@ arch_pacman() {
         gcc-fortran
         gcc-multilib
         gdb
+        grafana-bin
         lldb
         git
         go
@@ -220,6 +224,7 @@ arch_pacman() {
         mono
         net-tools
         npm
+        nginx
         openssh
         parallel
         patchutils
@@ -239,6 +244,8 @@ arch_pacman() {
         seahorse
         strace
         sysstat
+        siege
+        tidy
         tig
         uwsgi
         uwsgi-plugin-pypy
@@ -299,6 +306,7 @@ arch_aur(){
             python2-neovim-git
             rust-racer
             rust-src
+            jdk
             rr
             secp256k1-git
             vim-youcompleteme-git
@@ -378,6 +386,7 @@ link .emacs.d/Cask
 
 mkdir -p ${HOME}/.config
 link .config/flake8
+link .config/pep8
 link .config/user-dirs.dirs
 
 mkdir -p ${HOME}/.config/openbox

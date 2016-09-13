@@ -121,7 +121,7 @@
 ;(sackspace-global-mode t)
 (savehist-mode t)
 (show-paren-mode t)
-(smartparens-global-mode t)
+;(smartparens-global-mode t)
 (superword-mode t)
 
 ; _must_ be before (ido-mode t)

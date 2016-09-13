@@ -46,9 +46,9 @@ if ! zgen saved; then
     # TODO: PR for zgen support
     # Force the use of ucs4 because arch's is compiled with it
     #
-    # PYTHON_CONFIGURE_OPTS="--enable-shared --enable-unicode=ucs4" pyenv install 2.7.8
+    # PYTHON_CONFIGURE_OPTS="--enable-shared --enable-unicode=ucs4" pyenv install 2.7.11
     # PYTHON_CONFIGURE_OPTS="--enable-shared --enable-unicode=ucs4" pyenv install 3.5.1
-    # VERSION_ALIAS="2.7.8-debug" PYTHON_CONFIGURE_OPTS="--with-pydebug --enable-shared --enable-unicode=ucs4" pyenv install 2.7
+    # VERSION_ALIAS="2.7.11-debug" PYTHON_CONFIGURE_OPTS="--with-pydebug --enable-shared --enable-unicode=ucs4" CC=gcc PYTHON_CFLAGS="-Og -ggdb3" pyenv install 2.7.11
     # VERSION_ALIAS="3.5.1-debug" PYTHON_CONFIGURE_OPTS="--with-pydebug --enable-shared --enable-unicode=ucs4" pyenv install 3.5.1
     #
     # git clone https://github.com/haypo/pytracemalloc.git
