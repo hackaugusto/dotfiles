@@ -137,6 +137,9 @@ arch_pacman() {
         pass
         xclip
         xorg-xinit
+        cups
+        libreoffice-fresh
+        hplip
 
         wine
         winetricks
@@ -196,6 +199,8 @@ arch_pacman() {
         rust-racer
 
         apache
+        android-tools
+        android-udev
         boost
         bsdiff
         clang
@@ -396,6 +401,7 @@ git clone https://github.com/ProofGeneral/PG ~/.emacs.d/lisp/PG
 mkdir -p ${HOME}/.config
 link .config/flake8
 link .config/pep8
+link .config/pylintrc
 link .config/user-dirs.dirs
 
 mkdir -p ${HOME}/.config/openbox
