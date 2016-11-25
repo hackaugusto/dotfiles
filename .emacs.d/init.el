@@ -1,23 +1,3 @@
-(require 'cask "~/.cask/cask.el")
-(cask-initialize)
-(require 'evil)
-
-(load-theme 'wombat)
-(custom-set-faces
- '(elscreen-tab-background-face ((t nil)))
- '(elscreen-tab-control-face ((t nil)))
- '(elscreen-tab-current-screen-face ((t (:background "dim gray"))))
- '(elscreen-tab-other-screen-face ((t nil)))
- '(evil-search-highlight-persist-highlight-face ((t (:inherit isearch))))
- '(helm-selection ((t (:background "dim gray"))))
- '(helm-source-header ((t (:weight bold :height 1.3)))))
-
-(custom-set-variables
- '(evil-complete-next-line-func 'hippie-expand)
- '(evil-complete-previous-line-func 'hippie-expand)
- '(elscreen-tab-display-control nil)
- '(elscreen-tab-display-kill-screen nil))
-
 (defalias 'yes-or-no-p 'y-or-n-p)
 
 (defvar current-line 0)
@@ -101,26 +81,14 @@
   (while (search-forward "\r" nil nil)
     (replace-match "\\")))
 
-(menu-bar-mode -1)
-(scroll-bar-mode -1)
-(tool-bar-mode -1)
-(tooltip-mode -1)
-(blink-cursor-mode -1)
-
 (require 'expand-region)
 (require 'saveplace)
 
-(ac-config-default)
-(auto-complete-mode)
-(file-name-shadow-mode t)
-(line-number-mode t)
+;(line-number-mode t)
 ;gutter is clashing with relative number
 ;(global-git-gutter-mode t)
-(global-linum-mode)
-(key-chord-mode t)
+;(global-linum-mode)
 ;(sackspace-global-mode t)
-(savehist-mode t)
-(show-paren-mode t)
 ;(smartparens-global-mode t)
 (superword-mode t)
 
@@ -134,15 +102,9 @@
 
 ; _must_ be before (evil-mode t)
 (smex-initialize)
-(global-evil-surround-mode)
-(global-evil-leader-mode)
-(global-evil-tabs-mode t)
-(global-evil-search-highlight-persist t)
-(global-relative-line-numbers-mode t)
-(evil-leader/set-leader "SPC")
+;(global-relative-line-numbers-mode t)
 
 (ido-mode t)
-(evil-mode t)
 
 (prefer-coding-system 'utf-8)
 (add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
@@ -207,7 +169,7 @@
       save-place-file "~/.emacs.d/saveplace"
       save-place t
 
-      linum-format 'linum-format-func
+      ;linum-format 'linum-format-func
       tab-width 4
       truncate-lines t)
 
@@ -251,12 +213,13 @@
    (setq indent-tabs-mode -1))
  '(python-mode-hook inferior-python-mode-hook))
 
-(add-hook
- 'linum-before-numbering-hook
- (lambda ()
-   (setq-local linum-format-fmt
-	       (let ((width (length (number-to-string (count-lines (point-min) (point-max))))))
-		 (concat "%" (number-to-string width) "d")))))
+; (add-hook
+;  'linum-before-numbering-hook
+;  (lambda ()
+;    (setq-local linum-format-fmt
+;	       (let ((width (length (number-to-string (count-lines (point-min) (point-max))))))
+;		 (concat "%" (number-to-string width) "d")))))
+
 (add-hook
  'LaTeX-mode-hook
  (lambda ()

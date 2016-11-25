@@ -240,9 +240,12 @@ arch_pacman() {
         python2-virtualenv
         python-virtualenv
         python-virtualenvwrapper
+        ragel
         re2
         re2c
         rust
+        rustfmt
+        rust-racer
         seahorse
         strace
         sysstat
@@ -301,13 +304,13 @@ arch_aur(){
             chromium-pepper-flash-dev
             # colout-git - using pygmentize directly
             dropbox
+            otf-hack
             opam
             flamegraph-git
             neovim-git
             notify-osd-customizable
             powerpill
             python2-neovim-git
-            rust-racer
             rust-src
             jdk
             rr

@@ -2,6 +2,8 @@ if (( $+commands[npm] )); then
     eval "$(npm completion 2>/dev/null)"
 fi
 
+# TODO:
+# - update regularly (zgen update and ~/.pyenv/plugins git pull)
 if ! zgen saved; then
     echo "Creating a zgen save"
 
