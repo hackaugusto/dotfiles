@@ -133,6 +133,9 @@ configure_runtimes() {
         [ -d ~/.go ] && path_addonce_end "$GOPATH/bin"
     }
 
+    # OCAML
+    load ~/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
+
     # NODE
     bin npm && path_addonce_start "$(npm config get prefix)/bin"
 

@@ -201,6 +201,7 @@ arch_pacman() {
         colordiff
         ctags
         cmake
+        darcs
         docker
         docker-compose
         dwdiff
@@ -225,6 +226,7 @@ arch_pacman() {
         net-tools
         npm
         nginx
+        ocaml
         openssh
         parallel
         patchutils
@@ -299,6 +301,7 @@ arch_aur(){
             chromium-pepper-flash-dev
             # colout-git - using pygmentize directly
             dropbox
+            opam
             flamegraph-git
             neovim-git
             notify-osd-customizable
