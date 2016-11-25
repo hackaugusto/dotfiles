@@ -28,11 +28,12 @@ load /usr/share/zsh/plugins/zsh-syntax-highlight/zsh-syntax-highlighting.zsh
 require ~/.zsh/completion.sh
 require ~/.zsh/bindkey.sh
 
+# I don't read the fortunes that often and it is slowing down my tmux scripts
 # to run `xargs zsh -i -c "shell_function"` without showing fortune
-if [[ -z $_FORTUNE ]]; then
-    bin fortune && fortune
-    export _FORTUNE=1
-fi
+#if [[ -z $_FORTUNE ]]; then
+#    bin fortune && fortune
+#    export _FORTUNE=1
+#fi
 
 # OPAM configuration
 . ~/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
