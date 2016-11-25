@@ -19,4 +19,9 @@ URxvt*borderwidth: 0
 URxvt*internalBorder: 0
 URxvt*lineSpace: 1
 
+URxvt.perl-lib: ~/.urxvt/
+URxvt.perl-ext-common: default,resize-font
+URxvt.resize-font.smaller: C-Down
+URxvt.resize-font.bigger: C-Up
+
 #include ".Xresources.d/colors/erosion"

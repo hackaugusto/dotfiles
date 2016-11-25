@@ -165,7 +165,7 @@ arch_pacman() {
         iotop
         jq
         lib32-alsa-plugins
-	    lua-lpeg
+        lua-lpeg
         moreutils
         mosh
         ncdu
@@ -181,7 +181,7 @@ arch_pacman() {
         tree
         unzip
         unrar
-	    vis
+        vis
         wget
         zip
         zsh
@@ -313,6 +313,7 @@ arch_aur(){
             wrk
             wrk2-git
             pup-git
+            # urxvt-resize-font-git
         )
 
         aur_to_install=()
@@ -364,13 +365,15 @@ link .pythonrc
 link .xmonad
 link .screenrc
 link .tmux.conf
+link .urxvt
+link .urxvt/resize-font
 
 link .gdbinit
-link ~/.gdb/config
-link ~/.gdb/c/locallist
-link ~/.gdb/c/color
-link ~/.gdb/c/longlist.py
-link ~/.gdb/py/libpython.py
+link .gdb/config
+link .gdb/c/locallist
+link .gdb/c/color
+link .gdb/c/longlist.py
+link .gdb/py/libpython.py
 
 # git config --global core.excludesfile '~/.gitignore_global'
 link .gitignore_global
