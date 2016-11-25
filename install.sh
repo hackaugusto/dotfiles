@@ -364,7 +364,6 @@ link .Xresources.d
 
 link .bin
 link .pdbrc
-link .pythonrc
 link .xmonad
 link .screenrc
 link .tmux.conf
