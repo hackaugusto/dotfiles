@@ -4,7 +4,7 @@ set statusline=%m
 " warns for readonly, syntax erros, files not ending in \n and files that are
 " not utf8
 set statusline+=%#warningmsg#
-set statusline+=%{Bracket(Comma(SyntasticStatuslineFlag(),MixedTabSpace(),TrailingSpace(),Diff(&ff,'unix'),Diff(&fenc,'utf-8'),One(&ro,'RO')))}
+set statusline+=%{Bracket(Comma(Errors(),Warnings(),MixedTabSpace(),TrailingSpace(),Diff(&ff,'unix'),Diff(&fenc,'utf-8'),One(&ro,'RO')))}
 set statusline+=%*
 
 set statusline+=\ %t
@@ -121,4 +121,24 @@ function! MixedTabSpace()
     endif
   endif
   return b:statusline_tab_warning
+endfunction
+
+function! Errors()
+  let loclist = g:SyntasticLoclist.current()
+  let errors = loclist.errors()
+
+  if !empty(errors)
+    let num_errors = len(errors)
+    return num_errors . 'E@' . errors[0]['lnum']
+  endif
+endfunction
+
+function! Warnings()
+  let loclist = g:SyntasticLoclist.current()
+  let warnings = loclist.warnings()
+
+  if !empty(warnings)
+    let num_warnings = len(warnings)
+    return num_warnings . 'W@' . warnings[0]['lnum']
+  endif
 endfunction

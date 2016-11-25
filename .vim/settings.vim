@@ -88,7 +88,7 @@ let g:jedi#smart_auto_mappings = 0
 let g:syntastic_check_on_open = 1
 let g:syntastic_aggregate_errors = 1
 let g:syntastic_check_on_wq = 1
-let g:syntastic_stl_format = "%t errors (line %F)"
+let g:syntastic_stl_format = "%eE@%fe %wW@%fw"
 let g:syntastic_mode_map = {
   \'mode': 'active',
   \'active_filetypes': ['ruby', 'php', 'python', 'c'],
@@ -96,7 +96,8 @@ let g:syntastic_mode_map = {
 " prefer the clang's compilation database
 let g:syntastic_cpp_clang_check_post_args = ""
 let g:syntastic_cpp_clang_tidy_post_args = ""
-let g:syntastic_python_checkers = ['pep8', 'pyflakes', 'python']  " disable flake8
+" disable pyflakes because I cannot silence errors at the line level
+let g:syntastic_python_checkers = ['pep8', 'python', 'flake8', 'pylint']
 
 let g:neomru#file_mru_limit = 20            " use with -no-split
 
