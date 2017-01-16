@@ -191,10 +191,13 @@ arch_pacman() {
 
         tk # required by gitk
 
+        rustup  # conflicts with rust and cargo
+        rustfmt
+        rust-racer
+
         apache
         boost
         bsdiff
-        cargo
         clang
         clang-analyzer
         clang-tools-extra
@@ -243,9 +246,6 @@ arch_pacman() {
         ragel
         re2
         re2c
-        rust
-        rustfmt
-        rust-racer
         seahorse
         strace
         sysstat
