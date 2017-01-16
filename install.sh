@@ -309,6 +309,7 @@ arch_aur(){
         # http://llvm.org/releases/download.html#3.7.0 PGP sig (Hans Wennborg <hans@chromium.org> 0x0FC3042E345AD05D)
         # gpg --recv-keys 0fc3042e345ad05d
         aur_packages=( \
+            alacritty-git
             bear
             chromium-pepper-flash-dev
             # colout-git - using pygmentize directly
