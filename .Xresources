@@ -7,17 +7,20 @@ Xft.antialias: true
 ! Xft.hintstyle: hintfull
 Xft.rgba: rgb
 
-URxvt.font: xft:Terminus:size=9
-URxvt.scrollBar: false
+URxvt.font: xft:xos4 Terminus:size=9
+URxvt.boldFont: xft:xos4 Terminus:size=9
+URxvt*faceName: xos4 Terminus:size=9
+URxvt*scrollBar: false
 URxvt*keysym.Shift-Up: command:\033]720;1\007
 URxvt*urlLauncher: chromium
 URxvt*matcher.button: 1
-URxvt.buffered: true
-URxvt.cursorBlink: true
+URxvt*buffered: true
+URxvt*cursorBlink: true
 URxvt*bordless: true
 URxvt*borderwidth: 0
 URxvt*internalBorder: 0
 URxvt*lineSpace: 1
+! URxvt*letterSpace: -5
 
 URxvt.perl-lib: ~/.urxvt/
 URxvt.perl-ext-common: default,resize-font
