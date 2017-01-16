@@ -289,7 +289,7 @@
       <action name="Execute">
         <startupnotify>
           <enabled>true</enabled>
-          <name>Chromium</name>
+          <name>Neovim</name>
         </startupnotify>
         <command>urxvt -e nvim +terminal</command>
       </action>
@@ -298,9 +298,9 @@
       <action name="Execute">
         <startupnotify>
           <enabled>true</enabled>
-          <name>Chromium</name>
+          <name>Terminal multiplexer</name>
         </startupnotify>
-        <command>urxvt -e tmux -2</command>
+        <command>alacritty</command>
       </action>
     </keybind>
     <keybind key="W-o">

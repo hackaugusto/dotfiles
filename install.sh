@@ -116,6 +116,14 @@ arch_pacman() {
         xorg-fonts-alias
         xorg-fonts-encodings
         xorg-fonts-misc
+        adobe-source-code-pro-fonts
+        adobe-source-sans-pro-fonts
+        adobe-source-serif-pro-fonts
+        adobe-source-han-sans-cn-fonts
+        adobe-source-han-sans-jp-fonts
+        adobe-source-han-sans-kr-fonts
+        adobe-source-han-sans-otc-fonts
+        adobe-source-han-sans-tw-fonts
 
         acpi
         iw
@@ -408,6 +416,9 @@ link .config/flake8
 link .config/pep8
 link .config/pylintrc
 link .config/user-dirs.dirs
+
+mkdir -p ${HOME}/.config/alacritty/
+link .config/alacritty/alacritty.yml
 
 mkdir -p ${HOME}/.config/openbox
 link .config/openbox/autostart.sh
