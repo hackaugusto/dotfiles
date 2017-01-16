@@ -217,7 +217,6 @@ arch_pacman() {
         ftjam
         gcc-fortran
         gcc-multilib
-        gdb
         grafana-bin
         lldb
         git
@@ -264,6 +263,11 @@ arch_pacman() {
         valgrind
         virtualbox
         virtualbox-guest-iso
+
+        gdb
+        # required by my custom gdb configuration [.gdb/c/longlist.py]
+        python-pygments
+        python-pycparser
     )
 
     to_install=()
