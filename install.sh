@@ -388,9 +388,10 @@ link .vimrc
 link .vim .nvim
 link .vimrc .nvimrc
 
-mkdir -p ${HOME}/.emacs.d
+mkdir -p ${HOME}/.emacs.d/lisp
 link .emacs.d/init.el
-link .emacs.d/Cask
+git clone https://github.com/ProofGeneral/PG ~/.emacs.d/lisp/PG
+(cd ~/.emacs.d/lisp/PG && make)
 
 mkdir -p ${HOME}/.config
 link .config/flake8
