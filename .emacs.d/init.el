@@ -76,7 +76,8 @@ With prefix ARG, silently save all file-visiting buffers, then kill."
    git-gutter git-timemachine magit
    auto-complete flycheck idle-highlight-mode indent-guide multiple-cursors yasnippet
    jedi pyenv-mode
-   rust-mode solidity-mode))
+   rust-mode solidity-mode
+   deferred))
 
 ;;; emacs configuration
 (setq-default inhibit-startup-screen t
@@ -85,8 +86,8 @@ With prefix ARG, silently save all file-visiting buffers, then kill."
 
               redisplay-dont-pause t
               gc-cons-threshold 20000000
-              ;; debug-on-error t
-              ;; stack-trace-on-error t
+              debug-on-error t
+              stack-trace-on-error t
               large-file-warning-threshold 100000000 ; 100M
 
               undo-tree-save-history t
@@ -270,25 +271,96 @@ With prefix ARG, silently save all file-visiting buffers, then kill."
 
 ;;; python
 
+(require 'deferred)
+
 ; TODO: evil-search-highlight-persist-remove-all should not remove this
 (defun python-highlight-pdb ()
   (interactive)
   (highlight-regexp "pdb\\.\\(set_trace\\|post_mortem\\|run\\(call\\|ctx\\|eval\\)?\\)([^)\n\r]*)")
   (highlight-regexp "import\\( \\|.*[, ]\\)pdb"))
 
-(setq jedi:setup-keys t
-      jedi:complete-on-dot t)
+
+;; (defmacro deferred-compose (deferred &rest functions)
+;;   "DEFERRED FUNCTIONS."
+;;   (let ((head `(deferred:nextc deferred ,(car functions))) (rest functions))
+;;     (progn
+;;         (while (> (length rest) 1)
+;;           (setq rest (cdr functions))
+;;           (setq head `(deferred:nextc head ,(car functions))))
+;;         head)))
+;; (defun pyenv-version-p (env)
+;;   "Predicate for checking if the pyenv ENV exists."
+;;   (deferred:nextc
+;;     (pyenv-versions)
+;;     (lambda (x) (seq-contains x env))))
+
+
+(defun pyenv-call (&rest args)
+  "Call pyenv passing ARGS as positional arguments."
+  (eval `(deferred:process "pyenv" ,@args)))
+
+
+(defun pip-call (&rest args)
+  "Call pip passing ARGS as positional arguments."
+  (eval `(deferred:process "pip" ,@args)))
+
+
+(defun pyenv-versions ()
+  "Return a list of all existing pyenv virtualenvs."
+  (deferred:nextc
+    (pyenv-call "versions" "--bare")
+    (lambda (x) (split-string x))))
+
+
+(defun pyenv-install-27 ()
+  "Make sure the version 2.7 is installed in pyenv."
+  (deferred:nextc
+    (pyenv-versions)
+    (lambda (x) (if (not (seq-contains x "2.7")) (pyenv-call "install" "2.7")))))
+
+
+(defun pyenv-create-emacs ()
+  "Make sure there is a Emacs virtualenv within pyenv."
+  (deferred:nextc
+    (pyenv-versions)
+    (lambda (x) (if (not (seq-contains x "emacs")) (pyenv-call "virtualenv" "2.7" "emacs")))))
+
+
+(defun pyenv-configure ()
+  "Configure pyenv to use the default environment."
+  (progn
+    (pyenv-mode)
+    (pyenv-mode-set "emacs")))
+
+
+(defun jedi-install ()
+  "Install dependencies for jedi-mode."
+  ;; create the env if it doesnt exist and source it
+  (deferred:$
+    (pyenv-install-27)
+    (deferred:nextc it (lambda () (pyenv-create-emacs)))
+    ;; we need to use the proper venv before calling pip
+    (deferred:nextc it (lambda () (pyenv-configure)))
+    (deferred:nextc it (lambda () (pip-call "install" "-U" "flake8")))
+    (deferred:nextc it (lambda () (jedi:install-server)))
+    ;; to properly use pyenv pyenv-mode must be enabled and configured before running jedi:setup
+    (deferred:nextc it (lambda () (jedi:setup)))))
+
+
+(setq-default jedi:setup-keys t
+              jedi:complete-on-dot t
+              key-chord-two-keys-delay 0.3)
+
 
 (add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
 (add-to-list 'interpreter-mode-alist '("python" . python-mode))
 (add-hook
  'python-mode-hook
  (lambda()
-   (jedi:setup)
    (python-highlight-pdb)
-   (pyenv-mode)
-   (key-seq-define evil-normal-state-map "]d" 'er/mark-defun)
-   (key-seq-define evil-normal-state-map "gd" 'jedi:goto-definition)))
+   (jedi-install)
+   (key-seq-define evil-normal-state-local-map "]d" 'er/mark-defun)
+   (key-seq-define evil-normal-state-local-map "gd" 'jedi:goto-definition)))
 
 (add-to-hooks
  '(lambda ()
@@ -320,7 +392,6 @@ With prefix ARG, silently save all file-visiting buffers, then kill."
  '(evil-flash-delay 0)
  '(evil-move-beyond-eol nil))
 
-(setq key-chord-two-keys-delay 0.3)
 
 (evil-mode t)
 (key-chord-mode 1)
