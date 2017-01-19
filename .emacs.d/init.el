@@ -21,12 +21,14 @@
 
 ;;; utils/deps for init.el
 (defun def-keys (map key def &rest bindings)
+  "Binds in MAP the KEY to the function DEF, additional pairs can be provided in BINDINGS."
   (while key
     (define-key map (read-kbd-macro key) def)
     (setq key (pop bindings)
           def (pop bindings))))
 
 (defun add-to-hooks (fun hooks)
+  "Add FUN to all HOOKS."
   (dolist (hook hooks)
     (add-hook hook fun)))
 
@@ -55,25 +57,27 @@ With prefix ARG, silently save all file-visiting buffers, then kill."
        (kill-emacs)))
 
 (defun ensure (package)
-    (if (not (package-installed-p package))
-        (package-install 'use-package))
-    (require package))
+  "Make sure PACKAGE is installed with package.el."
+  (if (not (package-installed-p package))
+      (package-install 'use-package))
+  (require package))
 
 (ensure 'dash)
 
 ;;; install runtime packages
 (defun package-install-all (packages)
+  "Install the missing PACKAGES."
   (let ((uninstalled-packages
          (-remove 'package-installed-p packages)))
     (if (> (length uninstalled-packages) 0)
         (progn
           (package-refresh-contents)
           (dolist (package packages)
-            (package-install package)))))) ; install depencies and update loaddefs.el
+            (package-install package)))))) ;; install dependencies and update loaddefs.el
 
 (package-install-all
  '(ido-ubiquitous flx flx-ido
-   git-gutter git-timemachine magit
+   direx projectile git-gutter git-timemachine magit
    auto-complete flycheck idle-highlight-mode indent-guide multiple-cursors yasnippet
    jedi pyenv-mode
    rust-mode solidity-mode
@@ -86,8 +90,8 @@ With prefix ARG, silently save all file-visiting buffers, then kill."
 
               redisplay-dont-pause t
               gc-cons-threshold 20000000
-              debug-on-error t
-              stack-trace-on-error t
+              ;; debug-on-error t
+              ;; stack-trace-on-error t
               large-file-warning-threshold 100000000 ; 100M
 
               undo-tree-save-history t
@@ -128,6 +132,10 @@ With prefix ARG, silently save all file-visiting buffers, then kill."
 (if (not (file-exists-p "~/.emacs.d/backups")) (mkdir "~/.emacs.d/backups" t))
 (load custom-file :noerror :nomessage)
 
+(require 'recentf)
+(recentf-mode t)
+(setq recentf-max-menu-items 25)
+
 ;(server-start)
 (load-theme 'wombat)
 (prefer-coding-system 'utf-8)
@@ -157,6 +165,9 @@ With prefix ARG, silently save all file-visiting buffers, then kill."
 (custom-set-variables
  '(linum-relative-current-symbol ""))
 
+(custom-set-variables
+ '(initial-frame-alist (quote ((maximized)))))
+
 (def-keys 'help-command
   "C-l" 'find-library
   "C-f" 'find-function
@@ -167,14 +178,15 @@ With prefix ARG, silently save all file-visiting buffers, then kill."
 (custom-set-variables
  '(evil-mode-line-format 'nil))
 
-;;(setq mode-line-format '("%e"   ; out-of-memory error
-;;                evil-mode-line-tag
-;;                ;;(vc-mode vc-mode)
-;;                "%f"   ; current file
-;;                "%+"   ; readonly=& modified=* otherwise=-
-;;                mode-line-modes
-;;                mode-line-misc-info
-;;                mode-line-end-spaces))
+;; (setq mode-line-format '("%e"   ; out-of-memory error
+;;                 evil-mode-line-tag
+;;                 ;; (vc-mode vc-mode)
+;;                 "%f"   ; current file
+;;                 "%+"   ; readonly=& modified=* otherwise=-
+;;                 " "
+;;                 mode-line-modes
+;;                 mode-line-misc-info
+;;                 mode-line-end-spaces))
 
 ;; helm
 ;;(custom-set-faces
@@ -335,7 +347,7 @@ With prefix ARG, silently save all file-visiting buffers, then kill."
 
 (defun jedi-install ()
   "Install dependencies for jedi-mode."
-  ;; create the env if it doesnt exist and source it
+  ;; TODO: only run pip install and jedi-install if the venv did not exist before
   (deferred:$
     (pyenv-install-27)
     (deferred:nextc it (lambda () (pyenv-create-emacs)))
@@ -364,8 +376,9 @@ With prefix ARG, silently save all file-visiting buffers, then kill."
 
 (add-to-hooks
  '(lambda ()
-   (setq indent-tabs-mode nil
-         tab-width 4))          ; be sure to not use tabs
+    (progn
+      (setq indent-tabs-mode nil tab-width 4)  ; use 4-space for tabs
+      (modify-syntax-entry ?_ "w")))            ; treat _ as part of the word
  '(python-mode-hook inferior-python-mode-hook))
 
 ;; elscreen
@@ -401,7 +414,11 @@ With prefix ARG, silently save all file-visiting buffers, then kill."
 (global-evil-search-highlight-persist t)
 (linum-relative-global-mode t)
 
-(evil-leader/set-leader "SPC")
+;; I prefer to use emacs mode since j is bound to open file.
+;; (evil-set-initial-state 'dired-mode 'normal)
+(evil-set-initial-state 'direx-mode 'normal)
+;; Did not work
+;; (evil-set-initial-state 'recentf-dialog 'normal)
 
 (evil-define-command evil-insert-paste-after ()
   (evil-normal-state)
