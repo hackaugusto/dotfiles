@@ -103,6 +103,45 @@ arch_pacman() {
     # network monitor:
     # darkstat
     packages=( \
+        # window manager
+        obconf
+        openbox
+
+        # desktop environment
+        chromium
+        cups
+        dialog
+        evince
+        feh
+        firefox
+        gimp
+        hplip
+        libreoffice
+        libreoffice-fresh
+        nautilus
+        numlockx
+        pass
+        scrot
+        seahorse
+        xclip
+        xorg-xinit
+
+        # laptop
+        acpi
+        ifplugd
+        iw
+        wireless_tools
+        wpa_actiond
+
+        # font
+        adobe-source-code-pro-fonts
+        adobe-source-han-sans-cn-fonts
+        adobe-source-han-sans-jp-fonts
+        adobe-source-han-sans-kr-fonts
+        adobe-source-han-sans-otc-fonts
+        adobe-source-han-sans-tw-fonts
+        adobe-source-sans-pro-fonts
+        adobe-source-serif-pro-fonts
         cantarell-fonts
         font-mathematica
         terminus-font
@@ -116,49 +155,15 @@ arch_pacman() {
         xorg-fonts-alias
         xorg-fonts-encodings
         xorg-fonts-misc
-        adobe-source-code-pro-fonts
-        adobe-source-sans-pro-fonts
-        adobe-source-serif-pro-fonts
-        adobe-source-han-sans-cn-fonts
-        adobe-source-han-sans-jp-fonts
-        adobe-source-han-sans-kr-fonts
-        adobe-source-han-sans-otc-fonts
-        adobe-source-han-sans-tw-fonts
 
-        acpi
-        iw
-        wireless_tools
-        ifplugd
-        wpa_actiond
-
-        chromium
-        dialog
-        evince
-        feh
-        firefox
-        gimp
-        libreoffice
-        nautilus
-        numlockx
-        obconf
-        openbox
-        pass
-        xclip
-        xorg-xinit
-        cups
-        libreoffice-fresh
-        hplip
-
-        wine
-        winetricks
-        # winetricks corefonts
-
+        # multimedia
         alsa-oss
         alsa-tools
         alsa-utils
         flashplugin
         gecko-mediaplayer
         gst-libav
+        lib32-alsa-plugins
         lib32-flashplugin
         mplayer
         pulseaudio
@@ -166,87 +171,93 @@ arch_pacman() {
         youtube-dl
         youtube-viewer
 
-        aria2
+        # wine
+        wine
+        winetricks
+        # winetricks corefonts
+
+        # steam
+        steam
+
+        # editor
         emacs
+        gvim
+        neovim
+        python-neovim
+        vis
+        lua-lpeg
+
+        # terminal/shell
+        mosh
+        rxvt-unicode
+        tmux
+        zsh
+        pssh
+        openssh
+
+        # shell utils
+        aria2
         expect
         fortune-mod
         gnu-netcat
-        gvim
         htop
         iotop
         jq
-        lib32-alsa-plugins
-        lua-lpeg
         moreutils
-        mosh
         ncdu
         octave
         pigz
-        rxvt-unicode
-        scrot
         smartmontools
-        steam
         sudo
         the_silver_searcher
-        tmux
         tree
         unzip
         unrar
-        vis
         wget
         zip
-        zsh
+        lsof
+        net-tools
+        parallel
+        patchutils
+        sysstat
+        graphviz
 
+        # arch
         abs
         arch-install-scripts
 
-        tk # required by gitk
+        # http server
+        apache
+        nginx
+        lighttpd # for git-instaweb
 
+        # application server
+        uwsgi
+        uwsgi-plugin-pypy
+        uwsgi-plugin-python
+        uwsgi-plugin-python2
+
+        # rust
         rustup  # conflicts with rust and cargo
         rustfmt
         rust-racer
 
-        apache
-        android-tools
-        android-udev
-        boost
-        bsdiff
+        # c/c++
         clang
         clang-analyzer
         clang-tools-extra
-        colordiff
-        ctags
-        cmake
-        darcs
-        docker
-        docker-compose
-        dwdiff
-        fossil
-        ftjam
-        gcc-fortran
-        gcc-multilib
-        grafana-bin
-        lldb
-        git
-        go
-        graphviz
-        kdesdk-kcachegrind
-        lapack
-        ltrace
-        lua
-        luajit
         llvm
-        lsof
-        mono
-        net-tools
-        npm
-        nginx
-        ocaml
-        openssh
-        parallel
-        patchutils
-        perf
-        pssh
+        gcc-multilib
+
+        # libs
+        boost
+        lapack
+
+        # build
+        cmake
+        ftjam
+
+        # python
         pygmentize
         pypy
         pypy3
@@ -255,27 +266,56 @@ arch_pacman() {
         python2-virtualenv
         python-virtualenv
         python-virtualenvwrapper
+
+        # version control
+        darcs
+        git
+        fossil
+        tk # required by gitk
+        tig
+
+        # other programming
+        android-tools
+        android-udev
+        gcc-fortran
+        go
+        ocaml
+        lua
+        luajit
+
+        # tools
+        bsdiff
+        colordiff
+        ctags
+        dwdiff
+        grafana-bin
+        mono
+        npm
         ragel
         re2
         re2c
-        seahorse
-        strace
-        sysstat
-        siege
         tidy
-        tig
-        uwsgi
-        uwsgi-plugin-pypy
-        uwsgi-plugin-python
-        uwsgi-plugin-python2
+
+        # tracing
+        strace
+        ltrace
+
+        # profilling/benchmark
+        perf
+        siege
         valgrind
+        kdesdk-kcachegrind
+
+        # virtual machine/containers
+        docker
+        docker-compose
         virtualbox
         virtualbox-guest-iso
 
+        # debugging
+        lldb
         gdb
-        # required by my custom gdb configuration [.gdb/c/longlist.py]
-        python-pygments
-        python-pycparser
+        python-pygments python-pycparser # required by .gdb/c/longlist.py
     )
 
     to_install=()
@@ -325,10 +365,8 @@ arch_aur(){
             otf-hack
             opam
             flamegraph-git
-            neovim-git
             notify-osd-customizable
             powerpill
-            python2-neovim-git
             rust-src
             jdk
             rr
