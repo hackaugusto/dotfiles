@@ -292,20 +292,14 @@ With prefix ARG, silently save all file-visiting buffers, then kill."
   (highlight-regexp "import\\( \\|.*[, ]\\)pdb"))
 
 
-;; (defmacro deferred-compose (deferred &rest functions)
-;;   "DEFERRED FUNCTIONS."
-;;   (let ((head `(deferred:nextc deferred ,(car functions))) (rest functions))
-;;     (progn
-;;         (while (> (length rest) 1)
-;;           (setq rest (cdr functions))
-;;           (setq head `(deferred:nextc head ,(car functions))))
-;;         head)))
-;; (defun pyenv-version-p (env)
-;;   "Predicate for checking if the pyenv ENV exists."
-;;   (deferred:nextc
-;;     (pyenv-versions)
-;;     (lambda (x) (seq-contains x env))))
-
+;(defmacro deferred:compose (first &rest deferreds)
+;  "DEFERRED FUNCTIONS."
+;  `(let (curr)
+;     ,@(cl-loop for d in deferreds
+;                with curr = first
+;                collect
+;                `(setq curr (deferred:set-next curr ,d)))
+;     curr))
 
 (defun pyenv-call (&rest args)
   "Call pyenv passing ARGS as positional arguments."
@@ -323,39 +317,41 @@ With prefix ARG, silently save all file-visiting buffers, then kill."
     (pyenv-call "versions" "--bare")
     (lambda (x) (split-string x))))
 
+(defun pyenv-version-p (env)
+  "Predicate for checking if the pyenv ENV exists."
+  (lexical-let ((e env))
+    (deferred:nextc
+      (pyenv-versions)
+      (lambda (x) (seq-contains x e)))))
 
-(defun pyenv-install-27 ()
+
+(defun pyenv-python-27 ()
   "Make sure the version 2.7 is installed in pyenv."
   (deferred:nextc
-    (pyenv-versions)
-    (lambda (x) (if (not (seq-contains x "2.7")) (pyenv-call "install" "2.7")))))
+    (pyenv-version-p "2.7")
+    (lambda (x) (if (not x) (pyenv-call "install" "2.7")))))
 
 
-(defun pyenv-create-emacs ()
-  "Make sure there is a Emacs virtualenv within pyenv."
+(defun pyenv-venv-emacs ()
+  "Prepare the Emacs venv for use, maybe creating and installing dependencies in it."
   (deferred:nextc
-    (pyenv-versions)
-    (lambda (x) (if (not (seq-contains x "emacs")) (pyenv-call "virtualenv" "2.7" "emacs")))))
+    (pyenv-version-p "emacs")
+    (lambda (x)
+      (if (not x)
+          (deferred:$
+            (pyenv-call "virtualenv" "2.7" "emacs")
+            (deferred:nextc it (lambda () (pyenv-mode-set "emacs")))
+            ;; TODO: run this in parallel
+            (deferred:nextc it (lambda () (pip-call "install" "-U" "flake8" "virtualenv")))
+            (deferred:nextc it (lambda () (jedi:install-server))))
+        (pyenv-mode-set "emacs")))))
 
 
-(defun pyenv-configure ()
-  "Configure pyenv to use the default environment."
-  (progn
-    (pyenv-mode)
-    (pyenv-mode-set "emacs")))
-
-
-(defun jedi-install ()
+(defun pyenv-emacs-with-jedi ()
   "Install dependencies for jedi-mode."
-  ;; TODO: only run pip install and jedi-install if the venv did not exist before
   (deferred:$
-    (pyenv-install-27)
-    (deferred:nextc it (lambda () (pyenv-create-emacs)))
-    ;; we need to use the proper venv before calling pip
-    (deferred:nextc it (lambda () (pyenv-configure)))
-    (deferred:nextc it (lambda () (pip-call "install" "-U" "flake8")))
-    (deferred:nextc it (lambda () (jedi:install-server)))
-    ;; to properly use pyenv pyenv-mode must be enabled and configured before running jedi:setup
+    (pyenv-python-27)
+    (deferred:nextc it (lambda () (pyenv-venv-emacs)))
     (deferred:nextc it (lambda () (jedi:setup)))))
 
 
@@ -370,7 +366,8 @@ With prefix ARG, silently save all file-visiting buffers, then kill."
  'python-mode-hook
  (lambda()
    (python-highlight-pdb)
-   (jedi-install)
+   (pyenv-mode)
+   (deferred:callback-post (pyenv-emacs-with-jedi))
    (key-seq-define evil-normal-state-local-map "]d" 'er/mark-defun)
    (key-seq-define evil-normal-state-local-map "gd" 'jedi:goto-definition)))
 
