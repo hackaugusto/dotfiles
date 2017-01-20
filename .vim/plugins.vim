@@ -70,7 +70,6 @@ call vundle#begin()
   Plugin 'tpope/vim-dispatch'
   Plugin 'tpope/vim-endwise'
   Plugin 'tpope/vim-fugitive'
-  Plugin 'tpope/vim-markdown'
   Plugin 'tpope/vim-repeat'
   Plugin 'tpope/vim-surround'
   " Plugin 'tpope/vim-unimpaired'           " rolled my own version, also this is conflicting with python.vim

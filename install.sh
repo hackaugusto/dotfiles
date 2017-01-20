@@ -439,11 +439,6 @@ link .gdb/py/libpython.py
 # git config --global core.excludesfile '~/.gitignore_global'
 link .gitignore_global
 
-link .vim
-link .vimrc
-link .vim .nvim
-link .vimrc .nvimrc
-
 mkdir -p ${HOME}/.emacs.d/lisp
 link .emacs.d/init.el
 git clone https://github.com/ProofGeneral/PG ~/.emacs.d/lisp/PG
@@ -468,8 +463,16 @@ if bin pacman; then
     arch_pacman
 fi
 
-# Anything that needs to be compiles goes after here
+link .vim
+link .vimrc
+link .vim .nvim
+link .vimrc .nvimrc
 
+mkdir -p ${HOME}/.config/nvim
+link .config/nvim/init.vim
+mkdir -p ${HOME}/.config/nvim/plugins/repos/github.com/Shougo
+
+# Anything that needs to be compiles goes after here
 msg 'Vim plugins'
 repo 'https://github.com/hackaugusto/Vundle.vim.git' "${HOME}/.vim/bundle/Vundle.vim"
 vim -u ${HOME}/.vim/plugins.vim +PluginUpdate +qa

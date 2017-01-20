@@ -58,27 +58,20 @@ augroup END
 "   autocmd FileType sh set number
 " augroup END
 
-augroup Zsh
-  autocmd!
-  autocmd FileType zsh set shiftwidth=4 softtabstop=4 tabstop=4 expandtab
-augroup END
-
 augroup Vim
   autocmd!
-  autocmd FileType vim set shiftwidth=2 softtabstop=2 tabstop=2 expandtab
+  autocmd FileType vim set shiftwidth=2 softtabstop=2 tabstop=2 
 augroup END
 
 augroup JAVASCRIPT
   autocmd!
   " autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
-  autocmd FileType javascript set shiftwidth=4 softtabstop=4 tabstop=4
   autocmd FileType javascript set cindent
   autocmd FileType javascript let g:JSLintHighlightErrorLine = 0
 augroup END
 
 augroup CSHARP
   autocmd!
-  autocmd FileType cs set shiftwidth=4 softtabstop=4 tabstop=4
   autocmd FileType cs set cindent
 augroup END
 
@@ -89,24 +82,19 @@ augroup LATEX
   autocmd FileType tex syn match texComment /%.*$/ contains=@texCommentGroup,@NoSpell
 augroup END
 
-augroup HASKELL
-  autocmd!
-  autocmd FileType haskell set shiftwidth=4 softtabstop=4 tabstop=4
-augroup END
-
 augroup XML
   autocmd!
-  autocmd FileType xml set shiftwidth=2 softtabstop=2 tabstop=2 expandtab nocindent noautoindent
+  autocmd FileType xml set shiftwidth=2 softtabstop=2 tabstop=2 nocindent noautoindent
 augroup END
 
 augroup JADE
   autocmd!
-  autocmd FileType jade set shiftwidth=2 softtabstop=2 tabstop=2 expandtab nocindent noautoindent
+  autocmd FileType jade set shiftwidth=2 softtabstop=2 tabstop=2 nocindent noautoindent
 augroup END
 
 augroup Cobra
   autocmd!
-  autocmd FileType cobra set shiftwidth=4 softtabstop=4 tabstop=4 expandtab nocindent noautoindent
+  autocmd FileType cobra set nocindent noautoindent
 augroup END
 
 augroup HTMLDJANGO
@@ -133,7 +121,7 @@ augroup END
 
 augroup Java
   autocmd!
-  autocmd FileType java set cindent expandtab
+  autocmd FileType java set cindent 
   autocmd FileType java set complete=.,i,d omnifunc=javacomplete#Complete
   autocmd FileType java let g:SuperTabDefaultCompletionType='context'
   autocmd FileType java set shiftwidth=4 softtabstop=4 tabstop=4
@@ -144,7 +132,7 @@ augroup Python
   autocmd FileType python abbreviate #i import
   autocmd FileType python map @i ^i#i
   autocmd FileType python set omnifunc=pythoncomplete#Complete completeopt-=preview
-  autocmd FileType python set expandtab nowrap shiftwidth=4 softtabstop=4
+  autocmd FileType python set nowrap shiftwidth=4 softtabstop=4
   autocmd FileType python let g:SuperTabDefaultCompletionType='context'
   autocmd FileType python let python_highlight_all=1
   autocmd FileType python let g:tags_global_tags = {'py/stdlib': '/usr/lib/python2.7'}
@@ -202,7 +190,6 @@ endif
 augroup END
 
 augroup RUST
-  autocmd FileType rust set hidden
   autocmd FileType rust let g:racer_cmd = "/usr/bin/racer"
   autocmd FileType rust let $RUST_SRC_PATH = "/usr/src/rust/src/"
 augroup END
