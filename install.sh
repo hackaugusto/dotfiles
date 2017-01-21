@@ -282,6 +282,7 @@ arch_pacman() {
         ocaml
         lua
         luajit
+        ruby
 
         # tools
         bsdiff
@@ -375,6 +376,7 @@ arch_aur(){
             wrk
             wrk2-git
             pup-git
+            ruby-neovim
             # urxvt-resize-font-git
         )
 
