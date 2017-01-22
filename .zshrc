@@ -25,7 +25,7 @@ profile() {
     fi
 
     # load user configuration
-    load $HOME/.profile
+     load $HOME/.profile
 }
 
 older_than_days() {
@@ -77,7 +77,7 @@ install
 
 fpath=($fpath $HOME/.zsh/func)
 
-zmodload zsh/complist
+zmodload zsh/complist  # complist must be loaded before the compinit call
 
 autoload -U promptinit
 autoload -U zgitinit
@@ -89,10 +89,8 @@ autoload +X zgen
 
 zgitinit
 
-if older_than_days ~/.zcompdump 1; then
-  compinit
-else
-  compinit -C
+if [ -s ~/.zcompdump -a ! -s ~/.zcompdump.zwc ]; then
+  zcompile ~/.zcompdump &!
 fi
 
 require ~/.zsh/options.sh  # set the options early because the shell behavior change
@@ -107,28 +105,27 @@ require ~/.zsh/env.sh
 require ~/.zsh/plugins.sh
 require ~/.zsh/prompt.sh
 
+# compinit must be executed after the plugins are set
+# if [ ! -e ~/.zcompdump ] || older_than_days ~/.zcompdump 1; then
+#   compinit     # this may or may not recreate the dump
+# else
+#   # If the dump is less than a day old dont bother recreating it.
+#   # !IMPORTANT! this will skip the checks for group/world writable files.
+#   compinit -C
+# fi
+
 update
+
+# environment
+export PYENV_VIRTUALENV_DISABLE_PROMPT=1
+export PYENV_ROOT="$HOME/.pyenv"
+
+if [[ "$OSTYPE" = darwin* ]]; then
+    export PATH=$(deduplicate_path '/sbin' '/bin' '/usr/bin')
+fi
 
 load ~/.opam/opam-init/init.zsh
 bin vex && eval "$(vex --shell-config zsh)"
-
-bin pip && {
-    # pip could be installed on the system OR it can be a pyenv shim, if it is
-    # a shim we need to ensure that at least one venv is selected
-    script=$(pip completion --zsh 2> /dev/null)
-
-    # pyenv's shim returns 127 on failure
-    [ -n "${PYENV_ROOT}" -a $? -eq 127 ] && {
-        version=$(pyenv versions | grep -v '^\*' | awk '{print $1}' | head -n1)
-
-        # try again in a subshell, if it fails ... ignore it
-        (
-            script=$(PYENV_VERSION=$version pip completion --zsh 2> /dev/null)
-        )
-    }
-
-    [ -n "${script}" -a $? -eq 0 ] && eval "${script}"
-}
 
 # npm completion is slow: "0.37s user"
 # if (( $+commands[npm] )); then

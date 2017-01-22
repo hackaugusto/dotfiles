@@ -27,7 +27,3 @@ export MANSECT=3:1:9:8:2:5:4:7:6:n
 
 export CLASSPATH=~/projects/java:$CLASSPATH
 export _JAVA_OPTIONS='-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true -Dswing.defaultlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel'
-
-if [[ "$OSTYPE" = darwin* ]]; then
-    export PATH=$(deduplicate_path '/sbin' '/bin' '/usr/bin')
-fi
