@@ -1,6 +1,6 @@
 #!/bin/zsh
 # vim: set ft=zsh fenc=utf-8 noai ts=8 et sts=4 sw=0 tw=80 nowrap :
-local ZGEN_SOURCE="$(cd "$(dirname "${0}")" && pwd -P)"
+local ZGEN_SOURCE="$0:A:h"
 
 -zgputs() { printf %s\\n "$@" ;}
 -zgpute() { printf %s\\n "-- zgen: $*" >&2 ;}
@@ -24,7 +24,7 @@ if [[ -z "${ZGEN_AUTOLOAD_COMPINIT}" && -z "${(t)_comps}" ]]; then
 fi
 
 if [[ -n "${ZGEN_CUSTOM_COMPDUMP}" ]]; then
-    ZGEN_COMPINIT_DIR_FLAG="-d ${(q-)ZGEN_CUSTOM_COMPDUMP}"
+    ZGEN_COMPINIT_DIR_FLAG="-d ${(q)ZGEN_CUSTOM_COMPDUMP}"
     ZGEN_COMPINIT_FLAGS="${ZGEN_COMPINIT_DIR_FLAG} ${ZGEN_COMPINIT_FLAGS}"
 fi
 
@@ -207,6 +207,10 @@ zgen-reset() {
     if [[ -f "${ZGEN_INIT}" ]]; then
         rm "${ZGEN_INIT}"
     fi
+    if [[ -f "${ZGEN_CUSTOM_COMPDUMP}" ]] || [[ -d "${ZGEN_CUSTOM_COMPDUMP}" ]]; then
+        -zgpute 'Deleting `'"${ZGEN_CUSTOM_COMPDUMP}"'` ...'
+        rm -r "${ZGEN_CUSTOM_COMPDUMP}"
+    fi
 }
 
 zgen-update() {
@@ -294,7 +298,7 @@ zgen-save() {
 }
 
 zgen-apply() {
-    fpath=(${(q-)ZGEN_COMPLETIONS[@]} ${fpath})
+    fpath=(${(q)ZGEN_COMPLETIONS[@]} ${fpath})
 
     if [[ ${ZGEN_AUTOLOAD_COMPINIT} == 1 ]]; then
         -zgpute "Initializing completions ..."
@@ -501,5 +505,5 @@ zgen() {
 }
 
 ZSH=$(-zgen-get-zsh)
-zgen-init
 fpath=($ZGEN_SOURCE $fpath)
+zgen-init

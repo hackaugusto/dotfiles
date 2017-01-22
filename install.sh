@@ -147,6 +147,7 @@ arch_pacman() {
         terminus-font
         ttf-dejavu
         ttf-dejavu
+        ttf-droid
         ttf-fira-mono
         ttf-fira-sans
         ttf-liberation
@@ -407,7 +408,6 @@ repo 'https://github.com/hackaugusto/dotfiles.git' "$REPO"
 link .bash_profile
 link .bashrc
 link .profile
-link .zprofile
 link .zshrc
 link .zsh
 

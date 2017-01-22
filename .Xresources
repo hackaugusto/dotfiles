@@ -7,8 +7,10 @@ Xft.antialias: true
 ! Xft.hintstyle: hintfull
 Xft.rgba: rgb
 
-URxvt.font: xft:xos4 Terminus:size=9
-URxvt.boldFont: xft:xos4 Terminus:size=9
+! URxvt.font: xft:xos4 Terminus:size=9
+! URxvt.boldFont: xft:xos4 Terminus:size=9
+URxvt.font: xft:Droid Sans Mono:size=9
+URxvt.boldFont: xft:Droid Sans Mono:size=9
 URxvt*faceName: xos4 Terminus:size=9
 URxvt*scrollBar: false
 URxvt*keysym.Shift-Up: command:\033]720;1\007

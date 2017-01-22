@@ -246,20 +246,6 @@ zgit_rebaseinfo() {
 	return 0
 }
 
-#zgit_commitsbehind() {
-#    zgit_isgit || return 0
-#    local -a revs
-#    revs=($(git rev-list --reverse $(zgit_tracking_merge)..HEAD))
-#    return $#revs
-#}
-#
-#zgit_commitsahead() {
-#    zgit_isgit || return 0
-#    local -a revs
-#    revs=($(git rev-list --reverse HEAD..$(zgit_tracking_merge)))
-#    return $#revs
-#}
-
 add-zsh-hook chpwd zgit_chpwd_hook
 add-zsh-hook preexec zgit_preexec_hook
 add-zsh-hook precmd zgit_precmd_hook

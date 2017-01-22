@@ -1,9 +1,6 @@
-if (( $+commands[npm] )); then
-    eval "$(npm completion 2>/dev/null)"
-fi
+# TODO: why we need to call it twice?
+zgen saved
 
-# TODO:
-# - update regularly (zgen update and ~/.pyenv/plugins git pull)
 if ! zgen saved; then
     echo "Creating a zgen save"
 
@@ -25,6 +22,7 @@ if ! zgen saved; then
     zgen oh-my-zsh plugins/celery
     zgen oh-my-zsh plugins/django
     zgen oh-my-zsh plugins/fabric
+    zgen oh-my-zsh plugins/gitfast
 
     zgen oh-my-zsh plugins/pylint
     zgen oh-my-zsh plugins/pep8
@@ -44,6 +42,9 @@ if ! zgen saved; then
     zgen load zsh-users/zsh-syntax-highlighting
     zgen load rust-lang/zsh-config
     # zgen load vifon/deer
+    zgen load lukechilds/zsh-nvm
+    # zgen load mafredri/zsh-async  # requirement for pure
+    # zgen load sindresorhus/pure
 
     # TODO: PR for zgen support
     # Force the use of ucs4 because arch's is compiled with it
@@ -56,8 +57,6 @@ if ! zgen saved; then
     # git clone https://github.com/haypo/pytracemalloc.git
     # cat pytracemalloc/patches/2.7/pep445.patch | filterdiff --strip=1 | VERSION_ALIAS="2.7.8-trace" PYTHON_CONFIGURE_OPTS="--with-pydebug --enable-shared --enable-unicode=ucs4" pyenv install -p -v 2.7.8
     zgen load yyuu/pyenv
-    git clone https://github.com/s1341/pyenv-alias.git ~/.pyenv/plugins/pyenv-alias
-    git clone https://github.com/yyuu/pyenv-virtualenv.git ~/.pyenv/plugins/pyenv-virtualenv
 
     zgen save
 fi

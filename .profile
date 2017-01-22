@@ -1,4 +1,4 @@
-# vim: sts=4 st=4 sw=4 et:
+# vim: sts=4 sw=4 et:
 # locale (changes /etc/locale.conf)
 # localectl set-locale en_us.utf8
 
@@ -6,6 +6,10 @@
 # localectl set-x11-keymap br,us abnt2,pc105 ,dvorak terminate:ctrl_alt_bksp,grp:rctrl_toggle,ctrl:nocaps,ctrl:lctrl_meta
 # or
 # setxkbmap -layout br,us -model abnt2,pc105 -variant ,dvorak -option terminate:ctrl_alt_bksp,grp:alt_shift_toggle
+
+# Disable Esc as meta in the multiplexers, otherwise evil is unusable
+#     screen: maptimeout 5
+#     tmux: set -g escape-time 0
 
 bin() { command -v $1 >/dev/null 2>&1 }
 running() { pgrep -x -u "${USER}" $1 >/dev/null 2>&1 }
@@ -165,8 +169,10 @@ configure_runtimes() {
 }
 
 load /etc/profile           # XDG variables and LANG, LC_* (this sources only *.sh files)
-load $HOME/.nvm/nvm.sh      # This loads NVM
 load ~/.config/user-dirs.dirs
+
+# using zsh-nvm with lazy loading
+[ "$SHELL" != "zsh" ] && load $HOME/.nvm/nvm.sh
 
 configure_runtimes
 

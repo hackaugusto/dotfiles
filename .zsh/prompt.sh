@@ -1,7 +1,7 @@
 # vim:ft=zsh:ts=4:sts=4:sw=4:
 
 git_filestatus() {
-    zgit_isgit      || return 1
+    zgit_isgit || return 1
     zgit_inworktree || return 1
 
     local output
@@ -50,21 +50,28 @@ myprompt() {
     git_filestatus || echo ' #'
 }
 
-export PS2="> "
+setup_myprompt(){
+    export PS2="> "
 
-local HOUR="%F{blue}%T%f"
-local JOBS="%1(j,%F{yellow}%j%f ,)"
-export RPS1="${JOBS}${HOUR}"
+    local HOUR="%F{blue}%T%f"
+    local JOBS="%1(j,%F{yellow}%j%f ,)"
+    export RPS1="${JOBS}${HOUR}"
 
-if [[ $UID -eq '0' ]]; then;
-    export PS1="%F{red}%n%f %1. %(?.%#.%F{red}%#%f) "
-elif [[ $USER = 'dev' ]]; then;
-    export PS1="%F{yellow}%n%f %1.%# "
-else;
-    export PS1="%F{cyan}%n%f %1.%\$(git_branchstatus) \$(myprompt) "
-fi;
+    if [[ $UID -eq '0' ]]; then;
+        export PS1="%F{red}%n%f %1. %(?.%#.%F{red}%#%f) "
+    elif [[ $USER = 'dev' ]]; then;
+        export PS1="%F{yellow}%n%f %1.%# "
+    else;
+        export PS1="%F{cyan}%n%f %1.%\$(git_branchstatus) \$(myprompt) "
+    fi;
 
-# show the hostname when we are connected through ssh
-if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
-    export PS1="%M $PS1"
-fi;
+    # show the hostname when we are connected through ssh
+    if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
+        export PS1="%M $PS1"
+    fi;
+}
+
+# PURE_PROMPT_SYMBOL='>'
+# autoload -U promptinit; promptinit
+# prompt pure
+setup_myprompt
