@@ -72,6 +72,23 @@ update() {
     fi
 }
 
+# TODO: figure out how to define this inside init.zsh
+pyenv() {
+  local command
+  command="$1"
+  if [ "$#" -gt 0 ]; then
+    shift
+  fi
+
+  case "$command" in
+  activate|deactivate|rehash|shell)
+    eval "$(pyenv "sh-$command" "$@")";;
+  *)
+    command pyenv "$command" "$@";;
+  esac
+}
+
+
 profile
 install
 
@@ -92,6 +109,10 @@ zgitinit
 if [ -s ~/.zcompdump -a ! -s ~/.zcompdump.zwc ]; then
   zcompile ~/.zcompdump &!
 fi
+
+# environment
+export PYENV_VIRTUALENV_DISABLE_PROMPT=1
+export PYENV_ROOT="$HOME/.pyenv"
 
 require ~/.zsh/options.sh  # set the options early because the shell behavior change
 require ~/.zsh/utils.sh    # load the utils, the following files can use them
@@ -115,10 +136,6 @@ require ~/.zsh/prompt.sh
 # fi
 
 update
-
-# environment
-export PYENV_VIRTUALENV_DISABLE_PROMPT=1
-export PYENV_ROOT="$HOME/.pyenv"
 
 if [[ "$OSTYPE" = darwin* ]]; then
     export PATH=$(deduplicate_path '/sbin' '/bin' '/usr/bin')
