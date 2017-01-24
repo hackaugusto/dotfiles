@@ -157,6 +157,15 @@ arch_pacman() {
         xorg-fonts-encodings
         xorg-fonts-misc
 
+        # la/tex
+        texlive-bin
+        texlive-core
+        texlive-pstricks
+        texlive-latexextra
+        texlive-fontsextra
+        texlive-bibtexextra
+        minted
+
         # multimedia
         alsa-oss
         alsa-tools
