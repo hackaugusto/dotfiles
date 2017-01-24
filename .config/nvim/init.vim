@@ -29,6 +29,9 @@ set statusline+=%{StatuslineCurrentHighlight()}
 set statusline+=\ [ascii\ %03.3b\ hex\ %02.2B]
 set statusline+=\ [col\ %v\ line\ %l/%L\ %p%%]
 
+" required for the pep8 style indentation
+filetype plugin indent on
+
 function! Comma(...)
   let items = []
   for item in a:000
@@ -166,9 +169,6 @@ endif
 " use the system-wide python and the python-neovim package
 let g:python_host_prog='/usr/bin/python2'
 let g:python3_host_prog='/usr/bin/python3'
-" if !has('python3') && !has('python') && executable('pip')
-"   exe '!pip install -U neovim'
-" endif
 
 exe "set runtimepath+=" . s:dein_dir
 set completeopt+=noinsert
@@ -177,31 +177,56 @@ if dein#load_state(s:plugins_base_dir)
   call dein#begin(s:plugins_base_dir)
 
   call dein#add(s:dein_dir)
-  call dein#add('Shougo/denite.nvim')
 
+  " editing
+  call dein#add('tpope/vim-repeat')
+  call dein#add('editorconfig/editorconfig-vim')
+  call dein#add('pgdouyon/vim-evanesco')  " enhanced search
+
+  " text objects and operators
+  call dein#add('wellle/targets.vim')
+  " better (but slower) than surround for unaligned chars
+  call dein#add('machakann/vim-sandwich',
+    \ {'hook_post_source': 'runtime macros/sandwich/keymap/surround.vim'}
+    \ )
+  " call dein#add('pgdouyon/vim-apparate')
+  " call dein#add('tpope/vim-surround')
+
+  " presentation
+  call dein#add('junegunn/goyo.vim')
+  call dein#add('junegunn/limelight.vim')
+
+  " completion
   call dein#add('Shougo/deoplete.nvim')
   call dein#add('zchee/deoplete-jedi')
   call dein#add('racer-rust/vim-racer')
-  call dein#add('eagletmt/neco-ghc')
+  call dein#add('ctrlpvim/ctrlp.vim')
+
+  " source control
+  call dein#add('mhinz/vim-signify')
+  call dein#add('tpope/vim-fugitive')
+  call dein#add('junegunn/gv.vim')
+
+  " progamming languages
+  call dein#add('sheerun/vim-polyglot')
+  call dein#add('tpope/vim-commentary')
   call dein#add('neomake/neomake')
   call dein#add('Shougo/echodoc.vim')
+  call dein#add('tpope/vim-endwise', {'on_ft': [
+    \ 'lua', 'elixir', 'ruby', 'crystal', 'sh', 'zsh', 'vb', 'vbnet', 'aspvbs',
+    \ 'vim', 'c', 'cpp', 'xdefaults', 'haskell', 'objc', 'matlab', 'htmldjango',
+    \ 'snippets'
+    \ ]})
 
+  call dein#add('rust-lang/rust.vim')
+  call dein#add('eagletmt/neco-ghc')
+
+  " python
   call dein#add('davidhalter/jedi-vim')
-
-  call dein#add('mhinz/vim-signify')
   call dein#add('jmcantrell/vim-virtualenv')
-
-  call dein#add('tpope/vim-commentary')
-  call dein#add('tpope/vim-endwise')
-  call dein#add('tpope/vim-fugitive')
-  call dein#add('tpope/vim-repeat')
-  call dein#add('tpope/vim-surround')
-  call dein#add('tpope/vim-fugitive')
-
-  call dein#add('python.vim')
-  call dein#add('editorconfig/editorconfig-vim')
-
-  call dein#add('Shougo/denite.nvim')
+  call dein#add('python_match.vim')
+  " best indentation for python (installed throught vim-polyglot)
+  " call dein#add('mitsuhiko/vim-python-combined')
 
   call dein#end()
   call dein#save_state()
@@ -214,17 +239,24 @@ endif
 call deoplete#enable()
 
 let g:jedi#completions_enabled = 0
+let g:jedi#goto_command = 'gc'
+let g:jedi#goto_assignments_command = 'ga'
+let g:jedi#goto_definitions_command = 'gd'
+let g:jedi#usages_command = ''
+let g:jedi#rename_command = '<leader>r'
+let g:jedi#rename_command = ''
 
-call denite#custom#alias('source', 'file_rec/git', 'file_rec')
-call denite#custom#var('file_rec', 'command', ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
-call denite#custom#var('file_rec/git', 'command', ['git', 'ls-files', '--exclude-standard', '-co'])
+" call dein#add('Shougo/denite.nvim')
+" call denite#custom#alias('source', 'file_rec/git', 'file_rec')
+" call denite#custom#var('file_rec', 'command', ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
+" call denite#custom#var('file_rec/git', 'command', ['git', 'ls-files', '--exclude-standard', '-co'])
+" nnoremap <leader>f :<C-u>Denite `finddir('.git', ';') != '' ? 'file_rec/git' : 'file_rec'`<CR>
 
 " call dein#add('wincent/command-t', {'build': 'cd ruby/command-t; make clean; ruby extconf.rb && make'})
-" call dein#add('ctrlpvim/ctrlp.vim')
 " nnoremap <leader>f :CtrlP<cr>
 " let g:CommandTFileScanner = 'git'
-" let g:ctrlp_user_command = ['.git/', 'cd %s && git ls-files --exclude-standard -co']
-" let g:ctrlp_map = ''
+let g:ctrlp_user_command = ['.git/', 'cd %s && git ls-files --exclude-standard -co']
+let g:ctrlp_map = ''
 
 " mappings
 let mapleader = ' '
@@ -241,7 +273,6 @@ nnoremap <leader>w :w<cr>
 nnoremap <leader>q :q<cr>
 nnoremap <leader>n :nohl<cr>
 nnoremap <leader>p :set paste!<cr>
-nnoremap <leader>f :<C-u>Denite `finddir('.git', ';') != '' ? 'file_rec/git' : 'file_rec'`<CR>
 
 nnoremap <leader>c :setlocal <C-R>=<SID>toggle('cursorline')<CR><CR>
 nnoremap <leader>u :setlocal <C-R>=<SID>toggle('cursorcolumn')<CR><CR>
@@ -251,10 +282,20 @@ nnoremap <leader>l :setlocal <C-R>=<SID>toggle('list')<CR><CR>
 inoremap <expr><Down> pumvisible() ? "\<C-n>" : "\<Down>"
 inoremap <expr><Up> pumvisible() ? "\<C-p>" : "\<Up>"
 
+" https://github.com/neovim/neovim/issues/2068
+" inoremap <m-a> <esc>a - same sequence as á
+inoremap <m-b> <esc>b
+inoremap <m-h> <esc>h
+inoremap <m-j> <esc>j
+inoremap <m-k> <esc>k
+inoremap <m-l> <esc>l
+inoremap <m-n> <esc>n
+inoremap <m-w> <esc>w
+
 " Tab for autocomplete menu navigation
 function! s:check_back_space() abort
   let col = col('.') - 1
-	return !col || getline('.')[col - 1]  =~ '\s'
+  return !col || getline('.')[col - 1]  =~ '\s'
 endfunction
 
 inoremap <silent><expr> <TAB> pumvisible() ? "\<C-n>" : <SID>check_back_space() ? "\<TAB>" : deoplete#mappings#manual_complete()
@@ -262,6 +303,7 @@ inoremap <silent><expr> <S-TAB> pumvisible() ? "\<C-p>" : <SID>check_back_space(
 
 " filetype settings
 autocmd BufEnter * set completeopt-=preview  " Disable documentation preview
+autocmd VimEnter * call dein#call_hook('post_source')
 
 augroup Lisp
   autocmd!
