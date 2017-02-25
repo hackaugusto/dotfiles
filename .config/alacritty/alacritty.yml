@@ -16,19 +16,19 @@ draw_bold_text_with_bright_colors: false
 font:
   # The normal (roman) font face to use.
   normal:
-    family: DroidSansMono # should be "Menlo" or something on macOS.
+    family: monospace # DroidSansMono # should be "Menlo" or something on macOS.
     # Style can be specified to pick a specific face.
     # style: Regular
 
   # The bold font face
   bold:
-    family: DroidSansMono # should be "Menlo" or something on macOS.
+    family: monospace # DroidSansMono # should be "Menlo" or something on macOS.
     # Style can be specified to pick a specific face.
     # style: Bold
 
   # The italic font face
   italic:
-    family: DroidSansMono # should be "Menlo" or something on macOS.
+    family: monospace # DroidSansMono # should be "Menlo" or something on macOS.
     # Style can be specified to pick a specific face.
     # style: Italic
 
@@ -83,6 +83,9 @@ colors:
   primary:
     background: '0x002b36'
     foreground: '0x839496'
+  cursor:
+    background: '0xffffff'
+    foreground: '0x000000'
 
   # Normal colors
   normal:
@@ -203,4 +206,5 @@ mouse_bindings:
 # Shell
 #
 # You can set this to a path to your favorite shell, e.g. /bin/fish
-shell: tmux
+shell:
+  program: tmux
