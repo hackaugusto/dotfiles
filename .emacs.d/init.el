@@ -9,6 +9,8 @@
 
 ;;;; Code:
 
+;; NOTE: eval-after-load executes only once, use it to setup keymaps
+
 ;;; initialize package.el
 (require 'package)
 
@@ -78,10 +80,11 @@ With prefix ARG, silently save all file-visiting buffers, then kill."
 (package-install-all
  '(ido-ubiquitous flx flx-ido
    direx projectile git-gutter git-timemachine magit
-   auto-complete flycheck idle-highlight-mode indent-guide multiple-cursors yasnippet
-   jedi pyenv-mode
+   auto-complete flycheck idle-highlight-mode multiple-cursors yasnippet
+   ;; indent-guide -> breaks the auto-complete menu
+   jedi pyenv-mode python python-mode
    rust-mode solidity-mode
-   deferred))
+   paradox deferred))
 
 ;;; emacs configuration
 (setq-default inhibit-startup-screen t
@@ -133,6 +136,7 @@ With prefix ARG, silently save all file-visiting buffers, then kill."
 (load custom-file :noerror :nomessage)
 
 (require 'recentf)
+(require 'package-utils)
 (recentf-mode t)
 (setq recentf-max-menu-items 25)
 
@@ -221,20 +225,20 @@ With prefix ARG, silently save all file-visiting buffers, then kill."
 (ido-ubiquitous-mode t)
 (smex-initialize)
 
-(add-hook
- 'ido-setup-hook
- (lambda ()
-   (define-key ido-completion-map (kbd "TAB") 'ido-next-match)
-   (define-key ido-completion-map (kbd "<backtab>") 'ido-prev-match)))
+(with-eval-after-load 'ido
+  (define-key ido-common-completion-map (kbd "TAB") 'ido-next-match)
+  (define-key ido-common-completion-map (kbd "<backtab>") 'ido-prev-match))
 
 ;;; autocomplete
-(setq-default ;;ac-auto-show-menu 0.8
-              ac-auto-show-menu nil
+(setq-default ac-auto-show-menu 0.1
               ac-auto-start 2
               ac-quick-help-delay 0.3
               ac-quick-help-height 50
               ac-use-fuzzy t
               ac-use-quick-help nil
+
+              ;; indent-guide-delay 0.3  ;; https://github.com/zk-phi/indent-guide/issues/32#issuecomment-185321879
+
               read-file-name-completion-ignore-case t)
 
 ;(ac-config-default)
@@ -263,7 +267,6 @@ With prefix ARG, silently save all file-visiting buffers, then kill."
    (yas-minor-mode)
    (git-gutter-mode)
    (idle-highlight-mode)
-   (indent-guide-global-mode)
    (projectile-global-mode)))
 
 (add-hook 'after-init-hook #'global-flycheck-mode)
@@ -287,6 +290,7 @@ With prefix ARG, silently save all file-visiting buffers, then kill."
 
 ; TODO: evil-search-highlight-persist-remove-all should not remove this
 (defun python-highlight-pdb ()
+  "Highlight pdb usage."
   (interactive)
   (highlight-regexp "pdb\\.\\(set_trace\\|post_mortem\\|run\\(call\\|ctx\\|eval\\)?\\)([^)\n\r]*)")
   (highlight-regexp "import\\( \\|.*[, ]\\)pdb"))
@@ -359,24 +363,13 @@ With prefix ARG, silently save all file-visiting buffers, then kill."
               jedi:complete-on-dot t
               key-chord-two-keys-delay 0.3)
 
-
 (add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
 (add-to-list 'interpreter-mode-alist '("python" . python-mode))
-(add-hook
- 'python-mode-hook
- (lambda()
-   (python-highlight-pdb)
-   (pyenv-mode)
-   (deferred:callback-post (pyenv-emacs-with-jedi))
-   (key-seq-define evil-normal-state-local-map "]d" 'er/mark-defun)
-   (key-seq-define evil-normal-state-local-map "gd" 'jedi:goto-definition)))
 
-(add-to-hooks
- '(lambda ()
-    (progn
-      (setq indent-tabs-mode nil tab-width 4)  ; use 4-space for tabs
-      (modify-syntax-entry ?_ "w")))            ; treat _ as part of the word
- '(python-mode-hook inferior-python-mode-hook))
+;; TODO:
+;; - test auto-virtualenv
+;; - pyenv-mode-auto
+
 
 ;; elscreen
 (custom-set-faces
