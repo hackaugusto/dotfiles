@@ -14,7 +14,7 @@ set statusline=%m
 " warns for readonly, syntax erros, files not ending in \n and files that are
 " not utf8
 set statusline+=%#warningmsg#
-set statusline+=%{Bracket(Comma(neomake#statusline#LoclistStatus(),MixedTabSpace(),TrailingSpace(),Diff(&ff,'unix'),Diff(&fenc,'utf-8'),One(&ro,'RO')))}
+set statusline+=%{Bracket(Comma(LoclistErrors(),LoclistWarnings(),MixedTabSpace(),TrailingSpace(),Diff(&ff,'unix'),Diff(&fenc,'utf-8'),One(&ro,'RO')))}
 set statusline+=%*
 
 set statusline+=\ %t
@@ -24,6 +24,7 @@ set statusline+=%{virtualenv#statusline()}
 set statusline+=%{Space(VCSChanges())}%{fugitive#head(7)}
 
 set statusline+=%=
+set statusline+=%<
 
 set statusline+=%{StatuslineCurrentHighlight()}
 set statusline+=\ [ascii\ %03.3b\ hex\ %02.2B]
@@ -136,9 +137,9 @@ function! MixedTabSpace()
   return b:statusline_tab_warning
 endfunction
 
-function! SyntasticErrors()
-  let loclist = g:SyntasticLoclist.current()
-  let errors = loclist.errors()
+function! LoclistErrors()
+  let loclist = getloclist(0)
+  let errors = filter(loclist, "v:val['type'] == 'E'")
 
   if !empty(errors)
     let num_errors = len(errors)
@@ -146,9 +147,9 @@ function! SyntasticErrors()
   endif
 endfunction
 
-function! SyntasticWarnings()
-  let loclist = g:SyntasticLoclist.current()
-  let warnings = loclist.warnings()
+function! LoclistWarnings()
+  let loclist = getloclist(0)
+  let warnings = filter(loclist, "v:val['type'] == 'W'")
 
   if !empty(warnings)
     let num_warnings = len(warnings)
@@ -178,10 +179,14 @@ if dein#load_state(s:plugins_base_dir)
 
   call dein#add(s:dein_dir)
 
+  " colorscheme
+  call dein#add('nanotech/jellybeans.vim')
+
   " editing
   call dein#add('tpope/vim-repeat')
   call dein#add('editorconfig/editorconfig-vim')
   call dein#add('pgdouyon/vim-evanesco')  " enhanced search
+  call dein#add('SirVer/ultisnips')
 
   " text objects and operators
   call dein#add('wellle/targets.vim')
@@ -201,6 +206,7 @@ if dein#load_state(s:plugins_base_dir)
   call dein#add('zchee/deoplete-jedi')
   call dein#add('racer-rust/vim-racer')
   call dein#add('ctrlpvim/ctrlp.vim')
+  call dein#add('mileszs/ack.vim')
 
   " source control
   call dein#add('mhinz/vim-signify')
@@ -225,6 +231,7 @@ if dein#load_state(s:plugins_base_dir)
   call dein#add('davidhalter/jedi-vim')
   call dein#add('jmcantrell/vim-virtualenv')
   call dein#add('python_match.vim')
+  call dein#add('python.vim')                 " block motions
   " best indentation for python (installed throught vim-polyglot)
   " call dein#add('mitsuhiko/vim-python-combined')
 
@@ -236,15 +243,24 @@ if s:dein_install
   call dein#install()
 endif
 
+colorscheme jellybeans
 call deoplete#enable()
 
 let g:jedi#completions_enabled = 0
-let g:jedi#goto_command = 'gc'
+let g:jedi#use_tabs_not_buffers = 1
+let g:jedi#goto_command = 'gd'
 let g:jedi#goto_assignments_command = 'ga'
-let g:jedi#goto_definitions_command = 'gd'
+let g:jedi#goto_definitions_command = ''
 let g:jedi#usages_command = ''
 let g:jedi#rename_command = '<leader>r'
 let g:jedi#rename_command = ''
+let g:jedi#show_call_signatures = 1
+let g:jedi#show_call_signatures_delay = 100
+let g:jedi#smart_auto_mappings = 0
+
+let g:signify_sign_add = '+'
+let g:signify_sign_delete_first_line = '-'
+let g:signify_sign_change = '~'
 
 " call dein#add('Shougo/denite.nvim')
 " call denite#custom#alias('source', 'file_rec/git', 'file_rec')
@@ -257,6 +273,8 @@ let g:jedi#rename_command = ''
 " let g:CommandTFileScanner = 'git'
 let g:ctrlp_user_command = ['.git/', 'cd %s && git ls-files --exclude-standard -co']
 let g:ctrlp_map = ''
+
+let g:ackprg = 'ag --vimgrep'
 
 " mappings
 let mapleader = ' '
@@ -290,7 +308,10 @@ inoremap <m-j> <esc>j
 inoremap <m-k> <esc>k
 inoremap <m-l> <esc>l
 inoremap <m-n> <esc>n
+inoremap <m-p> <esc>p
 inoremap <m-w> <esc>w
+inoremap <m-A> <esc>A
+inoremap <m-I> <esc>I
 
 " Tab for autocomplete menu navigation
 function! s:check_back_space() abort
@@ -304,6 +325,13 @@ inoremap <silent><expr> <S-TAB> pumvisible() ? "\<C-p>" : <SID>check_back_space(
 " filetype settings
 autocmd BufEnter * set completeopt-=preview  " Disable documentation preview
 autocmd VimEnter * call dein#call_hook('post_source')
+
+function! RemoveOldSwap(filename)
+  if getftime(v:swapname) < getftime(a:filename)
+    let v:swapchoice = 'd'
+  endif
+endfunction
+autocmd SwapExists * call RemoveOldSwap(expand('<afile>:p'))
 
 augroup Lisp
   autocmd!
