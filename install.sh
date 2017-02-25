@@ -266,6 +266,7 @@ arch_pacman() {
         # build
         cmake
         ftjam
+        maven
 
         # python
         pygmentize
@@ -289,9 +290,10 @@ arch_pacman() {
         android-udev
         gcc-fortran
         go
-        ocaml
+        idris
         lua
         luajit
+        ocaml
         ruby
 
         # tools
