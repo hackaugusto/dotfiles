@@ -10,3 +10,8 @@
 [core]
 	autocrlf = input
 	excludesfile = ~/.gitignore_global
+	pager = diff-so-fancy | less --tabs=4 -RFX
+[diff-so-fancy]
+	markEmptyLines = false
+	changeHunkIndicators = true
+	useUnicodeRuler = false

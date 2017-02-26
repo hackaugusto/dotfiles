@@ -299,6 +299,7 @@ arch_pacman() {
         # tools
         bsdiff
         colordiff
+        diff-so-fancy
         ctags
         dwdiff
         grafana-bin
