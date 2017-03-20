@@ -13,10 +13,6 @@ bin() {
     command -v $1 >/dev/null 2>&1
 }
 
-zgen-selfupdate() {
-    wget "https://raw.githubusercontent.com/tarjoilija/zgen/master/zgen.zsh" -O "${HOME}/.zsh/func/zgen"
-}
-
 profile() {
     # load system wide configuration
     if (){ setopt localoptions nonomatch nocshnullglob; [ -f /etc/profile.d/*.zsh([1]) ] }
@@ -38,22 +34,26 @@ older_than_days() {
     (( ( ( $curr_date - $file_date ) / 86400 ) > $days ))
 }
 
-install() {
-    if [ ! -e ~/.zsh/func/zgen ]; then
-        # install zgen if not installed
-        zgen-selfupdate
-    fi
+maybe_git_clone() {
+    repo="${1}"
+    target="${2}"
 
-    if [ ! -e ~/.pyenv/plugins/pyenv-alias ]; then
-        git clone https://github.com/yyuu/pyenv-virtualenv.git ~/.pyenv/plugins/pyenv-virtualenv
-        git clone https://github.com/s1341/pyenv-alias.git ~/.pyenv/plugins/pyenv-alias
-    fi
+    [ ! -e "${target}" ] && {
+        mkdir -p "${target}"
+        git clone "${repo}" "${target}"
+    }
+}
+
+install() {
+    maybe_git_clone "https://github.com/tarjoilija/zgen.git" "${HOME}/.zgen"
+    maybe_git_clone "https://github.com/s1341/pyenv-alias.git" "${HOME}/.pyenv/plugins/pyenv-alias"
+    maybe_git_clone "https://github.com/yyuu/pyenv-virtualenv.git" "${HOME}/.pyenv/plugins/pyenv-virtualenv"
 }
 
 update() {
-    if older_than_days ~/.zsh/func/zgen 50; then
+    if older_than_days ~/.zgen/_zgen 50; then
         # update if more than 50 days old
-        zgen selfupdate
+        zgen self-update
     fi
 
     if [ -e ~/.zgen/init.zsh ] && older_than_days ~/.zgen/init.zsh 30; then
@@ -92,7 +92,7 @@ pyenv() {
 profile
 install
 
-fpath=($fpath $HOME/.zsh/func)
+fpath=($fpath "$HOME/.zsh/func")
 
 zmodload zsh/complist  # complist must be loaded before the compinit call
 
@@ -102,7 +102,7 @@ autoload -U add-zsh-hook
 autoload -U compinit
 
 # load now but does not execute
-autoload +X zgen
+source ~/.zgen/zgen.zsh
 
 zgitinit
 
