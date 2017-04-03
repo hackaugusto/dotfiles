@@ -1,4 +1,5 @@
 # Augusto Hack <hack dot augusto at gmail dot com>
+# vim:ts=2 sts=2 sw=2:
 
 load(){
     [[ -f $1 ]] && . $1
@@ -11,17 +12,6 @@ require() {
 
 bin() {
     command -v $1 >/dev/null 2>&1
-}
-
-profile() {
-    # load system wide configuration
-    if (){ setopt localoptions nonomatch nocshnullglob; [ -f /etc/profile.d/*.zsh([1]) ] }
-    then
-        . /etc/profile.d/*.zsh
-    fi
-
-    # load user configuration
-     load $HOME/.profile
 }
 
 older_than_days() {
@@ -44,13 +34,25 @@ maybe_git_clone() {
     }
 }
 
+profile() {
+    # Source the system profile files.
+    if (){ setopt localoptions nonomatch nocshnullglob; [ -f /etc/profile.d/*.zsh([1]) ] }
+    then
+        . /etc/profile.d/*.zsh
+    fi
+
+    load $HOME/.profile
+}
+
 install() {
+    # Install zsh plugins
     maybe_git_clone "https://github.com/tarjoilija/zgen.git" "${HOME}/.zgen"
     maybe_git_clone "https://github.com/s1341/pyenv-alias.git" "${HOME}/.pyenv/plugins/pyenv-alias"
     maybe_git_clone "https://github.com/yyuu/pyenv-virtualenv.git" "${HOME}/.pyenv/plugins/pyenv-virtualenv"
 }
 
 update() {
+    # Update the installed plugins
     if older_than_days ~/.zgen/_zgen 50; then
         # update if more than 50 days old
         zgen self-update
@@ -72,21 +74,41 @@ update() {
     fi
 }
 
-# TODO: figure out how to define this inside init.zsh
-pyenv() {
-  local command
-  command="$1"
-  if [ "$#" -gt 0 ]; then
-    shift
-  fi
+pyenv_venv_exists() {
+    venv=$1
 
-  case "$command" in
-  activate|deactivate|rehash|shell)
-    eval "$(pyenv "sh-$command" "$@")";;
-  *)
-    command pyenv "$command" "$@";;
-  esac
+    pyenv virtualenvs | grep "${venv}"
 }
+
+pyenv_env_exists() {
+    env=$1
+
+    pyenv virtualenvs | grep "${env}"
+}
+
+venvs() {
+    pyenv_env_exists 2.7 &> /dev/null || pyenv install 2.7
+    pyenv_venv_exists py27 &> /dev/null || pyenv virtualenv 2.7 py27
+}
+
+# TODO: figure out how to define this inside init.zsh
+# pyenv() {
+#   # Alternative to running the following in the profile
+#   # export PATH="$HOME/.zgen/pyenv/pyenv-master/bin:$PATH"
+#   # eval "$(pyenv init -)"
+#   local command
+#   command="$1"
+#   if [ "$#" -gt 0 ]; then
+#     shift
+#   fi
+# 
+#   case "$command" in
+#   activate|deactivate|rehash|shell)
+#     eval "$(pyenv "sh-$command" "$@")";;
+#   *)
+#     command pyenv "$command" "$@";;
+#   esac
+# }
 
 
 profile
@@ -100,9 +122,6 @@ autoload -U promptinit
 autoload -U zgitinit
 autoload -U add-zsh-hook
 autoload -U compinit
-
-# load now but does not execute
-source ~/.zgen/zgen.zsh
 
 zgitinit
 
@@ -135,7 +154,11 @@ require ~/.zsh/prompt.sh
 #   compinit -C
 # fi
 
+export PATH="$HOME/.zgen/pyenv/pyenv-master/bin:$PATH"
+eval "$(pyenv init -)"
+
 update
+venvs
 
 if [[ "$OSTYPE" = darwin* ]]; then
     export PATH=$(deduplicate_path '/sbin' '/bin' '/usr/bin')

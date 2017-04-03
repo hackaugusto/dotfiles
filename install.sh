@@ -48,8 +48,16 @@ link() {
         error "File ${original} does not exists, cannot create link ${target}"
         return
     }
-    [ -e "$target" -a "$FORCE" -eq 1 ] && unlink $target
-    [ -e $target ] && info "${target} already exists, skipping"
+
+    [ -e "$target" -a "$FORCE" -eq 1 ] && {
+        unlink $target
+    }
+
+    [ -e $target ] && {
+        info "${target} already exists, skipping"
+        return
+    }
+
     [ ! -e $target ] && {
         info "${target} created"
         ln -s "${original}" "${target}"
@@ -371,12 +379,16 @@ arch_aur(){
         # http://llvm.org/releases/download.html#3.7.0 PGP sig (Hans Wennborg <hans@chromium.org> 0x0FC3042E345AD05D)
         # gpg --recv-keys 0fc3042e345ad05d
         aur_packages=( \
+            otf-hack
+            ttf-iosevka
+            otf-pragmatapro
+
             alacritty-git
             bear
             chromium-pepper-flash-dev
             # colout-git - using pygmentize directly
             dropbox
-            otf-hack
+
             opam
             flamegraph-git
             notify-osd-customizable

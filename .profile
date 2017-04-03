@@ -191,6 +191,7 @@ stty -ixon
 
 export GPG_TTY=$(tty)
 export SSH_AUTH_SOCK="/run/user/$UID/gnupg/S.gpg-agent.ssh"
+export PYTHONSTARTUP=$HOME/.pythonrc
 
 # [[ ! -z $DISPLAY && -f ~/.Xmodmap ]] && xmodmap ~/.Xmodmap      # remaps Caps to Ctrl (remapping caps with x11 keymap options)
 [ -z "$DISPLAY" -a "$XDG_VTNR" -eq 1 ] && exec startx
