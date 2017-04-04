@@ -49,6 +49,13 @@ install() {
     maybe_git_clone "https://github.com/tarjoilija/zgen.git" "${HOME}/.zgen"
     maybe_git_clone "https://github.com/s1341/pyenv-alias.git" "${HOME}/.pyenv/plugins/pyenv-alias"
     maybe_git_clone "https://github.com/yyuu/pyenv-virtualenv.git" "${HOME}/.pyenv/plugins/pyenv-virtualenv"
+
+    # all plugins must be inside the PYENV_ROOT/plugins folder
+    target_pyenv_build="${HOME}/.pyenv/plugins"
+    original_pyenv_build="${HOME}/.zgen/pyenv/pyenv-master/plugins/python-build"
+    [ ! -e "${target_pyenv_build}/python-build" -a -e "${original_pyenv_build}" ] && {
+        ln -s "${original_pyenv_build}" "${target_pyenv_build}"
+    }
 }
 
 update() {

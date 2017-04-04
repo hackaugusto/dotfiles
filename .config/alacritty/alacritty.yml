@@ -1,8 +1,9 @@
 # The FreeType rasterizer needs to know the device DPI for best results
 # (changes require restart)
 dpi:
-  x: 96.0
-  y: 96.0
+  # x: 300.0
+  x: 180.0
+  y: 180.0
 
 tabspaces: 4
 render_timer: false
@@ -27,8 +28,8 @@ font:
   # Offset is the extra space around each character. offset.y can be thought of
   # as modifying the linespacing, and offset.x as modifying the letter spacing.
   offset:
-    x: 2
-    y: -7
+    x: 13
+    y: 4
 
   # OS X only: use thin stroke font rendering. Thin strokes are suitable
   # for retina displays, but for non-retina you probably want this set to

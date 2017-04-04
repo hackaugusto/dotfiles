@@ -240,6 +240,7 @@ if dein#load_state(s:plugins_base_dir)
 endif
 
 if s:dein_install
+  " :UpdateRemotePlugins
   call dein#install()
 endif
 

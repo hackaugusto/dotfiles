@@ -132,6 +132,7 @@ arch_pacman() {
         scrot
         seahorse
         xclip
+        xsel
         xorg-xinit
 
         # laptop
@@ -216,6 +217,7 @@ arch_pacman() {
         # shell utils
         aria2
         expect
+        fakeroot
         fortune-mod
         gnu-netcat
         htop
@@ -455,6 +457,7 @@ link .tmux.conf
 link .urxvt
 link .urxvt/resize-font
 
+mkdir -p $HOME/.gdb/{c,py}
 link .gdbinit
 link .gdb/config
 link .gdb/c/locallist
@@ -467,7 +470,7 @@ link .gitignore_global
 
 mkdir -p ${HOME}/.emacs.d/lisp
 link .emacs.d/init.el
-git clone https://github.com/ProofGeneral/PG ~/.emacs.d/lisp/PG
+repo https://github.com/ProofGeneral/PG ~/.emacs.d/lisp/PG
 (cd ~/.emacs.d/lisp/PG && make)
 
 mkdir -p ${HOME}/.config
@@ -484,24 +487,22 @@ link .config/openbox/autostart.sh
 link .config/openbox/multimonitor.xml
 link .config/openbox/rc.xml
 
-# Depedencies for compilation
-if bin pacman; then
-    arch_pacman
-fi
-
+mkdir -p ${HOME}/.config/nvim/plugins/repos/github.com/Shougo
 link .vim
 link .vimrc
 link .vim .nvim
 link .vimrc .nvimrc
-
-mkdir -p ${HOME}/.config/nvim
 link .config/nvim/init.vim
-mkdir -p ${HOME}/.config/nvim/plugins/repos/github.com/Shougo
 
 # Anything that needs to be compiles goes after here
 msg 'Vim plugins'
 repo 'https://github.com/hackaugusto/Vundle.vim.git' "${HOME}/.vim/bundle/Vundle.vim"
 vim -u ${HOME}/.vim/plugins.vim +PluginUpdate +qa
+
+# Depedencies for compilation
+if bin pacman; then
+    arch_pacman
+fi
 
 # TODO: use neobundle or vim-plug
 find -L ${HOME}/.vim -iname Makefile | grep -v -e html5.vim -e Dockerfile -e color_coded | while read plugin; do
