@@ -258,6 +258,15 @@
     </keybind>
 
     <!-- Keybindings for running applications -->
+    <keybind key="W-d">
+      <action name="Execute">
+        <startupnotify>
+          <enabled>true</enabled>
+          <name>dmenu</name>
+        </startupnotify>
+        <command>dmenu</command>
+      </action>
+    </keybind>
     <keybind key="W-f">
       <action name="Execute">
         <startupnotify>

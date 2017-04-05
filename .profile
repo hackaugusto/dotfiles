@@ -5,6 +5,7 @@
 
 # keymap (changes /etc/X11/xorg.conf.d/00-keyboard.conf)
 #   localectl set-x11-keymap br,us abnt2,pc105 ,dvorak terminate:ctrl_alt_bksp,grp:rctrl_toggle,ctrl:nocaps,ctrl:lctrl_meta
+#   localectl set-x11-keymap us asus_laptop '' ctrl:swapcaps
 # or
 #   setxkbmap -layout br,us -model abnt2,pc105 -variant ,dvorak -option terminate:ctrl_alt_bksp,grp:alt_shift_toggle
 
@@ -192,6 +193,10 @@ stty -ixon
 export GPG_TTY=$(tty)
 export SSH_AUTH_SOCK="/run/user/$UID/gnupg/S.gpg-agent.ssh"
 export PYTHONSTARTUP=$HOME/.pythonrc
+
+# HiDPI scaling
+export GDK_SCALE=2
+export GDK_DPI_SCALE=0.5
 
 # [[ ! -z $DISPLAY && -f ~/.Xmodmap ]] && xmodmap ~/.Xmodmap      # remaps Caps to Ctrl (remapping caps with x11 keymap options)
 [ -z "$DISPLAY" -a "$XDG_VTNR" -eq 1 ] && exec startx
