@@ -165,6 +165,7 @@ arch_pacman() {
         texlive-fontsextra
         texlive-bibtexextra
         minted
+        biber
 
         # multimedia
         alsa-oss
@@ -196,6 +197,8 @@ arch_pacman() {
         python-neovim
         vis
         lua-lpeg
+        vim-spell-en
+        vim-spell-pt
 
         # terminal/shell
         mosh
