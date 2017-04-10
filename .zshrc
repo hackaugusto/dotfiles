@@ -1,4 +1,5 @@
 # Augusto Hack <hack dot augusto at gmail dot com>
+# vim:ts=2 sts=2 sw=2:
 
 load(){
     [[ -f $1 ]] && . $1
@@ -13,21 +14,6 @@ bin() {
     command -v $1 >/dev/null 2>&1
 }
 
-zgen-selfupdate() {
-    wget "https://raw.githubusercontent.com/tarjoilija/zgen/master/zgen.zsh" -O "${HOME}/.zsh/func/zgen"
-}
-
-profile() {
-    # load system wide configuration
-    if (){ setopt localoptions nonomatch nocshnullglob; [ -f /etc/profile.d/*.zsh([1]) ] }
-    then
-        . /etc/profile.d/*.zsh
-    fi
-
-    # load user configuration
-     load $HOME/.profile
-}
-
 older_than_days() {
     file=$1
     days=$2
@@ -38,22 +24,45 @@ older_than_days() {
     (( ( ( $curr_date - $file_date ) / 86400 ) > $days ))
 }
 
-install() {
-    if [ ! -e ~/.zsh/func/zgen ]; then
-        # install zgen if not installed
-        zgen-selfupdate
+maybe_git_clone() {
+    repo="${1}"
+    target="${2}"
+
+    [ ! -e "${target}" ] && {
+        mkdir -p "${target}"
+        git clone "${repo}" "${target}"
+    }
+}
+
+profile() {
+    # Source the system profile files.
+    if (){ setopt localoptions nonomatch nocshnullglob; [ -f /etc/profile.d/*.zsh([1]) ] }
+    then
+        . /etc/profile.d/*.zsh
     fi
 
-    if [ ! -e ~/.pyenv/plugins/pyenv-alias ]; then
-        git clone https://github.com/yyuu/pyenv-virtualenv.git ~/.pyenv/plugins/pyenv-virtualenv
-        git clone https://github.com/s1341/pyenv-alias.git ~/.pyenv/plugins/pyenv-alias
-    fi
+    load $HOME/.profile
+}
+
+install() {
+    # Install zsh plugins
+    maybe_git_clone "https://github.com/tarjoilija/zgen.git" "${HOME}/.zgen"
+    maybe_git_clone "https://github.com/s1341/pyenv-alias.git" "${HOME}/.pyenv/plugins/pyenv-alias"
+    maybe_git_clone "https://github.com/yyuu/pyenv-virtualenv.git" "${HOME}/.pyenv/plugins/pyenv-virtualenv"
+
+    # all plugins must be inside the PYENV_ROOT/plugins folder
+    target_pyenv_build="${HOME}/.pyenv/plugins"
+    original_pyenv_build="${HOME}/.zgen/pyenv/pyenv-master/plugins/python-build"
+    [ ! -e "${target_pyenv_build}/python-build" -a -e "${original_pyenv_build}" ] && {
+        ln -s "${original_pyenv_build}" "${target_pyenv_build}"
+    }
 }
 
 update() {
-    if older_than_days ~/.zsh/func/zgen 50; then
+    # Update the installed plugins
+    if older_than_days ~/.zgen/_zgen 50; then
         # update if more than 50 days old
-        zgen selfupdate
+        zgen self-update
     fi
 
     if [ -e ~/.zgen/init.zsh ] && older_than_days ~/.zgen/init.zsh 30; then
@@ -72,27 +81,47 @@ update() {
     fi
 }
 
-# TODO: figure out how to define this inside init.zsh
-pyenv() {
-  local command
-  command="$1"
-  if [ "$#" -gt 0 ]; then
-    shift
-  fi
+pyenv_venv_exists() {
+    venv=$1
 
-  case "$command" in
-  activate|deactivate|rehash|shell)
-    eval "$(pyenv "sh-$command" "$@")";;
-  *)
-    command pyenv "$command" "$@";;
-  esac
+    pyenv virtualenvs | grep "${venv}"
 }
+
+pyenv_env_exists() {
+    env=$1
+
+    pyenv virtualenvs | grep "${env}"
+}
+
+venvs() {
+    pyenv_env_exists 2.7 &> /dev/null || pyenv install 2.7
+    pyenv_venv_exists py27 &> /dev/null || pyenv virtualenv 2.7 py27
+}
+
+# TODO: figure out how to define this inside init.zsh
+# pyenv() {
+#   # Alternative to running the following in the profile
+#   # export PATH="$HOME/.zgen/pyenv/pyenv-master/bin:$PATH"
+#   # eval "$(pyenv init -)"
+#   local command
+#   command="$1"
+#   if [ "$#" -gt 0 ]; then
+#     shift
+#   fi
+# 
+#   case "$command" in
+#   activate|deactivate|rehash|shell)
+#     eval "$(pyenv "sh-$command" "$@")";;
+#   *)
+#     command pyenv "$command" "$@";;
+#   esac
+# }
 
 
 profile
 install
 
-fpath=($fpath $HOME/.zsh/func)
+fpath=($fpath "$HOME/.zsh/func")
 
 zmodload zsh/complist  # complist must be loaded before the compinit call
 
@@ -100,9 +129,6 @@ autoload -U promptinit
 autoload -U zgitinit
 autoload -U add-zsh-hook
 autoload -U compinit
-
-# load now but does not execute
-autoload +X zgen
 
 zgitinit
 
@@ -135,7 +161,11 @@ require ~/.zsh/prompt.sh
 #   compinit -C
 # fi
 
+export PATH="$HOME/.zgen/pyenv/pyenv-master/bin:$PATH"
+eval "$(pyenv init -)"
+
 update
+venvs
 
 if [[ "$OSTYPE" = darwin* ]]; then
     export PATH=$(deduplicate_path '/sbin' '/bin' '/usr/bin')

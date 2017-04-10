@@ -191,11 +191,11 @@ if dein#load_state(s:plugins_base_dir)
   " text objects and operators
   call dein#add('wellle/targets.vim')
   " better (but slower) than surround for unaligned chars
-  call dein#add('machakann/vim-sandwich',
-    \ {'hook_post_source': 'runtime macros/sandwich/keymap/surround.vim'}
-    \ )
+  " call dein#add('machakann/vim-sandwich',
+  "   \ {'hook_post_source': 'runtime macros/sandwich/keymap/surround.vim'}
+  "   \ )
   " call dein#add('pgdouyon/vim-apparate')
-  " call dein#add('tpope/vim-surround')
+  call dein#add('tpope/vim-surround')
 
   " presentation
   call dein#add('junegunn/goyo.vim')
@@ -240,6 +240,7 @@ if dein#load_state(s:plugins_base_dir)
 endif
 
 if s:dein_install
+  " :UpdateRemotePlugins
   call dein#install()
 endif
 

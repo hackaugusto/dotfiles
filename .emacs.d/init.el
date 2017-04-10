@@ -15,8 +15,7 @@
 (require 'package)
 
 (setq package-enable-at-startup nil)
-(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
-(add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/") t)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 
 (package-initialize)
 (unless package-archive-contents (package-refresh-contents))
@@ -61,7 +60,7 @@ With prefix ARG, silently save all file-visiting buffers, then kill."
 (defun ensure (package)
   "Make sure PACKAGE is installed with package.el."
   (if (not (package-installed-p package))
-      (package-install 'use-package))
+      (package-install package))
   (require package))
 
 (ensure 'dash)
@@ -78,12 +77,14 @@ With prefix ARG, silently save all file-visiting buffers, then kill."
             (package-install package)))))) ;; install dependencies and update loaddefs.el
 
 (package-install-all
- '(ido-ubiquitous flx flx-ido
+ '(ido-ubiquitous smex flx flx-ido linum-relative
+   evil key-chord evil-surround evil-leader evil-tabs evil-search-highlight-persist
    direx projectile git-gutter git-timemachine magit
    auto-complete flycheck idle-highlight-mode multiple-cursors yasnippet
    ;; indent-guide -> breaks the auto-complete menu
    jedi pyenv-mode python python-mode
    rust-mode solidity-mode
+   ;; package-utils -> using paradox instead
    paradox deferred))
 
 ;;; emacs configuration
@@ -136,7 +137,6 @@ With prefix ARG, silently save all file-visiting buffers, then kill."
 (load custom-file :noerror :nomessage)
 
 (require 'recentf)
-(require 'package-utils)
 (recentf-mode t)
 (setq recentf-max-menu-items 25)
 
@@ -446,6 +446,7 @@ With prefix ARG, silently save all file-visiting buffers, then kill."
 ;(define-key evil-motion-state-map ";" 'smex)
 (global-set-key [escape] 'evil-exit-emacs-state)
 
+(evil-leader/set-leader "<SPC>")
 (evil-leader/set-key
     "F" 'helm-find-files
     "f" 'helm-open-vcs-files
@@ -461,8 +462,8 @@ With prefix ARG, silently save all file-visiting buffers, then kill."
     "x" 'helm-M-x)
 
 ;;; flymake
-
-;; (use-package flymake-coffee :mode "\\.coffee")
+;;(require 'use-package)
+;;(use-package flymake-coffee :mode "\\.coffee")
 ;;(use-package flymake-css :mode "\\.css")
 ;;(use-package flymake-cursor)
 ;;(use-package flymake-haml :mode "\\.haml")
@@ -470,5 +471,4 @@ With prefix ARG, silently save all file-visiting buffers, then kill."
 ;;(use-package flymake-sass :mode "\\.scss")
 ;;(use-package flymake-shell)
 ;;flymake-rust
-;; flyphpcs
-;; ))
+;;flyphpcs

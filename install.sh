@@ -28,6 +28,13 @@ bin() {
     hash $1 2> /dev/null
 }
 
+has_exact_line() {
+    file=$1
+    line=$2
+
+    egrep "^$line$" $file 2>&1 > /dev/null
+}
+
 require_bin() {
     [ $# -ne 1 ] && die "${0} needs 1 argument: ${0} binary"
 
@@ -44,12 +51,23 @@ link() {
     target=$HOME/${2:-$1}
     original=$REPO/$1
 
-    [ ! -e "$original" ] && {
+    [ ! -e "${original}" ] && {
         error "File ${original} does not exists, cannot create link ${target}"
         return
     }
-    [ -e "$target" -a "$FORCE" -eq 1 ] && unlink $target
-    [ -e $target ] && info "${target} already exists, skipping"
+
+    # remove the current link and proceed
+    [ -e "${target}" -a "${FORCE}" -eq 1 ] && {
+        unlink "${target}"
+    }
+
+    # if the target exist and we don't want to force, print the message and
+    # exit, otherwise the ln -s call bellow will fail and the script quit
+    [ -e "${target}" ] && {
+        info "${target} already exists, skipping"
+        return
+    }
+
     [ ! -e $target ] && {
         info "${target} created"
         ln -s "${original}" "${target}"
@@ -111,6 +129,7 @@ arch_pacman() {
         chromium
         cups
         dialog
+        dmenu
         evince
         feh
         firefox
@@ -124,6 +143,7 @@ arch_pacman() {
         scrot
         seahorse
         xclip
+        xsel
         xorg-xinit
 
         # laptop
@@ -195,6 +215,7 @@ arch_pacman() {
         gvim
         neovim
         python-neovim
+        python2-neovim
         vis
         lua-lpeg
         vim-spell-en
@@ -205,12 +226,12 @@ arch_pacman() {
         rxvt-unicode
         tmux
         zsh
-        pssh
         openssh
 
         # shell utils
         aria2
         expect
+        fakeroot
         fortune-mod
         gnu-netcat
         htop
@@ -288,6 +309,10 @@ arch_pacman() {
         tk # required by gitk
         tig
 
+        # ethereum
+        solidity
+        geth
+
         # other programming
         android-tools
         android-udev
@@ -305,7 +330,6 @@ arch_pacman() {
         diff-so-fancy
         ctags
         dwdiff
-        grafana-bin
         mono
         npm
         ragel
@@ -334,6 +358,9 @@ arch_pacman() {
         gdb
         python-pygments python-pycparser # required by .gdb/c/longlist.py
     )
+
+    # on a fresh install update prior to querying
+    $root pacman -Sy
 
     to_install=()
     for pack in $packages; do
@@ -374,12 +401,16 @@ arch_aur(){
         # http://llvm.org/releases/download.html#3.7.0 PGP sig (Hans Wennborg <hans@chromium.org> 0x0FC3042E345AD05D)
         # gpg --recv-keys 0fc3042e345ad05d
         aur_packages=( \
+            otf-hack
+            ttf-iosevka
+            otf-pragmatapro
+
             alacritty-git
             bear
             chromium-pepper-flash-dev
             # colout-git - using pygmentize directly
             dropbox
-            otf-hack
+
             opam
             flamegraph-git
             notify-osd-customizable
@@ -393,7 +424,11 @@ arch_aur(){
             wrk2-git
             pup-git
             ruby-neovim
+            pssh
+            # grafana-bin
             # urxvt-resize-font-git
+
+            tzupdate
         )
 
         aur_to_install=()
@@ -426,8 +461,9 @@ link .profile
 link .zshrc
 link .zsh
 
-# link .gnupg/gpg.conf
-# link .gnupg/gpg-agent.conf
+mkdir -p $HOME/.gnupg
+link .gnupg/gpg.conf
+link .gnupg/gpg-agent.conf
 
 link .xinitrc
 link .xbindkeysrc
@@ -446,6 +482,7 @@ link .tmux.conf
 link .urxvt
 link .urxvt/resize-font
 
+mkdir -p $HOME/.gdb/{c,py}
 link .gdbinit
 link .gdb/config
 link .gdb/c/locallist
@@ -458,7 +495,7 @@ link .gitignore_global
 
 mkdir -p ${HOME}/.emacs.d/lisp
 link .emacs.d/init.el
-git clone https://github.com/ProofGeneral/PG ~/.emacs.d/lisp/PG
+repo https://github.com/ProofGeneral/PG ~/.emacs.d/lisp/PG
 (cd ~/.emacs.d/lisp/PG && make)
 
 mkdir -p ${HOME}/.config
@@ -475,24 +512,23 @@ link .config/openbox/autostart.sh
 link .config/openbox/multimonitor.xml
 link .config/openbox/rc.xml
 
-# Depedencies for compilation
-if bin pacman; then
-    arch_pacman
-fi
-
+mkdir -p ${HOME}/.config/nvim/plugins/repos/github.com/Shougo
 link .vim
 link .vimrc
 link .vim .nvim
 link .vimrc .nvimrc
-
-mkdir -p ${HOME}/.config/nvim
 link .config/nvim/init.vim
-mkdir -p ${HOME}/.config/nvim/plugins/repos/github.com/Shougo
 
 # Anything that needs to be compiles goes after here
 msg 'Vim plugins'
 repo 'https://github.com/hackaugusto/Vundle.vim.git' "${HOME}/.vim/bundle/Vundle.vim"
 vim -u ${HOME}/.vim/plugins.vim +PluginUpdate +qa
+
+# Depedencies for compilation
+if bin pacman; then
+    has_exact_line /etc/pacman.conf "\[multilib\]" || die "multilib is not enabled on pacman.conf"
+    arch_pacman
+fi
 
 # TODO: use neobundle or vim-plug
 find -L ${HOME}/.vim -iname Makefile | grep -v -e html5.vim -e Dockerfile -e color_coded | while read plugin; do

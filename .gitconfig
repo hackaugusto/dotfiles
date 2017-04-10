@@ -1,6 +1,7 @@
 [user]
 	email = hack.augusto@gmail.com
 	name = Augusto F. Hack
+	signingkey = 7EA13CD8
 [push]
 	default = simple
 [diff]
@@ -15,3 +16,5 @@
 	markEmptyLines = false
 	changeHunkIndicators = true
 	useUnicodeRuler = false
+[gpg]
+	program = gpg2

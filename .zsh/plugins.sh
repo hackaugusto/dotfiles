@@ -1,3 +1,5 @@
+source ~/.zgen/zgen.zsh
+
 # TODO: why we need to call it twice?
 zgen saved
 
@@ -20,7 +22,8 @@ if ! zgen saved; then
     # zgen oh-my-zsh plugins/httpie
 
     # python
-    zgen load yyuu/pyenv
+    # zgen load pyenv/pyenv
+    # zgen load hackaugusto/pyenv
     zgen oh-my-zsh plugins/autopep8
     zgen oh-my-zsh plugins/celery
     zgen oh-my-zsh plugins/fabric

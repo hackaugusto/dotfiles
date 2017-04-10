@@ -13,6 +13,7 @@ xsetroot -cursor_name left_ptr
 xset +fp /usr/share/fonts/local
 xset fp rehash
 xset -b
+xset m 8/1 0  # mouse acceleration, 8x without threshold
 numlockx &
 
 [[ -f $HOME/.Xresources ]] && xrdb -I$HOME ~/.Xresources
