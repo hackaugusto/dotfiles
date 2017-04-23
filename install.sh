@@ -148,6 +148,7 @@ arch_pacman() {
         xclip
         xsel
         xorg-xinit
+        arandr
 
         # laptop
         acpi
@@ -187,7 +188,10 @@ arch_pacman() {
         texlive-latexextra
         texlive-fontsextra
         texlive-bibtexextra
+        texlive-pictures
+        texlive-science
         minted
+        biber
 
         # multimedia
         alsa-oss
@@ -203,6 +207,7 @@ arch_pacman() {
         pulseaudio-alsa
         youtube-dl
         youtube-viewer
+        pavucontrol
 
         # wine
         wine
@@ -220,6 +225,8 @@ arch_pacman() {
         python2-neovim
         vis
         lua-lpeg
+        vim-spell-en
+        vim-spell-pt
 
         # terminal/shell
         mosh
@@ -233,28 +240,29 @@ arch_pacman() {
         expect
         fakeroot
         fortune-mod
+        fzf
         gnu-netcat
+        graphviz
         htop
         iotop
         jq
+        lsof
         moreutils
         ncdu
+        net-tools
         octave
+        parallel
+        patchutils
         pigz
         smartmontools
         sudo
+        sysstat
         the_silver_searcher
         tree
-        unzip
         unrar
+        unzip
         wget
         zip
-        lsof
-        net-tools
-        parallel
-        patchutils
-        sysstat
-        graphviz
 
         # arch
         abs
@@ -291,6 +299,9 @@ arch_pacman() {
         cmake
         ftjam
         maven
+        automake
+        autoconf
+        m4
 
         # python
         pygmentize
@@ -402,8 +413,9 @@ arch_aur(){
         # gpg --recv-keys 0fc3042e345ad05d
         aur_packages=( \
             otf-hack
-            ttf-iosevka
             otf-pragmatapro
+            ttf-iosevka
+            ttf-font-awesome
 
             alacritty-git
             bear
@@ -425,6 +437,7 @@ arch_aur(){
             pup-git
             ruby-neovim
             pssh
+            gtklp
             # grafana-bin
             # urxvt-resize-font-git
 
