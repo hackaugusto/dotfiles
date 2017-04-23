@@ -1,0 +1,126 @@
+# configure urxvt and Xft
+exec xrdb ~/.Xresources
+
+# Mod1 -> Alt.
+# Mod4 -> Windows key.
+set $mod Mod4
+
+set $left h
+set $down j
+set $up k
+set $right l
+
+# set $term alacritty
+set $term urxvt
+set $menu dmenu_run
+
+# > swaymsg -t get_outputs
+# output * bg /usr/share/sway/Sway_Wallpaper_Blue_1920x1080.png fill
+output eDPI-1 resolution 3200x1800 position 0,0 scale 2
+
+# > swaymsg -t get_inputs  # The escape symbol "\" has to be removed.
+# input "" {
+#     dwt enabled
+#     tap enabled
+#     natural_scroll enabled
+#     middle_emulation enabled
+# }
+
+bar {
+    status_command i3status
+    position top
+    font pango:FontAwesome 20
+
+    colors {
+        statusline #ffffff
+        background #323232
+        inactive_workspace #32323200 #32323200 #5c5c5c
+    }
+}
+new_window none
+new_float none
+
+bindsym $mod+t exec $term -e tmux -2
+bindsym $mod+g exec chromium --force-device-scale-factor=1.8
+bindsym $mod+d exec $menu
+
+bindsym $mod+Shift+c reload
+bindsym $mod+Shift+e exit
+
+bindsym Mod1+F4 kill
+bindsym $mod+Shift+q kill
+
+floating_modifier $mod normal
+
+bindsym $mod+$left focus left
+bindsym $mod+Left focus left
+bindsym $mod+$down focus down
+bindsym $mod+$up focus up
+
+bindsym $mod+$right focus right
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+bindsym $mod+b splith
+bindsym $mod+v splitv
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+
+bindsym $mod+f fullscreen
+bindsym $mod+Shift+space floating toggle
+bindsym $mod+space focus mode_toggle
+bindsym $mod+a focus parent
+
+# _move_ the focused window with the same, but add Shift
+bindsym $mod+Shift+$left move left
+bindsym $mod+Shift+$down move down
+bindsym $mod+Shift+$up move up
+bindsym $mod+Shift+$right move right
+# ditto, with arrow keys
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+bindsym $mod+1 workspace 1
+bindsym $mod+2 workspace 2
+bindsym $mod+3 workspace 3
+bindsym $mod+4 workspace 4
+bindsym $mod+5 workspace 5
+bindsym $mod+6 workspace 6
+bindsym $mod+7 workspace 7
+bindsym $mod+8 workspace 8
+bindsym $mod+9 workspace 9
+
+bindsym Mod4+Shift+1 move container to workspace 1
+bindsym Mod4+Shift+2 move container to workspace 2
+bindsym Mod4+Shift+3 move container to workspace 3
+bindsym Mod4+Shift+4 move container to workspace 4
+bindsym Mod4+Shift+5 move container to workspace 5
+bindsym Mod4+Shift+6 move container to workspace 6
+bindsym Mod4+Shift+7 move container to workspace 7
+bindsym Mod4+Shift+8 move container to workspace 8
+bindsym Mod4+Shift+9 move container to workspace 9
+
+bindsym $mod+Shift+minus move scratchpad
+bindsym $mod+minus scratchpad show
+
+mode "resize" {
+    bindsym $left resize shrink width 10 px or 10 ppt
+    bindsym $down resize grow height 10 px or 10 ppt
+    bindsym $up resize shrink height 10 px or 10 ppt
+    bindsym $right resize grow width 10 px or 10 ppt
+
+    bindsym Left resize shrink width 10 px or 10 ppt
+    bindsym Down resize grow height 10 px or 10 ppt
+    bindsym Up resize shrink height 10 px or 10 ppt
+    bindsym Right resize grow width 10 px or 10 ppt
+
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+r mode "resize"
+
+include /etc/sway/config.d/*

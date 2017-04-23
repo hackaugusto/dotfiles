@@ -26,6 +26,7 @@ elif [[ $1 == "unity" ]]; then
     exec lightdm-session
 elif [[ -z $1 ]]; then
     exec openbox-session
+    # exec i3
 else
     exec $1
 fi

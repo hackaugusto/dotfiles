@@ -1,0 +1,46 @@
+command=/usr/lib/i3blocks/$BLOCK_NAME
+separator_block_width=15
+markup=none
+
+[volume]
+label= 
+instance=Master
+command=/usr/lib/i3blocks/volume
+interval=10
+signal=1
+
+[disk]
+label=HOME
+interval=30
+
+# [iface]
+# instance=wlp2s0
+# color=#00FF00
+# interval=10
+# separator=false
+
+[wifi]
+label=SIGNAL
+instance=wlp2s0
+interval=10
+separator=false
+
+[cpu_usage]
+label=CPU
+interval=10
+min_width=CPU: 100.00%
+#separator=false
+
+[temperature]
+label=TEMP
+interval=10
+
+[battery]
+label=BAT
+label=⚡
+#instance=1
+interval=30
+
+[time]
+command=date '+%Y-%m-%d %H:%M:%S'
+interval=5

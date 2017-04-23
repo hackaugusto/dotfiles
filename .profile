@@ -198,5 +198,12 @@ export PYTHONSTARTUP=$HOME/.pythonrc
 export GDK_SCALE=2
 export GDK_DPI_SCALE=0.5
 
-# [[ ! -z $DISPLAY && -f ~/.Xmodmap ]] && xmodmap ~/.Xmodmap      # remaps Caps to Ctrl (remapping caps with x11 keymap options)
-[ -z "$DISPLAY" -a "$XDG_VTNR" -eq 1 ] && exec startx
+[ -z "$DISPLAY" -a "$XDG_VTNR" -eq 1 ] && {
+    # remaps Caps to Ctrl (remapping caps with x11 keymap options)
+    # [[ ! -z $DISPLAY && -f ~/.Xmodmap ]] && xmodmap ~/.Xmodmap
+    exec startx
+    # export XKB_DEFAULT_LAYOUT="us,de"
+    # export XKB_DEFAULT_VARIANT=",nodeadkeys"
+    # export XKB_DEFAULT_OPTIONS="ctrl:swapcaps,"
+    # exec dbus-launch --sh-syntax --exit-with-session sway
+}
