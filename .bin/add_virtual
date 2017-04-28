@@ -1,0 +1,19 @@
+#!/usr/bin/sh
+
+x=$1
+y=$2
+output=$3
+mode="${x}x${y}_60.0"
+
+# new modeline
+modeline=$(gtf $x $y 60 | grep Mode | sed -e 's,.*Modeline ,,')
+xrandr --newmode $modeline
+
+# use the new modeline with the VIRTUAL1 output
+xrandr --addmode $output $mode
+xrandr --output VIRTUAL1 --mode $mode --left-of HDMI1
+
+# clip it
+x11vnc -clip "${x}x${y}+0+0"
+
+echo vncviewer "<ip_address>:5900"
