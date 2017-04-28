@@ -111,7 +111,6 @@ arch_pacman() {
     # gst-plugins-base
     # gst-plugins-good
     # gst-plugins-ugly
-    # gstreamer0.10-plugins
     # dnsutils
     # base-devel
     #
@@ -145,6 +144,8 @@ arch_pacman() {
         xclip
         xsel
         xorg-xinit
+        bluez
+        bluez-utils
 
         # laptop
         acpi
@@ -417,6 +418,7 @@ arch_aur(){
             powerpill
             rust-src
             jdk
+            jre
             rr
             secp256k1-git
             vim-youcompleteme-git
