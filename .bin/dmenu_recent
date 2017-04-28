@@ -1,0 +1,16 @@
+#!/bin/bash
+
+DMENU_CACHE=~/.cache/dmenu_run
+DMENU_HISTORY=~/.cache/dmenu_history
+
+(compgen -a; compgen -c | grep -vxF "$(compgen -a)") | sort | tail -n +10 > ${DMENU_CACHE}
+
+[ ! -e ${DMENU_HISTORY} ] && touch ${DMENU_HISTORY}
+sorted=$(sort ${DMENU_HISTORY} | uniq -c | sort -hr | colrm 1 8)
+cmd=`(echo "$sorted"; cat ${DMENU_CACHE} | grep -vxF "$sorted") | dmenu "$@"`
+
+if ! [ "$cmd" == "" ] && ! [ "$(grep ${cmd/;/} ${DMENU_CACHE})" == "" ]; then
+    cmdexec=${cmd/;/}
+    echo ${cmdexec} >> ${DMENU_HISTORY}
+    exec "${cmdexec}"
+fi
