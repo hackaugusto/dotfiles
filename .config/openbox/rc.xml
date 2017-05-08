@@ -267,6 +267,11 @@
         <command>firefox</command>
       </action>
     </keybind>
+    <keybind key="W-p">
+      <action name="Execute">
+          <command>~/.bin/dmenu_password -z -fn 'Droid Sans Mono-9'</command>
+      </action>
+    </keybind>
     <keybind key="W-d">
       <action name="Execute">
           <command>~/.bin/dmenu_recent -z -fn 'Droid Sans Mono-9'</command>
