@@ -187,6 +187,7 @@ if dein#load_state(s:plugins_base_dir)
   call dein#add('editorconfig/editorconfig-vim')
   call dein#add('pgdouyon/vim-evanesco')  " enhanced search
   call dein#add('SirVer/ultisnips')
+  call dein#add('junegunn/vim-easy-align')
 
   " text objects and operators
   call dein#add('wellle/targets.vim')
