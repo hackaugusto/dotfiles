@@ -149,6 +149,7 @@ arch_pacman() {
         xorg-xinit
         bluez
         bluez-utils
+        pulseaudio-bluetooth
         arandr
 
         # laptop
@@ -335,6 +336,7 @@ arch_pacman() {
         luajit
         ocaml
         ruby
+        shellcheck
 
         # tools
         bsdiff
