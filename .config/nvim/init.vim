@@ -231,8 +231,8 @@ if dein#load_state(s:plugins_base_dir)
   " python
   call dein#add('davidhalter/jedi-vim')
   call dein#add('jmcantrell/vim-virtualenv')
-  call dein#add('python_match.vim')
-  call dein#add('python.vim')                 " block motions
+  call dein#add('vim-scripts/python_match.vim')
+  call dein#add('vim-scripts/python.vim')                 " block motions
   " best indentation for python (installed throught vim-polyglot)
   " call dein#add('mitsuhiko/vim-python-combined')
 
