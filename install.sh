@@ -329,7 +329,7 @@ arch_pacman() {
         # other programming
         android-tools
         android-udev
-        gcc-fortran
+        gcc-fortran-multilib
         go
         idris
         lua
@@ -337,6 +337,7 @@ arch_pacman() {
         ocaml
         ruby
         shellcheck
+        scala
 
         # tools
         bsdiff
@@ -366,6 +367,7 @@ arch_pacman() {
         docker-compose
         virtualbox
         virtualbox-guest-iso
+        virtualbox-host-modules-arch
 
         # debugging
         lldb
@@ -444,6 +446,9 @@ arch_aur(){
             gtklp
             # grafana-bin
             # urxvt-resize-font-git
+            tiptop
+            rust-clippy-git
+            tla-tools
 
             tzupdate
         )
