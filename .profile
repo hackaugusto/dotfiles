@@ -159,6 +159,9 @@ configure_runtimes() {
     # CASK
     [[ -d ~/.cask ]] && path_addonce_end "$HOME/.cask/bin"
 
+    # RUST
+    [[ -d ~/.cargo ]] && path_addonce_end "$HOME/.cargo/bin"
+
     # GO
     bin go && {
         [ ! -e ~/.go ] && mkdir -p ~/go/{bin,src}
@@ -186,6 +189,8 @@ configure_runtimes() {
 # XDG variables and LANG, LC_* (this sources only *.sh files)
 load /etc/profile
 load ~/.config/user-dirs.dirs
+
+configure_runtimes
 
 eval $(dircolors)
 stty -ixon
