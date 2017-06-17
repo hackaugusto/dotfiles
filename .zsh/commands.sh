@@ -1,3 +1,8 @@
+bin() {
+    command -v $1 >/dev/null 2>&1
+}
+
+LS_BIN=$(bin ls)
 
 # Make -B overwritable by -a/-A
 ls(){
@@ -22,7 +27,7 @@ ls(){
         show_all='-B'
     fi
 
-    /usr/bin/ls --classify --color=auto $show_all $argv
+    $LS_BIN --classify --color=auto $show_all $argv
 }
 
 if (( ! $+commands[ack] && $+commands[ack-grep] )); then
