@@ -304,6 +304,7 @@ arch_pacman() {
         automake
         autoconf
         m4
+        sbt
 
         # python
         pygmentize
