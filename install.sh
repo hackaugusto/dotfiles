@@ -330,6 +330,7 @@ arch_pacman() {
         # other programming
         android-tools
         android-udev
+        clojure
         gcc-fortran-multilib
         go
         idris
