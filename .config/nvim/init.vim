@@ -33,6 +33,11 @@ set statusline+=\ [col\ %v\ line\ %l/%L\ %p%%]
 " required for the pep8 style indentation
 filetype plugin indent on
 
+let g:neomake_solidity_solc_maker = {
+  \ 'errorformat': '%f:%l:%c:%m',
+  \ }
+let g:neomake_solidity_enabled_makers = ['solc']
+
 function! Comma(...)
   let items = []
   for item in a:000
@@ -219,6 +224,7 @@ if dein#load_state(s:plugins_base_dir)
   call dein#add('tpope/vim-commentary')
   call dein#add('neomake/neomake')
   call dein#add('Shougo/echodoc.vim')
+  call dein#add('bhurlow/vim-parinfer')
   call dein#add('tpope/vim-endwise', {'on_ft': [
     \ 'lua', 'elixir', 'ruby', 'crystal', 'sh', 'zsh', 'vb', 'vbnet', 'aspvbs',
     \ 'vim', 'c', 'cpp', 'xdefaults', 'haskell', 'objc', 'matlab', 'htmldjango',
@@ -350,6 +356,18 @@ augroup Python
   autocmd FileType python set nowrap
   autocmd BufWritePre *.py :%s/\s\+$//e
   autocmd BufReadPost,BufWritePost *.py :Neomake
+augroup END
+
+augroup Solidity
+  autocmd!
+  autocmd BufReadPost,BufWritePost *.rs :Neomake
+augroup END
+
+augroup Rust
+  autocmd!
+  autocmd FileType rust let g:rustfmt_autosave = 1
+  autocmd BufWritePre *.rs :%s/\s\+$//e
+  autocmd BufReadPost,BufWritePost *.rs :Neomake
 augroup END
 
 augroup C-Files
