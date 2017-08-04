@@ -1,40 +1,52 @@
+# Configuration for Alacritty, the GPU enhanced terminal emulator
+
 # The FreeType rasterizer needs to know the device DPI for best results
 # (changes require restart)
 dpi:
-  # x: 300.0
-  x: 180.0
-  y: 180.0
+  x: 96.0
+  y: 96.0
 
+# Display tabs using this many cells (changes require restart)
 tabspaces: 4
-render_timer: false
+
+# When true, bold text is drawn using the bright variant of colors.
 draw_bold_text_with_bright_colors: false
 
+# Font configuration (changes require restart)
 font:
-  # Iosevka x:-3 y:-7
-  # DejaVuSansMono x:2 y:-7
+  # The normal (roman) font face to use.
   normal:
-    family: DejaVuSansMono # Iosevka, DroidSansMono, Menlo
-    style: Regular
+    family: monospace # DroidSansMono # should be "Menlo" or something on macOS.
+    # Style can be specified to pick a specific face.
+    # style: Regular
 
+  # The bold font face
   bold:
-    family: DejaVuSansMono # Iosevka, DroidSansMono, Menlo
-    style: Bold
+    family: monospace # DroidSansMono # should be "Menlo" or something on macOS.
+    # Style can be specified to pick a specific face.
+    # style: Bold
 
+  # The italic font face
   italic:
-    family: DejaVuSansMono # Iosevka, DroidSansMono, Menlo
-    style: Italic
+    family: monospace # DroidSansMono # should be "Menlo" or something on macOS.
+    # Style can be specified to pick a specific face.
+    # style: Italic
 
+  # Point size of the font
   size: 10.0
   # Offset is the extra space around each character. offset.y can be thought of
   # as modifying the linespacing, and offset.x as modifying the letter spacing.
   offset:
-    x: 13
-    y: 4
+    x: 2.0
+    y: -7.0
 
   # OS X only: use thin stroke font rendering. Thin strokes are suitable
   # for retina displays, but for non-retina you probably want this set to
   # false.
   use_thin_strokes: true
+
+# Should display the render timer
+render_timer: false
 
 # Colors (Tomorrow Night Bright)
 # colors:
@@ -65,15 +77,17 @@ font:
 #     cyan:    '0x54ced6'
 #     white:   '0x2a2a2a'
 
-# Solarized Dark
+# Colors (Solarized Dark)
 colors:
+  # Default colors
   primary:
     background: '0x002b36'
     foreground: '0x839496'
   cursor:
-    cursor: '0xffffff'
-    text: '0x000000'
+    background: '0xffffff'
+    foreground: '0x000000'
 
+  # Normal colors
   normal:
     black:   '0x073642'
     red:     '0xdc322f'
@@ -84,6 +98,7 @@ colors:
     cyan:    '0x2aa198'
     white:   '0xeee8d5'
 
+  # Bright colors
   bright:
     black:   '0x002b36'
     red:     '0xcb4b16'

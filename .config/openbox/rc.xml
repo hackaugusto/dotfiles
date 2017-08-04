@@ -258,15 +258,6 @@
     </keybind>
 
     <!-- Keybindings for running applications -->
-    <keybind key="W-d">
-      <action name="Execute">
-        <startupnotify>
-          <enabled>true</enabled>
-          <name>dmenu</name>
-        </startupnotify>
-        <command>dmenu</command>
-      </action>
-    </keybind>
     <keybind key="W-f">
       <action name="Execute">
         <startupnotify>
@@ -276,13 +267,14 @@
         <command>firefox</command>
       </action>
     </keybind>
+    <keybind key="W-p">
+      <action name="Execute">
+          <command>~/.bin/dmenu_password -z -fn 'Droid Sans Mono-9'</command>
+      </action>
+    </keybind>
     <keybind key="W-d">
       <action name="Execute">
-        <startupnotify>
-          <enabled>true</enabled>
-          <name>dmenu</name>
-        </startupnotify>
-        <command>dmenu_run</command>
+          <command>~/.bin/dmenu_recent -z -fn 'Droid Sans Mono-9'</command>
       </action>
     </keybind>
     <keybind key="W-e">
@@ -300,7 +292,7 @@
           <enabled>true</enabled>
           <name>Chromium</name>
         </startupnotify>
-        <command>chromium --force-device-scale-factor=2</command>
+        <command>chromium</command>
       </action>
     </keybind>
     <keybind key="W-n">

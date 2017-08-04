@@ -62,7 +62,8 @@ update() {
     # Update the installed plugins
     if older_than_days ~/.zgen/_zgen 50; then
         # update if more than 50 days old
-        zgen self-update
+        touch ~/.zgen/_zgen
+        (cd ~/.zgen && git pull)
     fi
 
     if [ -e ~/.zgen/init.zsh ] && older_than_days ~/.zgen/init.zsh 30; then

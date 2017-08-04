@@ -111,7 +111,6 @@ arch_pacman() {
     # gst-plugins-base
     # gst-plugins-good
     # gst-plugins-ugly
-    # gstreamer0.10-plugins
     # dnsutils
     # base-devel
     #
@@ -148,6 +147,9 @@ arch_pacman() {
         xclip
         xsel
         xorg-xinit
+        bluez
+        bluez-utils
+        pulseaudio-bluetooth
         arandr
 
         # laptop
@@ -302,6 +304,7 @@ arch_pacman() {
         automake
         autoconf
         m4
+        sbt
 
         # python
         pygmentize
@@ -327,13 +330,16 @@ arch_pacman() {
         # other programming
         android-tools
         android-udev
-        gcc-fortran
+        clojure
+        gcc-fortran-multilib
         go
         idris
         lua
         luajit
         ocaml
         ruby
+        shellcheck
+        scala
 
         # tools
         bsdiff
@@ -363,6 +369,7 @@ arch_pacman() {
         docker-compose
         virtualbox
         virtualbox-guest-iso
+        virtualbox-host-modules-arch
 
         # debugging
         lldb
@@ -429,6 +436,7 @@ arch_aur(){
             powerpill
             rust-src
             jdk
+            jre
             rr
             secp256k1-git
             vim-youcompleteme-git
@@ -440,6 +448,9 @@ arch_aur(){
             gtklp
             # grafana-bin
             # urxvt-resize-font-git
+            tiptop
+            rust-clippy-git
+            tla-tools
 
             tzupdate
         )
