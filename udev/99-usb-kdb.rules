@@ -1,0 +1,1 @@
+ACTION=="add", ATTRS{idVendor}=="046d", ATTRS{idProduct}=="c31c", ENV{XKBLAYOUT}="br", ENV{XKBVARIANT}="abnt2", ENV{XKBOPTIONS}="ctrl:swapcaps"
