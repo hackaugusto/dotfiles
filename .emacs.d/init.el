@@ -77,13 +77,14 @@ With prefix ARG, silently save all file-visiting buffers, then kill."
             (package-install package)))))) ;; install dependencies and update loaddefs.el
 
 (package-install-all
- '(ido-ubiquitous smex flx flx-ido linum-relative
+ '(ido-completing-read+ smex flx flx-ido linum-relative
    evil key-chord evil-surround evil-leader evil-tabs evil-search-highlight-persist
    direx projectile git-gutter git-timemachine magit
    auto-complete flycheck idle-highlight-mode multiple-cursors yasnippet
    ;; indent-guide -> breaks the auto-complete menu
    jedi pyenv-mode python python-mode
-   rust-mode solidity-mode
+   haskell-mode rust-mode solidity-mode ;; ghc scion
+   yaml-mode
    ;; package-utils -> using paradox instead
    paradox deferred))
 
@@ -283,6 +284,16 @@ With prefix ARG, silently save all file-visiting buffers, then kill."
    (push '(?` . ("`" . "'")) evil-surround-pairs-alist))
  '(emacs-lisp-mode-hook lisp-mode-hook))
 
+;;; haskell
+(custom-set-variables
+ '(haskell-process-type 'stack-ghci)
+ '(haskell-process-suggest-remove-import-lines t)
+ '(haskell-process-auto-import-loaded-modules t)
+ '(haskell-process-log t))
+
+; (autoload 'ghc-init "ghc" nil t)
+; (autoload 'ghc-debug "ghc" nil t)
+; (add-hook 'haskell-mode-hook (lambda () (ghc-init)))
 
 ;;; python
 
