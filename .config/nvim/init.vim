@@ -208,11 +208,15 @@ if dein#load_state(s:plugins_base_dir)
   call dein#add('junegunn/limelight.vim')
 
   " completion
-  call dein#add('Shougo/deoplete.nvim')
-  call dein#add('zchee/deoplete-jedi')
-  call dein#add('racer-rust/vim-racer')
   call dein#add('ctrlpvim/ctrlp.vim')
   call dein#add('mileszs/ack.vim')
+  " call dein#add('Valloric/YouCompleteMe') " using AUR's package
+  " deoplete
+  call dein#add('Shougo/deoplete.nvim')
+  call dein#add('eagletmt/neco-ghc')
+  call dein#add('racer-rust/vim-racer')
+  call dein#add('zchee/deoplete-clang')
+  call dein#add('zchee/deoplete-jedi')
 
   " source control
   call dein#add('mhinz/vim-signify')
@@ -253,6 +257,11 @@ endif
 
 colorscheme jellybeans
 call deoplete#enable()
+
+let g:deoplete#sources#clang#libclang_path='/usr/lib/libclang.so'
+let g:deoplete#sources#clang#clang_header='/usr/lib/clang/5.0.1/include'
+
+let g:ycm_global_ycm_extra_conf = '/usr/share/vim/vimfiles/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
 
 let g:jedi#completions_enabled = 0
 let g:jedi#use_tabs_not_buffers = 1
@@ -368,6 +377,14 @@ augroup Rust
   autocmd FileType rust let g:rustfmt_autosave = 1
   autocmd BufWritePre *.rs :%s/\s\+$//e
   autocmd BufReadPost,BufWritePost *.rs :Neomake
+augroup END
+
+augroup Haskell
+  autocmd!
+  autocmd FileType haskell set formatprg=stylish-haskell
+  autocmd FileType haskell let g:necoghc_use_stack=1
+  autocmd BufWritePre *.hs :%s/\s\+$//e
+  autocmd BufReadPost,BufWritePost *.hs :Neomake
 augroup END
 
 augroup C-Files
