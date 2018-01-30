@@ -95,24 +95,14 @@ arch_pacman() {
     [ $UID = 0 ] || root='sudo'
 
     msg "Installing packages"
-    # adobe-source-sans-pro-fonts
-    # ttf-droid
-    # using systemd-timesyncd instead of openntpd: timedatectl set-ntp true
-    # gccfortran, lapack -> scipy
-    #
-    # docker:
-    #   systemctl enable docker.socket
-    #   gpasswd -a <user>  docker
-    #
     # pacman -Qq won't know that the group was installed
-    # texlive-most
-    # xorg
     # gst-plugins-bad
     # gst-plugins-base
     # gst-plugins-good
     # gst-plugins-ugly
     # dnsutils
     # base-devel
+    # gstreamer0.10-plugins
     #
     # network managers:
     # wicd / networkmanager
@@ -120,6 +110,10 @@ arch_pacman() {
     # network monitor:
     # darkstat
     packages=( \
+        # system setup
+        grub
+        efibootmgr
+
         # window manager
         obconf
         openbox
@@ -142,6 +136,7 @@ arch_pacman() {
         nautilus
         numlockx
         pass
+        wipe
         scrot
         seahorse
         xclip
@@ -151,6 +146,11 @@ arch_pacman() {
         bluez-utils
         pulseaudio-bluetooth
         arandr
+
+        # smartcard
+        ccid
+        opensc
+        pcsc-tools
 
         # laptop
         acpi
@@ -298,6 +298,7 @@ arch_pacman() {
         lapack
 
         # build
+        cabal-install
         cmake
         ftjam
         maven
@@ -312,12 +313,13 @@ arch_pacman() {
         pypy3
         python
         python2
+        python2-pipenv
         python2-virtualenv
+        python-pipenv
         python-virtualenv
         python-virtualenvwrapper
 
         # version control
-        darcs
         git
         fossil
         tk # required by gitk
@@ -327,19 +329,29 @@ arch_pacman() {
         solidity
         geth
 
+        # haskell
+        ghc
+        ghc-static
+        idris
+        darcs
+        # hlint
+        # $ stack setup
+        # $ stack install stylish-haskell hlint hasktags ghc-mod hasktags
+        stack
+
         # other programming
         android-tools
         android-udev
         clojure
         gcc-fortran-multilib
         go
-        idris
         lua
         luajit
         ocaml
         ruby
         shellcheck
         scala
+        typescript
 
         # tools
         bsdiff
@@ -380,6 +392,9 @@ arch_pacman() {
     # on a fresh install update prior to querying
     $root pacman -Sy
 
+    # install the base groups
+    $root pacman -S base base-devel
+
     to_install=()
     for pack in $packages; do
         pacman -Qq $pack > /dev/null 2>&1 || to_install+=("$pack")
@@ -396,11 +411,12 @@ arch_aur(){
     # anything bellow needs to run unprivileged, mostly because of makepkg
     [ $UID = 0 ] && return
 
-    if ! bin aura; then
-        require_bin curl
-        bash <(curl aur.sh) -S aura-bin
-        $root pacman -U aura-bin/*.pkg.*
-    fi
+    # giving up on aura
+    # if ! bin aura; then
+    #     require_bin curl
+    #     bash <(curl aur.sh) -S aura-bin
+    #     $root pacman -U aura-bin/*.pkg.*
+    # fi
 
     if bin aura; then
         # ttf-google-fonts-git
@@ -430,9 +446,11 @@ arch_aur(){
             # colout-git - using pygmentize directly
             dropbox
 
+            abntex2
             opam
             flamegraph-git
             notify-osd-customizable
+            paperkey
             powerpill
             rust-src
             jdk
@@ -451,6 +469,7 @@ arch_aur(){
             tiptop
             rust-clippy-git
             tla-tools
+            include-what-you-use
 
             tzupdate
         )
