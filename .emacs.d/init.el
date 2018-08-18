@@ -147,7 +147,7 @@ With prefix ARG, silently save all file-visiting buffers, then kill."
 
 (file-name-shadow-mode t)
 (savehist-mode t)
-(global-linum-mode t)
+;;(global-linum-mode t) ;; BUG: gutter size increases on every key stroke
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
@@ -268,7 +268,7 @@ With prefix ARG, silently save all file-visiting buffers, then kill."
    (yas-minor-mode)
    (git-gutter-mode)
    (idle-highlight-mode)
-   (projectile-global-mode)))
+   (projectile-mode)))
 
 (add-hook 'after-init-hook #'global-flycheck-mode)
 
