@@ -22,8 +22,6 @@ if ! zgen saved; then
     # zgen oh-my-zsh plugins/httpie
 
     # python
-    zgen load pyenv/pyenv
-    # zgen load hackaugusto/pyenv
     zgen oh-my-zsh plugins/autopep8
     zgen oh-my-zsh plugins/celery
     zgen oh-my-zsh plugins/fabric

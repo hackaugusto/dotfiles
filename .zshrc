@@ -47,15 +47,6 @@ profile() {
 install() {
     # Install zsh plugins
     maybe_git_clone "https://github.com/tarjoilija/zgen.git" "${HOME}/.zgen"
-    maybe_git_clone "https://github.com/s1341/pyenv-alias.git" "${HOME}/.pyenv/plugins/pyenv-alias"
-    maybe_git_clone "https://github.com/yyuu/pyenv-virtualenv.git" "${HOME}/.pyenv/plugins/pyenv-virtualenv"
-
-    # all plugins must be inside the PYENV_ROOT/plugins folder
-    target_pyenv_build="${HOME}/.pyenv/plugins"
-    original_pyenv_build="${HOME}/.zgen/pyenv/pyenv-master/plugins/python-build"
-    [ ! -e "${target_pyenv_build}/python-build" -a -e "${original_pyenv_build}" ] && {
-        ln -s "${original_pyenv_build}" "${target_pyenv_build}"
-    }
 }
 
 update() {
@@ -69,55 +60,8 @@ update() {
     if [ -e ~/.zgen/init.zsh ] && older_than_days ~/.zgen/init.zsh 30; then
         # update the plugins every 30 days
         zgen update
-
-        (
-            cd ~/.pyenv/plugins/pyenv-alias
-            git pull
-        )
-
-        (
-            cd ~/.pyenv/plugins/pyenv-virtualenv
-            git pull
-        )
     fi
 }
-
-pyenv_venv_exists() {
-    venv=$1
-
-    pyenv virtualenvs | grep "${venv}"
-}
-
-pyenv_env_exists() {
-    env=$1
-
-    pyenv virtualenvs | grep "${env}"
-}
-
-venvs() {
-    pyenv_env_exists 2.7 &> /dev/null || pyenv install 2.7
-    pyenv_venv_exists py27 &> /dev/null || pyenv virtualenv 2.7 py27
-}
-
-# TODO: figure out how to define this inside init.zsh
-# pyenv() {
-#   # Alternative to running the following in the profile
-#   # export PATH="$HOME/.zgen/pyenv/pyenv-master/bin:$PATH"
-#   # eval "$(pyenv init -)"
-#   local command
-#   command="$1"
-#   if [ "$#" -gt 0 ]; then
-#     shift
-#   fi
-# 
-#   case "$command" in
-#   activate|deactivate|rehash|shell)
-#     eval "$(pyenv "sh-$command" "$@")";;
-#   *)
-#     command pyenv "$command" "$@";;
-#   esac
-# }
-
 
 profile
 install
@@ -136,10 +80,6 @@ zgitinit
 if [ -s ~/.zcompdump -a ! -s ~/.zcompdump.zwc ]; then
   zcompile ~/.zcompdump &!
 fi
-
-# environment
-export PYENV_VIRTUALENV_DISABLE_PROMPT=1
-export PYENV_ROOT="$HOME/.pyenv"
 
 require ~/.zsh/options.sh  # set the options early because the shell behavior change
 require ~/.zsh/utils.sh    # load the utils, the following files can use them
@@ -162,11 +102,7 @@ require ~/.zsh/prompt.sh
 #   compinit -C
 # fi
 
-export PATH="$HOME/.zgen/pyenv/pyenv-master/bin:$PATH"
-eval "$(pyenv init -)"
-
 update
-venvs
 
 if [[ "$OSTYPE" = darwin* ]]; then
     export PATH=$(deduplicate_path '/sbin' '/bin' '/usr/bin')
