@@ -178,7 +178,6 @@ let g:python3_host_prog='/usr/bin/python3'
 let g:neomake_python_enabled_makers=['pylint', 'flake8']
 
 exe "set runtimepath+=" . s:dein_dir
-set completeopt+=noinsert
 
 if dein#load_state(s:plugins_base_dir)
   call dein#begin(s:plugins_base_dir)
@@ -260,7 +259,6 @@ endif
 
 colorscheme jellybeans
 call deoplete#enable()
-
 let g:deoplete#sources#clang#libclang_path='/usr/lib/libclang.so'
 let g:deoplete#sources#clang#clang_header='/usr/lib/clang/5.0.1/include'
 
@@ -343,9 +341,6 @@ function! s:check_back_space() abort
   return !col || getline('.')[col - 1]  =~ '\s'
 endfunction
 
-inoremap <silent><expr> <TAB> pumvisible() ? "\<C-n>" : <SID>check_back_space() ? "\<TAB>" : deoplete#mappings#manual_complete()
-inoremap <silent><expr> <S-TAB> pumvisible() ? "\<C-p>" : <SID>check_back_space() ? "\<S-TAB>" : deoplete#mappings#manual_complete()
-
 " filetype settings
 autocmd BufEnter * set completeopt-=preview  " Disable documentation preview
 autocmd VimEnter * call dein#call_hook('post_source')
@@ -381,7 +376,6 @@ augroup END
 
 augroup Rust
   autocmd!
-  autocmd FileType rust let g:rustfmt_autosave = 1
   autocmd BufWritePre *.rs :%s/\s\+$//e
   autocmd BufReadPost,BufWritePost *.rs :Neomake
 augroup END
