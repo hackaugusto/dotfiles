@@ -218,6 +218,8 @@ if dein#load_state(s:plugins_base_dir)
   call dein#add('racer-rust/vim-racer')
   call dein#add('zchee/deoplete-clang')
   call dein#add('zchee/deoplete-jedi')
+  " language server
+  " call dein#add('natebosch/vim-lsc')
 
   " source control
   call dein#add('mhinz/vim-signify')
@@ -275,6 +277,10 @@ let g:jedi#rename_command = ''
 let g:jedi#show_call_signatures = 1
 let g:jedi#show_call_signatures_delay = 100
 let g:jedi#smart_auto_mappings = 0
+
+" let g:lsc_auto_map = v:true
+" let g:lsc_enable_autocomplete = v:true
+" let g:lsc_server_commands = {'python': 'pyls'}
 
 let g:signify_sign_add = '+'
 let g:signify_sign_delete_first_line = '-'
