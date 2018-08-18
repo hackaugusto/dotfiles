@@ -159,6 +159,7 @@ arch_pacman() {
         iw
         wireless_tools
         wpa_actiond
+        powertop
 
         # font
         adobe-source-code-pro-fonts
@@ -301,12 +302,14 @@ arch_pacman() {
         # build
         cabal-install
         cmake
+        ccache
         ftjam
         maven
         automake
         autoconf
         m4
         sbt
+        rubygems
 
         # python
         pygmentize
@@ -380,6 +383,8 @@ arch_pacman() {
         # virtual machine/containers
         docker
         docker-compose
+        containerd
+        runc
         virtualbox
         virtualbox-guest-iso
         virtualbox-host-modules-arch
@@ -430,19 +435,25 @@ arch_aur(){
         # neovim-git
         # python2-neovim-git
 
-        # to compile vim-youcompleteme-git Hans Wennborg needs to be added into
-        # the keyring:
+        # Emacs and C/C++
+        # Alternaties:
+        # - simple parsers: ctags gtags
+        # - clang based parsers: rtags irony-mode ccls emacs-ycmd
         #
-        # http://llvm.org/releases/download.html#3.7.0 PGP sig (Hans Wennborg <hans@chromium.org> 0x0FC3042E345AD05D)
-        # gpg --recv-keys 0fc3042e345ad05d
+        # Vim:
+        # - Using deoplete with jedi instead of vim-youcompleteme-git
         aur_packages=( \
             otf-hack
             otf-pragmatapro
             ttf-iosevka
             ttf-font-awesome
 
-            alacritty-git
             bear
+            cotire
+
+            ccls
+
+            alacritty-git
             chromium-pepper-flash-dev
             # colout-git - using pygmentize directly
             dropbox
@@ -458,7 +469,6 @@ arch_aur(){
             jre
             rr
             secp256k1-git
-            vim-youcompleteme-git
             wrk
             wrk2-git
             pup-git
@@ -656,6 +666,17 @@ $SUDO grep -i '^en_us.utf-?8' /etc/locale.gen || {
 [ ! -e /etc/localtime ] && {
     erro 'Missing /etc/localtime file'
     info 'ln -s /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime'
+}
+
+[ ! -e /etc/sysctl.d/50-dmesg-restrict.conf ] && {
+    erro 'Missing /etc/sysctl.d/50-dmesg-restrict.conf file'
+    info 'echo "kernel.dmesg_restrict = 1" > /etc/sysctl.d/50-dmesg-restrict.conf'
+}
+
+[ ! -e /etc/sysctl.d/50-kptr-restrict.conf ] && {
+    erro 'Missing /etc/sysctl.d/50-kptr-restrict.conf file'
+    info 'echo "kernel.kptr_restrict = 2" > /etc/sysctl.d/50-kptr-restrict.conf'
+    info 'this break perf'
 }
 
 is_readable /etc/hostname
