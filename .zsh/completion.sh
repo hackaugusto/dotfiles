@@ -30,3 +30,12 @@ zle-line-finish() {
 }
 zle -N zle-line-init
 zle -N zle-line-finish
+
+# npm completion is slow: "0.37s user"
+# if (( $+commands[npm] )); then
+#     eval "$(npm completion 2>/dev/null)"
+# fi
+
+if (( $+commands[pipenv] )); then
+    eval "$(pipenv --completion)"
+fi
