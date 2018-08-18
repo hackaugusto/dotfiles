@@ -9,7 +9,7 @@ function deduplicate_path() {
 
 export PAGER='less'
 export BROWSER='less'
-export EDITOR=vim
+export EDITOR=nvim
 
 export LESS='-R'
 export LESS_TERMCAP_mb=$'\E[01;31m'
