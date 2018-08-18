@@ -175,6 +175,7 @@ endif
 " use the system-wide python and the python-neovim package
 let g:python_host_prog='/usr/bin/python2'
 let g:python3_host_prog='/usr/bin/python3'
+let g:neomake_python_enabled_makers=['pylint', 'flake8']
 
 exe "set runtimepath+=" . s:dein_dir
 set completeopt+=noinsert
