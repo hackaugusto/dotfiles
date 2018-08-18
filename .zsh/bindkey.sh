@@ -20,8 +20,10 @@ bindkey -v
 [[ -n ${terminfo[kcuf1]} ]]  && bindkey ${terminfo[kcuf1]} forward-char
 
 # There is no terminfo capability for <Ctrl> <Right> or <Ctrl> <Left>
-# Use (Ctrl + v) to insert the escape sequence
-[[ $TERM == screen* ]] && bindkey "[D" backward-word
-[[ $TERM == screen* ]] && bindkey "[C" forward-word
-[[ $TERM == xterm* ]] && bindkey "Od" backward-word
-[[ $TERM == xterm* ]] && bindkey "Oc" forward-word
+# Use (Ctrl + v or run od) to insert the escape sequence
+[[ $TERM == screen* ]] && bindkey "\E[D" backward-word
+[[ $TERM == screen* ]] && bindkey "\E[C" forward-word
+[[ $TERM == screen* ]] && bindkey '\E[1;5D' backward-word
+[[ $TERM == screen* ]] && bindkey '\E[1;5C' forward-word
+[[ $TERM == xterm* ]] && bindkey "\EOd" backward-word
+[[ $TERM == xterm* ]] && bindkey "\EOc" forward-word
