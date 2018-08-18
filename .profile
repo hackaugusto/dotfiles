@@ -203,6 +203,9 @@ export PYTHONSTARTUP=$HOME/.pythonrc
 export GDK_SCALE=2
 export GDK_DPI_SCALE=0.5
 
+# parallel builds with gnu make
+export MAKEFLAGS='-j'
+
 [ -z "$DISPLAY" -a "$XDG_VTNR" -eq 1 ] && {
     # remaps Caps to Ctrl (remapping caps with x11 keymap options)
     # [[ ! -z $DISPLAY && -f ~/.Xmodmap ]] && xmodmap ~/.Xmodmap
