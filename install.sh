@@ -113,6 +113,7 @@ arch_pacman() {
         # system setup
         grub
         efibootmgr
+        nftables
 
         # window manager
         obconf
