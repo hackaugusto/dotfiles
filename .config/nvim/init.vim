@@ -10,26 +10,6 @@ set showcmd hidden
 " statusline
 set laststatus=2
 
-set statusline=%m
-" warns for readonly, syntax erros, files not ending in \n and files that are
-" not utf8
-set statusline+=%#warningmsg#
-set statusline+=%{Bracket(Comma(LoclistErrors(),LoclistWarnings(),MixedTabSpace(),TrailingSpace(),Diff(&ff,'unix'),Diff(&fenc,'utf-8'),One(&ro,'RO')))}
-set statusline+=%*
-
-set statusline+=\ %t
-
-set statusline+=%{Space(Bracket(Comma(One(&paste,'paste'),Equal(&ff,'unix'),Equal(&fenc,'utf-8'),&ft)))}
-set statusline+=%{virtualenv#statusline()}
-set statusline+=%{Space(VCSChanges())}%{fugitive#head(7)}
-
-set statusline+=%=
-set statusline+=%<
-
-set statusline+=%{StatuslineCurrentHighlight()}
-set statusline+=\ [ascii\ %03.3b\ hex\ %02.2B]
-set statusline+=\ [col\ %v\ line\ %l/%L\ %p%%]
-
 " required for the pep8 style indentation
 filetype plugin indent on
 
@@ -253,14 +233,34 @@ if dein#load_state(s:plugins_base_dir)
 endif
 
 if s:dein_install
-  " :UpdateRemotePlugins
   call dein#install()
+  normal UpdateRemotePlugins()
 endif
 
+" configure the statusline after the plugin virtualenv has been installed
+set statusline=%m
+" warns for readonly, syntax erros, files not ending in \n and files that are
+" not utf8
+set statusline+=%#warningmsg#
+set statusline+=%{Bracket(Comma(LoclistErrors(),LoclistWarnings(),MixedTabSpace(),TrailingSpace(),Diff(&ff,'unix'),Diff(&fenc,'utf-8'),One(&ro,'RO')))}
+set statusline+=%*
+
+set statusline+=\ %t
+
+set statusline+=%{Space(Bracket(Comma(One(&paste,'paste'),Equal(&ff,'unix'),Equal(&fenc,'utf-8'),&ft)))}
+set statusline+=%{virtualenv#statusline()}
+set statusline+=%{Space(VCSChanges())}%{fugitive#head(7)}
+
+set statusline+=%=
+set statusline+=%<
+
+set statusline+=%{StatuslineCurrentHighlight()}
+set statusline+=\ [ascii\ %03.3b\ hex\ %02.2B]
+set statusline+=\ [col\ %v\ line\ %l/%L\ %p%%]
+
 colorscheme jellybeans
-call deoplete#enable()
 let g:deoplete#sources#clang#libclang_path='/usr/lib/libclang.so'
-let g:deoplete#sources#clang#clang_header='/usr/lib/clang/5.0.1/include'
+let g:deoplete#sources#clang#clang_header='/usr/lib/clang/'
 
 let g:ycm_global_ycm_extra_conf = '/usr/share/vim/vimfiles/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
 
