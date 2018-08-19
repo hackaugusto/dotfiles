@@ -195,7 +195,8 @@ if dein#load_state(s:plugins_base_dir)
   call dein#add('Shougo/deoplete.nvim')
   call dein#add('eagletmt/neco-ghc')
   call dein#add('racer-rust/vim-racer')
-  call dein#add('zchee/deoplete-clang')
+  " deoplete-clang doesn't support go-to-definition, using ycm instead
+  " call dein#add('zchee/deoplete-clang')
   call dein#add('zchee/deoplete-jedi')
   " language server
   " call dein#add('natebosch/vim-lsc')
@@ -263,6 +264,11 @@ let g:deoplete#sources#clang#libclang_path='/usr/lib/libclang.so'
 let g:deoplete#sources#clang#clang_header='/usr/lib/clang/'
 
 let g:ycm_global_ycm_extra_conf = '/usr/share/vim/vimfiles/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
+let g:ycm_server_python_interpreter = '/usr/bin/python2'
+" using:
+" - deoplete-jedi for autocomplete
+" - jedi-vim for goto command
+let g:ycm_filetype_blacklist = {'python': 1}
 
 let g:jedi#completions_enabled = 0
 let g:jedi#use_tabs_not_buffers = 1
@@ -392,6 +398,7 @@ augroup C-Files
   autocmd!
   autocmd FileType cpp,c,h set cindent
   autocmd FileType cpp,c,h set cscopetag cscopetagorder=0
+  autocmd FileType cpp,c,h nnoremap gd :YcmCompleter GoTo<CR>
 
 if !exists("/usr/share/clang/clang-format.py")
   autocmd FileType cpp,c,h map <leader>f :pyfile /usr/share/clang/clang-format.py<cr>
