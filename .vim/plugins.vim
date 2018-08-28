@@ -44,7 +44,7 @@ call vundle#begin()
 
   " search
   " Plugin 'SearchComplete'                 " /<Up> not working
-  Plugin 'ack.vim'
+  Plugin 'mileszs/ack.vim'
   Plugin 'junegunn/fzf'
   Plugin 'junegunn/fzf.vim'
   Plugin 'junegunn/vim-oblique'

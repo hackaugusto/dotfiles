@@ -42,6 +42,7 @@ let g:signify_sign_change = '~'
 let g:UltiSnipsExpandTrigger = '<Plugin>'         " UltiSnips has no settings to disable automatic mappings, so create one that cannot be used
 let g:ycm_key_list_select_completion = []
 let g:ycm_key_list_previous_completion = []
+let g:ycm_global_ycm_extra_conf = '/usr/share/vim/vimfiles/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
 
 " These mappings are added when a snippet is found and restored afterwards, so
 " there is not a compatibility problem.
@@ -138,27 +139,6 @@ endif
 
 let g:unite_source_grep_recursive_opt = ''
 
-if executable('ag')
-  set grepformat=%f:%l:%c:%m
-  set grepprg=ag\ --nogroup\ --noheading\ --column\ --smart-case\ --nocolor\ --follow\ --nobreak
-  let g:ackprg="ag\\ --nogroup\\ --noheading\\ --column\\ --smart-case\\ --nocolor\\ --follow\\ --nobreak"
-  let g:unite_source_grep_command = 'ag'
-  let g:unite_source_grep_default_opts =
-    \ '-i --vimgrep --hidden --ignore ' .
-    \ '''.hg'' --ignore ''.svn'' --ignore ''.git'' --ignore ''.bzr'''
-elseif executable('pt')
-  let g:unite_source_grep_command = 'pt'
-  let g:unite_source_grep_default_opts = '--nogroup --nocolor'
-elseif executable('ack')
-  set grepformat=%f:%l:%c:%m
-  set grepprg=ack\ --nogroup\ --column\ --smart-case\ --nocolor\ --follow\ $*
-  let g:unite_source_grep_command = 'ack'
-  let g:unite_source_grep_default_opts =
-    \ '-i --no-heading --no-color -k -H'
-elseif executable('ack-grep')
-  set grepformat=%f:%l:%c:%m
-  set grepprg=ack\ --nogroup\ --column\ --smart-case\ --nocolor\ --follow\ $*
-  let g:unite_source_grep_command = 'ack-grep'
-  let g:unite_source_grep_default_opts =
-    \ '-i --no-heading --no-color -k -H'
-endif
+" set grepformat=%f:%l:%c:%m
+" set grepprg=ag\ --nogroup\ --noheading\ --column\ --smart-case\ --nocolor\ --follow\ --nobreak
+let g:ackprg="ag\\ --nogroup\\ --noheading\\ --column\\ --smart-case\\ --nocolor\\ --follow\\ --nobreak"
