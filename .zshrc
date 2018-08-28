@@ -110,8 +110,3 @@ fi
 
 load ~/.opam/opam-init/init.zsh
 bin vex && eval "$(vex --shell-config zsh)"
-
-# npm completion is slow: "0.37s user"
-# if (( $+commands[npm] )); then
-#     eval "$(npm completion 2>/dev/null)"
-# fi
