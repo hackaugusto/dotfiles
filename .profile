@@ -204,7 +204,7 @@ export GDK_SCALE=2
 export GDK_DPI_SCALE=0.5
 
 # parallel builds with gnu make
-export MAKEFLAGS='-j'
+export MAKEFLAGS='-j4'
 
 [ -z "$DISPLAY" -a "$XDG_VTNR" -eq 1 ] && {
     # remaps Caps to Ctrl (remapping caps with x11 keymap options)

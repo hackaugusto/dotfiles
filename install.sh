@@ -271,6 +271,8 @@ arch_pacman() {
         # arch
         abs
         arch-install-scripts
+        devtools
+        asp
 
         # http server
         apache
@@ -514,6 +516,7 @@ link .bashrc
 link .profile
 link .zshrc
 link .zsh
+link .makepkg.confg
 
 mkdir -p $HOME/.gnupg
 link .gnupg/gpg.conf
