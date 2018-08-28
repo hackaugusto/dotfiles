@@ -542,6 +542,9 @@ link .gdb/config
 link .gdb/c/locallist
 link .gdb/c/color
 link .gdb/c/longlist.py
+link .gdb/cpp/__init__.py
+link .gdb/cpp/printers.py
+link .gdb/cpp/xmethods.py
 link .gdb/py/libpython.py
 
 # git config --global core.excludesfile '~/.gitignore_global'
