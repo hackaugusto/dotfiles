@@ -1,7 +1,2 @@
-# vim:ft=python:
-import rlcompleter
-import pdb
-
-pdb.Pdb.complete = rlcompleter.Completer(locals()).complete
-
-del rlcompleter, pdb
+use_terminal256formatter = True
+current_line_color = 30
