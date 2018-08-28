@@ -270,6 +270,8 @@ let g:ycm_server_python_interpreter = '/usr/bin/python2'
 " - jedi-vim for goto command
 let g:ycm_filetype_blacklist = {'python': 1}
 
+call deoplete#enable()
+
 let g:jedi#completions_enabled = 0
 let g:jedi#use_tabs_not_buffers = 1
 let g:jedi#goto_command = 'gd'
