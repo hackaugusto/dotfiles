@@ -1,0 +1,5 @@
+#!/usr/bin/sh
+
+dev=$1
+sudo dbus-send --system --type=method_call --print-reply --dest=org.bluez /org/bluez/hci0/$dev org.bluez.Network1.Connect string:'nap'
+dhcpcd bnep0
