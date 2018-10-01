@@ -210,6 +210,7 @@ if dein#load_state(s:plugins_base_dir)
   call dein#add('sheerun/vim-polyglot')
   call dein#add('tpope/vim-commentary')
   call dein#add('neomake/neomake')
+  call dein#add('stsewd/isort.nvim')
   call dein#add('Shougo/echodoc.vim')
   call dein#add('bhurlow/vim-parinfer')
   call dein#add('tpope/vim-endwise', {'on_ft': [
