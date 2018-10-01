@@ -13,11 +13,6 @@ set laststatus=2
 " required for the pep8 style indentation
 filetype plugin indent on
 
-let g:neomake_solidity_solc_maker = {
-  \ 'errorformat': '%f:%l:%c:%m',
-  \ }
-let g:neomake_solidity_enabled_makers = ['solc']
-
 function! Comma(...)
   let items = []
   for item in a:000
@@ -155,6 +150,11 @@ endif
 " use the system-wide python and the python-neovim package
 let g:python_host_prog='/usr/bin/python2'
 let g:python3_host_prog='/usr/bin/python3'
+
+let g:neomake_solidity_solc_maker = {
+  \ 'errorformat': '%f:%l:%c:%m',
+  \ }
+let g:neomake_solidity_enabled_makers = ['solc']
 let g:neomake_python_enabled_makers=['pylint', 'flake8']
 
 exe "set runtimepath+=" . s:dein_dir
