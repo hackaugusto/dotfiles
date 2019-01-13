@@ -6,6 +6,7 @@ set shiftwidth=4 softtabstop=4 tabstop=4 expandtab
 set tabpagemax=20
 set tags=./tags,tags;
 set showcmd hidden
+set foldenable!
 
 " statusline
 set laststatus=2
