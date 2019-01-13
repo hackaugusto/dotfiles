@@ -419,79 +419,74 @@ arch_aur(){
     # anything bellow needs to run unprivileged, mostly because of makepkg
     [ $UID = 0 ] && return
 
-    # giving up on aura
-    # if ! bin aura; then
-    #     require_bin curl
-    #     bash <(curl aur.sh) -S aura-bin
-    #     $root pacman -U aura-bin/*.pkg.*
-    # fi
+    is_readable $AURDL
 
-    if bin aura; then
-        # ttf-google-fonts-git
-        # reflector
-        # terraform
-        # fzf
-        # fzf-extras-git
-        # packer-io
-        # powerpill
-        # neovim-git
-        # python2-neovim-git
+    # ttf-google-fonts-git
+    # reflector
+    # terraform
+    # fzf
+    # fzf-extras-git
+    # packer-io
+    # powerpill
+    # neovim-git
+    # python2-neovim-git
 
-        # Emacs and C/C++
-        # Alternaties:
-        # - simple parsers: ctags gtags
-        # - clang based parsers: rtags irony-mode ccls emacs-ycmd
-        #
-        # Vim:
-        # - Using deoplete with jedi instead of vim-youcompleteme-git
-        aur_packages=( \
-            otf-hack
-            otf-pragmatapro
-            ttf-iosevka
-            ttf-font-awesome
+    # Emacs and C/C++
+    # Alternaties:
+    # - simple parsers: ctags gtags
+    # - clang based parsers: rtags irony-mode ccls emacs-ycmd
+    #
+    # Vim:
+    # - Using deoplete with jedi instead of vim-youcompleteme-git
+    aur_packages=( \
+        aurutils
 
-            bear
-            cotire
+        otf-hack
+        otf-pragmatapro
+        ttf-iosevka
+        ttf-font-awesome
 
-            ccls
+        bear
+        cotire
 
-            alacritty-git
-            chromium-pepper-flash-dev
-            # colout-git - using pygmentize directly
-            dropbox
+        ccls
 
-            abntex2
-            opam
-            flamegraph-git
-            notify-osd-customizable
-            paperkey
-            powerpill
-            rust-src
-            jdk
-            jre
-            rr
-            secp256k1-git
-            wrk
-            wrk2-git
-            pup-git
-            ruby-neovim
-            pssh
-            gtklp
-            # grafana-bin
-            # urxvt-resize-font-git
-            tiptop
-            rust-clippy-git
-            tla-tools
-            include-what-you-use
+        alacritty-git
+        chromium-pepper-flash-dev
+        # colout-git - using pygmentize directly
+        dropbox
 
-            tzupdate
-        )
+        abntex2
+        opam
+        flamegraph-git
+        notify-osd-customizable
+        paperkey
+        powerpill
+        rust-src
+        jdk
+        jre
+        rr
+        secp256k1-git
+        wrk
+        wrk2-git
+        pup-git
+        ruby-neovim
+        pssh
+        gtklp
+        # grafana-bin
+        # urxvt-resize-font-git
+        tiptop
+        rust-clippy-git
+        tla-tools
+        include-what-you-use
 
-        aur_to_install=()
-        for aur in $aur_packages; do
-            pacman -Qq $aur > /dev/null 2>&1 || $root aura -A $aur
-        done
-    fi
+        tzupdate
+    )
+
+    for package in $aur_packages; do
+        ${AURDL} $package
+        sudo pacman -Syu $package/*.pkg.*
+    done
 }
 
 FORCE=0
@@ -508,6 +503,7 @@ require_bin git
 require_bin vim
 
 REPO=${HOME}/.dotfiles
+AURDL=${REPO}/.bin/aurdl
 
 repo 'https://github.com/hackaugusto/dotfiles.git' "$REPO"
 
@@ -579,7 +575,7 @@ link .vim .nvim
 link .vimrc .nvimrc
 link .config/nvim/init.vim
 
-# Anything that needs to be compiles goes after here
+# Anything that needs to be compiled goes after here
 msg 'Vim plugins'
 repo 'https://github.com/hackaugusto/Vundle.vim.git' "${HOME}/.vim/bundle/Vundle.vim"
 vim -u ${HOME}/.vim/plugins.vim +PluginUpdate +qa
