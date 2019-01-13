@@ -216,9 +216,8 @@ arch_pacman() {
         # wine
         wine
         winetricks
-        # winetricks corefonts
+        # corefonts
 
-        # steam
         steam
 
         # editor
