@@ -172,7 +172,9 @@ if dein#load_state(s:plugins_base_dir)
   call dein#add('tpope/vim-repeat')
   call dein#add('editorconfig/editorconfig-vim')
   call dein#add('pgdouyon/vim-evanesco')  " enhanced search
-  call dein#add('SirVer/ultisnips')
+  " call dein#add('SirVer/ultisnips')
+  call dein#add('Shougo/neosnippet.vim')
+  call dein#add('Shougo/neosnippet-snippets')
   call dein#add('junegunn/vim-easy-align')
 
   " text objects and operators
@@ -344,6 +346,10 @@ inoremap <m-p> <esc>p
 inoremap <m-w> <esc>w
 inoremap <m-A> <esc>A
 inoremap <m-I> <esc>I
+
+imap <C-k> <Plug>(neosnippet_expand_or_jump)
+smap <C-k> <Plug>(neosnippet_expand_or_jump)
+xmap <C-k> <Plug>(neosnippet_expand_target)
 
 " Tab for autocomplete menu navigation
 function! s:check_back_space() abort
