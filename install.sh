@@ -502,6 +502,7 @@ shift $(($OPTIND-1))
 
 require_bin git
 require_bin vim
+require_bin pacman
 
 REPO=${HOME}/.dotfiles
 AURDL=${REPO}/.bin/aurdl
@@ -582,10 +583,8 @@ repo 'https://github.com/hackaugusto/Vundle.vim.git' "${HOME}/.vim/bundle/Vundle
 vim -u ${HOME}/.vim/plugins.vim +PluginUpdate +qa
 
 # Depedencies for compilation
-if bin pacman; then
-    has_exact_line /etc/pacman.conf "\[multilib\]" || die "multilib is not enabled on pacman.conf"
-    arch_pacman
-fi
+has_exact_line /etc/pacman.conf "\[multilib\]" || die "multilib is not enabled on pacman.conf"
+arch_pacman
 
 # TODO: use neobundle or vim-plug
 find -L ${HOME}/.vim -iname Makefile | grep -v -e html5.vim -e Dockerfile -e color_coded | while read plugin; do
@@ -612,16 +611,14 @@ info 'color_coded'
 repo 'https://github.com/cask/cask.git' "${HOME}/.cask"
 (cd ${HOME}/.emacs.d/; ${HOME}/.cask/bin/cask install)
 
-if bin pacman; then
-    echo
-    echo
-    msg 'Edit the /etc/makepkg.conf file and remove the strip option:'
-    echo 'OPTIONS+=(debug !strip)'
-    echo
-    echo
+echo
+echo
+msg 'Edit the /etc/makepkg.conf file and remove the strip option:'
+echo 'OPTIONS+=(debug !strip)'
+echo
+echo
 
-    arch_aur
-fi
+arch_aur
 
 SUDO=''
 [ $UID = 0 ] || SUDO='sudo'
