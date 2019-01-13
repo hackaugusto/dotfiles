@@ -199,19 +199,27 @@ export GPG_TTY=$(tty)
 export SSH_AUTH_SOCK="/run/user/$UID/gnupg/S.gpg-agent.ssh"
 export PYTHONSTARTUP=$HOME/.pythonrc
 
-# HiDPI scaling
-export GDK_SCALE=2
-export GDK_DPI_SCALE=0.5
-
 # parallel builds with gnu make
 export MAKEFLAGS='-j4'
 
 [ -z "$DISPLAY" -a "$XDG_VTNR" -eq 1 ] && {
+    # HiDPI scaling
+    export GDK_SCALE=2
+    export GDK_DPI_SCALE=0.5
+
     # remaps Caps to Ctrl (remapping caps with x11 keymap options)
     # [[ ! -z $DISPLAY && -f ~/.Xmodmap ]] && xmodmap ~/.Xmodmap
     exec startx
-    # export XKB_DEFAULT_LAYOUT="us,de"
+}
+
+if [[ -z $DISPLAY ]] && [[ $(tty) = /dev/tty2 ]]; then
+    # export XKB_DEFAULT_LAYOUT=us,de
     # export XKB_DEFAULT_VARIANT=",nodeadkeys"
     # export XKB_DEFAULT_OPTIONS="ctrl:swapcaps,"
+    export XKB_DEFAULT_LAYOUT=br
+    export XKB_DEFAULT_OPTIONS=ctrl:swapcaps
+    export XDG_SESSION=wayland
+    # exec sway
     # exec dbus-launch --sh-syntax --exit-with-session sway
-}
+    # exec gnome-session
+fi
