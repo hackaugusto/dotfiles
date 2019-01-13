@@ -583,7 +583,15 @@ repo 'https://github.com/hackaugusto/Vundle.vim.git' "${HOME}/.vim/bundle/Vundle
 vim -u ${HOME}/.vim/plugins.vim +PluginUpdate +qa
 
 # Depedencies for compilation
-has_exact_line /etc/pacman.conf "\[multilib\]" || die "multilib is not enabled on pacman.conf"
+has_exact_line /etc/pacman.conf "\[multilib\]" || {
+    info 'Add the following to /etc/pacman.conf'
+    echo
+    echo '[multilib]'
+    echo 'Include = /etc/pacman.d/mirrorlist'
+    echo
+    die "multilib has to be enabled"
+}
+
 arch_pacman
 
 # TODO: use neobundle or vim-plug
