@@ -1,0 +1,37 @@
+#!/usr/bin/python3
+import sys
+import simplejson
+
+
+# def main():
+#     with sys.stdin, sys.stdout:
+#         while True:
+#             try:
+#                 data = simplejson.load(sys.stdin)
+#                 json.dump(
+#                     data,
+#                     sys.stdout,
+#                     sort_keys=True,
+#                     indent=4,
+#                 )
+#                 sys.stdout.write('\n')
+#             except simplejson.JSONDecodeError as e:
+#                 if e.msg == 'Extra data':
+#                     data[:e.pos]
+
+
+def main():
+    with sys.stdin, sys.stdout:
+        for line in sys.stdin:
+            obj = simplejson.loads(line)
+            simplejson.dump(
+                obj,
+                sys.stdout,
+                sort_keys=False,
+                indent=2,
+            )
+            sys.stdout.write('\n')
+
+
+if __name__ == '__main__':
+    main()
