@@ -198,12 +198,6 @@
       </action>
     </keybind>
 
-    <!--
-    <keybind key="W-F8">
-      <action name="ToggleAlwaysOnTop" />
-    </keybind>
-    -->
-
     <keybind key="W-Up">
       <action name="ToggleMaximize">
         <direction>both</direction>
@@ -258,6 +252,11 @@
     </keybind>
 
     <!-- Keybindings for running applications -->
+    <keybind key="W-l">
+      <action name="Execute">
+        <command>xscreensaver-command -lock</command>
+      </action>
+    </keybind>
     <keybind key="W-f">
       <action name="Execute">
         <startupnotify>
