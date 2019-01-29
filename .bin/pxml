@@ -1,0 +1,7 @@
+#!/usr/bin/python3
+import sys
+
+import lxml.etree
+
+tree = lxml.etree.parse(sys.stdin)
+sys.stdout.write(lxml.etree.tostring(tree, pretty_print=True).decode('utf-8'))

@@ -373,6 +373,8 @@ arch_pacman() {
         re2
         re2c
         tidy
+        # for ~/.bin/pxml
+        python-lxml
 
         # tracing
         strace
@@ -396,7 +398,8 @@ arch_pacman() {
         # debugging
         lldb
         gdb
-        python-pygments python-pycparser # required by .gdb/c/longlist.py
+        # required by .gdb/c/longlist.py
+        python-pygments python-pycparser
     )
 
     # on a fresh install update prior to querying
