@@ -367,6 +367,8 @@ arch_pacman() {
         dwdiff
         mono
         npm
+        yarn
+        babel-cli
         ragel
         re2
         re2c
