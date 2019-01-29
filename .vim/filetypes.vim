@@ -68,6 +68,7 @@ augroup JAVASCRIPT
   " autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
   autocmd FileType javascript set cindent
   autocmd FileType javascript let g:JSLintHighlightErrorLine = 0
+  autocmd FileType javascript set backupcopy=yes  " https://parceljs.org/hmr.html#safe-write
 augroup END
 
 augroup CSHARP
@@ -111,6 +112,7 @@ augroup HTML
   autocmd FileType xhtml,html let g:SuperTabDefaultCompletionType='context'
   autocmd FileType xhtml,html set omnifunc=htmlcomplete#CompleteTags
   autocmd FileType xhtml,html set shiftwidth=2 softtabstop=2 tabstop=2
+  autocmd FileType xhtml,html set backupcopy=yes  " https://parceljs.org/hmr.html#safe-write
 augroup END
 
 augroup PHP

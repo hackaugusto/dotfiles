@@ -410,6 +410,16 @@ augroup XML
   autocmd FileType xml setlocal foldmethod=syntax
 augroup END
 
+augroup Html
+  autocmd!
+  autocmd FileType xhtml,html set backupcopy=yes  " https://parceljs.org/hmr.html#safe-write
+augroup END
+
+augroup JAVASCRIPT
+  autocmd!
+  autocmd FileType javascript set backupcopy=yes  " https://parceljs.org/hmr.html#safe-write
+augroup END
+
 augroup C-Files
   autocmd!
   autocmd FileType cpp,c,h set cindent
