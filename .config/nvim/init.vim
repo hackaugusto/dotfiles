@@ -404,6 +404,12 @@ augroup Haskell
   autocmd BufReadPost,BufWritePost *.hs :Neomake
 augroup END
 
+augroup XML
+  autocmd!
+  autocmd FileType xml let g:xml_syntax_folding=1
+  autocmd FileType xml setlocal foldmethod=syntax
+augroup END
+
 augroup C-Files
   autocmd!
   autocmd FileType cpp,c,h set cindent

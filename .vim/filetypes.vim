@@ -85,6 +85,8 @@ augroup END
 augroup XML
   autocmd!
   autocmd FileType xml set shiftwidth=2 softtabstop=2 tabstop=2 nocindent noautoindent
+  autocmd FileType xml let g:xml_syntax_folding=1
+  autocmd FileType xml setlocal foldmethod=syntax
 augroup END
 
 augroup JADE
