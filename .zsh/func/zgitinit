@@ -5,21 +5,8 @@
 typeset -gA zgit_info
 zgit_info=()
 
-zgit_chpwd_hook() {
-	zgit_info_update
-}
-
-zgit_preexec_hook() {
-	if [[ $2 == git\ * ]] || [[ $2 == *\ git\ * ]]; then
-		zgit_precmd_do_update=1
-	fi
-}
-
 zgit_precmd_hook() {
-	if [ $zgit_precmd_do_update ]; then
-		unset zgit_precmd_do_update
-		zgit_info_update
-	fi
+    zgit_info_update
 }
 
 zgit_info_update() {
@@ -30,9 +17,18 @@ zgit_info_update() {
 		return
 	fi
 
+    local output=$(git status --porcelain=1 | sed -r 's/(..).*/\1/g' | sort -u)
+
 	zgit_info[dir]=$gitdir
 	zgit_info[bare]=$(git rev-parse --is-bare-repository)
 	zgit_info[inwork]=$(git rev-parse --is-inside-work-tree)
+    zgit_info[modified]=$(echo $output | grep -q M && echo -n 'true' || echo -n 'false')
+    zgit_info[added]=$(echo $output | grep -q A && echo -n 'true' || echo -n 'false')
+    zgit_info[deleted]=$(echo $output | grep -q D && echo -n 'true' || echo -n 'false')
+    zgit_info[renamed]=$(echo $output | grep -q R && echo -n 'true' || echo -n 'false')
+    zgit_info[copied]=$(echo $output | grep -q C && echo -n 'true' || echo -n 'false')
+    zgit_info[updated]=$(echo $output | grep -q U && echo -n 'true' || echo -n 'false')
+    zgit_info[untracked]=$(echo $output | grep -q '??' && echo -n 'true' || echo -n 'false')
 }
 
 zgit_isgit() {
@@ -154,15 +150,6 @@ zgit_tracking_merge() {
 	fi
 }
 
-zgit_isindexclean() {
-	zgit_isgit || return 1
-	if git diff --quiet --cached 2>/dev/null; then
-		return 0
-	else
-		return 1
-	fi
-}
-
 zgit_isworktreeclean() {
 	zgit_isgit || return 1
 	if [ -z "$(git ls-files $zgit_info[dir]:h --modified)" ]; then
@@ -174,20 +161,17 @@ zgit_isworktreeclean() {
 
 zgit_hasuntracked() {
 	zgit_isgit || return 1
-	local -a flist
-	flist=($(git ls-files --others --exclude-standard))
-	if [ $#flist -gt 0 ]; then
+	if [ "$zgit_info[untracked]" = "true" ]; then
 		return 0
 	else
 		return 1
 	fi
+    
 }
 
 zgit_hasunmerged() {
 	zgit_isgit || return 1
-	local -a flist
-	flist=($(git ls-files -u))
-	if [ $#flist -gt 0 ]; then
+	if [ "$zgit_info[updated]" = "true" ]; then
 		return 0
 	else
 		return 1
@@ -197,23 +181,11 @@ zgit_hasunmerged() {
 zgit_hasuncommited() {
     zgit_isgit || return 1
     local -a flist
-    flist=($(git diff-index --cached HEAD --ignore-submodules --))
-    if [ $#flist -gt 0 ]; then
-        return 0
-    else
-        return 1
-    fi
-}
-
-zgit_svnhead() {
-	zgit_isgit || return 1
-
-	local commit=$1
-	if [ -z "$commit" ]; then
-		commit='HEAD'
+	if [ "$zgit_info[modified]" = "true" ]; then
+		return 0
+	else
+		return 1
 	fi
-
-	git svn find-rev $commit
 }
 
 zgit_rebaseinfo() {
@@ -246,10 +218,6 @@ zgit_rebaseinfo() {
 	return 0
 }
 
-add-zsh-hook chpwd zgit_chpwd_hook
-add-zsh-hook preexec zgit_preexec_hook
 add-zsh-hook precmd zgit_precmd_hook
-
-zgit_info_update
 
 # vim:set ft=zsh:
