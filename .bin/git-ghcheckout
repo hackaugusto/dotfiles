@@ -1,0 +1,72 @@
+#!/usr/bin/sh
+
+set -e
+
+function usage() {
+    echo "${0} [GHSPEC]"
+    exit 1
+}
+
+[ $# -ne 1 ] && usage
+
+repo_spec=$1
+
+# %  - matches at the end of the string
+# \/ - matches the literal /. It has to be escaped because / is used as part
+#      of the shell substitution spec
+# *  - expand everything after the first / until the end of the string
+#
+# repo_spec=me/repo:branch
+# ghuser=me
+ghuser=${repo_spec/%\/*/}
+
+# remove the ghuser from the spec
+#
+# me/repo:branch -> repo:branch
+repo_spec=${repo_spec:${#ghuser} + 1}
+
+# % - matches at the end of the string
+# : - matches the literal :
+# * - expand everything after the first : until the end of the string
+#
+# repo_spec=repo:branch
+# ghrepo=repo
+ghrepo=${repo_spec/%:*/}
+
+# remove the ghrepo from the spec
+#
+# repo:branch -> branch
+ghbranch=${repo_spec:${#ghrepo} + 1}
+
+# set the branch to master by default
+ghbranch=${ghbranch:-master}
+
+[ -z ${ghuser} ] && usage
+[ -z ${ghrepo} ] && usage
+
+ghfetch="https://github.com/${ghuser}/${ghrepo}.git"
+ghpush="git@github.com:${ghuser}/${ghrepo}.git"
+
+remotes=$(git remote -v)
+
+if (echo ${remotes} | egrep -e "^${ghuser} "); then
+    if ( \
+        echo ${remotes} | egrep -e "^${ghuser} *${ghfetch} (fetch)" &&
+        echo ${remotes} | egrep -e "^${ghuser} *${ghpush} (push)"
+    ); then
+        echo "This repo already has a remote named \`${ghuser}\`, but the URLs"
+        echo "don't match. Please check the URLs and if necessary change it"
+        echo "with:"
+        echo
+        echo "git remote set-url ${ghuser} ${ghfetch}"
+        echo "git remote set-url --push ${ghuser} ${ghpush}"
+        echo
+        exit 1
+    fi
+    git fetch --no-tags ${ghuser} ${ghbranch}
+else
+    git remote add --no-tags -f -t ${ghbranch} ${ghuser} ${ghfetch}
+    git remote set-url --push ${ghuser} ${ghpush}
+fi
+
+git checkout "${ghuser}/${ghbranch}"
