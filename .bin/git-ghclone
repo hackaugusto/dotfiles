@@ -47,8 +47,8 @@ ghbranch=${ghbranch:-master}
 ghfetch="https://github.com/${ghuser}/${ghrepo}.git"
 ghpush="git@github.com:${ghuser}/${ghrepo}.git"
 
-git clone --progress --depth=1 --branch ${ghbranch} --single-branch --no-tags ${ghfetch} ${ghrepo}
+git clone --progress --depth=1 --branch "${ghbranch}" --single-branch --no-tags "${ghfetch}" "${ghrepo}"
 (
-    cd ${ghrepo}
-    git remote set-url --push origin ${ghpush}
+    cd "${ghrepo}"
+    git remote set-url --push origin "${ghpush}"
 )

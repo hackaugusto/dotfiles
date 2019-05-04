@@ -49,10 +49,10 @@ ghpush="git@github.com:${ghuser}/${ghrepo}.git"
 
 remotes=$(git remote -v)
 
-if (echo ${remotes} | egrep -e "^${ghuser} "); then
+if (echo "${remotes}" | egrep -e "^${ghuser}\b" > /dev/null); then
     if ( \
-        echo ${remotes} | egrep -e "^${ghuser} *${ghfetch} (fetch)" &&
-        echo ${remotes} | egrep -e "^${ghuser} *${ghpush} (push)"
+        echo "${remotes}" | egrep -e "^${ghuser}[[:space:]]+${ghfetch} (fetch)" > /dev/null &&
+        echo "${remotes}" | egrep -e "^${ghuser}[[:space:]]+${ghpush} (push)" > /dev/null
     ); then
         echo "This repo already has a remote named \`${ghuser}\`, but the URLs"
         echo "don't match. Please check the URLs and if necessary change it"
@@ -63,10 +63,10 @@ if (echo ${remotes} | egrep -e "^${ghuser} "); then
         echo
         exit 1
     fi
-    git fetch --no-tags ${ghuser} ${ghbranch}
+    echo git fetch --no-tags "${ghuser}" "${ghbranch}"
 else
-    git remote add --no-tags -f -t ${ghbranch} ${ghuser} ${ghfetch}
-    git remote set-url --push ${ghuser} ${ghpush}
+    git remote add --no-tags -f -t "${ghbranch}" "${ghuser}" "${ghfetch}"
+    git remote set-url --push "${ghuser}" "${ghpush}"
 fi
 
 git checkout "${ghuser}/${ghbranch}"
