@@ -333,6 +333,22 @@
     <screenEdgeWarpMouse>false</screenEdgeWarpMouse> <!-- Set this to TRUE to move the mouse pointer across the desktop when
                                                        switching due to hitting the edge of the screen -->
     <context name="Frame">
+      <!-- disabled because of blender
+      <mousebind button="A-Middle" action="Press">
+        <action name="Lower"/>
+        <action name="FocusToBottom"/>
+        <action name="Unfocus"/>
+      </mousebind>
+      <mousebind button="A-Up" action="Click">
+        <action name="GoToDesktop">
+          <to>previous</to>
+        </action>
+      </mousebind>
+      <mousebind button="A-Down" action="Click">
+        <action name="GoToDesktop">
+          <to>next</to>
+        </action>
+      </mousebind>
       <mousebind button="A-Left" action="Press">
         <action name="Focus"/>
         <action name="Raise"/>
@@ -350,21 +366,6 @@
       </mousebind>
       <mousebind button="A-Right" action="Drag">
         <action name="Resize"/>
-      </mousebind>
-      <mousebind button="A-Middle" action="Press">
-        <action name="Lower"/>
-        <action name="FocusToBottom"/>
-        <action name="Unfocus"/>
-      </mousebind>
-      <mousebind button="A-Up" action="Click">
-        <action name="GoToDesktop">
-          <to>previous</to>
-        </action>
-      </mousebind>
-      <mousebind button="A-Down" action="Click">
-        <action name="GoToDesktop">
-          <to>next</to>
-        </action>
       </mousebind>
       <mousebind button="C-A-Up" action="Click">
         <action name="GoToDesktop">
@@ -386,6 +387,7 @@
           <to>next</to>
         </action>
       </mousebind>
+      -->
     </context>
     <context name="Titlebar">
       <mousebind button="Left" action="Drag">
@@ -589,6 +591,7 @@
           <to>next</to>
         </action>
       </mousebind>
+      <!-- disabled because of blender
       <mousebind button="A-Up" action="Click">
         <action name="GoToDesktop">
           <to>previous</to>
@@ -609,6 +612,7 @@
           <to>next</to>
         </action>
       </mousebind>
+      -->
       <mousebind button="Left" action="Press">
         <action name="Focus"/>
         <action name="Raise"/>
