@@ -1,0 +1,7 @@
+#!/usr/bin/sh
+
+set -e
+
+for repo in $@; do
+    git fetch $repo;
+done
