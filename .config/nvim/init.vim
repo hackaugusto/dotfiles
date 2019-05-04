@@ -156,7 +156,10 @@ let g:neomake_solidity_solc_maker = {
   \ 'errorformat': '%f:%l:%c:%m',
   \ }
 let g:neomake_solidity_enabled_makers = ['solc']
-let g:neomake_python_enabled_makers=['pylint', 'flake8']
+" let g:neomake_python_enabled_makers=['pylint', 'flake8', 'pydocstyle']
+let g:neomake_python_enabled_makers=['pylint', 'flake8', 'mypy']
+let g:neomake_virtualtext_current_error=0
+let g:neomake_echo_current_error=1
 
 exe "set runtimepath+=" . s:dein_dir
 
