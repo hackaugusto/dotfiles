@@ -17,7 +17,7 @@ zgit_info_update() {
 		return
 	fi
 
-    local output=$(git status --porcelain=1 | sed -r 's/(..).*/\1/g' | sort -u)
+    local output=$(git status --porcelain=1 2>/dev/null | sed -r 's/(..).*/\1/g' | sort -u)
 
 	zgit_info[dir]=$gitdir
 	zgit_info[bare]=$(git rev-parse --is-bare-repository)
