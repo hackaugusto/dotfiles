@@ -129,7 +129,8 @@ arch_pacman() {
         dmenu
         evince
         feh
-        firefox
+        # firefox
+        firefox-developer-edition
         gimp
         hplip
         libreoffice
