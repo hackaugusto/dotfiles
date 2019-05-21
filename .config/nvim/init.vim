@@ -152,15 +152,6 @@ endif
 let g:python_host_prog='/usr/bin/python2'
 let g:python3_host_prog='/usr/bin/python3'
 
-let g:neomake_solidity_solc_maker = {
-  \ 'errorformat': '%f:%l:%c:%m',
-  \ }
-let g:neomake_solidity_enabled_makers = ['solc']
-" let g:neomake_python_enabled_makers=['pylint', 'flake8', 'pydocstyle']
-let g:neomake_python_enabled_makers=['pylint', 'flake8', 'mypy']
-let g:neomake_virtualtext_current_error=0
-let g:neomake_echo_current_error=1
-
 exe "set runtimepath+=" . s:dein_dir
 
 if dein#load_state(s:plugins_base_dir)
@@ -219,6 +210,7 @@ if dein#load_state(s:plugins_base_dir)
   call dein#add('stsewd/isort.nvim')
   call dein#add('Shougo/echodoc.vim')
   call dein#add('bhurlow/vim-parinfer')
+  call dein#add('python/black')
   call dein#add('tpope/vim-endwise', {'on_ft': [
     \ 'lua', 'elixir', 'ruby', 'crystal', 'sh', 'zsh', 'vb', 'vbnet', 'aspvbs',
     \ 'vim', 'c', 'cpp', 'xdefaults', 'haskell', 'objc', 'matlab', 'htmldjango',
@@ -244,6 +236,16 @@ if s:dein_install
   call dein#install()
   normal UpdateRemotePlugins()
 endif
+
+let g:neomake_solidity_solc_maker = {
+  \ 'errorformat': '%f:%l:%c:%m',
+  \ }
+let g:neomake_solidity_enabled_makers = ['solc']
+" let g:neomake_python_enabled_makers=['pylint', 'flake8', 'pydocstyle']
+let g:neomake_python_enabled_makers=['pylint', 'flake8', 'mypy']
+let g:neomake_virtualtext_current_error=0
+let g:neomake_echo_current_error=1
+call neomake#configure#automake('nrwi', 1000)
 
 " configure the statusline after the plugin virtualenv has been installed
 set statusline=%m
@@ -278,6 +280,8 @@ let g:ycm_server_python_interpreter = '/usr/bin/python2'
 let g:ycm_filetype_blacklist = {'python': 1}
 
 call deoplete#enable()
+
+let g:black_linelength = 99
 
 let g:jedi#completions_enabled = 0
 let g:jedi#use_tabs_not_buffers = 1
@@ -384,9 +388,14 @@ augroup END
 augroup Python
   autocmd!
   autocmd FileType python set nowrap
-  autocmd BufWritePre *.py :%s/\s\+$//e
-  autocmd BufReadPost,BufWritePost *.py :Neomake
+  autocmd BufWritePre *.py silent call FixPython()
 augroup END
+
+function! FixPython()
+  execute '%s/\s\+$//e'
+  execute '%!isort -'
+  execute 'Black'
+endfunction
 
 augroup Solidity
   autocmd!
