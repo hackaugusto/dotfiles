@@ -110,6 +110,8 @@ arch_pacman() {
     # network monitor:
     # darkstat
     packages=( \
+        pacman-contrib
+
         # system setup
         grub
         efibootmgr
