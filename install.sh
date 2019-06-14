@@ -307,6 +307,7 @@ arch_pacman() {
         # build
         cabal-install
         cmake
+        ninja
         ccache
         ftjam
         maven
@@ -403,6 +404,16 @@ arch_pacman() {
         gdb
         # required by .gdb/c/longlist.py
         python-pygments python-pycparser
+
+        # esp32
+        picocom
+        dtc
+        dfu-util
+        gperf
+        python2-pyserial
+        python2-cryptography
+        python2-future
+        python2-pyelftools
     )
 
     # on a fresh install update prior to querying
@@ -718,6 +729,13 @@ $SUDO grep -i '^en_us.utf-?8' /etc/locale.gen || {
     erro 'Missing /etc/sysctl.d/50-kptr-restrict.conf file'
     info 'echo "kernel.kptr_restrict = 2" > /etc/sysctl.d/50-kptr-restrict.conf'
     info 'this break perf'
+}
+
+groups hack | grep uucp 2>&1 > /dev/null || {
+    info 'The user hack does not have the group uucp'
+    info 'using /dev/ttyUSB0 will not work'
+    info 'To fix, use:'
+    info '   usermod -a -G uucp '
 }
 
 is_readable /etc/hostname
