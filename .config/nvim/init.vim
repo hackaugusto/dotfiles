@@ -206,7 +206,7 @@ if dein#load_state(s:plugins_base_dir)
   " progamming languages
   call dein#add('sheerun/vim-polyglot')
   call dein#add('tpope/vim-commentary')
-  call dein#add('neomake/neomake')
+  call dein#add('w0rp/ale')
   call dein#add('stsewd/isort.nvim')
   call dein#add('Shougo/echodoc.vim')
   call dein#add('bhurlow/vim-parinfer')
@@ -237,15 +237,10 @@ if s:dein_install
   normal UpdateRemotePlugins()
 endif
 
-let g:neomake_solidity_solc_maker = {
-  \ 'errorformat': '%f:%l:%c:%m',
-  \ }
-let g:neomake_solidity_enabled_makers = ['solc']
-" let g:neomake_python_enabled_makers=['pylint', 'flake8', 'pydocstyle']
-let g:neomake_python_enabled_makers=['pylint', 'flake8', 'mypy']
-let g:neomake_virtualtext_current_error=0
-let g:neomake_echo_current_error=1
-call neomake#configure#automake('nrwi', 1000)
+let g:ale_fix_on_save = 1
+let g:ale_fixers = {
+\   'python': ['black', 'isort'],
+\}
 
 " configure the statusline after the plugin virtualenv has been installed
 set statusline=%m
@@ -388,14 +383,8 @@ augroup END
 augroup Python
   autocmd!
   autocmd FileType python set nowrap
-  autocmd BufWritePre *.py silent call FixPython()
+  autocmd BufWritePre *.py execute '%s/\s\+$//e'
 augroup END
-
-function! FixPython()
-  execute '%s/\s\+$//e'
-  execute '%!isort -'
-  execute 'Black'
-endfunction
 
 augroup Solidity
   autocmd!
