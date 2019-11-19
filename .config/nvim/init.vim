@@ -179,6 +179,8 @@ if dein#load_state(s:plugins_base_dir)
   "   \ )
   " call dein#add('pgdouyon/vim-apparate')
   call dein#add('tpope/vim-surround')
+  call dein#add('justinmk/vim-sneak')
+  call dein#add('easymotion/vim-easymotion')
 
   " presentation
   call dein#add('junegunn/goyo.vim')
@@ -237,6 +239,7 @@ if s:dein_install
   normal UpdateRemotePlugins()
 endif
 
+let g:ale_c_parse_compile_commands = 1
 let g:ale_fix_on_save = 1
 let g:ale_fixers = {
 \   'python': ['black', 'isort'],

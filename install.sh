@@ -328,6 +328,7 @@ arch_pacman() {
         python-pipenv
         python-virtualenv
         python-virtualenvwrapper
+        python-black
 
         # version control
         git
@@ -367,6 +368,7 @@ arch_pacman() {
         bsdiff
         colordiff
         diff-so-fancy
+        dmidecode
         ctags
         dwdiff
         mono
@@ -385,10 +387,11 @@ arch_pacman() {
         ltrace
 
         # profilling/benchmark
+        oprofile
         perf
         siege
         valgrind
-        kdesdk-kcachegrind
+        kcachegrind
 
         # virtual machine/containers
         docker
@@ -449,6 +452,7 @@ arch_aur(){
     # powerpill
     # neovim-git
     # python2-neovim-git
+    # python37
 
     # Emacs and C/C++
     # Alternaties:
