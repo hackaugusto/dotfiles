@@ -243,7 +243,6 @@ arch_pacman() {
 
         # shell utils
         aria2
-        bat
         expect
         fakeroot
         fortune-mod
