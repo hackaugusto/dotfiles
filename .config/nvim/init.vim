@@ -163,6 +163,17 @@ if dein#load_state(s:plugins_base_dir)
   " colorscheme
   call dein#add('nanotech/jellybeans.vim')
 
+  " fuzzy finders
+  " All of these plugins have some serious drawbacks:
+  " - They have to get the list of *every* file in the current directory to do
+  "   the search. This means that fuzzy finding a large tree is ridicously
+  "   slow.
+  " - They only work on the initial list piped to fzy/fzf , meaning one cannot
+  "   navigate with it, i.e. `~` is not expanded to home and `/` to the roo.
+  " call dein#add('srstevenson/vim-picker')
+  " call dein#add('cloudhead/neovim-fuzzy')
+  " call dein#add('junegunn/fzf.vim')
+
   " editing
   call dein#add('tpope/vim-repeat')
   call dein#add('editorconfig/editorconfig-vim')
