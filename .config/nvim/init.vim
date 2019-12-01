@@ -196,7 +196,7 @@ if dein#load_state(s:plugins_base_dir)
   call dein#add('eagletmt/neco-ghc')
   call dein#add('racer-rust/vim-racer')
   " deoplete-clang doesn't support go-to-definition, using ycm instead
-  " call dein#add('zchee/deoplete-clang')
+  " call dein#add('deoplete-plugins/deoplete-clang')
   call dein#add('deoplete-plugins/deoplete-jedi')
   " language server
   " call dein#add('natebosch/vim-lsc')
