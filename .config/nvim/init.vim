@@ -398,13 +398,11 @@ augroup END
 
 augroup Solidity
   autocmd!
-  autocmd BufReadPost,BufWritePost *.rs :Neomake
 augroup END
 
 augroup Rust
   autocmd!
   autocmd BufWritePre *.rs :%s/\s\+$//e
-  autocmd BufReadPost,BufWritePost *.rs :Neomake
 augroup END
 
 augroup Haskell
@@ -412,7 +410,6 @@ augroup Haskell
   autocmd FileType haskell set formatprg=stylish-haskell
   autocmd FileType haskell let g:necoghc_use_stack=1
   autocmd BufWritePre *.hs :%s/\s\+$//e
-  autocmd BufReadPost,BufWritePost *.hs :Neomake
 augroup END
 
 augroup XML
