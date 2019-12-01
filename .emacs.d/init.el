@@ -77,7 +77,7 @@ With prefix ARG, silently save all file-visiting buffers, then kill."
             (package-install package)))))) ;; install dependencies and update loaddefs.el
 
 (package-install-all
- '(ido-completing-read+ smex flx flx-ido linum-relative
+ '(ido-completing-read+ smex flx flx-ido
    evil key-chord evil-surround evil-leader evil-tabs evil-search-highlight-persist
    direx projectile git-gutter git-timemachine magit
    auto-complete flycheck idle-highlight-mode multiple-cursors yasnippet
@@ -109,6 +109,9 @@ With prefix ARG, silently save all file-visiting buffers, then kill."
               tab-width 4
               truncate-lines t
               default-truncate-lines t
+              display-line-numbers 'relative
+
+              ; modeline
               column-number-mode t
               line-number-mode t
 
@@ -154,6 +157,7 @@ With prefix ARG, silently save all file-visiting buffers, then kill."
 (tool-bar-mode -1)
 (tooltip-mode 1)
 (blink-cursor-mode -1)
+(display-line-numbers-mode)
 
 (setq-default show-paren-delay 0)
 (show-paren-mode t)
@@ -167,9 +171,6 @@ With prefix ARG, silently save all file-visiting buffers, then kill."
 (global-set-key (kbd "M-x") 'smex)
 (global-set-key (kbd "M-X") 'smex-major-mode-commands)
 (fset 'save-buffers-kill-emacs 'noconfirm-save-buffers-kill-emacs)
-
-(custom-set-variables
- '(linum-relative-current-symbol ""))
 
 (custom-set-variables
  '(initial-frame-alist (quote ((maximized)))))
@@ -421,7 +422,6 @@ With prefix ARG, silently save all file-visiting buffers, then kill."
 (global-evil-leader-mode t)
 (global-evil-tabs-mode t) ; elscreen integration
 (global-evil-search-highlight-persist t)
-(linum-relative-global-mode t)
 
 ;; I prefer to use emacs mode since j is bound to open file.
 ;; (evil-set-initial-state 'dired-mode 'normal)
