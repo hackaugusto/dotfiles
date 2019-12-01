@@ -7,6 +7,7 @@ set tabpagemax=20
 set tags=./tags,tags;
 set showcmd hidden
 set foldenable!
+set termguicolors
 
 " statusline
 set laststatus=2
