@@ -558,6 +558,7 @@ link .screenrc
 link .tmux.conf
 link .urxvt
 link .urxvt/resize-font
+link .latexmkrc
 
 mkdir -p $HOME/.gdb/{c,py}
 link .gdbinit
