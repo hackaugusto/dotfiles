@@ -189,10 +189,6 @@ if dein#load_state(s:plugins_base_dir)
   call dein#add('justinmk/vim-sneak')
   call dein#add('easymotion/vim-easymotion')
 
-  " presentation
-  call dein#add('junegunn/goyo.vim')
-  call dein#add('junegunn/limelight.vim')
-
   " completion
   call dein#add('ctrlpvim/ctrlp.vim')
   call dein#add('mileszs/ack.vim')
