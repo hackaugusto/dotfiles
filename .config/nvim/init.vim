@@ -1,4 +1,3 @@
-" general settings
 set backup
 set pastetoggle=<insert>
 set relativenumber number
@@ -8,8 +7,6 @@ set tags=./tags,tags;
 set showcmd hidden
 set foldenable!
 set termguicolors
-
-" statusline
 set laststatus=2
 
 " required for the pep8 style indentation
@@ -51,7 +48,6 @@ function! Equal(one,other)
   endif
 endfunction
 
-" scrooloose's functions
 function! StatuslineCurrentHighlight()
   let name = synIDattr(synID(line('.'),col('.'),1),'name')
 
@@ -139,7 +135,6 @@ function! LoclistWarnings()
   endif
 endfunction
 
-" plugins
 let s:plugins_base_dir=$HOME . "/.config/nvim/plugins"
 let s:dein_dir=s:plugins_base_dir . "/repos/github.com/Shougo/dein.vim"
 let s:dein_install=0
