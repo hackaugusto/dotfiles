@@ -20,6 +20,7 @@
 tags
 
 .ptpython/history
+.emacs.d
 
 # xmonad binary
 xmonad-x86_64-linux
