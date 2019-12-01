@@ -559,6 +559,7 @@ link .tmux.conf
 link .urxvt
 link .urxvt/resize-font
 link .latexmkrc
+link .sqliterc
 
 mkdir -p $HOME/.gdb/{c,py}
 link .gdbinit
