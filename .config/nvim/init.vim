@@ -215,7 +215,7 @@ if dein#load_state(s:plugins_base_dir)
   " progamming languages
   call dein#add('sheerun/vim-polyglot')
   call dein#add('tpope/vim-commentary')
-  call dein#add('w0rp/ale')
+  call dein#add('dense-analysis/ale')
   call dein#add('stsewd/isort.nvim')
   call dein#add('Shougo/echodoc.vim')
   call dein#add('bhurlow/vim-parinfer')
