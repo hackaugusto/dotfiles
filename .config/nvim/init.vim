@@ -196,16 +196,16 @@ if dein#load_state(s:plugins_base_dir)
   " completion
   call dein#add('ctrlpvim/ctrlp.vim')
   call dein#add('mileszs/ack.vim')
-  " call dein#add('Valloric/YouCompleteMe') " using AUR's package
-  " deoplete
   call dein#add('Shougo/deoplete.nvim')
   call dein#add('eagletmt/neco-ghc')
   call dein#add('racer-rust/vim-racer')
-  " deoplete-clang doesn't support go-to-definition, using ycm instead
-  " call dein#add('deoplete-plugins/deoplete-clang')
   call dein#add('deoplete-plugins/deoplete-jedi')
-  " language server
-  " call dein#add('natebosch/vim-lsc')
+  call dein#add('natebosch/vim-lsc')
+  " Valloric/YouCompleteMe installed through AUR
+  " These deoplete engines are not maintained and do not support go to
+  " definition, using YCM instead.
+  " Shougo/deoplete-clangx
+  " deoplete-plugins/deoplete-clang
 
   " source control
   call dein#add('mhinz/vim-signify')
