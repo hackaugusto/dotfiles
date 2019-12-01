@@ -189,6 +189,10 @@ if dein#load_state(s:plugins_base_dir)
   call dein#add('justinmk/vim-sneak')
   call dein#add('easymotion/vim-easymotion')
 
+  " language server
+  " gave up on coc.nvim, hard to configure and baddly documented
+  " call dein#add('neovim/nvim-lsp')
+
   " completion
   call dein#add('ctrlpvim/ctrlp.vim')
   call dein#add('mileszs/ack.vim')
