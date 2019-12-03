@@ -163,6 +163,12 @@ arch_pacman() {
         acpi
         powertop
 
+        # wifi
+        # wpa_supplicant is hard to get working correctly.
+        # netctl works some times but not others
+        # iwd worked fine for a new setup, so using this instead.
+        iwd
+
         # font
         adobe-source-code-pro-fonts
         adobe-source-han-sans-cn-fonts
