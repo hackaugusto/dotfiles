@@ -105,9 +105,7 @@ arch_pacman() {
         nftables
 
         # window manager
-        obconf
         openbox
-        i3status
 
         # printing
         cups
@@ -140,7 +138,6 @@ arch_pacman() {
         wipe
         scrot
         seahorse
-        xclip
         xsel
         bluez
         bluez-utils
@@ -207,13 +204,11 @@ arch_pacman() {
         # wine
         # wine
         # winetricks
-        # corefonts
 
         # editor
         emacs
         neovim
         python-neovim
-        lua-lpeg
 
         # terminal/shell
         tmux
@@ -230,11 +225,9 @@ arch_pacman() {
         lsof
         moreutils
         ncdu
-        net-tools
         parallel
         patchutils
         sudo
-        sysstat
         the_silver_searcher
         tree
         unzip
@@ -254,8 +247,8 @@ arch_pacman() {
         gcc-multilib
 
         # libs
-        boost
-        lapack
+        # boost
+        # lapack
 
         # build
         cmake
@@ -311,9 +304,9 @@ arch_pacman() {
         ltrace
 
         # profilling/benchmark
-        # oprofile
         perf
-        siege
+        # oprofile
+        # siege
         # valgrind
         # kcachegrind
 
