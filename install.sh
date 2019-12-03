@@ -568,6 +568,11 @@ check_configuration() {
 [ $SHELL != "/bin/zsh" ] && die "This script does not work with ${SHELL}, only works with zsh"
 
 FORCE=0
+REPO=${HOME}/.dotfiles
+SUDO=''
+
+[ $UID = 0 ] || SUDO='sudo'
+
 while getopts "f" opt; do
     case $opt in
         f)
@@ -581,7 +586,6 @@ require_bin git
 require_bin nvim
 require_bin pacman
 
-REPO=${HOME}/.dotfiles
 repo 'https://github.com/hackaugusto/dotfiles.git' "$REPO"
 
 link .bash_profile
@@ -652,8 +656,4 @@ mkdir -p ${HOME}/.config/nvim/plugins/repos/github.com/Shougo
 link .config/nvim/init.vim
 
 arch_pacman
-
 arch_aur
-
-SUDO=''
-[ $UID = 0 ] || SUDO='sudo'
