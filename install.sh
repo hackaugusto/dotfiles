@@ -147,7 +147,7 @@ arch_pacman() {
         # desktop tools
         arandr
         dialog
-        numlockx
+        xscreensaver
 
         # shell tools
         pass
