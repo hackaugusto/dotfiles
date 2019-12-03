@@ -355,9 +355,39 @@ arch_pacman() {
     fi
 }
 
+aurdl() {
+    local cwd destination package
+
+    cwd=$(pwd)
+    destination=${BUILDDIR:-$PWD}
+    for package in ${@##-*}; do
+        cd "$destination"
+        curl "https://aur.archlinux.org/cgit/aur.git/snapshot/$package.tar.gz" | tar xz
+        cd "$package"
+        makepkg ${@##[^\-]*}
+    done
+    cd $cwd
+}
+
+install_aurutils() {
+    # Dependencies for aurutils
+    $SUDO pacman -S --asdep expac diffstat pacutils
+
+    pushd $(mktemp -d)
+
+    gpg --recv-keys DBE7D3DD8C81D58D0A13D0E76BC26A17B9B7018A
+    aurdl aurutils
+    cd aurutils
+    $SUDO pacman -U aurutils-*.pkg.tar.xz
+
+    popd
+}
+
 arch_aur(){
     # anything bellow needs to run unprivileged, mostly because of makepkg
     [ $UID = 0 ] && return
+
+    install_aurutils
 
     # ttf-google-fonts-git
 
@@ -369,8 +399,6 @@ arch_aur(){
     # Vim:
     # - Using deoplete with jedi instead of vim-youcompleteme-git
     aur_packages=( \
-        aurutils
-
         otf-hack
         otf-pragmatapro
         ttf-iosevka
