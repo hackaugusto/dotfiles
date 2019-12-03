@@ -120,8 +120,6 @@ arch_pacman() {
         # window manager
         obconf
         openbox
-        sway
-        # i3blocks
         i3status
 
         # printing
