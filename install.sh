@@ -124,9 +124,12 @@ arch_pacman() {
         # i3blocks
         i3status
 
+        # printing
+        cups
+        hplip
+
         # desktop environment
         chromium
-        cups
         dialog
         dmenu
         evince
@@ -134,7 +137,6 @@ arch_pacman() {
         # firefox
         firefox-developer-edition
         gimp
-        hplip
         libreoffice
         libreoffice-fresh
         nautilus
