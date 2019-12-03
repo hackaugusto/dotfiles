@@ -375,8 +375,6 @@ arch_aur(){
     # anything bellow needs to run unprivileged, mostly because of makepkg
     [ $UID = 0 ] && return
 
-    is_readable $AURDL
-
     # ttf-google-fonts-git
     # reflector
     # terraform
@@ -441,7 +439,7 @@ arch_aur(){
     )
 
     for package in $aur_packages; do
-        ${AURDL} $package
+        aur sync $package
         sudo pacman -Syu $package/*.pkg.*
     done
 }
@@ -580,8 +578,6 @@ require_bin nvim
 require_bin pacman
 
 REPO=${HOME}/.dotfiles
-AURDL=${REPO}/.bin/aurdl
-
 repo 'https://github.com/hackaugusto/dotfiles.git' "$REPO"
 
 link .bash_profile
