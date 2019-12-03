@@ -576,7 +576,7 @@ done
 shift $(($OPTIND-1))
 
 require_bin git
-require_bin vim
+require_bin nvim
 require_bin pacman
 
 REPO=${HOME}/.dotfiles
@@ -648,16 +648,7 @@ link .config/openbox/multimonitor.xml
 link .config/openbox/rc.xml
 
 mkdir -p ${HOME}/.config/nvim/plugins/repos/github.com/Shougo
-link .vim
-link .vimrc
-link .vim .nvim
-link .vimrc .nvimrc
 link .config/nvim/init.vim
-
-# Anything that needs to be compiled goes after here
-msg 'Vim plugins'
-repo 'https://github.com/hackaugusto/Vundle.vim.git' "${HOME}/.vim/bundle/Vundle.vim"
-vim -u ${HOME}/.vim/plugins.vim +PluginUpdate +qa
 
 arch_pacman
 
