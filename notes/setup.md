@@ -18,6 +18,7 @@ volpartition=root
 
 Do the base installation:
 
+https://cryptsetup-team.pages.debian.net/cryptsetup/encrypted-boot.html
 
 ```
 # if necessary add the partition
