@@ -1,51 +1,17 @@
 # vim: sts=4 sw=4 et:
 
-# locale (changes /etc/locale.conf)
-#   localectl set-locale en_us.utf8
-
-# keymap (changes /etc/X11/xorg.conf.d/00-keyboard.conf)
-#   localectl set-x11-keymap br,us abnt2,pc105 ,dvorak terminate:ctrl_alt_bksp,grp:rctrl_toggle,ctrl:nocaps,ctrl:lctrl_meta
-#   localectl set-x11-keymap us asus_laptop '' ctrl:swapcaps
-# or
-#   setxkbmap -layout br,us -model abnt2,pc105 -variant ,dvorak -option terminate:ctrl_alt_bksp,grp:alt_shift_toggle
-
-# Disable Esc as meta in the multiplexers, otherwise evil is unusable
-#   screen: maptimeout 5
-#   tmux: set -g escape-time 0
-
-# Run gpg-agent through systemd
-#   systemctl --user enable gpg-agent-ssh.socket
-#   systemctl --user enable dirmngr.socket
-
-# pythonz really don't cut it, I need multiple versions and the ability to
-# patch the source before compilation, so I need to use pyenv
-#
-# - patch before compilation [issue #91] and [https://github.com/yyuu/pyenv/tree/master/plugins/python-build#applying-patches-to-python-before-compiling]
-# - multiple versions [issue #167 and #218] and [https://github.com/s1341/pyenv-alias]
-
-# pyenv:
-#   Force the use of ucs4 because arch's is compiled with it
-#
-#   PYTHON_CONFIGURE_OPTS="--enable-shared --enable-unicode=ucs4" pyenv install 2.7.11
-#   PYTHON_CONFIGURE_OPTS="--enable-shared --enable-unicode=ucs4" pyenv install 3.5.1
-#   VERSION_ALIAS="2.7.11-debug" PYTHON_CONFIGURE_OPTS="--with-pydebug --enable-shared --enable-unicode=ucs4" CC=gcc PYTHON_CFLAGS="-Og -ggdb3" pyenv install 2.7.11
-#   VERSION_ALIAS="3.5.1-debug" PYTHON_CONFIGURE_OPTS="--with-pydebug --enable-shared --enable-unicode=ucs4" pyenv install 3.5.1
-#
-#   git clone https://github.com/haypo/pytracemalloc.git
-#   cat pytracemalloc/patches/2.7/pep445.patch | filterdiff --strip=1 | VERSION_ALIAS="2.7.8-trace" PYTHON_CONFIGURE_OPTS="--with-pydebug --enable-shared --enable-unicode=ucs4" pyenv install -p -v 2.7.8
-
 bin() {
-    command -v $1 >/dev/null 2>&1
+    command -v "$1" >/dev/null 2>&1
 }
 
 running() {
-    pgrep -x -u "${USER}" $1 >/dev/null 2>&1
+    pgrep -x -u "${USER}" "$1" >/dev/null 2>&1
 }
 
 load(){
     local file
 
-    for file in $@; do
+    for file in "$@"; do
         test -r "$file"  && . "$file"
     done
 }
@@ -56,17 +22,17 @@ haspath() {
 }
 
 path_addonce_start() {
-    haspath $1 || export PATH="$1:$PATH"
+    haspath "$1" || export PATH="$1:$PATH"
 }
 
 path_addonce_end() {
-    haspath $1 || export PATH="$PATH:$1"
+    haspath "$1" || export PATH="$PATH:$1"
 }
 
 gpgagent() {
-    [ ! -z "${SSH_AUTH_SOCK}" ] && return
+    [ -n "${SSH_AUTH_SOCK}" ] && return
 
-    [ -e $HOME/.gnupg/S.gpg-agent.ssh ] && {
+    [ -e "$HOME/.gnupg/S.gpg-agent.ssh" ] && {
         unset SSH_AGENT_PID
         # export SSH_AUTH_SOCK="${HOME}/.gnupg/S.gpg-agent.ssh"
         export SSH_AUTH_SOCK="/run/user/$UID/gnupg/S.gpg-agent.ssh"
@@ -99,13 +65,13 @@ keyagent() {
     set_if_exists SSH_ASKPASS /usr/bin/openssh-askpass
     set_if_exists SSH_ASKPASS /usr/bin/x11-ssh-askpass
 
-    [ ! -z "${SSH_AUTH_SOCK}" ] && return
+    [ -n "${SSH_AUTH_SOCK}" ] && return
 
     running gpg-agent && {
         gpgagent && return
     }
 
-    [ -e $sshsocket ] && running ssh-agent && {
+    [ -e "$sshsocket" ] && running ssh-agent && {
         export SSH_AUTH_SOCK=$sshagent
         return
     }
@@ -144,9 +110,9 @@ python_pytracemalloc() {
         tar -xzf $pytracemalloc12 -C $TMPDIR
 
         (
-            cd $TMPDIR/Python-2.7.8
+            cd "$TMPDIR/Python-2.7.8"
             patch -p1 < ../pytracemalloc-1.2/patches/2.7/pep445.patch
-            cd $TMPDIR
+            cd "$TMPDIR"
             tar czf $pythontrace278 ./Python-2.7.8
         )
     }
