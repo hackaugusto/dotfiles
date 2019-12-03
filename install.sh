@@ -446,6 +446,125 @@ arch_aur(){
     done
 }
 
+check_configuration() { 
+    # Depedencies for compilation
+    has_exact_line /etc/pacman.conf "\[multilib\]" || {
+        info 'Add the following to /etc/pacman.conf'
+        echo
+        echo '[multilib]'
+        echo 'Include = /etc/pacman.d/mirrorlist'
+        echo
+        die "multilib has to be enabled"
+    }
+
+    echo
+    echo
+    msg 'Edit the /etc/makepkg.conf file and remove the strip option:'
+    echo 'OPTIONS+=(debug !strip)'
+    echo
+    echo
+
+    # grep -i '^\[xyne-x86_64\]' /etc/pacman.conf || {
+    #     error 'Missing configuration section for xyne tools (used for powerpill)'
+    #     echo
+    #     info 'Add the Xyne repo into the /etc/pacman.conf'
+    #     echo
+    #     echo '[xyne-x86_64]'
+    #     echo 'SigLevel = Required'
+    #     echo 'Server = http://xyne.archlinux.ca/repos/xyne'
+    #     echo
+    #     info 'and import xyne key (https://xyne.archlinux.ca/#signing-key)'
+    #     echo
+    #     echo 'gpg --recv-keys EC3CBE7F607D11E663149E811D1F0DC78F173680'
+    #     echo
+    #     echo
+    # }
+
+    grep -i '^\[aur\]' /etc/pacman.conf || {
+        error 'Missing configuration section for aurtools'
+        echo
+        info 'Add the following to /etc/pacman.conf'
+        echo
+        echo '[aur]'
+        echo 'SigLevel = Optional TrustAll'
+        echo 'Server = file:///var/cache/pacman/aur/'
+        echo
+        info 'and execute the following commands'
+        echo
+        echo 'sudo install -d /var/cache/pacman/aur -o $USER'
+        echo 'repo-add /var/cache/pacman/aur/aur.db.tar'
+        echo
+        echo
+    }
+
+    # $SUDO grep -i '^pt_br.utf-8' /etc/locale.gen || {
+    #     error 'Missing locale pt_br on file /etc/locale.gen'
+    #     info 'echo "pt_BR.UTF-8" >> /etc/local.gen'
+    # }
+
+    $SUDO grep -i '^en_us.utf-8' /etc/locale.gen || {
+        error 'Missing locale en_us on file /etc/locale.gen'
+        info 'echo "en_US.UTF-8" >> /etc/local.gen'
+    }
+
+    [ ! -e /etc/locale.conf ] && {
+        echo
+        echo 'Run the following command to set the system locale'
+        msg 'localectl set-locale LANG=en_US.UTF-8'
+        echo
+        echo
+        echo 'Run the following command to set X.org keymap'
+        msg 'localectl set-x11-keymap br,us abnt2,pc105 ,dvorak terminate:ctrl_alt_bksp,grp:rctrl_toggle,ctrl:nocaps,ctrl:lctrl_meta'
+        echo or
+        msg 'setxkbmap -layout br,us -model abnt2,pc105 -variant ,dvorak -option terminate:ctrl_alt_bksp,grp:alt_shift_toggle'
+        echo
+        echo
+    }
+
+    # is_readable /etc/hostname
+    # [ ! -e /etc/hostname ] && {
+    #     erro 'Missing /etc/hostname file'
+    #     info 'hostnamectl set-hostname <hostname>'
+    #     echo
+    #     info 'And add the hostname into the /etc/hosts file'
+    #     echo
+    #     echo
+    # }
+
+    [ ! -e /etc/localtime ] && {
+        error 'Missing /etc/localtime file'
+        info 'ln -s /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime'
+    }
+
+    [ ! -e /etc/sysctl.d/50-dmesg-restrict.conf ] && {
+        error 'Missing /etc/sysctl.d/50-dmesg-restrict.conf file'
+        info 'echo "kernel.dmesg_restrict = 1" > /etc/sysctl.d/50-dmesg-restrict.conf'
+    }
+
+    [ ! -e /etc/sysctl.d/50-kptr-restrict.conf ] && {
+        error 'Missing /etc/sysctl.d/50-kptr-restrict.conf file'
+        info 'echo "kernel.kptr_restrict = 2" > /etc/sysctl.d/50-kptr-restrict.conf'
+        info 'this break perf'
+    }
+
+    groups hack | grep uucp 2>&1 > /dev/null || {
+        info 'The user hack does not have the group uucp'
+        info 'using /dev/ttyUSB0 will not work'
+        info 'To fix, use:'
+        info '   usermod -a -G uucp '
+    }
+
+    is_readable /etc/locale.conf
+    is_readable /var
+    is_readable /var/lib
+    is_readable /var/lib/pacman/local/ALPM_DB_VERSION
+    is_readable /var/log
+}
+
+# check_configuration
+
+[ $SHELL != "/bin/zsh" ] && die "This script does not work with ${SHELL}, only works with zsh"
+
 FORCE=0
 while getopts "f" opt; do
     case $opt in
@@ -540,147 +659,9 @@ msg 'Vim plugins'
 repo 'https://github.com/hackaugusto/Vundle.vim.git' "${HOME}/.vim/bundle/Vundle.vim"
 vim -u ${HOME}/.vim/plugins.vim +PluginUpdate +qa
 
-# Depedencies for compilation
-has_exact_line /etc/pacman.conf "\[multilib\]" || {
-    info 'Add the following to /etc/pacman.conf'
-    echo
-    echo '[multilib]'
-    echo 'Include = /etc/pacman.d/mirrorlist'
-    echo
-    die "multilib has to be enabled"
-}
-
 arch_pacman
-
-# TODO: use neobundle or vim-plug
-find -L ${HOME}/.vim -iname Makefile | grep -v -e html5.vim -e Dockerfile -e color_coded | while read plugin; do
-    info $plugin
-    (
-        cd $(dirname $plugin);
-        make
-    ) > /dev/null
-done
-
-info 'color_coded'
-(
-    cd ~/.vim/bundle/color_coded
-    [ -d ./build ] && rm -rf ./build
-    mkdir build
-    cd build
-    cmake ..
-    make
-    make install
-    make clean
-    make clean_clang
-)
-
-repo 'https://github.com/cask/cask.git' "${HOME}/.cask"
-(cd ${HOME}/.emacs.d/; ${HOME}/.cask/bin/cask install)
-
-echo
-echo
-msg 'Edit the /etc/makepkg.conf file and remove the strip option:'
-echo 'OPTIONS+=(debug !strip)'
-echo
-echo
 
 arch_aur
 
 SUDO=''
 [ $UID = 0 ] || SUDO='sudo'
-
-grep -i '^\[xyne-x86_64\]' /etc/pacman.conf || {
-    error 'Missing configuration section for xyne tools (used for powerpill)'
-    echo
-    info 'Add the Xyne repo into the /etc/pacman.conf'
-    echo
-    echo '[xyne-x86_64]'
-    echo 'SigLevel = Required'
-    echo 'Server = http://xyne.archlinux.ca/repos/xyne'
-    echo
-    info 'and import xyne key (https://xyne.archlinux.ca/#signing-key)'
-    echo
-    echo 'gpg --recv-keys EC3CBE7F607D11E663149E811D1F0DC78F173680'
-    echo
-    echo
-}
-
-grep -i '^\[aur\]' /etc/pacman.conf || {
-    error 'Missing configuration section for aurtools'
-    echo
-    info 'Add the following to /etc/pacman.conf'
-    echo
-    echo '[aur]'
-    echo 'SigLevel = Optional TrustAll'
-    echo 'Server = file:///var/cache/pacman/aur/'
-    echo
-    info 'and execute the following commands'
-    echo
-    echo 'sudo install -d /var/cache/pacman/aur -o $USER'
-    echo 'repo-add /var/cache/pacman/aur/aur.db.tar'
-    echo
-    echo
-}
-
-$SUDO grep -i '^pt_br.utf-?8' /etc/locale.gen || {
-    error 'Missing locale pt_br on file /etc/locale.gen'
-    info 'echo "pt_BR.UTF-8" >> /etc/local.gen'
-}
-
-$SUDO grep -i '^en_us.utf-?8' /etc/locale.gen || {
-    error 'Missing locale en_us on file /etc/locale.gen'
-    info 'echo "en_US.UTF-8" >> /etc/local.gen'
-}
-
-[ ! -e /etc/locale.conf ] && {
-    echo
-    echo 'Run the following command to set the system locale'
-    msg 'localectl set-locale LANG=en_US.UTF-8'
-    echo
-    echo
-    echo 'Run the following command to set X.org keymap'
-    msg 'localectl set-x11-keymap br,us abnt2,pc105 ,dvorak terminate:ctrl_alt_bksp,grp:rctrl_toggle,ctrl:nocaps,ctrl:lctrl_meta'
-    echo or
-    msg 'setxkbmap -layout br,us -model abnt2,pc105 -variant ,dvorak -option terminate:ctrl_alt_bksp,grp:alt_shift_toggle'
-    echo
-    echo
-}
-
-[ ! -e /etc/hostname ] && {
-    erro 'Missing /etc/hostname file'
-    info 'hostnamectl set-hostname <hostname>'
-    echo
-    info 'And add the hostname into the /etc/hosts file'
-    echo
-    echo
-}
-
-[ ! -e /etc/localtime ] && {
-    erro 'Missing /etc/localtime file'
-    info 'ln -s /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime'
-}
-
-[ ! -e /etc/sysctl.d/50-dmesg-restrict.conf ] && {
-    erro 'Missing /etc/sysctl.d/50-dmesg-restrict.conf file'
-    info 'echo "kernel.dmesg_restrict = 1" > /etc/sysctl.d/50-dmesg-restrict.conf'
-}
-
-[ ! -e /etc/sysctl.d/50-kptr-restrict.conf ] && {
-    erro 'Missing /etc/sysctl.d/50-kptr-restrict.conf file'
-    info 'echo "kernel.kptr_restrict = 2" > /etc/sysctl.d/50-kptr-restrict.conf'
-    info 'this break perf'
-}
-
-groups hack | grep uucp 2>&1 > /dev/null || {
-    info 'The user hack does not have the group uucp'
-    info 'using /dev/ttyUSB0 will not work'
-    info 'To fix, use:'
-    info '   usermod -a -G uucp '
-}
-
-is_readable /etc/hostname
-is_readable /etc/locale.conf
-is_readable /var
-is_readable /var/lib
-is_readable /var/lib/pacman/local/ALPM_DB_VERSION
-is_readable /var/log
