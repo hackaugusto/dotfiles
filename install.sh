@@ -96,19 +96,6 @@ arch_pacman() {
 
     msg "Installing packages"
     # pacman -Qq won't know that the group was installed
-    # gst-plugins-bad
-    # gst-plugins-base
-    # gst-plugins-good
-    # gst-plugins-ugly
-    # dnsutils
-    # base-devel
-    # gstreamer0.10-plugins
-    #
-    # network managers:
-    # wicd / networkmanager
-    #
-    # network monitor:
-    # darkstat
     packages=( \
         pacman-contrib
 
@@ -380,15 +367,6 @@ arch_aur(){
     [ $UID = 0 ] && return
 
     # ttf-google-fonts-git
-    # reflector
-    # terraform
-    # fzf
-    # fzf-extras-git
-    # packer-io
-    # powerpill
-    # neovim-git
-    # python2-neovim-git
-    # python37
 
     # Emacs and C/C++
     # Alternaties:
@@ -410,36 +388,14 @@ arch_aur(){
 
         ccls
 
-        alacritty-git
         chromium-pepper-flash-dev
-        # colout-git - using pygmentize directly
-        dropbox
 
         abntex2
-        opam
         flamegraph-git
-        notify-osd-customizable
-        paperkey
-        powerpill
-        rust-src
-        jdk
-        jre
-        rr
-        secp256k1-git
-        wrk
-        wrk2-git
-        pup-git
-        ruby-neovim
+        # jdk
+        # jre
+        # rr
         pssh
-        gtklp
-        # grafana-bin
-        # urxvt-resize-font-git
-        tiptop
-        rust-clippy-git
-        tla-tools
-        include-what-you-use
-
-        tzupdate
     )
 
     for package in $aur_packages; do
