@@ -150,6 +150,7 @@ arch_pacman() {
         xscreensaver
 
         # shell tools
+        man-db
         pass
         wipe
         scrot
