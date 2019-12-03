@@ -145,7 +145,7 @@ if !isdirectory(s:dein_dir)
 endif
 
 " use the system-wide python and the python-neovim package
-let g:python_host_prog='/usr/bin/python2'
+let g:loaded_python_provider = 0
 let g:python3_host_prog='/usr/bin/python3'
 
 exe "set runtimepath+=" . s:dein_dir
