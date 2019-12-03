@@ -574,6 +574,7 @@ link .urxvt/resize-font
 link .latexmkrc
 link .sqliterc
 link .gitconfig
+link .gitignore_global
 
 mkdir -p "$HOME/.gdb/"{c,cpp,py}
 link .gdbinit
@@ -585,9 +586,6 @@ link .gdb/cpp/__init__.py
 link .gdb/cpp/printers.py
 link .gdb/cpp/xmethods.py
 link .gdb/py/libpython.py
-
-# git config --global core.excludesfile '~/.gitignore_global'
-link .gitignore_global
 
 mkdir -p "${HOME}/.emacs.d/lisp"
 link .emacs.d/init.el
