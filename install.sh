@@ -128,27 +128,37 @@ arch_pacman() {
         cups
         hplip
 
-        # desktop environment
+        # editing
+        gimp
+
+        # display server
+        xorg-server
+        xorg-xinit
+
+        # desktop applicaitons
+        alacritty
         chromium
-        dialog
+        firefox-developer-edition
         dmenu
         evince
         feh
-        firefox-developer-edition
-        gimp
         nautilus
+
+        # desktop tools
+        arandr
+        dialog
         numlockx
+
+        # shell tools
         pass
         wipe
         scrot
         seahorse
         xclip
         xsel
-        xorg-xinit
         bluez
         bluez-utils
         pulseaudio-bluetooth
-        arandr
 
         # laptop
         acpi
