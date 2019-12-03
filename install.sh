@@ -565,7 +565,7 @@ check_configuration() {
 
 # check_configuration
 
-[ $SHELL != "/bin/zsh" ] && die "This script does not work with ${SHELL}, only works with zsh"
+[ "$SHELL" != "/bin/zsh" ] && die "This script does not work with ${SHELL}, only works with zsh"
 
 FORCE=0
 REPO=${HOME}/.dotfiles
@@ -595,7 +595,7 @@ link .zshrc
 link .zsh
 link .makepkg.conf
 
-mkdir -p $HOME/.gnupg
+mkdir -p "$HOME/.gnupg"
 link .gnupg/gpg.conf
 link .gnupg/gpg-agent.conf
 
@@ -619,7 +619,7 @@ link .latexmkrc
 link .sqliterc
 link .gitconfig
 
-mkdir -p $HOME/.gdb/{c,cpp,py}
+mkdir -p "$HOME/.gdb/"{c,cpp,py}
 link .gdbinit
 link .gdb/config
 link .gdb/c/locallist
@@ -633,26 +633,26 @@ link .gdb/py/libpython.py
 # git config --global core.excludesfile '~/.gitignore_global'
 link .gitignore_global
 
-mkdir -p ${HOME}/.emacs.d/lisp
+mkdir -p "${HOME}/.emacs.d/lisp"
 link .emacs.d/init.el
 # repo https://github.com/ProofGeneral/PG ~/.emacs.d/lisp/PG
 # (cd ~/.emacs.d/lisp/PG && make)
 
-mkdir -p ${HOME}/.config
+mkdir -p "${HOME}/.config"
 link .config/flake8
 link .config/pep8
 link .config/pylintrc
 link .config/user-dirs.dirs
 
-mkdir -p ${HOME}/.config/alacritty/
+mkdir -p "${HOME}/.config/alacritty/"
 link .config/alacritty/alacritty.yml
 
-mkdir -p ${HOME}/.config/openbox
+mkdir -p "${HOME}/.config/openbox"
 link .config/openbox/autostart.sh
 link .config/openbox/multimonitor.xml
 link .config/openbox/rc.xml
 
-mkdir -p ${HOME}/.config/nvim/plugins/repos/github.com/Shougo
+mkdir -p "${HOME}/.config/nvim/plugins/repos/github.com/Shougo"
 link .config/nvim/init.vim
 
 arch_pacman
