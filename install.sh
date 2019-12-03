@@ -415,22 +415,6 @@ check_configuration() {
     echo
     echo
 
-    # grep -i '^\[xyne-x86_64\]' /etc/pacman.conf || {
-    #     error 'Missing configuration section for xyne tools (used for powerpill)'
-    #     echo
-    #     info 'Add the Xyne repo into the /etc/pacman.conf'
-    #     echo
-    #     echo '[xyne-x86_64]'
-    #     echo 'SigLevel = Required'
-    #     echo 'Server = http://xyne.archlinux.ca/repos/xyne'
-    #     echo
-    #     info 'and import xyne key (https://xyne.archlinux.ca/#signing-key)'
-    #     echo
-    #     echo 'gpg --recv-keys EC3CBE7F607D11E663149E811D1F0DC78F173680'
-    #     echo
-    #     echo
-    # }
-
     grep -i '^\[aur\]' /etc/pacman.conf || {
         error 'Missing configuration section for aurtools'
         echo
@@ -447,11 +431,6 @@ check_configuration() {
         echo
         echo
     }
-
-    # $SUDO grep -i '^pt_br.utf-8' /etc/locale.gen || {
-    #     error 'Missing locale pt_br on file /etc/locale.gen'
-    #     info 'echo "pt_BR.UTF-8" >> /etc/local.gen'
-    # }
 
     $SUDO grep -i '^en_us.utf-8' /etc/locale.gen || {
         error 'Missing locale en_us on file /etc/locale.gen'
