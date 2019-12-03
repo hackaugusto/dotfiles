@@ -306,6 +306,7 @@ arch_pacman() {
         shellcheck
 
         # tools
+        # used in ~/.gitconfig
         diff-so-fancy
         dmidecode
         ctags
