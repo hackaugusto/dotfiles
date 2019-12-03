@@ -589,7 +589,7 @@ link .bashrc
 link .profile
 link .zshrc
 link .zsh
-link .makepkg.confg
+link .makepkg.conf
 
 mkdir -p $HOME/.gnupg
 link .gnupg/gpg.conf
@@ -613,8 +613,9 @@ link .urxvt
 link .urxvt/resize-font
 link .latexmkrc
 link .sqliterc
+link .gitconfig
 
-mkdir -p $HOME/.gdb/{c,py}
+mkdir -p $HOME/.gdb/{c,cpp,py}
 link .gdbinit
 link .gdb/config
 link .gdb/c/locallist
@@ -630,8 +631,8 @@ link .gitignore_global
 
 mkdir -p ${HOME}/.emacs.d/lisp
 link .emacs.d/init.el
-repo https://github.com/ProofGeneral/PG ~/.emacs.d/lisp/PG
-(cd ~/.emacs.d/lisp/PG && make)
+# repo https://github.com/ProofGeneral/PG ~/.emacs.d/lisp/PG
+# (cd ~/.emacs.d/lisp/PG && make)
 
 mkdir -p ${HOME}/.config
 link .config/flake8
