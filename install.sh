@@ -505,11 +505,43 @@ check_configuration() {
         info 'this break perf'
     }
 
+    systemctl is-enabled systemd-resolved 2>&1 > /dev/null || {
+        error 'systemd-resolved is not enabled'
+        echo
+        echo 'To enable the service run:'
+        echo
+        echo '     systemctl enable systemd-resolved'
+        echo
+        echo 'This is necessary for internet access'
+    }
+
+    systemctl is-enabled iwd 2>&1 > /dev/null || {
+        error 'iwd is not enabled'
+        echo
+        echo 'To enable the service run:'
+        echo
+        info '    systemctl enable iwd'
+        echo
+        echo 'This is necessary for wireless connection management'
+    }
+
     groups hack | grep uucp 2>&1 > /dev/null || {
         info 'The user hack does not have the group uucp'
         info 'using /dev/ttyUSB0 will not work'
         info 'To fix, use:'
         info '   usermod -a -G uucp '
+    }
+
+    [ ! -h /etc/resolv.conf ] && {
+        error 'Resolv is not symlinked'
+        echo
+        echo 'To fix resolv.conf run:'
+        echo
+        echo '    ln -s /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf'
+        echo
+        info 'This depends on systemd-resolved'
+        info 'This is requied for some tools, e.g. gpg needs resolv.conf to resolv names'
+        info 'without it gpg --recv-keys will fail.'
     }
 
     is_readable /etc/locale.conf
@@ -552,6 +584,7 @@ link .zsh
 link .makepkg.conf
 
 mkdir -p "$HOME/.gnupg"
+chmod 700 "$HOME/.gnupg"
 link .gnupg/gpg.conf
 link .gnupg/gpg-agent.conf
 
