@@ -134,11 +134,8 @@ arch_pacman() {
         dmenu
         evince
         feh
-        # firefox
         firefox-developer-edition
         gimp
-        libreoffice
-        libreoffice-fresh
         nautilus
         numlockx
         pass
@@ -153,17 +150,8 @@ arch_pacman() {
         pulseaudio-bluetooth
         arandr
 
-        # smartcard
-        ccid
-        opensc
-        pcsc-tools
-
         # laptop
         acpi
-        ifplugd
-        iw
-        wireless_tools
-        wpa_actiond
         powertop
 
         # font
@@ -191,64 +179,47 @@ arch_pacman() {
         xorg-fonts-misc
 
         # la/tex
-        texlive-bin
-        texlive-core
-        texlive-pstricks
-        texlive-latexextra
-        texlive-fontsextra
-        texlive-bibtexextra
-        texlive-pictures
-        texlive-science
-        minted
-        biber
+        # texlive-bin
+        # texlive-core
+        # texlive-pstricks
+        # texlive-latexextra
+        # texlive-fontsextra
+        # texlive-bibtexextra
+        # texlive-pictures
+        # texlive-science
+        # minted
+        # biber
 
         # multimedia
         alsa-oss
         alsa-tools
         alsa-utils
         flashplugin
-        gecko-mediaplayer
         gst-libav
         lib32-alsa-plugins
-        lib32-flashplugin
         mplayer
         pulseaudio
         pulseaudio-alsa
-        youtube-dl
-        youtube-viewer
         pavucontrol
 
         # wine
-        wine
-        winetricks
+        # wine
+        # winetricks
         # corefonts
-
-        steam
 
         # editor
         emacs
-        gvim
         neovim
         python-neovim
-        python2-neovim
-        vis
         lua-lpeg
-        vim-spell-en
-        vim-spell-pt
 
         # terminal/shell
-        mosh
-        rxvt-unicode
         tmux
         zsh
         openssh
 
         # shell utils
         aria2
-        expect
-        fakeroot
-        fortune-mod
-        fzf
         gnu-netcat
         graphviz
         htop
@@ -258,36 +229,15 @@ arch_pacman() {
         moreutils
         ncdu
         net-tools
-        octave
         parallel
         patchutils
-        pigz
-        smartmontools
         sudo
         sysstat
         the_silver_searcher
         tree
-        unrar
         unzip
         wget
         zip
-
-        # arch
-        abs
-        arch-install-scripts
-        devtools
-        asp
-
-        # http server
-        apache
-        nginx
-        lighttpd # for git-instaweb
-
-        # application server
-        uwsgi
-        uwsgi-plugin-pypy
-        uwsgi-plugin-python
-        uwsgi-plugin-python2
 
         # rust
         rustup  # conflicts with rust and cargo
@@ -306,17 +256,12 @@ arch_pacman() {
         lapack
 
         # build
-        cabal-install
         cmake
         ninja
         ccache
-        ftjam
-        maven
         automake
         autoconf
         m4
-        sbt
-        rubygems
 
         # python
         pygmentize
@@ -324,17 +269,13 @@ arch_pacman() {
         pypy3
         python
         python2
-        python2-pipenv
         python2-virtualenv
         python-pipenv
         python-virtualenv
-        python-virtualenvwrapper
         python-black
 
         # version control
         git
-        fossil
-        tk # required by gitk
         tig
 
         # ethereum
@@ -342,44 +283,23 @@ arch_pacman() {
         geth
 
         # haskell
-        ghc
-        ghc-static
-        idris
-        darcs
+        # ghc
+        # ghc-static
+        # idris
+        # darcs
         # hlint
         # $ stack setup
         # $ stack install stylish-haskell hlint hasktags ghc-mod hasktags
-        stack
+        # stack
 
         # other programming
-        android-tools
-        android-udev
-        clojure
-        gcc-fortran-multilib
-        go
-        lua
-        luajit
-        ocaml
-        ruby
         shellcheck
-        scala
-        typescript
 
         # tools
-        bsdiff
-        colordiff
         diff-so-fancy
         dmidecode
         ctags
         dwdiff
-        mono
-        npm
-        yarn
-        babel-cli
-        ragel
-        re2
-        re2c
-        tidy
         # for ~/.bin/pxml
         python-lxml
 
@@ -388,26 +308,27 @@ arch_pacman() {
         ltrace
 
         # profilling/benchmark
-        oprofile
+        # oprofile
         perf
         siege
-        valgrind
-        kcachegrind
+        # valgrind
+        # kcachegrind
 
         # virtual machine/containers
-        docker
-        docker-compose
-        containerd
-        runc
-        virtualbox
-        virtualbox-guest-iso
-        virtualbox-host-modules-arch
+        # docker
+        # docker-compose
+        # containerd
+        # runc
+        # virtualbox
+        # virtualbox-guest-iso
+        # virtualbox-host-modules-arch
 
         # debugging
         lldb
         gdb
         # required by .gdb/c/longlist.py
-        python-pygments python-pycparser
+        python-pygments
+        python-pycparser
 
         # esp32
         picocom
@@ -417,7 +338,7 @@ arch_pacman() {
         python2-pyserial
         python2-cryptography
         python2-future
-        python2-pyelftools
+        # python2-pyelftools
     )
 
     # on a fresh install update prior to querying
