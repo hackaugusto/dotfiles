@@ -198,7 +198,7 @@ stty -ixon
 export GPG_TTY=$(tty)
 export SSH_AUTH_SOCK="/run/user/$UID/gnupg/S.gpg-agent.ssh"
 export PYTHONSTARTUP=$HOME/.pythonrc
-export AURDEST=/mnt/test/aur/aurutils
+export AURDEST=$HOME/aur
 
 # parallel builds with gnu make
 export MAKEFLAGS='-j4'
