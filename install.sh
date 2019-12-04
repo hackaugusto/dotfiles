@@ -106,6 +106,7 @@ arch_pacman() {
 
         # window manager
         openbox
+        sway
 
         # printing
         cups
@@ -117,12 +118,14 @@ arch_pacman() {
         # display server
         xorg-server
         xorg-xinit
+        xorg-server-wayland
 
         # desktop applicaitons
         alacritty
         chromium
         firefox-developer-edition
-        dmenu
+        dmenu # Xorg
+        bemenu # Wayland
         evince
         feh
         nautilus
