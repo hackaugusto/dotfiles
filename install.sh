@@ -104,6 +104,9 @@ arch_pacman() {
         efibootmgr
         nftables
 
+        # sec tools
+        openvpn
+
         # window manager
         openbox
         sway
