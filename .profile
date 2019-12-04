@@ -181,10 +181,11 @@ if [[ -z $DISPLAY ]] && [[ $(tty) = /dev/tty2 ]]; then
     # export XKB_DEFAULT_LAYOUT=us,de
     # export XKB_DEFAULT_VARIANT=",nodeadkeys"
     # export XKB_DEFAULT_OPTIONS="ctrl:swapcaps,"
-    export XKB_DEFAULT_LAYOUT=br
+    export XKB_DEFAULT_LAYOUT=us
     export XKB_DEFAULT_OPTIONS=ctrl:swapcaps
     export XDG_SESSION=wayland
-    # exec sway
+    export WINIT_UNIX_BACKEND=x11
+    exec sway
     # exec dbus-launch --sh-syntax --exit-with-session sway
     # exec gnome-session
 fi
