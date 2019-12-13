@@ -174,6 +174,11 @@ export MAKEFLAGS='-j4'
     # remaps Caps to Ctrl (remapping caps with x11 keymap options)
     # [[ ! -z $DISPLAY && -f ~/.Xmodmap ]] && xmodmap ~/.Xmodmap
     export GPG_TTY=$(tty)
+
+    # The gpg agent has to be updated with the GPG_TTY set above. This makes
+    # sure the agent will be able to show the password prompt.
+    gpg-connect-agent updatestartuptty /bye >/dev/null
+
     exec startx
 }
 
@@ -186,6 +191,11 @@ if [[ -z $DISPLAY ]] && [[ $(tty) = /dev/tty2 ]]; then
     export XDG_SESSION=wayland
     export WINIT_UNIX_BACKEND=x11
     export GPG_TTY=$(tty)
+
+    # The gpg agent has to be updated with the GPG_TTY set above. This makes
+    # sure the agent will be able to show the password prompt.
+    gpg-connect-agent updatestartuptty /bye >/dev/null
+
     exec sway
     # exec dbus-launch --sh-syntax --exit-with-session sway
     # exec gnome-session
