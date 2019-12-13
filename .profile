@@ -161,7 +161,6 @@ configure_runtimes
 eval $(dircolors)
 stty -ixon
 
-export GPG_TTY=$(tty)
 export SSH_AUTH_SOCK="/run/user/$UID/gnupg/S.gpg-agent.ssh"
 export PYTHONSTARTUP=$HOME/.pythonrc
 export AURDEST=$HOME/aur
@@ -169,11 +168,12 @@ export AURDEST=$HOME/aur
 # parallel builds with gnu make
 export MAKEFLAGS='-j4'
 
-[ -z "$DISPLAY" -a "$XDG_VTNR" -eq 1 ] && {
+[ -z "$DISPLAY" ] && [ "$XDG_VTNR" -eq 1 ] && {
     # HiDPI scaling
 
     # remaps Caps to Ctrl (remapping caps with x11 keymap options)
     # [[ ! -z $DISPLAY && -f ~/.Xmodmap ]] && xmodmap ~/.Xmodmap
+    export GPG_TTY=$(tty)
     exec startx
 }
 
@@ -185,6 +185,7 @@ if [[ -z $DISPLAY ]] && [[ $(tty) = /dev/tty2 ]]; then
     export XKB_DEFAULT_OPTIONS=ctrl:swapcaps
     export XDG_SESSION=wayland
     export WINIT_UNIX_BACKEND=x11
+    export GPG_TTY=$(tty)
     exec sway
     # exec dbus-launch --sh-syntax --exit-with-session sway
     # exec gnome-session
