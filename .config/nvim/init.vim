@@ -247,6 +247,8 @@ if s:dein_install
 endif
 
 let g:ale_c_parse_compile_commands = 1
+let g:ale_cpp_clang_options = '-Wall'
+let g:ale_cpp_gcc_options = '-Wall'
 let g:ale_fix_on_save = 1
 let g:ale_fixers = {
 \   'python': ['black', 'isort'],
@@ -299,6 +301,8 @@ let g:jedi#rename_command = ''
 let g:jedi#show_call_signatures = 1
 let g:jedi#show_call_signatures_delay = 100
 let g:jedi#smart_auto_mappings = 0
+
+let g:racer_experimental_completer = 1
 
 " let g:lsc_auto_map = v:true
 " let g:lsc_enable_autocomplete = v:true
@@ -403,6 +407,7 @@ augroup END
 augroup Rust
   autocmd!
   autocmd BufWritePre *.rs :%s/\s\+$//e
+  autocmd FileType rust nmap gd <Plug>(rust-def)
 augroup END
 
 augroup Haskell
@@ -432,7 +437,7 @@ augroup C-Files
   autocmd!
   autocmd FileType cpp,c,h set cindent
   autocmd FileType cpp,c,h set cscopetag cscopetagorder=0
-  autocmd FileType cpp,c,h nnoremap gd :YcmCompleter GoTo<CR>
+  autocmd FileType cpp,c,h nnoremap gd :ALEGoToDefinition<CR>
 
 if !exists("/usr/share/clang/clang-format.py")
   autocmd FileType cpp,c,h map <leader>f :pyfile /usr/share/clang/clang-format.py<cr>
