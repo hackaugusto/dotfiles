@@ -82,6 +82,8 @@ With prefix ARG, silently save all file-visiting buffers, then kill."
    direx projectile git-gutter git-timemachine magit
    auto-complete flycheck idle-highlight-mode multiple-cursors yasnippet
    ag ccls
+   ;; utils
+   which-key
    ;; indent-guide -> breaks the auto-complete menu
    jedi pyenv-mode python python-mode
    haskell-mode rust-mode solidity-mode ;; ghc scion
