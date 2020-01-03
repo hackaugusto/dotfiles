@@ -268,6 +268,7 @@ arch_pacman() {
         python-pipenv
         python-virtualenv
         python-black
+        python-language-server
 
         # version control
         git
@@ -425,7 +426,7 @@ arch_aur(){
     done
 }
 
-check_configuration() { 
+check_configuration() {
     # Depedencies for compilation
     has_exact_line /etc/pacman.conf "\[multilib\]" || {
         info 'Add the following to /etc/pacman.conf'
@@ -551,7 +552,12 @@ check_configuration() {
     is_readable /var/log
 }
 
-# check_configuration
+compile_deps() {
+    (cd ${HOME}/.emacs.d/; ${HOME}/.cask/bin/cask install)
+    # (cd ~/.emacs.d/lisp/PG && make)
+}
+
+check_configuration
 
 [ "$SHELL" != "/bin/zsh" ] && die "This script does not work with ${SHELL}, only works with zsh"
 
@@ -622,8 +628,8 @@ link .gdb/py/libpython.py
 
 mkdir -p "${HOME}/.emacs.d/lisp"
 link .emacs.d/init.el
+repo 'https://github.com/cask/cask.git' "${HOME}/.cask"
 # repo https://github.com/ProofGeneral/PG ~/.emacs.d/lisp/PG
-# (cd ~/.emacs.d/lisp/PG && make)
 
 mkdir -p "${HOME}/.config"
 link .config/flake8
@@ -644,3 +650,4 @@ link .config/nvim/init.vim
 
 arch_pacman
 arch_aur
+compile_deps
