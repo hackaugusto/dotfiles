@@ -162,6 +162,8 @@ if dein#load_state(s:plugins_base_dir)
 
   call dein#add(s:dein_dir)
 
+  call dein#add('hackaugusto/vim-tags')
+
   " colorscheme
   call dein#add('nanotech/jellybeans.vim')
 
