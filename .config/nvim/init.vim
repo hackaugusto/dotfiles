@@ -8,6 +8,7 @@ set showcmd hidden
 set foldenable!
 set termguicolors
 set laststatus=2
+set foldtext=PlainTextFold() foldmethod=syntax
 
 " required for the pep8 style indentation
 filetype plugin indent on
@@ -133,6 +134,12 @@ function! LoclistWarnings()
     let num_warnings = len(warnings)
     return num_warnings . 'W@' . warnings[0]['lnum']
   endif
+endfunction
+
+function PlainTextFold()
+  let line = getline(v:foldstart)
+  let sub = substitute(line, '/\*\|\*/\|{{{\d\=', '', 'g')
+  return v:folddashes . sub
 endfunction
 
 let s:plugins_base_dir=$HOME . "/.config/nvim/plugins"
