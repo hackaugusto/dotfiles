@@ -88,7 +88,13 @@ function! TrailingSpace()
         return b:statusline_trailing_space_warning
     endif
 
-    if search('\s\+$', 'nw') != 0
+    " for very large files the search can take a long time, hanging the UI
+    " thread.
+    let timeout_ms=50
+    " 0 means search in the whole file
+    let stop_line=0
+
+    if search('\s\+$', 'nw', stop_line, timeout_ms) != 0
       let b:statusline_trailing_space_warning = '\s$'
     else
       let b:statusline_trailing_space_warning = ''
