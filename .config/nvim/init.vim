@@ -209,7 +209,6 @@ if dein#load_state(s:plugins_base_dir)
   call dein#add('mileszs/ack.vim')
   call dein#add('Shougo/deoplete.nvim')
   call dein#add('eagletmt/neco-ghc')
-  call dein#add('racer-rust/vim-racer')
   call dein#add('deoplete-plugins/deoplete-jedi')
   call dein#add('natebosch/vim-lsc')
   " Valloric/YouCompleteMe installed through AUR
@@ -257,12 +256,17 @@ if s:dein_install
   normal UpdateRemotePlugins()
 endif
 
+let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 let g:ale_c_parse_compile_commands = 1
 let g:ale_cpp_clang_options = '-Wall'
 let g:ale_cpp_gcc_options = '-Wall'
 let g:ale_fix_on_save = 1
 let g:ale_fixers = {
 \   'python': ['black', 'isort'],
+\   'rust': ['remove_trailing_lines', 'rustfmt', 'trim_whitespace'],
+\}
+let g:ale_linters = {
+\ 'rust': ['rustc', 'rls', 'cargo']
 \}
 
 " configure the statusline after the plugin virtualenv has been installed
@@ -417,8 +421,7 @@ augroup END
 
 augroup Rust
   autocmd!
-  autocmd BufWritePre *.rs :%s/\s\+$//e
-  autocmd FileType rust nmap gd <Plug>(rust-def)
+  autocmd FileType rust nnoremap gd :ALEGoToDefinition<CR>
 augroup END
 
 augroup Haskell
