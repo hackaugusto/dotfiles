@@ -9,6 +9,8 @@ set foldenable!
 set termguicolors
 set laststatus=2
 set foldtext=PlainTextFold() foldmethod=syntax
+let g:netrw_banner=0
+let g:netrw_liststyle=3
 
 " required for the pep8 style indentation
 filetype plugin indent on
