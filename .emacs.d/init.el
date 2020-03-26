@@ -85,9 +85,10 @@ With prefix ARG, silently save all file-visiting buffers, then kill."
    ;; utils
    which-key
    ;; indent-guide -> breaks the auto-complete menu
+   lsp-mode
    jedi pyenv-mode python python-mode
    haskell-mode rust-mode solidity-mode ;; ghc scion
-   yaml-mode
+   rust-mode yaml-mode
    ;; package-utils -> using paradox instead
    paradox deferred))
 
@@ -267,6 +268,7 @@ With prefix ARG, silently save all file-visiting buffers, then kill."
 (add-hook
  'prog-mode-hook
  (lambda ()
+   (lsp-mode)
    (auto-complete-mode)
    (semantic-mode)
    (yas-minor-mode)
