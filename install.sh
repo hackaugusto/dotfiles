@@ -561,6 +561,8 @@ check_configuration() {
 compile_deps() {
     (cd ${HOME}/.emacs.d/; ${HOME}/.cask/bin/cask install)
     # (cd ~/.emacs.d/lisp/PG && make)
+
+    cargo install cargo-tree cargo-expand
 }
 
 check_configuration
