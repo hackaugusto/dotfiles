@@ -296,6 +296,7 @@ arch_pacman() {
 
         # other programming
         shellcheck
+        man-pages
 
         # tools
         # used in ~/.gitconfig
