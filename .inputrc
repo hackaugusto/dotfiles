@@ -1,0 +1,5 @@
+set editing-mode vi
+set bell-style none
+# set blink-matching-paren on (same behavior as in emacs, the cursors is hidden and the matching paren is highlighted)
+set colored-completion-prefix on
+set colored-stats on

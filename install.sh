@@ -596,6 +596,7 @@ link .bashrc
 link .profile
 link .zshrc
 link .zsh
+link .inputrc
 link .makepkg.conf
 
 mkdir -p "$HOME/.gnupg"
