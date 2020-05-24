@@ -236,7 +236,6 @@ if dein#load_state(s:plugins_base_dir)
   call dein#add('stsewd/isort.nvim')
   call dein#add('Shougo/echodoc.vim')
   call dein#add('bhurlow/vim-parinfer')
-  call dein#add('python/black')
   call dein#add('tpope/vim-endwise', {'on_ft': [
     \ 'lua', 'elixir', 'ruby', 'crystal', 'sh', 'zsh', 'vb', 'vbnet', 'aspvbs',
     \ 'vim', 'c', 'cpp', 'xdefaults', 'haskell', 'objc', 'matlab', 'htmldjango',
@@ -275,6 +274,8 @@ let g:ale_fixers = {
 let g:ale_linters = {
 \ 'rust': ['rustc', 'rls', 'cargo']
 \}
+let g:ale_python_black_options = '--line-length 99'
+
 
 " configure the statusline after the plugin virtualenv has been installed
 set statusline=%m
@@ -309,8 +310,6 @@ let g:ycm_server_python_interpreter = '/usr/bin/python2'
 let g:ycm_filetype_blacklist = {'python': 1}
 
 call deoplete#enable()
-
-let g:black_linelength = 99
 
 let g:jedi#completions_enabled = 0
 let g:jedi#use_tabs_not_buffers = 1
