@@ -149,6 +149,9 @@ arch_pacman() {
         bluez-utils
         pulseaudio-bluetooth
 
+        # android
+        android-udev
+
         # laptop
         acpi
         powertop
@@ -425,6 +428,16 @@ arch_aur(){
         # jre
         # rr
         pssh
+
+        flutter
+        android-studio  # required by flutter
+        dart
+        # flutter seems to fail if the package is installed through AUR,
+        # instead use the android-studio wizard
+        #
+        # android-platform
+        # android-sdk
+        # android-sdk-28
     )
 
     for package in $aur_packages; do

@@ -217,6 +217,7 @@ if dein#load_state(s:plugins_base_dir)
   call dein#add('eagletmt/neco-ghc')
   call dein#add('deoplete-plugins/deoplete-jedi')
   call dein#add('natebosch/vim-lsc')
+  call dein#add('natebosch/vim-lsc-dart')
   " Valloric/YouCompleteMe installed through AUR
   " These deoplete engines are not maintained and do not support go to
   " definition, using YCM instead.
