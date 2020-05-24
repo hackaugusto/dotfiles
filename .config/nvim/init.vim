@@ -271,8 +271,12 @@ let g:ale_fixers = {
 \   'python': ['black', 'isort'],
 \   'rust': ['remove_trailing_lines', 'rustfmt', 'trim_whitespace'],
 \}
+" \   'rust': ['remove_trailing_lines'],
+" \   'rust': ['remove_trailing_lines', 'rustfmt', 'trim_whitespace'],
+" disabling rustc since that seems to only work with binaries and not
+" libraries.
 let g:ale_linters = {
-\ 'rust': ['rustc', 'rls', 'cargo']
+\ 'rust': ['rls', 'cargo']
 \}
 let g:ale_python_black_options = '--line-length 99'
 
@@ -427,7 +431,7 @@ augroup END
 
 augroup Rust
   autocmd!
-  autocmd FileType rust nnoremap gd :ALEGoToDefinition<CR>
+  autocmd FileType rust nnoremap gd :ALEGoToDefinitionInTab<CR>
 augroup END
 
 augroup Haskell
