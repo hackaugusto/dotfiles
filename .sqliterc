@@ -1,3 +1,4 @@
 .mode column
+.mode list
 .header on
 .nullvalue (null)
