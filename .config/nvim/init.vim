@@ -189,7 +189,7 @@ if dein#load_state(s:plugins_base_dir)
   " editing
   call dein#add('tpope/vim-repeat')
   call dein#add('editorconfig/editorconfig-vim')
-  call dein#add('pgdouyon/vim-evanesco')  " enhanced search
+  call dein#add('pgdouyon/vim-evanesco')  " search for selected text
   " call dein#add('SirVer/ultisnips')
   call dein#add('Shougo/neosnippet.vim')
   call dein#add('Shougo/neosnippet-snippets')
