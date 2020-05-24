@@ -322,6 +322,10 @@ arch_pacman() {
         # valgrind
         # kcachegrind
 
+        # network
+        # tcpdump
+        # wireshark-qt
+
         # virtual machine/containers
         # docker
         # docker-compose
