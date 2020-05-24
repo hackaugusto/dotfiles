@@ -278,6 +278,7 @@ arch_pacman() {
         python-virtualenv
         python-black
         python-language-server
+        python-poetry
 
         # version control
         git
