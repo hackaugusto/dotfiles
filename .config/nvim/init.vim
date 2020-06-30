@@ -268,8 +268,9 @@ let g:ale_cpp_clang_options = '-Wall'
 let g:ale_cpp_gcc_options = '-Wall'
 let g:ale_fix_on_save = 1
 let g:ale_fixers = {
-\   'python': ['black', 'isort'],
+\   'python': ['black', 'isort', 'trim_whitespace', 'remove_trailing_lines'],
 \   'rust': ['remove_trailing_lines', 'rustfmt', 'trim_whitespace'],
+\   'cpp': ['clang-format', 'clangtidy', 'remove_trailing_lines', 'trim_whitespace', 'uncrustify'],
 \}
 " \   'rust': ['remove_trailing_lines'],
 " \   'rust': ['remove_trailing_lines', 'rustfmt', 'trim_whitespace'],
@@ -366,10 +367,14 @@ nnoremap <leader>w :w<cr>
 nnoremap <leader>q :q<cr>
 nnoremap <leader>n :nohl<cr>
 nnoremap <leader>p :set paste!<cr>
+" paste contents of the selection buffer
+nnoremap <leader>P "*p
 
-nnoremap <leader>c :setlocal <C-R>=<SID>toggle('cursorline')<CR><CR>
-nnoremap <leader>u :setlocal <C-R>=<SID>toggle('cursorcolumn')<CR><CR>
-nnoremap <leader>l :setlocal <C-R>=<SID>toggle('list')<CR><CR>
+nnoremap <leader>d :ALEDetail<CR>
+
+" nnoremap <leader>c :setlocal <C-R>=<SID>toggle('cursorline')<CR><CR>
+" nnoremap <leader>u :setlocal <C-R>=<SID>toggle('cursorcolumn')<CR><CR>
+" nnoremap <leader>l :setlocal <C-R>=<SID>toggle('list')<CR><CR>
 
 " Up and Down act as ^n and ^p for the autocomplete menu
 inoremap <expr><Down> pumvisible() ? "\<C-n>" : "\<Down>"
@@ -422,7 +427,6 @@ augroup END
 augroup Python
   autocmd!
   autocmd FileType python set nowrap
-  autocmd BufWritePre *.py execute '%s/\s\+$//e'
 augroup END
 
 augroup Solidity
@@ -438,7 +442,6 @@ augroup Haskell
   autocmd!
   autocmd FileType haskell set formatprg=stylish-haskell
   autocmd FileType haskell let g:necoghc_use_stack=1
-  autocmd BufWritePre *.hs :%s/\s\+$//e
 augroup END
 
 augroup XML
@@ -462,8 +465,4 @@ augroup C-Files
   autocmd FileType cpp,c,h set cindent
   autocmd FileType cpp,c,h set cscopetag cscopetagorder=0
   autocmd FileType cpp,c,h nnoremap gd :ALEGoToDefinition<CR>
-
-if !exists("/usr/share/clang/clang-format.py")
-  autocmd FileType cpp,c,h map <leader>f :pyfile /usr/share/clang/clang-format.py<cr>
-endif
 augroup END
