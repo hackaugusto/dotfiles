@@ -271,6 +271,7 @@ let g:ale_fixers = {
 \   'python': ['black', 'isort', 'trim_whitespace', 'remove_trailing_lines'],
 \   'rust': ['remove_trailing_lines', 'rustfmt', 'trim_whitespace'],
 \   'cpp': ['clang-format', 'clangtidy', 'remove_trailing_lines', 'trim_whitespace', 'uncrustify'],
+\   'dart': ['dartfmt', 'trim_whitespace', 'remove_trailing_lines'],
 \}
 " \   'rust': ['remove_trailing_lines'],
 " \   'rust': ['remove_trailing_lines', 'rustfmt', 'trim_whitespace'],
