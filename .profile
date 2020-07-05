@@ -144,6 +144,13 @@ configure_runtimes() {
     # PYTHON
     load /usr/bin/virtualenvwrapper_lazy.sh
 
+    # Android
+    # This fixes the blank screen with android-studio 4.0
+    export _JAVA_AWT_WM_NONREPARENTING=1
+    export ANDROID_SDK_ROOT=/home/hack/projects/android-sdk/
+    path_addonce_end /home/hack/projects/android-studio/bin
+    path_addonce_end /home/hack/projects/flutter/bin
+
     # https://docs.python.org/2/install/index.html#alternate-installation-the-user-scheme
     USER_BASE=$(python -m site --user-base)
     path_addonce_start "${USER_BASE}/bin"
