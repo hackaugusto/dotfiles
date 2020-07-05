@@ -35,6 +35,11 @@ has_exact_line() {
     egrep "^$line$" $file 2>&1 > /dev/null
 }
 
+is_in_group() {
+    group=$1
+    groups hack | grep $group 2>&1 > /dev/null
+}
+
 require_bin() {
     [ $# -ne 1 ] && die "${0} needs 1 argument: ${0} binary"
 
@@ -551,12 +556,18 @@ check_configuration() {
         echo 'This is necessary for wireless connection management'
     }
 
-    groups hack | grep uucp 2>&1 > /dev/null || {
-        info 'The user hack does not have the group uucp'
-        info 'using /dev/ttyUSB0 will not work'
-        info 'To fix, use:'
-        info '   usermod -a -G uucp '
-    }
+    # uucp -> permission to use /dev/ttyUSB0 (serial interface to problem
+    # microcontrollers)
+    groups=(uucp flutterusers cups adbusers wireshark docker)
+    for g in "${groups[@]}"; do
+        is_in_group $g || {
+            info "The user does not have the group $group"
+            info 'something wont work.'
+            info ''
+            info 'To fix, use:'
+            info "   usermod -a -G $group "
+        }
+    done
 
     [ ! -h /etc/resolv.conf ] && {
         error 'Resolv is not symlinked'
