@@ -439,11 +439,17 @@ arch_aur(){
         # rr
         pssh
 
-        flutter
-        android-studio  # required by flutter
+        # The flutter SDK tries to be helpful and ends up being a world of
+        # pain. Flutter will try to automatically update itself, this breaks
+        # package managers since the files are changed externally, and for the
+        # package `flutter` in AUR the files are owned by root, without
+        # modifying the PKGBUID then flutter can only be used as root. To avoid
+        # this, instead the framework should be installed by hand using `git`
+        # as suggested in the flutter docs.
+        #
+        # flutter
+        # android-studio  # required by flutter
         dart
-        # flutter seems to fail if the package is installed through AUR,
-        # instead use the android-studio wizard
         #
         # android-platform
         # android-sdk
