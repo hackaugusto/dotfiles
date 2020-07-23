@@ -285,6 +285,11 @@ arch_pacman() {
         python-language-server
         python-poetry
 
+        # node
+        # nodejs - Instead of only using the community package which is always
+        # latest, `nvm` (available from AUR) is used to have multiple node
+        # versions and user installs.
+
         # version control
         git
         tig
@@ -450,6 +455,11 @@ arch_aur(){
         # flutter
         # android-studio  # required by flutter
         dart
+
+        nvm
+
+        # flutter seems to fails to find these dependencies if these packages
+        # are installed through AUR, instead use the android-studio wizard
         #
         # android-platform
         # android-sdk
