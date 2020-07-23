@@ -430,13 +430,18 @@ augroup Python
   autocmd FileType python set nowrap
 augroup END
 
+augroup TypeScript
+  autocmd!
+  autocmd FileType typescript nnoremap gd :ALEGoToDefinition -tab<CR>
+augroup END
+
 augroup Solidity
   autocmd!
 augroup END
 
 augroup Rust
   autocmd!
-  autocmd FileType rust nnoremap gd :ALEGoToDefinitionInTab<CR>
+  autocmd FileType rust nnoremap gd :ALEGoToDefinition -tab<CR>
 augroup END
 
 augroup Haskell
