@@ -14,6 +14,7 @@ if ! zgen saved; then
     zgen load StackExchange/blackbox
     zgen load Tarrasch/zsh-autoenv
     zgen oh-my-zsh plugins/extract
+    zgen load zdharma/zsh-diff-so-fancy
     # zgen oh-my-zsh plugins/gitfast
 
     # web

@@ -314,7 +314,7 @@ arch_pacman() {
 
         # tools
         # used in ~/.gitconfig
-        diff-so-fancy
+        # diff-so-fancy - installing through zgen
         dmidecode
         ctags
         dwdiff
