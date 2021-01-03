@@ -168,7 +168,7 @@ configure_runtimes
 eval $(dircolors)
 stty -ixon
 
-export SSH_AUTH_SOCK="/run/user/$UID/gnupg/S.gpg-agent.ssh"
+export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
 export PYTHONSTARTUP=$HOME/.pythonrc
 export AURDEST=$HOME/aur
 
