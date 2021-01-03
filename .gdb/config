@@ -10,4 +10,6 @@ set confirm off
 set breakpoint pending on
 set pagination off
 set print pretty on
+set python print-stack full
 set history save on
+set history size 10000
