@@ -1958,3 +1958,451 @@ class PyLocals(gdb.Command):
                       pyop_value.get_truncated_repr(MAX_OUTPUT_LEN)))
 
 PyLocals()
+
+
+import ast
+from dataclasses import dataclass
+from enum import Enum
+import re
+from typing import Optional
+
+class TokenType(Enum):
+    HISTORY = "HISTORY"
+    CONVENIENCE = "CONVENIENCE"
+    NAME = "NAME"
+    STRING = "STRING"
+    NUM = "NUM"
+    OPEN_BRACKET = "OPEN_BRACKET"
+    CLOSE_BRACKET = "CLOSE_BRACKET"
+    OPEN_PAREN = "OPEN_PAREN"
+    CLOSE_PAREN = "CLOSE_PAREN"
+    COMMA = "COMMA"
+    DOT = "DOT"
+
+class OpType(Enum):
+    # Integration with GDB
+    GDB_HISTORY = 'GDB_HISTORY'
+    GDB_CONVENIENCE = 'GDB_CONVENIENCE'
+    # Python's valies
+    PY_LOAD_NAME = 'PY_LOAD_NAME'
+    PY_LOAD_ATTR = 'PY_LOAD_ATTR'
+    PY_BINARY_SUBSCR = 'PY_BINARY_SUBSCR'
+    # Helpers for scripting
+    PUSH = 'PUSH'
+    BUILD_TUPLE = 'BUILD_TUPLE'
+    # Helpers for completion
+    OPEN_CTX = 'OPEN_CTX'
+    CLOSE_CTX = 'CLOSE_CTX'
+
+@dataclass
+class ParseError:
+    code: str
+    token: Optional[Token]
+    pos: int
+    msg: str
+
+@dataclass
+class Token:
+    token_type: TokenType
+    value: str
+    end: int
+
+@dataclass
+class Op:
+    op_type: OpType
+    token: Token
+    value: object
+
+class PyEvaluateParser:
+    """ Implements a DSL to interact with python values from the GDB prompt.
+    This will accept expressions like:
+    - `self.attr['key']`
+    - `$1.attr['key']` where `$1` is a GDB history value which points to PyObject*
+    - `$1.$attr['key']` where `$1` is a GDB history and `$attr` a convenience
+      variable, both values point to PyObject*
+    """
+    def __init__(self):
+        # > These are successive integers starting with one
+        # https://sourceware.org/gdb/current/onlinedocs/gdb/Value-History.html#Value-History
+        self.HISTORY = re.compile(r'[$][1-9][0-9]*')
+        # > Any name preceded by ‘$’ can be used for a convenience variable,
+        # unless it is one of the predefined machine-specific register names
+        # https://sourceware.org/gdb/current/onlinedocs/gdb/Convenience-Vars.html#Convenience-Vars
+        self.CONVENIENCE = re.compile(r'[$][_a-zA-Z][_a-zA-Z0-9]*')
+        # This only supports ascii characters :(
+        # https://docs.python.org/3/reference/lexical_analysis.html#identifiers
+        self.NAME = re.compile(r'[_a-zA-Z][_a-zA-Z0-9]*')
+        self.SPACE = re.compile(r'\s+')
+        self.NUM = re.compile(r'\d+([.]\d*)?')
+        # This does not handle escaped quotes :(
+        self.STRING = re.compile(r'"[^"]*"|\'[^\']*\'')
+        self.char_to_type = {
+            '.': TokenType.DOT,
+            ',': TokenType.COMMA,
+            '(': TokenType.OPEN_PAREN,
+            ')': TokenType.CLOSE_PAREN,
+            '[': TokenType.OPEN_BRACKET,
+            ']': TokenType.CLOSE_BRACKET,
+        }
+    def parser_error(self, code, token, pos, expected):
+        if token is not None:
+            line = '~' * (token.end - 1) + '^'
+            msg = '\n'.join(['', code, line, f"Got token {token}, expected {expected}"])
+        else:
+            line = '~' * (len(code) - 1) + '^'
+            msg = '\n'.join(['', code, line, f"Code ended abruptly, expecting {expected}"])
+        return ParseError(code, token, pos, msg)
+    def assert_no_extra(self, code, token, pos):
+        extra = code[token.end:].strip()
+        if extra:
+            line = '~' * token.end + '^'
+            msg = '\n'.join(['', code, line, f"Unrecognized code"])
+            return self.parser_error(code, token, pos, msg)
+    def next_token(self, code, pos):
+        """ Returns the token at position `pos` in `code`.
+        Note: This does not consume the string, calling it is equivalent to peeking.
+        """
+        start = pos
+        to_match = code[start:]
+        match = self.SPACE.match(to_match)
+        if match:
+            start = pos + match.endpos
+            to_match = code[start:]
+        if not to_match:
+            return
+        history = self.HISTORY.match(to_match)
+        if history:
+            end = history.end()
+            return Token(TokenType.HISTORY, to_match[:end], pos + end)
+        convenience = self.CONVENIENCE.match(to_match)
+        if convenience:
+            end = convenience.end()
+            return Token(TokenType.CONVENIENCE, to_match[:end], pos + end)
+        num = self.NUM.match(to_match)
+        if num:
+            end = num.end()
+            return Token(TokenType.NUM, to_match[:end], pos + end)
+        string = self.STRING.match(to_match)
+        if string:
+            end = string.end()
+            return Token(TokenType.STRING, to_match[:end], pos + end)
+        name = self.NAME.match(to_match)
+        if name:
+            end = name.end()
+            return Token(TokenType.NAME, to_match[:end], pos + end)
+        token_type = self.char_to_type.get(to_match[0])
+        if token_type:
+            return Token(token_type, to_match[0], pos + 1)
+    def parse_ctx(self, code, pos):
+        if not code:
+            return
+        token = self.next_token(code, pos)
+        if not token:
+            yield self.parser_error(code, token, pos, 'name')
+            return
+        if token.token_type is TokenType.HISTORY:
+            yield Op(OpType.OPEN_CTX, token, None)
+            yield Op(OpType.GDB_HISTORY, token, int(token.value[1:]))
+        elif token.token_type is TokenType.CONVENIENCE:
+            yield Op(OpType.OPEN_CTX, token, None)
+            yield Op(OpType.GDB_CONVENIENCE, token, token.value[1:])
+        elif token.token_type is TokenType.NAME:
+            yield Op(OpType.OPEN_CTX, token, None)
+            yield Op(OpType.PY_LOAD_NAME, token, token.value)
+        else:
+            yield self.parser_error(code, token, pos, 'name')
+            return
+        if len(code) > token.end:
+            for op in self.parse_accessor(code, token.end):
+                yield op
+                if isinstance(op, ParseError):
+                    return
+            error = self.assert_no_extra(code, op.token, op.token.end)
+            if error:
+                yield error
+                return
+        yield Op(OpType.CLOSE_CTX, token, None)
+    def parse_accessor(self, code, pos):
+        accessor_token = self.next_token(code, pos)
+        while accessor_token is not None:
+            if accessor_token.token_type is TokenType.OPEN_BRACKET:
+                for op in self.parse_bracket(code, pos):
+                    yield op
+                    if isinstance(op, ParseError):
+                        return
+                pos = op.token.end
+            elif accessor_token.token_type is TokenType.DOT:
+                token = self.next_token(code, accessor_token.end)
+                if token and token.token_type is TokenType.HISTORY:
+                    yield Op(OpType.GDB_HISTORY, token, int(token.value[1:]))
+                elif token and token.token_type is TokenType.CONVENIENCE:
+                    yield Op(OpType.GDB_CONVENIENCE, token, token.value[1:])
+                elif token and token.token_type is TokenType.NAME:
+                    yield Op(OpType.PUSH, token, token.value)
+                else:
+                    yield self.parser_error(code, token, pos, 'name')
+                    return
+                yield Op(OpType.PY_LOAD_ATTR, token, token.value)
+                pos = token.end
+            else:
+                yield self.parser_error(code, token, pos, '. or [')
+                return
+            accessor_token = self.next_token(code, pos)
+    def parse_bracket(self, code, pos):
+        token = self.next_token(code, pos)
+        assert token.token_type is TokenType.OPEN_BRACKET, 'parse_bracket has to be called pointing to a ['
+        token = self.next_token(code, token.end)
+        if token and token.token_type in (TokenType.HISTORY, TokenType.CONVENIENCE, TokenType.NAME):
+            subops = self.parse_ctx(code, token.end)
+        elif token and token.token_type is TokenType.OPEN_PAREN:
+            subops = self.parse_paren(code, pos)
+        elif token and token.token_type is TokenType.STRING:
+            subops = [Op(OpType.PUSH, token, token.value[1:-1])]
+        elif token and token.token_type is TokenType.NUM:
+            value = token.value
+            value = float(value) if '.' in value else int(value)
+            subops = [Op(OpType.PUSH, token, value)]
+        else:
+            yield self.parser_error(code, token, pos, 'name, string, number or (')
+            return
+        for op in subops:
+            yield op
+            if isinstance(op, ParseError):
+                return
+        token = self.next_token(code, op.token.end)
+        if token is None or token.token_type is not TokenType.CLOSE_BRACKET:
+            yield self.parser_error(code, token, pos, ']')
+            return
+        yield Op(OpType.PY_BINARY_SUBSCR, token, None)
+    def parse_paren(self, code, pos):
+        token = self.next_token(code, pos)
+        assert token.token_type is TokenType.OPEN_PAREN, 'parse_paren has to be called pointing to a ('
+        token = self.next_token(code, token.end)
+        qty_elements = 0
+        while token and token.token_type is not TokenType.CLOSE_PAREN:
+            for op in self.parse_ctx(code, token.end):
+                yield op
+                if isinstance(op, ParseError):
+                    return
+            qty_elements += 1
+            new_pos = op.token.end
+            token = self.next_token(code, new_pos)
+            if token is None or token.token_type not in (TokenType.CLOSE_BRACKET, TokenType.COMMA):
+                yield self.parser_error(code, token, new_pos, ', or )')
+                return
+            token = self.next_token(code, token.end)
+        if token is None or token.token_type is not TokenType.CLOSE_PAREN:
+            yield self.parser_error(code, token, pos, ', or )')
+            return
+        yield Op(OpType.BUILD_TUPLE, token, qty_elements)
+
+class PyEvaluateInterpreter:
+    def evaluate(self, ops, pyop_frame):
+        stack = []
+        for op in ops:
+            if op.op_type is OpType.GDB_HISTORY:
+                self.gdb_history(stack, op.value)
+            elif op.op_type is OpType.GDB_CONVENIENCE:
+                self.gdb_convenience(stack, op.value)
+            elif op.op_type is OpType.PY_LOAD_NAME:
+                self.load_name(stack, pyop_frame, op.value)
+            elif op.op_type is OpType.PY_LOAD_ATTR:
+                self.load_attr(stack)
+            elif op.op_type is OpType.PY_BINARY_SUBSCR:
+                self.binary_subscr(stack)
+            elif op.op_type is OpType.PUSH:
+                self.push(stack, op.value)
+            elif op.op_type is OpType.BUILD_TUPLE:
+                self.build_tuple(stack, op.token, op.value)
+            elif isinstance(op, ParseError):
+                raise RuntimeError('Cannot evaluate expressions with parsing errors.')
+        return stack
+    def get_matching_key(self, d, k):
+        for key, value in d.iteritems():
+            if key.proxyval(set()) == k:
+                return value
+    def gdb_convenience(self, stack, name):
+        value = gdb.convenience_variable(name)
+        stack.append(PyObjectPtr.from_pyobject_ptr(value))
+    def gdb_history(self, stack, name):
+        value = gdb.history(name)
+        stack.append(PyObjectPtr.from_pyobject_ptr(value))
+    def load_name(self, stack, pyop_frame, name):
+        pyop_var, _ = pyop_frame.get_var_by_name(name)
+        stack.append(pyop_var)
+    def load_attr(self, stack):
+        name = stack.pop()
+        owner = stack.pop()
+        if isinstance(owner, HeapTypeObjectPtr):
+            attr_dict = owner.get_attr_dict()
+            if attr_dict:
+                value = self.get_matching_key(attr_dict, name)
+                if value is None:
+                    tp_name = owner.type().field('tp_name').string()
+                    raise AttributeError(f"'{tp_name}' object has no name '{name}'")
+                else:
+                    stack.append(value)
+        else:
+            raise RuntimeError('Objects with a custom getattr protocol are not supported.')
+    def binary_subscr(self, stack):
+        sub = stack.pop()
+        container = stack.pop()
+        if isinstance(container, PyDictObjectPtr):
+            value = self.get_matching_key(container, sub)
+            if value is None:
+                raise KeyError(f"KeyError: {sub}")
+            stack.append(value)
+        elif isinstance(container, (PyTupleObjectPtr, PyListObjectPtr)):
+            stack.append(container[sub])
+        else:
+            raise KeyError(f"TypeError: {type(container)}")
+    def push(self, stack, value):
+        stack.append(value)
+    def build_tuple(self, stack, value):
+        t = tuple(stack[-value:])
+        for _ in range(value):
+            stack.pop()
+        stack.append(t)
+
+class PyEvaluate(gdb.Command):
+    CMD_NAME = "py-evaluate"
+    def __init__(self):
+        gdb.Command.__init__(self, self.CMD_NAME, gdb.COMMAND_DATA)
+        self._parser = PyEvaluateParser()
+        self._interpreter = PyEvaluateInterpreter()
+    def get_frame(self):
+        frame = Frame.get_selected_python_frame()
+        if not frame:
+            return
+        pyop_frame = frame.get_pyop()
+        if not pyop_frame:
+            return
+        return pyop_frame
+    def invoke(self, text_args, from_tty):
+        args = text_args.split()
+        if len(args) > 2 or len(args) < 1:
+            print(f'{self.CMD_NAME} EXPR <MAX_OUTPUT_LEN>')
+            return
+        output_length = MAX_OUTPUT_LEN
+        if len(args) == 2:
+            output_length = int(args[1])
+        expr = args[0]
+        pyop_frame = self.get_frame()
+        if pyop_frame is None:
+            print('Unable to locate python frame')
+            return
+        ops = list(self._parser.parse_ctx(expr, 0))
+        if not ops:
+            return
+        elif isinstance(ops[-1], ParseError):
+            raise SyntaxError(ops[-1].value)
+        stack = self._interpreter.evaluate(ops, pyop_frame)
+        assert len(stack) == 1, f'Stack should end up with a single element! {stack}'
+        result = stack[0]
+        print('%s' % result.get_truncated_repr(output_length))
+        # Executing the `print` command to save the Value in GDB's value
+        # history.
+        gdb.execute(f'print ({result._typename}*){result.as_address()}')
+    def _find_ctx(self, ops):
+        last_el = len(ops) - 1
+        # skip the parsing error token
+        start = last_el - 1
+        qty_closed_ctx = 0
+        for pos in range(start, -1, -1):
+            op = ops[pos]
+            if op.op_type is OpType.CLOSE_CTX:
+                qty_closed_ctx += 1
+            elif op.op_type is OpType.OPEN_CTX:
+                if qty_closed_ctx == 0:
+                    break
+                qty_closed_ctx -= 1
+        assert qty_closed_ctx == 0, 'Non empty sequence of ops must have OPEN_CTX'
+        assert ops[pos].op_type is OpType.OPEN_CTX, 'Non empty sequence of ops must have OPEN_CTX'
+        return ops[pos:]
+    def _get_stack_and_op_to_complete(self, ops, pyop_frame):
+        if not ops:
+            return None, None
+        if isinstance(ops[-1], ParseError):
+            ops = self._find_ctx(ops)
+            op_to_complete = ops[-1]
+            ops = ops[:-1]
+        else:
+            assert ops[-1].op_type is OpType.CLOSE_CTX, 'Sucessfully parsed expressions must end with a CLOSE_CTX.'
+            op_to_complete = ops[-2]
+            ops = ops[:-2]
+        # the first entry of ops is a OPEN_CTX, which will fail if evaluated alone
+        if len(ops) > 1:
+            stack = self._interpreter.evaluate(ops, pyop_frame)
+            return stack, op_to_complete
+        return None, op_to_complete
+    def _names_for_prompt(self, op_to_complete, pyop_frame):
+        names_locals = [pyop_name.proxyval(set()) for pyop_name, _ in pyop_frame.iter_locals() or []]
+        names_globals = [pyop_name.proxyval(set()) for pyop_name, _ in pyop_frame.iter_globals() or []]
+        names_builtins = [pyop_name.proxyval(set()) for pyop_name, _ in pyop_frame.iter_builtins() or []]
+        all_names = names_locals + names_globals + names_globals
+        if op_to_complete:
+            # Cannot complete history and convenience variables
+            assert op_to_complete.op_type is OpType.PY_LOAD_NAME, "Other ops can not be completed from top-level"
+            all_names = [
+                name
+                for name in all_names
+                if name.startswith(op_to_complete.value) and name != op_to_complete.value
+            ]
+        return all_names
+    def _names_for_pyobject(self, pyobj):
+        if isinstance(pyobj, HeapTypeObjectPtr):
+            attribute_dict = pyobj.get_attr_dict()
+            all_names = [
+                key.proxyval(set())
+                for key, _ in attribute_dict.iteritems()
+            ]
+        else:
+            proxy = pyobj.proxyval(set())
+            all_names = dir(proxy)
+        return all_names
+    def _names_for_load_attr(self, stack, op_to_complete):
+        assert len(stack) == 2, "The stack should have the PyObject* and the partial identifier"
+        assert op_to_complete.op_type is OpType.PY_LOAD_ATTR
+        pyobj = stack[0]
+        all_names = self._names_for_pyobject(pyobj)
+        filtered_names = [
+            name
+            for name in all_names
+            if name.startswith(op_to_complete.value) and name != op_to_complete.value
+        ]
+        return filtered_names
+    def _names_for_incomplete_expr(self, stack, parser_error):
+        assert len(stack) == 1, "The stack should have only the PyObject*"
+        assert isinstance(parser_error, ParseError)
+        pyobj = stack[0]
+        if parser_error.code[parser_error.pos] == '.':
+            all_names = self._names_for_pyobject(pyobj)
+            return all_names
+        if parser_error.code[parser_error.pos] == '[':
+            all_names = self._keys_for_pyobject(pyobj)
+            return all_names
+    def complete(self, text, word):
+        args = text.split()
+        # only the first arg can be autocompleted
+        if " " in text:
+            return []
+        elif len(args) == 1:
+            expr = args[0]
+        else:
+            expr = ""
+        ops = list(self._parser.parse_ctx(expr, 0))
+        pyop_frame = self.get_frame()
+        stack, op_to_complete = self._get_stack_and_op_to_complete(ops, pyop_frame)
+        if stack and isinstance(op_to_complete, ParseError):
+            names = self._names_for_incomplete_expr(stack, op_to_complete)
+        elif stack and op_to_complete and op_to_complete.op_type is OpType.PY_LOAD_ATTR:
+            names = self._names_for_load_attr(stack, op_to_complete)
+        elif op_to_complete is None or op_to_complete.op_type is OpType.PY_LOAD_NAME:
+            names = self._names_for_prompt(op_to_complete, pyop_frame)
+        else:
+            # Either a parser error without a ctx or history/convenience
+            # variables, either of which can not be autocompleted
+            names = []
+        return [n.strip() for n in names]
+
+PyEvaluate()
