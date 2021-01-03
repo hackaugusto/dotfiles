@@ -1,7 +1,15 @@
 # vim:set ft=gdb sts=4 sw=4 ts=4:
 
-define pyb
-    break PyEval_EvalFrameEx if (strcmp((((PyStringObject *)(PyEval_EvalFrameEx::f->f_code->co_name))->ob_sval), $arg0) == 0)
+define py-breapoint-27
+    break PyEval_EvalFrameEx if (strcmp((((PyBytesObject *)(PyEval_EvalFrameEx::f->f_code->co_name))->ob_sval), $arg0) == 0)
+end
+
+define py-breakpoint-f
+    break function_code_fastcall if ($_streq((char*)((PyASCIIObject*)f->f_code->co_name+1), $arg0) == 1)
+end
+
+define py-breakpoint-co
+    break function_code_fastcall if ($_streq((char*)((PyASCIIObject*)co->co_name+1), $arg0) == 1)
 end
 
 define pyp
