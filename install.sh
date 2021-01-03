@@ -153,6 +153,7 @@ arch_pacman() {
         bluez
         bluez-utils
         pulseaudio-bluetooth
+        rlwrap
 
         # android
         android-udev
