@@ -268,7 +268,7 @@ let g:ale_cpp_clang_options = '-Wall'
 let g:ale_cpp_gcc_options = '-Wall'
 let g:ale_fix_on_save = 1
 let g:ale_fixers = {
-\   'python': ['black', 'isort', 'trim_whitespace', 'remove_trailing_lines'],
+\   'python': ['black', 'isort', 'trim_whitespace', 'remove_trailing_lines', 'yapf'],
 \   'rust': ['remove_trailing_lines', 'rustfmt', 'trim_whitespace'],
 \   'cpp': ['clang-format', 'clangtidy', 'remove_trailing_lines', 'trim_whitespace', 'uncrustify'],
 \   'dart': ['dartfmt', 'trim_whitespace', 'remove_trailing_lines'],
