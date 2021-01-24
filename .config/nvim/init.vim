@@ -150,6 +150,31 @@ function PlainTextFold()
   return v:folddashes . sub
 endfunction
 
+let target_parsers = ['bash', 'c', 'cpp', 'python', 'rust', 'regex']
+function TreeSitterUpdateParsers()
+  let installed_parsers = luaeval("require'nvim-treesitter.info'.installed_parsers()")
+
+  let parsers_to_install = []
+  for parser in g:target_parsers
+    if index(installed_parsers, parser) == -1
+      call insert(parsers_to_install, parser)
+    endif
+  endfor
+  if len(parsers_to_install) != 0
+    exe "TSInstall " . join(parsers_to_install, " ")
+  endif
+
+  let parsers_to_remove = []
+  for parser in installed_parsers
+    if index(g:target_parsers, parser) == -1
+      call insert(parsers_to_remove, parser)
+    endif
+  endfor
+  if len(parsers_to_remove) != 0
+    echo exe "TSUninstall " . join(parsers_to_remove, " ")
+  endif
+endfunction
+
 let s:plugins_base_dir=$HOME . "/.config/nvim/plugins"
 let s:dein_dir=s:plugins_base_dir . "/repos/github.com/Shougo/dein.vim"
 let s:dein_install=0
@@ -241,6 +266,9 @@ if dein#load_state(s:plugins_base_dir)
     \ 'vim', 'c', 'cpp', 'xdefaults', 'haskell', 'objc', 'matlab', 'htmldjango',
     \ 'snippets'
     \ ]})
+  call dein#add('nvim-treesitter/nvim-treesitter', {
+    \ 'hook_post_source': 'call TreeSitterUpdateParsers()',
+    \ 'hook_post_update': 'exe TSUpdate'})
 
   call dein#add('rust-lang/rust.vim')
   call dein#add('eagletmt/neco-ghc')
