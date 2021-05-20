@@ -77,10 +77,6 @@ autoload -U compinit
 
 zgitinit
 
-if [ -s ~/.zcompdump -a ! -s ~/.zcompdump.zwc ]; then
-  zcompile ~/.zcompdump &!
-fi
-
 require ~/.zsh/options.sh  # set the options early because the shell behavior change
 require ~/.zsh/utils.sh    # load the utils, the following files can use them
 
@@ -92,15 +88,6 @@ require ~/.zsh/completion.sh
 require ~/.zsh/env.sh
 require ~/.zsh/plugins.sh
 require ~/.zsh/prompt.sh
-
-# compinit must be executed after the plugins are set
-# if [ ! -e ~/.zcompdump ] || older_than_days ~/.zcompdump 1; then
-#   compinit     # this may or may not recreate the dump
-# else
-#   # If the dump is less than a day old dont bother recreating it.
-#   # !IMPORTANT! this will skip the checks for group/world writable files.
-#   compinit -C
-# fi
 
 update
 

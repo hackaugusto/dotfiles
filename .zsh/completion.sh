@@ -31,11 +31,25 @@ zle-line-finish() {
 zle -N zle-line-init
 zle -N zle-line-finish
 
+# compinit must be executed after the plugins are set
+if [ ! -e ~/.zcompdump ] || older_than_days ~/.zcompdump 1; then
+  compinit     # this may or may not recreate the dump
+else
+  # If the dump is less than a day old dont bother recreating it.
+  # !IMPORTANT! this will skip the checks for group/world writable files.
+  compinit -C
+fi
+
+# must be done after compinit
+if (( $+commands[pipenv] )); then
+    eval "$(pipenv --completion)"
+fi
+
 # npm completion is slow: "0.37s user"
 # if (( $+commands[npm] )); then
 #     eval "$(npm completion 2>/dev/null)"
 # fi
 
-if (( $+commands[pipenv] )); then
-    eval "$(pipenv --completion)"
+if [ -s ~/.zcompdump -a ! -s ~/.zcompdump.zwc ]; then
+  zcompile ~/.zcompdump &!
 fi
