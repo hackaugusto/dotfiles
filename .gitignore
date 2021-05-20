@@ -4,9 +4,6 @@
 *.swp
 *.old
 
-# ignore .zsh submodules
-.zsh/*/
-
 # vim
 .vim/bundle
 .vim/.netrwhist
