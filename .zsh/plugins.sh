@@ -9,7 +9,6 @@ if ! zgen saved; then
     # zsh
     zgen load zsh-users/zsh-completions
     zgen load zsh-users/zsh-syntax-highlighting
-    zgen load mafredri/zsh-async
 
     # utilities
     zgen load StackExchange/blackbox

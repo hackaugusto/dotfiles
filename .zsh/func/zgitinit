@@ -5,6 +5,10 @@
 typeset -gA zgit_info
 zgit_info=()
 
+zgit_precmd_hook() {
+    zgit_info_update
+}
+
 zgit_info_update() {
 	zgit_info=()
 
@@ -213,5 +217,7 @@ zgit_rebaseinfo() {
 
 	return 0
 }
+
+add-zsh-hook precmd zgit_precmd_hook
 
 # vim:set ft=zsh:
