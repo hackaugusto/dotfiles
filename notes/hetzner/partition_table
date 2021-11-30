@@ -1,0 +1,3 @@
+label: dos
+size=1GiB, type=linux, bootable
+type=linux, bootable
