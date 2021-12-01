@@ -13,7 +13,7 @@ readonly TZ="Europe/Berlin"
 readonly LOCALE="en_US.UTF-8"
 readonly HOSTNAME="astro"
 
-readonly PHYSICAL_VOLUME_PREFIX="crypt-"
+readonly PHYSICAL_VOLUME_PREFIX="crypt"
 readonly LOGICAL_VOLUME="root"
 readonly LOGICAL_VOLUME_TYPE="raid0"
 readonly VOLUME_GROUP="disks"
@@ -21,9 +21,9 @@ readonly MAPPER_NAME="${VOLUME_GROUP}-${LOGICAL_VOLUME}"
 
 readonly EXTRACT_DIR="/tmp"
 readonly BOOTSTRAP_DIR="${EXTRACT_DIR}/root.x86_64"
-readonly BOOTSTRAP_CHROOT="${BOOTSTRAP_DIR}/usr/bin/arch-chroot" "${BOOTSTRAP_DIR}"
+readonly BOOTSTRAP_CHROOT="${BOOTSTRAP_DIR}/usr/bin/arch-chroot ${BOOTSTRAP_DIR}"
 readonly INSTALL_DIR="${BOOTSTRAP_DIR}/mnt"
-readonly INSTALL_CHROOT="${BOOTSTRAP_DIR}/usr/bin/arch-chroot" "${INSTALL_DIR}"
+readonly INSTALL_CHROOT="${BOOTSTRAP_DIR}/usr/bin/arch-chroot ${INSTALL_DIR}"
 readonly -a ARCH_DEPENDENCIES=(
     base
     linux linux-firmware
@@ -33,6 +33,7 @@ readonly -a ARCH_DEPENDENCIES=(
     lvm2 mdadm cryptsetup
     net-tools openssh inetutils
     # for remote unlocking
+    dropbear
     mkinitcpio-systemd-tool
     # for fstrim
     util-linux
@@ -57,20 +58,21 @@ for disk in "${DISKS[@]}"; do
     cryptsetup luksFormat "${disk}p2"
 done
 
-set -a physical_volumes
-for count in $(seq ${#DISKS[@]}); do
-    physical_volumes+=("${PHYSICAL_VOLUME_PREFIX}-${count}")
-done
-for pv in "${physical_volumes[@]}"; do
-    cryptsetup luksOpen --allow-discards "${pv}"
+declare -a physical_volumes
+declare -i count
+for disk in "${DISKS[@]}"; do
+    count+=1
+    pv="${PHYSICAL_VOLUME_PREFIX}-${count}"
+    physical_volumes+=("/dev/mapper/${pv}")
+    cryptsetup luksOpen --allow-discards "${disk}p2" "${pv}"
     pvcreate "/dev/mapper/${pv}"
 done
 vgcreate "${VOLUME_GROUP}" "${physical_volumes[@]}"
-lvcreate --type "${LOGICAL_VOLUME_TYPE}" --extends +100%FREE "${VOLUME_GROUP}" --name "${LOGICAL_VOLUME}"
+lvcreate --type "${LOGICAL_VOLUME_TYPE}" --extents +100%FREE "${VOLUME_GROUP}" --name "${LOGICAL_VOLUME}"
 
 mkfs.xfs -m bigtime=1 "/dev/mapper/${MAPPER_NAME}"
 for disk in "${DISKS[@]}"; do
-    mkfs.ext4 "/disk/${disk}p1"
+    mkfs.ext4 "${disk}p1"
 done
 
 # [download arch]
@@ -79,7 +81,7 @@ wget "${BOOSTRAP_URL}"
 wget "${BOOTSTRAP_FILE_SIGNATURE_URL}"
 
 gpg --keyserver-options auto-key-retrieve --verify "${BOOTSTRAP_FILE}.sig"
-gpgv "${BOOTSTRAP_FILE}.sig" "${BOOTSTRAP_FILE}"
+# gpgv "${BOOTSTRAP_FILE}.sig" "${BOOTSTRAP_FILE}"
 
 # [install arch deps]
 tar --numeric-owner --extract --ungzip --file "${BOOTSTRAP_FILE}" --directory "${EXTRACT_DIR}"
@@ -91,11 +93,9 @@ $BOOTSTRAP_CHROOT pacman -Syy
 $BOOTSTRAP_CHROOT pacman --noconfirm -S archlinux-keyring
 
 mount "/dev/mapper/${MAPPER_NAME}" "${INSTALL_DIR}"
-$BOOTSTRAP_CHROOT pacstrap -d -G -M "${INSTALL_DIR}" "${ARCH_DEPENDENCIES[@]}"
+$BOOTSTRAP_CHROOT pacstrap -d -G -M /mnt "${ARCH_DEPENDENCIES[@]}"
 
 # [config system]
-$BOOTSTRAP_CHROOT pacstrap -d -G -M "${INSTALL_DIR}" "${ARCH_DEPENDENCIES[@]}"
-
 # TODO: subnet network
 # 30/11/21:
 # - hetzner rescue versions: debian 11.0 (bullseye), systemd/udev 247, iproute2 5.9.0
@@ -103,12 +103,12 @@ $BOOTSTRAP_CHROOT pacstrap -d -G -M "${INSTALL_DIR}" "${ARCH_DEPENDENCIES[@]}"
 # - it doesn't change system'd .link file, which enables alternative naming
 # readonly interfaces=($(ip -json link show | jq -r '.[] | select(.link_type == "ether") | .altnames[0]'))
 $INSTALL_CHROOT timedatectl set-ntp true
-genfstab -U /mnt >> "${INSTALL_DIR}/etc/fstab"
+$BOOTSTRAP_CHROOT genfstab -U /mnt > "${INSTALL_DIR}/etc/fstab"
 
 $INSTALL_CHROOT ln -sf "/usr/share/zoneinfo/${TZ}" /etc/localtime
 $INSTALL_CHROOT hwclock --systohc
 
-echo "${LOCALE}" > "${INSTALL_DIR}/etc/locale.gen"
+echo "${LOCALE} utf8" > "${INSTALL_DIR}/etc/locale.gen"
 echo "${LOCALE}" > "${INSTALL_DIR}/etc/locale.conf"
 $INSTALL_CHROOT locale-gen
 
