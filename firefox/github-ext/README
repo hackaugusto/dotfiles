@@ -1,8 +1,0 @@
-## Addon
-
-This just expands the name of the head in a github PR.
-
-## Installation
-
-Use firefox developer edition, run make, disable the option
-`xpinstall.signatures.required`, and install by file.
