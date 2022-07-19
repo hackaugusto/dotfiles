@@ -26,28 +26,29 @@ git_filestatus() {
 git_branchstatus() {
     zgit_isgit || return 1
 
-    local -a ahead behind
+    local -a ahead behind color extra
 
     if zgit_tracking_merge &> /dev/null; then
-        echo -n "  %F{green}[git:$(zgit_head)"
+		color="green"
 
         ahead=($(git rev-list --reverse $(zgit_tracking_merge)..HEAD))
         behind=($(git rev-list --reverse HEAD..$(zgit_tracking_merge)))
 
         if [ $#ahead -gt 0 ]; then
-            echo -n " +$#ahead"
+            extra=" +$#ahead"
         elif [ $#behind -gt 0 ]; then
-            echo -n " -$#behind"
+            extra=" -$#behind"
         fi
     else
-        echo -n "  %F{yellow}[git:$(zgit_head)"
+		color="yellow"
+		extra=""
     fi
 
-    echo "]%f"
+    echo " %F{$color}$(zgit_head)${extra}%f"
 }
 
 myprompt() {
-    git_filestatus || echo ' #'
+    git_filestatus || echo '#'
 }
 
 setup_myprompt(){
@@ -55,14 +56,13 @@ setup_myprompt(){
 
     local HOUR="%F{blue}%T%f"
     local JOBS="%1(j,%F{yellow}%j%f ,)"
-    export RPS1="${JOBS}${HOUR}"
 
     if [[ $UID -eq '0' ]]; then;
         export PS1="%F{red}%n%f %1. %(?.%#.%F{red}%#%f) "
     elif [[ $USER = 'dev' ]]; then;
         export PS1="%F{yellow}%n%f %1.%# "
     else;
-        export PS1="%F{cyan}%n%f %1.%\$(git_branchstatus) \$(myprompt) "
+        export PS1="%1.% \$(git_branchstatus) ${JOBS}${HOUR} \$(myprompt) "
     fi;
 
     # show the hostname when we are connected through ssh
