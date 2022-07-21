@@ -265,9 +265,9 @@ if dein#load_state(s:plugins_base_dir)
     \ 'vim', 'c', 'cpp', 'xdefaults', 'haskell', 'objc', 'matlab', 'htmldjango',
     \ 'snippets'
     \ ]})
-  call dein#add('nvim-treesitter/nvim-treesitter', {
-    \ 'hook_post_source': 'call TreeSitterUpdateParsers()',
-    \ 'hook_post_update': 'exe TSUpdate'})
+  " call dein#add('nvim-treesitter/nvim-treesitter', {
+  "   \ 'hook_post_source': 'call TreeSitterUpdateParsers()',
+  "   \ 'hook_post_update': 'exe TSUpdate'})
 
   call dein#add('rust-lang/rust.vim')
   call dein#add('eagletmt/neco-ghc')
@@ -322,7 +322,7 @@ set statusline+=\ %t
 
 set statusline+=%{Space(Bracket(Comma(One(&paste,'paste'),Equal(&ff,'unix'),Equal(&fenc,'utf-8'),&ft)))}
 set statusline+=%{virtualenv#statusline()}
-set statusline+=%{Space(VCSChanges())}%{fugitive#head(7)}
+set statusline+=%{Space(VCSChanges())}%{FugitiveHead(7)}
 
 set statusline+=%=
 set statusline+=%<
