@@ -20,7 +20,7 @@ export LESS_TERMCAP_so=$'\E[01;44;33m'
 export LESS_TERMCAP_ue=$'\E[0m'
 export LESS_TERMCAP_us=$'\E[01;32m'
 
-export PASSWORD_STORE_DIR="${HOME}/.data/password"
+# export PASSWORD_STORE_DIR="${HOME}/.data/password"
 
 export ACK_PAGER_COLOR="less -x4SRFX"
 export MANSECT=3:1:9:8:2:5:4:7:6:n

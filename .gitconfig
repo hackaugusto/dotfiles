@@ -16,7 +16,7 @@
 	changeHunkIndicators = true
 	useUnicodeRuler = false
 [gpg]
-	program = gpg2
+	program = gpg
 [rebase]
 	autoStash = true
 [fetch]
