@@ -157,6 +157,7 @@ configure_runtimes() {
 
     # LOCAL BINs
     path_addonce_start "$HOME/.bin"
+    path_addonce_start "$HOME/local/.bin"
 }
 
 # XDG variables and LANG, LC_* (this sources only *.sh files)
