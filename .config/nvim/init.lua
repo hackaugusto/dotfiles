@@ -245,18 +245,46 @@ function TreeSitterUpdateParsers()
   end
 end
 
-local packer_dir=vim.env.HOME .. "/.local/share/nvim/site/pack/packer/start"
-local packer_repo=packer_dir .. "/packer.nvim"
-local packer_install=0
+function StatusLineSetup()
+  -- Only configure statusline after the plugins have been installed, otherwise
+  -- lots of errors are shown
 
-if vim.fn.isdirectory(packer_dir) == 0 then
-    vim.api.nvim_command('!mkdir -p ' .. packer_dir)
+  -- configure the statusline after the plugin virtualenv has been installed
+  local statusline
+  statusline="%m"
+
+  -- warns for readonly, syntax erros, files not ending in \n and files that are
+  -- not utf8
+  statusline=statusline .. "%#warningmsg#"
+  statusline=statusline .. "%{v:lua.StatusLineWarnings()}"
+  statusline=statusline .. "%*"
+
+  statusline=statusline .. " %t "
+
+  statusline=statusline .. "%{v:lua.StatusLineConfigs()}"
+  statusline=statusline .. "%{v:lua.Space(virtualenv#statusline())}"
+  statusline=statusline .. "%{v:lua.StatusLineVCS()}"
+
+  statusline=statusline .. "%="
+  statusline=statusline .. "%<"
+
+  statusline=statusline .. "%{v:lua.StatuslineCurrentHighlight()}"
+  statusline=statusline .. " [ascii %03.3b hex %02.2B]"
+  statusline=statusline .. " [col %v line %l/%L %p%%]"
+  vim.opt.statusline = statusline
 end
 
-if vim.fn.isdirectory(packer_repo) == 0 then
-    vim.api.nvim_command('!git clone https://github.com/wbthomason/packer.nvim ' .. packer_repo)
-    packer_install=1
+local ensure_packer = function()
+  local install_path = vim.fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
+  if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
+    vim.fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
+    vim.cmd [[packadd packer.nvim]]
+    return true
+  end
+  return false
 end
+
+local packer_bootstrap = ensure_packer()
 
 -- use the system-wide python and the python-neovim package
 vim.g.loaded_python_provider = 0
@@ -291,7 +319,7 @@ require('packer').startup(function(use)
   use 'junegunn/vim-easy-align'
 
   -- text objects and operators
-  use ('wellle/targets.vim')
+  use 'wellle/targets.vim'
   -- better (but slower) than surround for unaligned chars
   -- call dein#add('machakann/vim-sandwich',
   --   \ {'hook_post_source': 'runtime macros/sandwich/keymap/surround.vim'}
@@ -352,11 +380,19 @@ require('packer').startup(function(use)
   use 'vim-scripts/python.vim'                 -- block motions
   -- best indentation for python (installed throught vim-polyglot)
   -- call dein#add('mitsuhiko/vim-python-combined')
-end)
 
-if packer_install == 1 then
-  vim.api.nvim_command('normal UpdateRemotePlugins()')
-end
+  -- Automatically set up your configuration after cloning packer.nvim
+  -- Put this at the end after all plugins
+  if packer_bootstrap then
+    require('packer').sync()
+    vim.api.nvim_command('normal UpdateRemotePlugins()')
+  else
+    -- these settings required the above plugins, don't do them on the first
+    -- run because lots of errors are raised
+    StatusLineSetup()
+    vim.api.nvim_command('colorscheme jellybeans')
+  end
+end)
 
 vim.g.ale_echo_msg_format = '[%linter%] %s [%severity%]'
 vim.g.ale_c_parse_compile_commands = 1
@@ -376,31 +412,6 @@ vim.g.ale_fixers = {
 vim.g.ale_linters = {['rust'] = {'rls', 'cargo'}}
 vim.g.ale_python_black_options = '--line-length 125'
 
--- configure the statusline after the plugin virtualenv has been installed
-local statusline
-statusline="%m"
-
--- warns for readonly, syntax erros, files not ending in \n and files that are
--- not utf8
-statusline=statusline .. "%#warningmsg#"
-statusline=statusline .. "%{v:lua.StatusLineWarnings()}"
-statusline=statusline .. "%*"
-
-statusline=statusline .. " %t "
-
-statusline=statusline .. "%{v:lua.StatusLineConfigs()}"
-statusline=statusline .. "%{v:lua.Space(virtualenv#statusline())}"
-statusline=statusline .. "%{v:lua.StatusLineVCS()}"
-
-statusline=statusline .. "%="
-statusline=statusline .. "%<"
-
-statusline=statusline .. "%{v:lua.StatuslineCurrentHighlight()}"
-statusline=statusline .. " [ascii %03.3b hex %02.2B]"
-statusline=statusline .. " [col %v line %l/%L %p%%]"
-vim.opt.statusline = statusline
-
-vim.api.nvim_command('colorscheme jellybeans')
 vim.g['deoplete#sources#clang#libclang_path']='/usr/lib/libclang.so'
 vim.g['deoplete#sources#clang#clang_header']='/usr/lib/clang/'
 
