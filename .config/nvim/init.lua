@@ -291,25 +291,16 @@ vim.g.loaded_python_provider = 0
 vim.g.python3_host_prog='/usr/bin/python3'
 
 require('packer').startup(function(use)
-  use 'wbthomason/packer.nvim'
+  use 'wbthomason/packer.nvim' -- package manager
+  use 'nanotech/jellybeans.vim' -- colorscheme
 
   -- use 'hackaugusto/vim-tags'
+  --
+  -- Fuzzy finders (srstevenson/vim-picker / cloudhead/neovim-fuzzy / junegunn/fzf.vim)
+  -- Drawbacks:
+  -- - *Every* file is listed during the search -> super slow
+  -- - Search patterns don't expand characters like `~` -> inconvinient
 
-  -- colorscheme
-  use 'nanotech/jellybeans.vim'
-
-  -- fuzzy finders
-  -- All of these plugins have some serious drawbacks:
-  -- - They have to get the list of *every* file in the current directory to do
-  --   the search. This means that fuzzy finding a large tree is ridicously
-  --   slow.
-  -- - They only work on the initial list piped to fzy/fzf , meaning one cannot
-  --   navigate with it, i.e. `~` is not expanded to home and `/` to the roo.
-  -- use 'srstevenson/vim-picker'
-  -- use 'cloudhead/neovim-fuzzy'
-  -- use 'junegunn/fzf.vim'
-
-  -- editing
   use 'tpope/vim-repeat'
   use 'editorconfig/editorconfig-vim'
   use 'pgdouyon/vim-evanesco'  -- search for selected text
@@ -321,10 +312,8 @@ require('packer').startup(function(use)
   -- text objects and operators
   use 'wellle/targets.vim'
   -- better (but slower) than surround for unaligned chars
-  -- call dein#add('machakann/vim-sandwich',
-  --   \ {'hook_post_source': 'runtime macros/sandwich/keymap/surround.vim'}
-  --   \ )
-  -- call dein#add('pgdouyon/vim-apparate')
+  -- use({'machakann/vim-sandwich', run = 'runtime macros/sandwich/keymap/surround.vim'})
+  -- use 'pgdouyon/vim-apparate'
   use 'tpope/vim-surround'
   use 'justinmk/vim-sneak'
   use 'easymotion/vim-easymotion'
