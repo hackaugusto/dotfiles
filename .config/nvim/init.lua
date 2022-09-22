@@ -473,19 +473,6 @@ vim.keymap.set('n', '<leader>d', ':ALEDetail<CR>', {noremap = true})
 vim.keymap.set('i', '<expr><Down>', 'pumvisible() ? "<C-n>" : "<Down>"', {noremap = true})
 vim.keymap.set('i', '<expr><Up>', 'pumvisible() ? "<C-p>" : "<Up>"', {noremap = true})
 
--- https://github.com/neovim/neovim/issues/2068
--- inoremap <m-a> <esc>a - same sequence as á
-vim.keymap.set('', '<m-b>', '<esc>b', {})
-vim.keymap.set('', '<m-h>', '<esc>h', {})
-vim.keymap.set('', '<m-j>', '<esc>j', {})
-vim.keymap.set('', '<m-k>', '<esc>k', {})
-vim.keymap.set('', '<m-l>', '<esc>l', {})
-vim.keymap.set('', '<m-n>', '<esc>n', {})
-vim.keymap.set('', '<m-p>', '<esc>p', {})
-vim.keymap.set('', '<m-w>', '<esc>w', {})
-vim.keymap.set('', '<m-A>', '<esc>A', {})
-vim.keymap.set('', '<m-I>', '<esc>I', {})
-
 vim.keymap.set('', '<C-k>', '<Plug>(neosnippet_expand_or_jump)', {})
 vim.keymap.set('', '<C-k>', '<Plug>(neosnippet_expand_or_jump)', {})
 vim.keymap.set('', '<C-k>', '<Plug>(neosnippet_expand_target)', {})
