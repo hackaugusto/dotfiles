@@ -368,10 +368,8 @@ require('packer').startup(function(use)
   use 'vim-scripts/python_match.vim'
   use 'vim-scripts/python.vim'                 -- block motions
   -- best indentation for python (installed throught vim-polyglot)
-  -- call dein#add('mitsuhiko/vim-python-combined')
+  -- use 'mitsuhiko/vim-python-combined'
 
-  -- Automatically set up your configuration after cloning packer.nvim
-  -- Put this at the end after all plugins
   if packer_bootstrap then
     require('packer').sync()
     vim.api.nvim_command('normal UpdateRemotePlugins()')
@@ -451,46 +449,46 @@ vim.g.ackprg = 'ag --vimgrep'
 vim.g.mapleader = ' '
 
 -- move just the content
-vim.api.nvim_set_keymap('', '<up>', '<c-y>k', {})
-vim.api.nvim_set_keymap('', '<down>', '<c-e>j', {})
+vim.keymap.set('', '<up>', '<c-y>k', {})
+vim.keymap.set('', '<down>', '<c-e>j', {})
 
 -- change buffers
-vim.api.nvim_set_keymap('', '<left>', ':bnext<cr>', {})
-vim.api.nvim_set_keymap('', '<right>', ':bprev<cr>', {})
+vim.keymap.set('', '<left>', ':bnext<cr>', {})
+vim.keymap.set('', '<right>', ':bprev<cr>', {})
 
-vim.api.nvim_set_keymap('n', '<leader>w', ':w<cr>', {noremap = true})
-vim.api.nvim_set_keymap('n', '<leader>q', ':q<cr>', {noremap = true})
-vim.api.nvim_set_keymap('n', '<leader>n', ':nohl<cr>', {noremap = true})
-vim.api.nvim_set_keymap('n', '<leader>p', ':set paste!<cr>', {noremap = true})
+vim.keymap.set('n', '<leader>w', ':w<cr>', {noremap = true})
+vim.keymap.set('n', '<leader>q', ':q<cr>', {noremap = true})
+vim.keymap.set('n', '<leader>n', ':nohl<cr>', {noremap = true})
+vim.keymap.set('n', '<leader>p', ':set paste!<cr>', {noremap = true})
 -- paste contents of the selection buffer
-vim.api.nvim_set_keymap('n', '<leader>P', '"*p', {noremap = true})
+vim.keymap.set('n', '<leader>P', '"*p', {noremap = true})
 
-vim.api.nvim_set_keymap('n', '<leader>d', ':ALEDetail<CR>', {noremap = true})
+vim.keymap.set('n', '<leader>d', ':ALEDetail<CR>', {noremap = true})
 
 -- nnoremap <leader>c :setlocal <C-R>=<SID>toggle('cursorline')<CR><CR>
 -- nnoremap <leader>u :setlocal <C-R>=<SID>toggle('cursorcolumn')<CR><CR>
 -- nnoremap <leader>l :setlocal <C-R>=<SID>toggle('list')<CR><CR>
 
 -- Up and Down act as ^n and ^p for the autocomplete menu
-vim.api.nvim_set_keymap('i', '<expr><Down>', 'pumvisible() ? "<C-n>" : "<Down>"', {noremap = true})
-vim.api.nvim_set_keymap('i', '<expr><Up>', 'pumvisible() ? "<C-p>" : "<Up>"', {noremap = true})
+vim.keymap.set('i', '<expr><Down>', 'pumvisible() ? "<C-n>" : "<Down>"', {noremap = true})
+vim.keymap.set('i', '<expr><Up>', 'pumvisible() ? "<C-p>" : "<Up>"', {noremap = true})
 
 -- https://github.com/neovim/neovim/issues/2068
 -- inoremap <m-a> <esc>a - same sequence as á
-vim.api.nvim_set_keymap('', '<m-b>', '<esc>b', {})
-vim.api.nvim_set_keymap('', '<m-h>', '<esc>h', {})
-vim.api.nvim_set_keymap('', '<m-j>', '<esc>j', {})
-vim.api.nvim_set_keymap('', '<m-k>', '<esc>k', {})
-vim.api.nvim_set_keymap('', '<m-l>', '<esc>l', {})
-vim.api.nvim_set_keymap('', '<m-n>', '<esc>n', {})
-vim.api.nvim_set_keymap('', '<m-p>', '<esc>p', {})
-vim.api.nvim_set_keymap('', '<m-w>', '<esc>w', {})
-vim.api.nvim_set_keymap('', '<m-A>', '<esc>A', {})
-vim.api.nvim_set_keymap('', '<m-I>', '<esc>I', {})
+vim.keymap.set('', '<m-b>', '<esc>b', {})
+vim.keymap.set('', '<m-h>', '<esc>h', {})
+vim.keymap.set('', '<m-j>', '<esc>j', {})
+vim.keymap.set('', '<m-k>', '<esc>k', {})
+vim.keymap.set('', '<m-l>', '<esc>l', {})
+vim.keymap.set('', '<m-n>', '<esc>n', {})
+vim.keymap.set('', '<m-p>', '<esc>p', {})
+vim.keymap.set('', '<m-w>', '<esc>w', {})
+vim.keymap.set('', '<m-A>', '<esc>A', {})
+vim.keymap.set('', '<m-I>', '<esc>I', {})
 
-vim.api.nvim_set_keymap('', '<C-k>', '<Plug>(neosnippet_expand_or_jump)', {})
-vim.api.nvim_set_keymap('', '<C-k>', '<Plug>(neosnippet_expand_or_jump)', {})
-vim.api.nvim_set_keymap('', '<C-k>', '<Plug>(neosnippet_expand_target)', {})
+vim.keymap.set('', '<C-k>', '<Plug>(neosnippet_expand_or_jump)', {})
+vim.keymap.set('', '<C-k>', '<Plug>(neosnippet_expand_or_jump)', {})
+vim.keymap.set('', '<C-k>', '<Plug>(neosnippet_expand_target)', {})
 
 -- filetype settings
 vim.api.nvim_create_autocmd('BufEnter', {command = 'set completeopt-=preview'})  -- Disable documentation preview
