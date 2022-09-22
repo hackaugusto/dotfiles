@@ -305,8 +305,6 @@ require('packer').startup(function(use)
   use 'editorconfig/editorconfig-vim'
   use 'pgdouyon/vim-evanesco'  -- search for selected text
   -- call dein#add('SirVer/ultisnips')
-  use 'Shougo/neosnippet.vim'
-  use 'Shougo/neosnippet-snippets'
   use 'junegunn/vim-easy-align'
 
   -- text objects and operators
@@ -472,10 +470,6 @@ vim.keymap.set('n', '<leader>d', ':ALEDetail<CR>', {noremap = true})
 -- Up and Down act as ^n and ^p for the autocomplete menu
 vim.keymap.set('i', '<expr><Down>', 'pumvisible() ? "<C-n>" : "<Down>"', {noremap = true})
 vim.keymap.set('i', '<expr><Up>', 'pumvisible() ? "<C-p>" : "<Up>"', {noremap = true})
-
-vim.keymap.set('', '<C-k>', '<Plug>(neosnippet_expand_or_jump)', {})
-vim.keymap.set('', '<C-k>', '<Plug>(neosnippet_expand_or_jump)', {})
-vim.keymap.set('', '<C-k>', '<Plug>(neosnippet_expand_target)', {})
 
 -- filetype settings
 vim.api.nvim_create_autocmd('BufEnter', {command = 'set completeopt-=preview'})  -- Disable documentation preview
