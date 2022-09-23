@@ -31,6 +31,15 @@ zle-line-finish() {
 zle -N zle-line-init
 zle -N zle-line-finish
 
+# must be done before compinit
+if (( $+commands[rustup] )); then
+    if [ ! -f "$HOME/.zsh/func/_rustup" ] || older_than_days "$HOME/.zsh/func/_rustup" 50; then
+        rustup completions zsh > "$HOME/.zsh/func/_rustup"
+        # force regenerating the cache
+        rm ~/.zcompdump
+    fi
+fi
+
 # compinit must be executed after the plugins are set
 if [ ! -e ~/.zcompdump ] || older_than_days ~/.zcompdump 1; then
   compinit     # this may or may not recreate the dump

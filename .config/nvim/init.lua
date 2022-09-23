@@ -304,7 +304,6 @@ require('packer').startup(function(use)
   use 'tpope/vim-repeat'
   use 'editorconfig/editorconfig-vim'
   use 'pgdouyon/vim-evanesco'  -- search for selected text
-  -- call dein#add('SirVer/ultisnips')
   use 'junegunn/vim-easy-align'
 
   -- text objects and operators
