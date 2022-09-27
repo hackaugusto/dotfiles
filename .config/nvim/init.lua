@@ -316,48 +316,25 @@ require('packer').startup(function(use)
     config = StatusLineSetup,
   }
 
-  -- use 'hackaugusto/vim-tags'
-  --
-  -- Fuzzy finders (srstevenson/vim-picker / cloudhead/neovim-fuzzy / junegunn/fzf.vim)
-  -- Drawbacks:
-  -- - *Every* file is listed during the search -> super slow
-  -- - Search patterns don't expand characters like `~` -> inconvinient
-
   use 'tpope/vim-repeat'
   use 'editorconfig/editorconfig-vim'
   use 'pgdouyon/vim-evanesco'  -- search for selected text
   use 'junegunn/vim-easy-align'
 
-  -- text objects and operators
   use 'wellle/targets.vim'
-  -- better (but slower) than surround for unaligned chars
-  -- use({'machakann/vim-sandwich', run = 'runtime macros/sandwich/keymap/surround.vim'})
-  -- use 'pgdouyon/vim-apparate'
   use 'tpope/vim-surround'
   use 'justinmk/vim-sneak'
   use 'easymotion/vim-easymotion'
 
-  -- language server
-  -- gave up on coc.nvim, hard to configure and baddly documented
-   --call dein#add('neovim/nvim-lsp')
-
-  -- completion
   use 'ctrlpvim/ctrlp.vim'
   use 'mileszs/ack.vim'
   use 'Shougo/deoplete.nvim'
   use 'deoplete-plugins/deoplete-jedi'
   use 'natebosch/vim-lsc'
   use 'natebosch/vim-lsc-dart'
-  -- Valloric/YouCompleteMe installed through AUR
-  -- These deoplete engines are not maintained and do not support go to
-  -- definition, using YCM instead.
-  -- Shougo/deoplete-clangx
-  -- deoplete-plugins/deoplete-clang
 
-  -- source control
   use 'junegunn/gv.vim'
 
-  -- progamming languages
   use 'sheerun/vim-polyglot'
   use 'tpope/vim-commentary'
   use 'dense-analysis/ale'
@@ -372,19 +349,13 @@ require('packer').startup(function(use)
       'snippets'
     }
   }
-  -- use {'nvim-treesitter/nvim-treesitter', {
-  --   'hook_post_source': 'call TreeSitterUpdateParsers()',
-  --   'hook_post_update': 'exe TSUpdate'}}
 
   use 'rust-lang/rust.vim'
   use 'eagletmt/neco-ghc'
 
-  -- python
   use 'davidhalter/jedi-vim'
   use 'vim-scripts/python_match.vim'
-  use 'vim-scripts/python.vim'                 -- block motions
-  -- best indentation for python (installed throught vim-polyglot)
-  -- use 'mitsuhiko/vim-python-combined'
+  use 'vim-scripts/python.vim' -- block motions
 
   if packer_bootstrap then
     require('packer').sync()
