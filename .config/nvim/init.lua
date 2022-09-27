@@ -362,6 +362,9 @@ vim.g.loaded_python_provider = 0
 vim.g.python3_host_prog='/usr/bin/python3'
 
 require('packer').startup(function(use)
+  -- no longer using polyglot, manually extract necessary plugins
+  -- use 'sheerun/vim-polyglot'
+
   use 'wbthomason/packer.nvim'
   use 'nanotech/jellybeans.vim'
 
@@ -414,13 +417,8 @@ require('packer').startup(function(use)
 	}
   }
 
-  use 'sheerun/vim-polyglot'
-  use 'editorconfig/editorconfig-vim'
-  use 'tpope/vim-commentary'
   use 'dense-analysis/ale'
   use 'stsewd/isort.nvim'
-  use 'Shougo/echodoc.vim'
-  use 'bhurlow/vim-parinfer'
   use {
     'tpope/vim-endwise',
     ft = {
@@ -429,7 +427,6 @@ require('packer').startup(function(use)
   }
 
   use 'rust-lang/rust.vim'
-  use 'eagletmt/neco-ghc'
 
   use 'davidhalter/jedi-vim'
   use 'vim-scripts/python_match.vim'
