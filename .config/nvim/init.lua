@@ -257,7 +257,6 @@ function StatusLineSetup()
   -- Only configure statusline after the plugins have been installed, otherwise
   -- lots of errors are shown
 
-  -- configure the statusline after the plugin virtualenv has been installed
   local statusline
   statusline="%m"
 
@@ -299,8 +298,23 @@ vim.g.loaded_python_provider = 0
 vim.g.python3_host_prog='/usr/bin/python3'
 
 require('packer').startup(function(use)
-  use 'wbthomason/packer.nvim' -- package manager
-  use 'nanotech/jellybeans.vim' -- colorscheme
+  use 'wbthomason/packer.nvim'
+  use 'nanotech/jellybeans.vim'
+
+  use 'mhinz/vim-signify'
+  use 'jmcantrell/vim-virtualenv'
+  use 'tpope/vim-fugitive'
+  use {
+    -- this is a hack that allows the StatusLineSetup hook to define all of its
+    -- dependencies
+    'hackaugusto/dotfiles',
+    requires = {
+      'mhinz/vim-signify',
+      'jmcantrell/vim-virtualenv',
+      'tpope/vim-fugitive',
+    },
+    config = StatusLineSetup,
+  }
 
   -- use 'hackaugusto/vim-tags'
   --
@@ -341,8 +355,6 @@ require('packer').startup(function(use)
   -- deoplete-plugins/deoplete-clang
 
   -- source control
-  use 'mhinz/vim-signify'
-  use 'tpope/vim-fugitive'
   use 'junegunn/gv.vim'
 
   -- progamming languages
@@ -369,7 +381,6 @@ require('packer').startup(function(use)
 
   -- python
   use 'davidhalter/jedi-vim'
-  use 'jmcantrell/vim-virtualenv'
   use 'vim-scripts/python_match.vim'
   use 'vim-scripts/python.vim'                 -- block motions
   -- best indentation for python (installed throught vim-polyglot)
@@ -381,7 +392,6 @@ require('packer').startup(function(use)
   else
     -- these settings required the above plugins, don't do them on the first
     -- run because lots of errors are raised
-    StatusLineSetup()
     vim.api.nvim_command('colorscheme jellybeans')
   end
 end)
