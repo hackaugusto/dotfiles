@@ -327,8 +327,21 @@ function CompleteSetup()
   local capabilities = vim.lsp.protocol.make_client_capabilities()
   capabilities = cmp_nvim_lsp.update_capabilities(capabilities)
 
-  for _, lsp in ipairs({'clangd','rust_analyzer'}) do
-    lspconfig[lsp].setup {capabilities = capabilities}
+  local on_attach = function(client, bufnr)
+    local bufopts = { noremap=true, silent=true, buffer=bufnr }
+    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
+    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
+    vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
+    vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
+    vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
+    vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, bufopts)
+  end
+
+  for _, lsp in ipairs({'rust_analyzer'}) do
+    lspconfig[lsp].setup{
+      capabilities = capabilities,
+      on_attach = on_attach,
+    }
   end
 end
 
