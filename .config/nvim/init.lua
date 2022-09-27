@@ -235,7 +235,7 @@ function TreeSitterUpdateParsers()
     end
   end
   if #parsers_to_install > 0 then
-    exe "TSInstall " . join(parsers_to_install, " ")
+    vim.cmd("TSInstall " .. join(parsers_to_install, " "))
   end
 
   local parsers_to_remove = {}
@@ -281,6 +281,57 @@ function StatusLineSetup()
   vim.opt.statusline = statusline
 end
 
+function CompleteSetup()
+  local cmp = require('cmp')
+  local luasnip = require('luasnip')
+  local cmp_nvim_lsp = require('cmp_nvim_lsp')
+  local lspconfig = require('lspconfig')
+
+  cmp.setup({
+    snippet = {
+      expand = function(args)
+       luasnip.lsp_expand(args.body)
+      end,
+    },
+    mapping = cmp.mapping.preset.insert({
+      ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+      ['<C-f>'] = cmp.mapping.scroll_docs(4),
+      ['<C-Space>'] = cmp.mapping.complete(),
+      ['<C-e>'] = cmp.mapping.abort(),
+      ['<CR>'] = cmp.mapping.confirm({ select = true }),
+    }),
+    sources = cmp.config.sources({
+      { name = 'nvim_lsp' },
+      { name = 'luasnip' },
+    }, {
+      { name = 'buffer' },
+    })
+  })
+
+  cmp.setup.cmdline('/', {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = {
+      { name = 'buffer' }
+    }
+  })
+
+  cmp.setup.cmdline(':', {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = cmp.config.sources({
+      { name = 'path' }
+    }, {
+      { name = 'cmdline' }
+    })
+  })
+
+  local capabilities = vim.lsp.protocol.make_client_capabilities()
+  capabilities = cmp_nvim_lsp.update_capabilities(capabilities)
+
+  for _, lsp in ipairs({'clangd','rust_analyzer'}) do
+    lspconfig[lsp].setup {capabilities = capabilities}
+  end
+end
+
 local ensure_packer = function()
   local install_path = vim.fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
   if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
@@ -317,25 +368,41 @@ require('packer').startup(function(use)
   }
 
   use 'tpope/vim-repeat'
-  use 'editorconfig/editorconfig-vim'
   use 'pgdouyon/vim-evanesco'  -- search for selected text
   use 'junegunn/vim-easy-align'
 
   use 'wellle/targets.vim'
   use 'tpope/vim-surround'
   use 'justinmk/vim-sneak'
-  use 'easymotion/vim-easymotion'
 
-  use 'ctrlpvim/ctrlp.vim'
   use 'mileszs/ack.vim'
   use 'Shougo/deoplete.nvim'
   use 'deoplete-plugins/deoplete-jedi'
-  use 'natebosch/vim-lsc'
-  use 'natebosch/vim-lsc-dart'
 
-  use 'junegunn/gv.vim'
+  use 'neovim/nvim-lspconfig'
+  use {
+    'hrsh7th/nvim-cmp',
+    config = CompleteSetup,
+  }
+  use 'saadparwaiz1/cmp_luasnip'
+  use {
+    'saecki/crates.nvim',
+    event = { "BufRead Cargo.toml" },
+    requires = { { 'nvim-lua/plenary.nvim' } },
+    config = function() require('crates').setup() end,
+  }
+  use 'L3MON4D3/LuaSnip' 
+  use {
+	'hrsh7th/cmp-nvim-lsp',
+    requires = {
+      'L3MON4D3/LuaSnip',
+      'saadparwaiz1/cmp_luasnip',
+      'hrsh7th/nvim-cmp',
+	}
+  }
 
   use 'sheerun/vim-polyglot'
+  use 'editorconfig/editorconfig-vim'
   use 'tpope/vim-commentary'
   use 'dense-analysis/ale'
   use 'stsewd/isort.nvim'
@@ -344,9 +411,7 @@ require('packer').startup(function(use)
   use {
     'tpope/vim-endwise',
     ft = {
-      'lua', 'elixir', 'ruby', 'crystal', 'sh', 'zsh', 'vb', 'vbnet', 'aspvbs',
-      'vim', 'c', 'cpp', 'xdefaults', 'haskell', 'objc', 'matlab', 'htmldjango',
-      'snippets'
+      'lua', 'sh', 'zsh', 'vim', 'c', 'cpp', 'xdefaults', 'haskell', 'snippets'
     }
   }
 
@@ -378,15 +443,12 @@ vim.g.ale_fixers = {
    ['cpp']= {'clang-format', 'clangtidy', 'remove_trailing_lines', 'trim_whitespace', 'uncrustify'},
    ['dart']= {'dartfmt', 'trim_whitespace', 'remove_trailing_lines'},
 }
--- \   'rust': ['remove_trailing_lines'],
--- \   'rust': ['remove_trailing_lines', 'rustfmt', 'trim_whitespace'],
--- disabling rustc since that seems to only work with binaries and not
--- libraries.
 vim.g.ale_linters = {['rust'] = {'rls', 'cargo'}}
 vim.g.ale_python_black_options = '--line-length 125'
 
 vim.g['deoplete#sources#clang#libclang_path']='/usr/lib/libclang.so'
 vim.g['deoplete#sources#clang#clang_header']='/usr/lib/clang/'
+-- vim.fn['deoplete#enable']()
 
 vim.g.ycm_global_ycm_extra_conf = '/usr/share/vim/vimfiles/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
 vim.g.ycm_server_python_interpreter = '/usr/bin/python2'
@@ -409,25 +471,9 @@ vim.g['jedi#smart_auto_mappings'] = 0
 
 vim.g.racer_experimental_completer = 1
 
--- vim.g.lsc_auto_map = v:true
--- vim.g.lsc_enable_autocomplete = v:true
--- vim.g.lsc_server_commands = {'python': 'pyls'}
-
 vim.g.signify_sign_add = '+'
 vim.g.signify_sign_delete_first_line = '-'
 vim.g.signify_sign_change = '~'
-
--- call dein#add('Shougo/denite.nvim')
--- call denite#custom#alias('source', 'file_rec/git', 'file_rec')
--- call denite#custom#var('file_rec', 'command', ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
--- call denite#custom#var('file_rec/git', 'command', ['git', 'ls-files', '--exclude-standard', '-co'])
--- nnoremap <leader>f :<C-u>Denite `finddir('.git', ';') != '' ? 'file_rec/git' : 'file_rec'`<CR>
-
--- call dein#add('wincent/command-t', {'build': 'cd ruby/command-t; make clean; ruby extconf.rb && make'})
--- nnoremap <leader>f :CtrlP<cr>
--- let g:CommandTFileScanner = 'git'
-vim.g.ctrlp_user_command = {'.git/', 'cd %s && git ls-files --exclude-standard -co'}
-vim.g.ctrlp_map = ''
 
 vim.g.ackprg = 'ag --vimgrep'
 
@@ -451,10 +497,6 @@ vim.keymap.set('n', '<leader>P', '"*p', {noremap = true})
 
 vim.keymap.set('n', '<leader>d', ':ALEDetail<CR>', {noremap = true})
 
--- nnoremap <leader>c :setlocal <C-R>=<SID>toggle('cursorline')<CR><CR>
--- nnoremap <leader>u :setlocal <C-R>=<SID>toggle('cursorcolumn')<CR><CR>
--- nnoremap <leader>l :setlocal <C-R>=<SID>toggle('list')<CR><CR>
-
 -- Up and Down act as ^n and ^p for the autocomplete menu
 vim.keymap.set('i', '<expr><Down>', 'pumvisible() ? "<C-n>" : "<Down>"', {noremap = true})
 vim.keymap.set('i', '<expr><Up>', 'pumvisible() ? "<C-p>" : "<Up>"', {noremap = true})
@@ -468,6 +510,15 @@ function RemoveOldSwap(filename)
   end
 end
 vim.api.nvim_create_autocmd('SwapExists', {command = 'call v:lua.RemoveOldSwap(expand("<afile>:p"))'})
+
+vim.api.nvim_create_autocmd("BufRead", {
+  group = vim.api.nvim_create_augroup("CmpSourceCargo", { clear = true }),
+  pattern = "Cargo.toml",
+  callback = function()
+    local cmp = require('cmp')
+    cmp.setup.buffer({ sources = { { name = "crates" } } })
+  end,
+})
 
 -- augroup Lisp
 --   autocmd!
