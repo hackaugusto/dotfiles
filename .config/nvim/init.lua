@@ -26,6 +26,8 @@ vim.opt.updatetime=300
 vim.g.netrw_banner=0
 vim.g.netrw_liststyle=3
 
+lsp_servers_enabled = {'rust_analyzer'}
+
 function Filter(values, filter_fn)
   local result = {}
   for key, value in ipairs(values) do
@@ -298,7 +300,7 @@ function StatusLineSetup()
   vim.opt.statusline = statusline
 end
 
-function CompleteSetup()
+function CmpSetup()
   local cmp = require('cmp')
   local luasnip = require('luasnip')
   local cmp_nvim_lsp = require('cmp_nvim_lsp')
@@ -351,12 +353,12 @@ function CompleteSetup()
     vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
     vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
     vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
-    vim.keymap.set('n', 'D', vim.lsp.buf.type_definition, bufopts)
-    vim.keymap.set('n', 'r', vim.lsp.buf.references, bufopts)
-    vim.keymap.set('n', 'a', vim.lsp.buf.code_action, bufopts)
+    vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, bufopts)
+
+    vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
   end
 
-  for _, lsp in ipairs({'rust_analyzer'}) do
+  for _, lsp in ipairs(lsp_servers_enabled) do
     lspconfig[lsp].setup{
       capabilities = capabilities,
       on_attach = on_attach,
@@ -450,14 +452,14 @@ require('packer').startup(function(use)
   }
 
   use {
-	'hrsh7th/cmp-nvim-lsp',
+	  'hrsh7th/cmp-nvim-lsp',
     requires = {
       'L3MON4D3/LuaSnip',
       'saadparwaiz1/cmp_luasnip',
       'hrsh7th/nvim-cmp',
       'neovim/nvim-lspconfig',
-	},
-    config = CompleteSetup,
+	  },
+    config = CmpSetup,
   }
 
   use 'dense-analysis/ale'
