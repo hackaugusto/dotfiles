@@ -445,21 +445,19 @@ require('packer').startup(function(use)
   use 'deoplete-plugins/deoplete-jedi'
 
   use {
+    'hrsh7th/nvim-cmp',
+    requires = {
+      'saadparwaiz1/cmp_luasnip',
+      'L3MON4D3/LuaSnip' ,
+      'hrsh7th/cmp-nvim-lsp',
+    },
+    config = CmpSetup,
+  }
+  use {
     'saecki/crates.nvim',
     event = { "BufRead Cargo.toml" },
     requires = { { 'nvim-lua/plenary.nvim' } },
     config = function() require('crates').setup() end,
-  }
-
-  use {
-	  'hrsh7th/cmp-nvim-lsp',
-    requires = {
-      'L3MON4D3/LuaSnip',
-      'saadparwaiz1/cmp_luasnip',
-      'hrsh7th/nvim-cmp',
-      'neovim/nvim-lspconfig',
-	  },
-    config = CmpSetup,
   }
 
   use 'dense-analysis/ale'
