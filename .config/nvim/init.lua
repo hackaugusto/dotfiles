@@ -499,8 +499,6 @@ vim.g.ale_fixers = {
 vim.g.ale_linters = {['rust'] = {'rls', 'cargo'}}
 vim.g.ale_python_black_options = '--line-length 125'
 
-vim.g['deoplete#sources#clang#libclang_path']='/usr/lib/libclang.so'
-vim.g['deoplete#sources#clang#clang_header']='/usr/lib/clang/'
 -- vim.fn['deoplete#enable']()
 
 vim.g.ycm_global_ycm_extra_conf = '/usr/share/vim/vimfiles/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
