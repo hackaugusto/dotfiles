@@ -522,8 +522,6 @@ vim.g['jedi#show_call_signatures'] = 1
 vim.g['jedi#show_call_signatures_delay'] = 100
 vim.g['jedi#smart_auto_mappings'] = 0
 
-vim.g.racer_experimental_completer = 1
-
 vim.g.signify_sign_add = '+'
 vim.g.signify_sign_delete_first_line = '-'
 vim.g.signify_sign_change = '~'
