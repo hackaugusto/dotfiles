@@ -223,30 +223,43 @@ function PlainTextFold()
   return vim.v.folddashes .. sub
 end
 
-local target_parsers = {'bash', 'c', 'cpp', 'python', 'rust', 'regex'}
 function TreeSitterUpdateParsers()
   local info = require('nvim-treesitter.info')
   local installed_parsers = info.installed_parsers()
-
-  local parsers_to_install = {}
-  for parser in vim.g.target_parsers do
-    if vim.fn.index(installed_parsers, parser) == -1 then
-      parsers_to_install.insert(parser)
-    end
-  end
-  if #parsers_to_install > 0 then
-    vim.cmd("TSInstall " .. join(parsers_to_install, " "))
-  end
+  local target_parsers = {'bash', 'python', 'rust', 'regex', 'json', 'lua', 'cpp'}
 
   local parsers_to_remove = {}
-  for parser in installed_parsers do
-    if index(vim.g.target_parsers, parser) == -1 then
-      parsers_to_remove.insert(parser)
+  for _, parser in ipairs(installed_parsers) do
+    if vim.fn.index(target_parsers, parser) == -1 then
+      table.insert(parsers_to_remove, parser)
     end
   end
   if #parsers_to_remove > 0 then
-    vim.fn.TSUninstall(parsers_to_remove)
+    vim.cmd(':TSUninstall ' .. table.concat(parsers_to_remove, ' '))
   end
+
+  local configs = require('nvim-treesitter.configs')
+
+  configs.setup {
+    ensure_installed = target_parsers,
+    sync_install = false,
+    auto_install = true,
+    ignore_install = {},
+    highlight = {
+      enable = true,
+      disable = {},
+      additional_vim_regex_highlighting = false,
+    },
+    incremental_selection = {
+      enable = true,
+      keymaps = {
+        init_selection = "gnn",
+        node_incremental = "grn",
+        scope_incremental = "grc",
+        node_decremental = "grm",
+      },
+    },
+  }
 end
 
 function StatusLineSetup()
@@ -362,11 +375,13 @@ vim.g.loaded_python_provider = 0
 vim.g.python3_host_prog='/usr/bin/python3'
 
 require('packer').startup(function(use)
-  -- no longer using polyglot, manually extract necessary plugins
-  -- use 'sheerun/vim-polyglot'
-
   use 'wbthomason/packer.nvim'
   use 'nanotech/jellybeans.vim'
+  use {
+    'nvim-treesitter/nvim-treesitter',
+    config = TreeSitterUpdateParsers,
+    run = ':TSUpdate'
+  }
 
   use 'mhinz/vim-signify'
   use 'jmcantrell/vim-virtualenv'
