@@ -394,7 +394,7 @@ vim.g.python3_host_prog='/usr/bin/python3'
 
 require('packer').startup(function(use)
   use 'wbthomason/packer.nvim'
-  use 'nanotech/jellybeans.vim'
+  use 'folke/tokyonight.nvim'
   use {'linty-org/readline.nvim', config = CommandLineSetup }
 
   use {
@@ -476,7 +476,7 @@ require('packer').startup(function(use)
   else
     -- these settings required the above plugins, don't do them on the first
     -- run because lots of errors are raised
-    vim.api.nvim_command('colorscheme jellybeans')
+    vim.api.nvim_command('colorscheme tokyonight-moon')
   end
 end)
 
