@@ -495,9 +495,6 @@ vim.keymap.set('', '<up>', '<c-y>k', {})
 vim.keymap.set('', '<down>', '<c-e>j', {})
 
 -- change buffers
-vim.keymap.set('', '<left>', ':bnext<cr>', {})
-vim.keymap.set('', '<right>', ':bprev<cr>', {})
-
 vim.keymap.set('n', '<leader>w', ':w<cr>', {noremap = true})
 vim.keymap.set('n', '<leader>q', ':q<cr>', {noremap = true})
 vim.keymap.set('n', '<leader>n', ':nohl<cr>', {noremap = true})
