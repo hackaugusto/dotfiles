@@ -383,12 +383,12 @@ require('packer').startup(function(use)
     run = ':TSUpdate'
   }
 
-  use 'mhinz/vim-signify'
-  use 'jmcantrell/vim-virtualenv'
-  use 'tpope/vim-fugitive'
   use {
     -- this is a hack that allows the StatusLineSetup hook to define all of its
     -- dependencies
+    --
+    -- note that these plugins are required for the statusline, but are also
+    -- useful on their own right
     'hackaugusto/dotfiles',
     requires = {
       'mhinz/vim-signify',
@@ -410,26 +410,22 @@ require('packer').startup(function(use)
   use 'Shougo/deoplete.nvim'
   use 'deoplete-plugins/deoplete-jedi'
 
-  use 'neovim/nvim-lspconfig'
-  use {
-    'hrsh7th/nvim-cmp',
-    config = CompleteSetup,
-  }
-  use 'saadparwaiz1/cmp_luasnip'
   use {
     'saecki/crates.nvim',
     event = { "BufRead Cargo.toml" },
     requires = { { 'nvim-lua/plenary.nvim' } },
     config = function() require('crates').setup() end,
   }
-  use 'L3MON4D3/LuaSnip' 
+
   use {
 	'hrsh7th/cmp-nvim-lsp',
     requires = {
       'L3MON4D3/LuaSnip',
       'saadparwaiz1/cmp_luasnip',
       'hrsh7th/nvim-cmp',
-	}
+      'neovim/nvim-lspconfig',
+	},
+    config = CompleteSetup,
   }
 
   use 'dense-analysis/ale'
