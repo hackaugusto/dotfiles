@@ -359,6 +359,23 @@ function CompleteSetup()
   end
 end
 
+-- can not use vim's keybindings on command line, setup readline instead
+function CommandLineSetup()
+  local readline = require 'readline'
+  vim.keymap.set('c', '<C-a>', readline.beginning_of_line)
+  vim.keymap.set('c', '<C-e>', readline.end_of_line)
+  vim.keymap.set('c', '<C-k>', readline.kill_line)
+  vim.keymap.set('c', '<C-u>', readline.backward_kill_line)
+  vim.keymap.set('c', '<C-w>', readline.unix_word_rubout)
+  vim.keymap.set('c', '<C-d>', '<Delete>')
+  vim.keymap.set('c', '<C-h>', '<BS>')
+  -- not working
+  -- vim.keymap.set('c', '<C-Right>', readline.forward_word)
+  -- vim.keymap.set('c', '<C-Left>', readline.backward_word)
+  -- vim.keymap.set('c', '<C-kRight>', readline.forward_word)
+  -- vim.keymap.set('c', '<C-kLeft>', readline.backward_word)
+end
+
 local ensure_packer = function()
   local install_path = vim.fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
   if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
@@ -378,6 +395,8 @@ vim.g.python3_host_prog='/usr/bin/python3'
 require('packer').startup(function(use)
   use 'wbthomason/packer.nvim'
   use 'nanotech/jellybeans.vim'
+  use {'linty-org/readline.nvim', config = CommandLineSetup }
+
   use {
     'nvim-treesitter/nvim-treesitter',
     config = TreeSitterUpdateParsers,
