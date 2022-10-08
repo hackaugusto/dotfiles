@@ -228,16 +228,6 @@ function TreeSitterUpdateParsers()
   local installed_parsers = info.installed_parsers()
   local target_parsers = {'bash', 'python', 'rust', 'regex', 'json', 'lua', 'cpp'}
 
-  local parsers_to_remove = {}
-  for _, parser in ipairs(installed_parsers) do
-    if vim.fn.index(target_parsers, parser) == -1 then
-      table.insert(parsers_to_remove, parser)
-    end
-  end
-  if #parsers_to_remove > 0 then
-    vim.cmd(':TSUninstall ' .. table.concat(parsers_to_remove, ' '))
-  end
-
   local configs = require('nvim-treesitter.configs')
 
   configs.setup {
@@ -260,6 +250,17 @@ function TreeSitterUpdateParsers()
       },
     },
   }
+
+  -- must run after setup because it calls :TSUninstall
+  local parsers_to_remove = {}
+  for _, parser in ipairs(installed_parsers) do
+    if vim.fn.index(target_parsers, parser) == -1 then
+      table.insert(parsers_to_remove, parser)
+    end
+  end
+  if #parsers_to_remove > 0 then
+    vim.cmd(':TSUninstall ' .. table.concat(parsers_to_remove, ' '))
+  end
 end
 
 function StatusLineSetup()
