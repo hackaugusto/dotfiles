@@ -405,6 +405,13 @@ require('packer').startup(function(use)
   use 'wellle/targets.vim'
   use 'tpope/vim-surround'
   use 'justinmk/vim-sneak'
+  use {
+    'ggandor/leap.nvim',
+    config = function()
+      require('leap').set_default_keymaps()
+      vim.api.nvim_set_hl(0, 'LeapBackdrop', { fg = '#707070' })
+    end,
+  }
 
   use 'mileszs/ack.vim'
   use 'Shougo/deoplete.nvim'
