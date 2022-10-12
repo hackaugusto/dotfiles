@@ -3,6 +3,6 @@
 # Install brew.sh
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-brew install jq tmux semgrep pinentry-mac gpg tig iterm2 showkey alacritty
+brew install jq tmux semgrep pinentry-mac gpg tig iterm2 showkey
 
-brew install --cask --no-quarantine middleclick
+brew install --cask --no-quarantine middleclick alacritty
