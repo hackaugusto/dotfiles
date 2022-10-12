@@ -1,42 +1,4 @@
-### Installation
 
-To use my configuration with a new box just run:
+# Font
 
-zsh <(curl https://raw.githubusercontent.com/hackaugusto/dotfiles/master/install.sh)
-
-Most of the script works with bash, except for the array manipulation used for installing Arch's packages.
-
-
-### About it
-
-#### Terminal
-
-[`alacritty`](https://github.com/jwilm/alacritty) + [`tmux`](https://github.com/tmux/tmux) + [`zsh`](http://zsh.sourceforge.net)
-
-- `alacritty` is noticiably faster emulator, but it does not work well with wayland
-- `tmux` is a comfortable multiplexer, better than `screen` (it just doesn't support serial ports)
-- `zsh` autocompletion is unmatched, better the `bash`, `fish`, `sh`, `ksh`
-
-#### Editor
-
-[`neovim`](https://neovim.io/) + [`dein`](https://github.com/Shougo/dein.vim/) + multiple plugins
-
-- `neovim` was better then vim7 because of workers. Mostly compatible, only
-  thing I miss is `alt + <letter>` for auto-escaping.
-- `dein` is the most straighforward plugin manager, `Vundle` is slow,
-  `NeoBundle` was the older version from the same author of `dein`, `pathogen`
-  (never tried vim-plug).
-
-Plugins:
-
-- tpope/vim-surround for editting awesomenes
-- Shougo/deoplete.nvim for lightweight completion engine (still better then language servers)
-- zchee/deoplete-jedi deoplete for python
-- davidhalter/jedi-vim for goto sweetness
-- vim-scripts/python.vim for good identation support
-- tpope/vim-fugitive for gitmagic
-- sheerun/vim-polyglot all-in package to have a good enviroment to program
-- tpope/vim-repeat to have a better .
-- Shougo/neosnippet.vim because it works well with neoplete
-- junegunn/vim-easy-align to write aligned markup
-- Valloric/YouCompleteMe for C/C++ coding 
+https://www.codingfont.com/
