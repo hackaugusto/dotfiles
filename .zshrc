@@ -93,6 +93,7 @@ update
 
 if [[ "$OSTYPE" = darwin* ]]; then
     export PATH=$(deduplicate_path '/sbin' '/bin' '/usr/bin')
+    export TERMINFO_DIRS=$TERMINFO_DIRS:$HOME/.local/share/terminfo
 fi
 
 load ~/.opam/opam-init/init.zsh
