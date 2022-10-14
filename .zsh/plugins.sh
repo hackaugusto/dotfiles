@@ -1,3 +1,9 @@
+# This variable must be exported before sourcing the file below
+# configuration for the plugins below
+export NVM_COMPLETION=true
+# cant lazy load otherwise neovim wont find the binary
+# export NVM_LAZY_LOAD=true
+
 source ~/.zgen/zgen.zsh
 
 # TODO: why we need to call it twice?
