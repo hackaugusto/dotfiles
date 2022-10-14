@@ -23,7 +23,7 @@
   # available, otherwise `xterm-256color` is used.
   #TERM: alacritty
 
-window:
+#window:
   # Window dimensions (changes require restart)
   #
   # Number of lines/columns (not pixels) in the terminal. The number of columns
@@ -61,7 +61,7 @@ window:
   # Values for `decorations` (macOS only):
   #     - transparent: Title bar, transparent background and title bar buttons
   #     - buttonless: Title bar, transparent background and no title bar buttons
-  decorations: none
+  #decorations: none
 
   # Background opacity
   #
@@ -78,7 +78,7 @@ window:
   #
   # Values for `startup_mode` (macOS only):
   #   - SimpleFullscreen
-  startup_mode: Fullscreen
+  # startup_mode: Fullscreen
 
   # Window title
   #title: Alacritty
@@ -108,7 +108,7 @@ window:
   #multiplier: 3
 
 # Font configuration
-#font:
+font:
   # Normal (roman) font face
   #normal:
     # Font family
@@ -156,7 +156,7 @@ window:
     #style: Bold Italic
 
   # Point size
-  #size: 11.0
+  size: 15.0
 
   # Offset is the extra space around each character. `offset.y` can be thought
   # of as modifying the line spacing, and `offset.x` as modifying the letter
@@ -437,8 +437,8 @@ selection:
 #   - (macOS) /bin/bash --login
 #   - (Linux/BSD) user login shell
 #   - (Windows) powershell
-shell:
-  program: /opt/homebrew/bin/tmux
+#shell:
+#program: /opt/homebrew/bin/tmux
 #  args:
 #    - --login
 
