@@ -13,12 +13,15 @@ vim.opt.tabpagemax=20
 vim.opt.tags="./tags,tags;"
 vim.opt.showcmd=true
 vim.opt.hidden=true
-vim.opt.foldenable=false
 vim.opt.termguicolors=true
 vim.opt.laststatus=2
 
+vim.opt.foldenable=false
 vim.opt.foldtext=PlainTextFold
 vim.opt.foldmethod="syntax"
+
+vim.opt.signcolumn="yes"
+vim.opt.updatetime=300
 
 vim.g.netrw_banner=0
 vim.g.netrw_liststyle=3
@@ -348,7 +351,9 @@ function CompleteSetup()
     vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
     vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
     vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
-    vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, bufopts)
+    vim.keymap.set('n', 'D', vim.lsp.buf.type_definition, bufopts)
+    vim.keymap.set('n', 'r', vim.lsp.buf.references, bufopts)
+    vim.keymap.set('n', 'a', vim.lsp.buf.code_action, bufopts)
   end
 
   for _, lsp in ipairs({'rust_analyzer'}) do
@@ -565,60 +570,22 @@ vim.api.nvim_create_autocmd("BufRead", {
   end,
 })
 
--- augroup Lisp
---   autocmd!
---   autocmd FileType lisp set showmatch
--- augroup END
--- 
--- augroup Vim
---   autocmd!
---   autocmd FileType vim set shiftwidth=2 softtabstop=2 tabstop=2 expandtab
--- augroup END
--- 
--- augroup Python
---   autocmd!
---   autocmd FileType python set nowrap
--- augroup END
--- 
--- augroup TypeScript
---   autocmd!
---   autocmd FileType typescript nnoremap gd :ALEGoToDefinition -tab<CR>
--- augroup END
--- 
--- augroup Solidity
---   autocmd!
--- augroup END
--- 
--- augroup Rust
---   autocmd!
---   autocmd FileType rust nnoremap gd :ALEGoToDefinition -tab<CR>
--- augroup END
--- 
--- augroup Haskell
---   autocmd!
---   autocmd FileType haskell set formatprg=stylish-haskell
---   autocmd FileType haskell let g:necoghc_use_stack=1
--- augroup END
--- 
--- augroup XML
---   autocmd!
---   autocmd FileType xml let g:xml_syntax_folding=1
---   autocmd FileType xml setlocal foldmethod=syntax
--- augroup END
--- 
--- augroup Html
---   autocmd!
---   autocmd FileType xhtml,html set backupcopy=yes  " https://parceljs.org/hmr.html#safe-write
--- augroup END
--- 
--- augroup JAVASCRIPT
---   autocmd!
---   autocmd FileType javascript set backupcopy=yes  " https://parceljs.org/hmr.html#safe-write
--- augroup END
--- 
--- augroup C-Files
---   autocmd!
---   autocmd FileType cpp,c,h set cindent
---   autocmd FileType cpp,c,h set cscopetag cscopetagorder=0
---   autocmd FileType cpp,c,h nnoremap gd :ALEGoToDefinition<CR>
--- augroup END
+
+vim.cmd [[
+" autocmd CursorHold * lua vim.diagnostic.open_float(nil, { focusable = false })
+
+augroup Lisp
+  autocmd!
+  autocmd FileType lisp set showmatch
+augroup END
+
+augroup Vim
+  autocmd!
+  autocmd FileType vim set shiftwidth=2 softtabstop=2 tabstop=2 expandtab
+augroup END
+
+augroup Python
+  autocmd!
+  autocmd FileType python set nowrap
+augroup END
+]]
