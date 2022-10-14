@@ -1,5 +1,11 @@
 # vim:ft=zsh:ts=4:sts=4:sw=4:
 
+# This must be done prior to setting up the bindkeys, otherwise the terminfo
+# will not be up-to-date and the bindings wont work
+if [[ "$OSTYPE" = darwin* ]]; then
+    export TERMINFO_DIRS=$TERMINFO_DIRS:$HOME/.local/share/terminfo
+fi
+
 autoload up-line-or-beginning-search
 autoload down-line-or-beginning-search
 zle -N up-line-or-beginning-search
