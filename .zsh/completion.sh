@@ -38,6 +38,11 @@ if (( $+commands[rustup] )); then
         # force regenerating the cache
         rm ~/.zcompdump
     fi
+
+    CARGO_BIN=$(rustup which cargo) # ${HOME}/.rustup/toolchains/{default}/bin/cargo
+    CARGO_DIR=${CARGO_BIN%/*/*} # remove bin/cargo
+    CARGO_FUNC="${CARGO_DIR}/share/zsh/site-functions"
+    fpath=($fpath "${CARGO_FUNC}")
 fi
 
 # compinit must be executed after the plugins are set
