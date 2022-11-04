@@ -1,5 +1,9 @@
 #!/usr/bin/env sh
 
+# configure path for xcrun (used by nvim-treesitter)
+# this runs in another process, starting it early because it is a large download
+xcode-select --install
+
 # Install brew.sh
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
