@@ -11,6 +11,7 @@ xcode-select --install
 brew install jq tmux semgrep pinentry-mac gpg tig iterm2 showkey svn podman lima scrcpy
 
 brew install --cask --no-quarantine middleclick alacritty
+brew install --cask android-platform-tools
 
 brew tap homebrew/cask-fonts
 brew install font-inconsolata font-source-code-pro
