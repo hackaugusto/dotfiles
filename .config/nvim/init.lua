@@ -398,9 +398,13 @@ end
 
 local packer_bootstrap = ensure_packer()
 
--- use the system-wide python and the python-neovim package
 vim.g.loaded_python_provider = 0
-vim.g.python3_host_prog='/usr/bin/python3'
+
+-- use the system-wide python and the python-neovim package on linux
+-- for MacOS the package is user installed
+if vim.loop.os_uname().sysname ~= 'Darwin' then
+    vim.g.python3_host_prog='/usr/bin/python3'
+end
 
 require('packer').startup(function(use)
   use 'wbthomason/packer.nvim'
