@@ -10,7 +10,7 @@ xcode-select --install
 # svn is required for font-source-code-pro
 brew install jq tmux semgrep pinentry-mac gpg tig iterm2 showkey svn podman lima scrcpy
 
-brew install --cask --no-quarantine middleclick alacritty
+brew install --cask --no-quarantine middleclick alacritty basictex
 brew install --cask android-platform-tools
 
 brew tap homebrew/cask-fonts
