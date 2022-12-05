@@ -27,3 +27,6 @@ pip install --user neovim
 sed -i '' -e 's/pairs#0x10000/pairs#32767/g' tmux-256color.src
 /usr/bin/tic -x -o $HOME/.local/share/terminfo tmux-256color.src
 rm ./tmux-256color.src
+
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+rustup component add llvm-tools miri rust-src rust-docs rust-analyzer rustfmt clippy cargo
