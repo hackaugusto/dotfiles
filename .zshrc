@@ -93,6 +93,7 @@ update
 
 if [[ "$OSTYPE" = darwin* ]]; then
     export PATH=$(deduplicate_path '/sbin' '/bin' '/usr/bin')
+    export BROWSER=/Applications/Firefox.app/Contents/MacOS/firefox
 fi
 
 load ~/.opam/opam-init/init.zsh
