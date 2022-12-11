@@ -327,6 +327,7 @@ function CmpSetup()
     })
   })
 
+  -- requires hrsh7th/cmp-cmdline
   cmp.setup.cmdline('/', {
     mapping = cmp.mapping.preset.cmdline(),
     sources = {
@@ -334,6 +335,7 @@ function CmpSetup()
     }
   })
 
+  -- requires hrsh7th/cmp-cmdline
   cmp.setup.cmdline(':', {
     mapping = cmp.mapping.preset.cmdline(),
     sources = cmp.config.sources({
@@ -458,6 +460,8 @@ require('packer').startup(function(use)
       'L3MON4D3/LuaSnip' ,
       'hrsh7th/cmp-nvim-lsp',
       'neovim/nvim-lspconfig',
+      'hrsh7th/cmp-cmdline',
+      'hrsh7th/cmp-buffer',
     },
     config = CmpSetup,
   }
