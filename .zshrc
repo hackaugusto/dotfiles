@@ -92,7 +92,7 @@ require ~/.zsh/prompt.sh
 update
 
 if [[ "$OSTYPE" = darwin* ]]; then
-    export PATH=$(deduplicate_path '/sbin' '/bin' '/usr/bin')
+    export PATH=$(deduplicate_path '/sbin' '/bin' '/usr/bin'):${HOME}/.bin
     export BROWSER=/Applications/Firefox.app/Contents/MacOS/firefox
 fi
 
