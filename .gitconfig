@@ -1,7 +1,7 @@
 [user]
 	email = hack.augusto@gmail.com
 	name = Augusto F. Hack
-	signingkey = A65F90CF7EA13CD8
+	signingkey = 3F3584B7FB1DFB76
 [push]
 	default = simple
 [diff]
