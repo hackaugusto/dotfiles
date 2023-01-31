@@ -16,6 +16,9 @@ brew install --cask android-platform-tools
 brew tap homebrew/cask-fonts
 brew install font-inconsolata font-source-code-pro
 
+# pinentry-mac has keychain usage enabled by default, disable it
+defaults write org.gpgtools.common UseKeychain NO
+
 # nvm is installed via zgen as a plugin to ZSH
 nvm install node
 
