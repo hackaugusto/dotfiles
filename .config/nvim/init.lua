@@ -508,6 +508,7 @@ vim.g.ale_fixers = {
     ['cpp']= {'clang-format', 'clangtidy', 'remove_trailing_lines', 'trim_whitespace', 'uncrustify'},
     ['dart']= {'dartfmt', 'trim_whitespace', 'remove_trailing_lines'},
 }
+vim.g.ale_rust_cargo_use_clippy = 1
 vim.g.ale_linters = {['rust'] = {'rls', 'cargo'}}
 vim.g.ale_python_black_options = '--line-length 125'
 
