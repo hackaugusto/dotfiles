@@ -524,13 +524,14 @@ vim.g.ale_cpp_gcc_options = '-Wall'
 vim.g.ale_fix_on_save = 1
 vim.g.ale_fixers = {
     ['python']= {'black', 'isort', 'trim_whitespace', 'remove_trailing_lines', 'yapf'},
-    ['rust']= {'remove_trailing_lines', 'rustfmt', 'trim_whitespace'},
+    ['rust']= {'remove_trailing_lines', 'trim_whitespace'},
     ['cpp']= {'clang-format', 'clangtidy', 'remove_trailing_lines', 'trim_whitespace', 'uncrustify'},
     ['dart']= {'dartfmt', 'trim_whitespace', 'remove_trailing_lines'},
 }
 vim.g.ale_rust_cargo_use_clippy = 1
 vim.g.ale_linters = {['rust'] = {'rls', 'cargo'}}
 vim.g.ale_python_black_options = '--line-length 125'
+vim.g.rustfmt_autosave = 1
 
 vim.g['jedi#completions_enabled'] = 0
 vim.g['jedi#use_tabs_not_buffers'] = 1
