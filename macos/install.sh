@@ -14,7 +14,7 @@ brew install --cask --no-quarantine middleclick alacritty basictex
 brew install --cask android-platform-tools
 
 brew tap homebrew/cask-fonts
-brew install font-inconsolata font-source-code-pro
+brew install font-inconsolata font-source-code-pro font-inconsolata-nerd-font
 
 # pinentry-mac has keychain usage enabled by default, disable it
 defaults write org.gpgtools.common UseKeychain NO

@@ -25,6 +25,9 @@ vim.opt.updatetime=300
 
 vim.g.netrw_banner=0
 vim.g.netrw_liststyle=3
+-- disable netrw (using nvim-tree instead)
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
 
 lsp_servers_enabled = {'rust_analyzer'}
 
@@ -412,6 +415,23 @@ require('packer').startup(function(use)
     use 'wbthomason/packer.nvim'
     use 'folke/tokyonight.nvim'
     use {'linty-org/readline.nvim', config = CommandLineSetup }
+    use {
+        'nvim-tree/nvim-tree.lua',
+        requires = {
+            'nvim-tree/nvim-web-devicons',
+        },
+        config = function()
+            require('nvim-web-devicons').setup()
+            require('nvim-tree').setup({
+                on_attach = function(bufnr)
+                    local api = require('nvim-tree.api')
+                    api.config.mappings.default_on_attach(bufnr)
+                    options = { desc = 'nvim-tree: open on a tab', buffer = bufnr, noremap = true, silent = true, nowait = true }
+                    vim.keymap.set('n', 't', api.node.open.tab, options)
+                end
+            })
+        end,
+    }
 
     use {
         'nvim-treesitter/nvim-treesitter',
