@@ -512,15 +512,6 @@ vim.g.ale_rust_cargo_use_clippy = 1
 vim.g.ale_linters = {['rust'] = {'rls', 'cargo'}}
 vim.g.ale_python_black_options = '--line-length 125'
 
--- vim.fn['deoplete#enable']()
-
-vim.g.ycm_global_ycm_extra_conf = '/usr/share/vim/vimfiles/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
-vim.g.ycm_server_python_interpreter = '/usr/bin/python2'
--- using:
--- - deoplete-jedi for autocomplete
--- - jedi-vim for goto command
-vim.g.ycm_filetype_blacklist = {['python'] = 1}
-
 vim.g['jedi#completions_enabled'] = 0
 vim.g['jedi#use_tabs_not_buffers'] = 1
 vim.g['jedi#goto_command'] = 'gd'
