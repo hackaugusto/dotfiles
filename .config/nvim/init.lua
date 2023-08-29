@@ -425,7 +425,12 @@ end
 
 require('packer').startup(function(use)
     use 'wbthomason/packer.nvim'
+
+    -- color schemes
     use 'folke/tokyonight.nvim'
+    use 'rebelot/kanagawa.nvim'
+    use 'NLKNguyen/papercolor-theme'
+
     use {'linty-org/readline.nvim', config = CommandLineSetup }
     use {
         'nvim-tree/nvim-tree.lua',
@@ -525,7 +530,9 @@ require('packer').startup(function(use)
     else
         -- these settings required the above plugins, don't do them on the first
         -- run because lots of errors are raised
-        vim.api.nvim_command('colorscheme tokyonight-moon')
+        -- vim.api.nvim_command('colorscheme tokyonight-moon')
+        -- vim.opt.background=light
+        vim.api.nvim_command('colorscheme kanagawa')
     end
 end)
 
