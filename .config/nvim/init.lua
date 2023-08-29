@@ -29,8 +29,6 @@ vim.g.netrw_liststyle=3
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
-lsp_servers_enabled = {'rust_analyzer'}
-
 function Filter(values, filter_fn)
     local result = {}
     for key, value in ipairs(values) do
@@ -364,14 +362,26 @@ function CmpSetup()
         vim.keymap.set('n', '<Space>a', vim.lsp.buf.code_action, bufopts)
 
         vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+
+        vim.lsp.inlay_hint(bufnr, true)
     end
 
-    for _, lsp in ipairs(lsp_servers_enabled) do
-        lspconfig[lsp].setup{
-            capabilities = capabilities,
-            on_attach = on_attach,
+    lspconfig['rust_analyzer'].setup{
+        capabilities = capabilities,
+        on_attach = on_attach,
+        settings = {
+            ['rust-analyzer'] = {
+                cargo = {
+                    features = "all",
+                },
+                completion = {
+                    privateEditable = {
+                        enable = true;
+                    }
+                }
+            }
         }
-    end
+    }
 end
 
 -- can not use vim's keybindings on command line, setup readline instead
