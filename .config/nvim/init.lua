@@ -23,6 +23,8 @@ vim.opt.foldmethod="syntax"
 vim.opt.signcolumn="yes"
 vim.opt.updatetime=300
 
+vim.opt.jumpoptions:append {"stack"}
+
 vim.g.netrw_banner=0
 vim.g.netrw_liststyle=3
 -- disable netrw (using nvim-tree instead)
