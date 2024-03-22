@@ -9,7 +9,7 @@ xcode-select --install
 
 # svn is required for font-source-code-pro
 # dotnet-sdk openjdk@8 gradle required for dafny
-brew install jq tmux semgrep pinentry-mac gpg tig iterm2 showkey svn podman lima scrcpy the_silver_searcher emscripten pre-commit gnuplot graphviz openjdk golang protobuf amethyst skhd yabai dotnet-sdk openjdk@8 gradle
+brew install jq tmux semgrep pinentry-mac gpg tig iterm2 showkey svn podman lima scrcpy the_silver_searcher emscripten pre-commit gnuplot graphviz openjdk golang protobuf amethyst skhd yabai dotnet-sdk openjdk@8 gradle minicom arm-none-eabi-gdb openocd sdl2 lsusb qmk-toolbox
 
 brew install --cask --no-quarantine middleclick alacritty basictex
 brew install --cask android-platform-tools
