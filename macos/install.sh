@@ -8,7 +8,7 @@ xcode-select --install
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
 # svn is required for font-source-code-pro
-brew install jq tmux semgrep pinentry-mac gpg tig iterm2 showkey svn podman lima scrcpy the_silver_searcher emscripten pre-commit gnuplot graphviz openjdk golang protobuf amethyst
+brew install jq tmux semgrep pinentry-mac gpg tig iterm2 showkey svn podman lima scrcpy the_silver_searcher emscripten pre-commit gnuplot graphviz openjdk golang protobuf amethyst skhd yabai
 
 brew install --cask --no-quarantine middleclick alacritty basictex
 brew install --cask android-platform-tools
@@ -18,6 +18,10 @@ brew install font-inconsolata font-source-code-pro font-inconsolata-nerd-font
 
 # pinentry-mac has keychain usage enabled by default, disable it
 defaults write org.gpgtools.common UseKeychain NO
+
+# disable animations
+defaults write NSGlobalDomain NSWindowResizeTime -float 0.001
+defaults write NSGlobalDomain NSAutomaticWindowAnimationsEnabled -bool false
 
 # nvm is installed via zgen as a plugin to ZSH
 nvm install node
