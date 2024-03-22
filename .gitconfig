@@ -23,3 +23,5 @@
 	prune = true
 [commit]
 	gpgsign = true
+[remote "origin"]
+	fetch = +refs/pull/*:refs/remotes/origin/pull/*
