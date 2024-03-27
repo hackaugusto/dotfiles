@@ -27,7 +27,7 @@ vim.opt.jumpoptions:append {"stack"}
 
 vim.g.netrw_banner=0
 vim.g.netrw_liststyle=3
--- disable netrw (using nvim-tree instead)
+-- disable netrw (using nvim-tree/neo-tree instead)
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
@@ -414,22 +414,34 @@ require('packer').startup(function(use)
     use 'rebelot/kanagawa.nvim'
     use 'NLKNguyen/papercolor-theme'
 
+    -- nvim-tree tends to get lost when:
+    -- - opening it while using multiple tabs (e.g. open a file from the second tab).
+    -- - opening horizontal/vertical simultaneously (e.g. when using :Ack for search).
+    --
+    -- use {
+    --     'nvim-tree/nvim-tree.lua',
+    --     requires = {
+    --         'nvim-tree/nvim-web-devicons',
+    --     },
+    --     config = function()
+    --         require('nvim-web-devicons').setup()
+    --         require('nvim-tree').setup({
+    --             on_attach = function(bufnr)
+    --                 local api = require('nvim-tree.api')
+    --                 api.config.mappings.default_on_attach(bufnr)
+    --                 options = { desc = 'nvim-tree: open on a tab', buffer = bufnr, noremap = true, silent = true, nowait = true }
+    --                 vim.keymap.set('n', 't', api.node.open.tab, options)
+    --             end
+    --         })
+    --     end,
+    -- }
     use {
-        'nvim-tree/nvim-tree.lua',
+        'nvim-neo-tree/neo-tree.nvim',
         requires = {
+            'nvim-lua/plenary.nvim',
             'nvim-tree/nvim-web-devicons',
-        },
-        config = function()
-            require('nvim-web-devicons').setup()
-            require('nvim-tree').setup({
-                on_attach = function(bufnr)
-                    local api = require('nvim-tree.api')
-                    api.config.mappings.default_on_attach(bufnr)
-                    options = { desc = 'nvim-tree: open on a tab', buffer = bufnr, noremap = true, silent = true, nowait = true }
-                    vim.keymap.set('n', 't', api.node.open.tab, options)
-                end
-            })
-        end,
+            'MunifTanjim/nui.nvim',
+        }
     }
 
     use {
