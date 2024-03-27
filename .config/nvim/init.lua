@@ -441,6 +441,9 @@ require('packer').startup(function(use)
             'nvim-lua/plenary.nvim',
             'nvim-tree/nvim-web-devicons',
             'MunifTanjim/nui.nvim',
+        },
+        config = {
+            auto_clean_after_session_restore = false, -- Automatically clean up broken neo-tree buffers saved in sessions
         }
     }
 
