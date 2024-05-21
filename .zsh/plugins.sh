@@ -29,7 +29,7 @@ if ! zgen saved; then
     zgen load lukechilds/zsh-nvm
     # zgen oh-my-zsh plugins/rust
     zgen oh-my-zsh plugins/adb
-    zgen oh-my-zsh plugins/docker
+    # zgen oh-my-zsh plugins/docker
     zgen oh-my-zsh plugins/docker-compose
 
     zgen save
