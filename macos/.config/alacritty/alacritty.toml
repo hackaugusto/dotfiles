@@ -1,0 +1,13 @@
+[font]
+size = 15.0
+
+[[hints.enabled]]
+command = "/usr/bin/false"
+regex = "(ipfs:|ipns:|magnet:|mailto:|gemini:|gopher:|https:|http:|news:|file:|git:|ssh:|ftp:)[^\u0000-\u001F\u007F-<>\"\\s{-}\\^⟨⟩`]+"
+
+[hints.enabled.mouse]
+enabled = true
+mods = "None"
+
+[selection]
+save_to_clipboard = true
