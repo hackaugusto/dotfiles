@@ -372,7 +372,7 @@ function CmpSetup()
 		-- vim.lsp.inlay_hint(bufnr, true)
 	end
 
-	lspconfig["rust_analyzer"].setup({
+	lspconfig.rust_analyzer.setup({
 		capabilities = capabilities,
 		on_attach = on_attach,
 		settings = {
@@ -386,6 +386,11 @@ function CmpSetup()
 					},
 				},
 			},
+		},
+	})
+	lspconfig.harper_ls.setup({
+		settings = {
+			["harper-ls"] = {},
 		},
 	})
 end
@@ -431,6 +436,10 @@ require("packer").startup(function(use)
 				registry.get_package("stylua"):install()
 				-- JS/TS
 				registry.get_package("prettier"):install()
+				-- spell-checker
+				registry.get_package("harper-ls"):install()
+				-- registry.get_package("cspell"):install()
+				-- registry.get_package("codespell"):install()
 			end)
 		end,
 	})
@@ -446,9 +455,15 @@ require("packer").startup(function(use)
 				rust = { "clippy", "typos" },
 				cpp = { "clang-tidy", "clang-format" },
 			}
+			vim.api.nvim_create_autocmd({ "BufEnter", "InsertLeave" }, {
+				callback = function()
+					lint.try_lint()
+				end,
+			})
 			vim.api.nvim_create_autocmd({ "BufWritePost" }, {
 				callback = function()
 					lint.try_lint()
+					-- lint.try_lint({ "cspell", "codespell" })
 				end,
 			})
 		end,
@@ -656,6 +671,7 @@ function RemoveOldSwap(filename)
 		vim.v.swapchoice = "d"
 	end
 end
+
 vim.api.nvim_create_autocmd("SwapExists", { command = 'call v:lua.RemoveOldSwap(expand("<afile>:p"))' })
 
 vim.api.nvim_create_autocmd("BufRead", {
@@ -667,21 +683,25 @@ vim.api.nvim_create_autocmd("BufRead", {
 	end,
 })
 
-vim.cmd([[
-" autocmd CursorHold * lua vim.diagnostic.open_float(nil, { focusable = false })
+vim.api.nvim_create_autocmd({ "FileType" }, {
+	group = vim.api.nvim_create_augroup("Vim", { clear = true }),
+	callback = function()
+		vim.o.tabstop = 2
+		vim.o.softtabstop = 2
+		vim.o.shiftwidth = 2
+	end,
+})
 
-augroup Lisp
-    autocmd!
-    autocmd FileType lisp set showmatch
-augroup END
+vim.api.nvim_create_autocmd({ "FileType" }, {
+	group = vim.api.nvim_create_augroup("Lisp", { clear = true }),
+	callback = function()
+		vim.o.showmatch = true
+	end,
+})
 
-augroup Vim
-    autocmd!
-    autocmd FileType vim set shiftwidth=2 softtabstop=2 tabstop=2 expandtab
-augroup END
-
-augroup Python
-    autocmd!
-    autocmd FileType python set nowrap
-augroup END
-]])
+vim.api.nvim_create_autocmd({ "FileType" }, {
+	group = vim.api.nvim_create_augroup("Python", { clear = true }),
+	callback = function()
+		vim.o.wrap = false
+	end,
+})
