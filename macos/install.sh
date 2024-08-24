@@ -3,19 +3,23 @@
 # configure path for xcrun (used by nvim-treesitter)
 # this runs in another process, starting it early because it is a large download
 xcode-select --install
+softwareupdate --install-rosetta
 
 # Install brew.sh
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
 # svn is required for font-source-code-pro
 # dotnet-sdk openjdk@8 gradle required for dafny
-brew install jq tmux semgrep pinentry-mac gpg tig iterm2 showkey svn podman lima scrcpy the_silver_searcher emscripten pre-commit gnuplot graphviz openjdk golang protobuf amethyst skhd yabai dotnet-sdk openjdk@8 gradle minicom arm-none-eabi-gdb openocd sdl2 lsusb qmk-toolbox
-
+brew install jq tmux semgrep pinentry-mac gpg tig iterm2 showkey svn podman lima scrcpy the_silver_searcher emscripten pre-commit gnuplot graphviz openjdk golang protobuf amethyst skhd yabai dotnet-sdk openjdk@8 gradle minicom arm-none-eabi-gdb openocd sdl2 lsusb qmk-toolbox argocd kubectl postgresql
+ 
 brew install --cask --no-quarantine middleclick alacritty basictex
 brew install --cask android-platform-tools
 
 brew tap homebrew/cask-fonts
 brew install font-inconsolata font-source-code-pro font-inconsolata-nerd-font
+
+brew tap ethereum/ethereum
+brew install solidity
 
 # pinentry-mac has keychain usage enabled by default, disable it
 defaults write org.gpgtools.common UseKeychain NO
@@ -28,7 +32,7 @@ defaults write NSGlobalDomain NSAutomaticWindowAnimationsEnabled -bool false
 nvm install node
 
 # there doesnt seem to be a better way :(
-pip install --user neovim
+pip install --break-system-packages --user neovim pynvim
 
 # Add tmux to MacOS terminfo database to enable italic support
 /opt/homebrew/Cellar/ncurses/6.3/bin/infocmp -x tmux-256color >tmux-256color.src
