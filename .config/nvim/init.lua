@@ -219,10 +219,6 @@ function StatusLineConfigs()
 	return formatted
 end
 
-function VirtualEnv()
-	return Space(vim.fn["virtualenv#statusline"]())
-end
-
 function StatusLineVCS()
 	return Space(VCSChanges() .. vim.fn.FugitiveHead(7))
 end
@@ -275,7 +271,6 @@ end
 
 function StatusLineSetup()
 	-- this requires vim-signify for VCSChanges
-	-- this requires vim-virtualenv for VirtualEnv
 	-- this requires vim-fugitive for StatusLineVCS
 
 	-- Only configure statusline after the plugins have been installed, otherwise
@@ -293,7 +288,6 @@ function StatusLineSetup()
 	statusline = statusline .. " %t "
 
 	statusline = statusline .. "%{v:lua.StatusLineConfigs()}"
-	statusline = statusline .. "%{v:lua.VirtualEnv()}"
 	statusline = statusline .. "%{v:lua.StatusLineVCS()}"
 
 	statusline = statusline .. "%="
@@ -547,7 +541,6 @@ require("packer").startup(function(use)
 		"hackaugusto/dotfiles",
 		requires = {
 			"mhinz/vim-signify",
-			"jmcantrell/vim-virtualenv",
 			"tpope/vim-fugitive",
 		},
 		config = StatusLineSetup,
