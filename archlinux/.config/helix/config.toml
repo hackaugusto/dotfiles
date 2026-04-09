@@ -1,0 +1,9 @@
+theme = "tokyonight_moon"
+
+[editor]
+line-number = "relative"
+true-color = true
+
+[keys.normal]
+C-e = "move_visual_line_down"
+C-y = "move_visual_line_up"
