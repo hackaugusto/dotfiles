@@ -1,100 +1,96 @@
-# Augusto Hack <hack dot augusto at gmail dot com>
-# vim:ts=2 sts=2 sw=2:
+zmodload zsh/complist
 
-load(){
-    [[ -f $1 ]] && . $1
-}
+# == AUTO COMPLETE ==
+autoload -Uz compinit
+zstyle ':completion:*' completer _expand _complete _correct _approximate
+zstyle ':completion:*' menu select=3 yes
+compinit
 
-require() {
-    [[ -f $1 ]] || echo "Missing file $1"
-    [[ -f $1 ]] && . $1
-}
+# eval "$(uv generate-shell-completion zsh)"
+# // AUTO COMPLETE //
 
-bin() {
-    command -v $1 >/dev/null 2>&1
-}
+alias vi='nvim -p'
+alias vim='nvim -p'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias ls='ls --color=auto'
+alias hx=helix
 
-older_than_days() {
-    file=$1
-    days=$2
+autoload up-line-or-beginning-search
+autoload down-line-or-beginning-search
+zle -N up-line-or-beginning-search
+zle -N down-line-or-beginning-search
 
-    file_date=$(date -r $file '+%s')
-    curr_date=$(date '+%s')
+bindkey -v
+bindkey "^[[A" up-line-or-beginning-search
+bindkey "^[[B" down-line-or-beginning-search
 
-    (( ( ( $curr_date - $file_date ) / 86400 ) > $days ))
-}
+export EDITOR=nvim
+export SSH_AUTH_SOCK=$XDG_RUNTIME_DIR/ssh-agent.socket
+export PNPM_HOME="${HOME}/.pnpm"
+export PATH="${HOME}/.cargo/bin:${HOME}/.local/bin:${PNPM_HOME}:${KREW_ROOT:-$HOME/.krew}/bin:${PATH}"
 
-maybe_git_clone() {
-    repo="${1}"
-    target="${2}"
+limit -s coredumpsize 0
+fignore=(.o .old .pro .pyc \~)
+umask 0027
 
-    [ ! -e "${target}" ] && {
-        mkdir -p "${target}"
-        git clone "${repo}" "${target}"
-    }
-}
+# AUTO_CD               peform cd if a directory name is given
+# AUTO_PUSHD            cd push the old directory onto the directory stack
+# CD_ABLE_VARS          expand text (if not a command nor a directory in PWD) to ~/text
+# PUSH_IGNORE_DUPS      prohibit duplicate directories in the directory stack
+# PUSHD_SILENT          do not print directory stack after pushd popd
+# PUSHD_TO_HOME         'pushd' acts like 'pushd $HOME'
+setopt AUTO_CD AUTO_PUSHD CD_ABLE_VARS PUSHD_IGNORE_DUPS PUSHD_SILENT PUSHD_TO_HOME
 
-profile() {
-    # Source the system profile files.
-    if (){ setopt localoptions nonomatch nocshnullglob; [ -f /etc/profile.d/*.zsh([1]) ] }
-    then
-        . /etc/profile.d/*.zsh
-    fi
+# ALWAYS_TO_END         moves the cursor to the end of the command
+# AUTO_LIST             automatcally list choices on ambiguity
+# AUTO_PARAM_SLASH
+# NO_LIST_BEEP          no beeping
+# NO_BEEP               beep! beep!
+setopt ALWAYS_TO_END AUTO_LIST  NO_LIST_BEEP NO_BEEP
 
-    load $HOME/.profile
-}
+# EXTENDED_BLOG         treat '#' '~' '^' as part of the expression for filename generation
+# GLOB_DOTS             do not require a initial '.' to match
+# NOMATCH               if the globbing is unsucessful, leave the string alone
+# KSH_GLOB              *, +, and ? have the same meaning as with regular expressions, BUT it needs to be right BEFORE a group, ex.: ?(example)
+# PROMPT_SUBST          allows expansion and substitution in the prompt
+# NO_NOMATCH            set so that `git log HEAD^` does not try to glob and give the error "zsh: no matches found: HEAD^"
+setopt EXTENDED_GLOB GLOB_DOTS NOMATCH KSH_GLOB PROMPT_SUBST
 
-install() {
-    # Install zsh plugins
-    maybe_git_clone "https://github.com/tarjoilija/zgen.git" "${HOME}/.zgen"
-}
+# EXTENDED_HISTORY      save commands in history at this format ":begin of the command:time elapsed:command"
+# HIST_IGNORE_DUPS      insert the new command and remove all older duplications of this
+# NO_HIST_BEEP          no beeping
+# HIST_IGNORE_SPACE     if a command start with ' ' it is not inserted in the history file
+# HIST_REDUCE_BLANKS    remove unnecessary blank spaces
+setopt EXTENDED_HISTORY NO_HIST_BEEP HIST_IGNORE_ALL_DUPS HIST_IGNORE_SPACE HIST_REDUCE_BLANKS
+HISTSIZE=5000
+SAVEHIST=5000
+HISTFILE=~/.history
+DIRSTACKSIZE=7
 
-update() {
-    # Update the installed plugins
-    if older_than_days ~/.zgen/_zgen 50; then
-        # update if more than 50 days old
-        touch ~/.zgen/_zgen
-        (cd ~/.zgen && git pull)
-    fi
+# CORRECT_ALL           try to correct everythin on the line
+# RM_STAR_WAIT          ignore keyboard input for 10 sec when 'rm *' or 'rm PATH *'
+setopt CORRECT_ALL RM_STAR_WAIT
 
-    if [ -e ~/.zgen/init.zsh ] && older_than_days ~/.zgen/init.zsh 30; then
-        # update the plugins every 30 days
-        zgen update
-    fi
-}
+# LONG_LIST_JOBS        use long list as default
+# NOTIFY                immediate report of the status of bg jobs
+# NO_BG_NICE            run bg jobs as fg jobs
+# NO_HUP                continue running bg jobs even of shell is closed
+setopt LONG_LIST_JOBS NOTIFY NO_BG_NICE NO_HUP MULTIOS
 
-profile
-install
+export PS2="> "
 
-fpath=($fpath "$HOME/.zsh/func")
+local HOUR="%F{blue}%T%f"
+local JOBS="%1(j,%F{yellow}%j%f ,)"
 
-zmodload zsh/complist  # complist must be loaded before the compinit call
+if [[ $UID -eq '0' ]]; then;
+    export PS1="%F{red}%n%f %1. %(?.%#.%F{red}%#%f) "
+else;
+    export PS1="%1.%  ${JOBS}${HOUR} % "
+fi;
 
-autoload -U promptinit
-autoload -U zgitinit
-autoload -U add-zsh-hook
-autoload -U compinit
+# show the hostname when we are connected through ssh
+if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
+    export PS1="%M $PS1"
+fi;
 
-zgitinit
-
-require ~/.zsh/options.sh  # set the options early because the shell behavior change
-require ~/.zsh/utils.sh    # load the utils, the following files can use them
-
-require ~/.zsh/alias.sh
-require ~/.zsh/arch.sh
-require ~/.zsh/bindkey.sh
-require ~/.zsh/commands.sh
-require ~/.zsh/completion.sh
-require ~/.zsh/env.sh
-require ~/.zsh/plugins.sh
-require ~/.zsh/prompt.sh
-
-update
-
-if [[ "$OSTYPE" = darwin* ]]; then
-    export PATH=$(deduplicate_path '/sbin' '/bin' '/usr/bin'):${HOME}/.bin
-    export BROWSER=/Applications/Firefox.app/Contents/MacOS/firefox
-fi
-
-load ~/.opam/opam-init/init.zsh
-bin vex && eval "$(vex --shell-config zsh)"
