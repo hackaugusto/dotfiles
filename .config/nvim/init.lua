@@ -382,11 +382,12 @@ function CmpSetup()
 			},
 		},
 	})
-	lspconfig.harper_ls.setup({
-		settings = {
-			["harper-ls"] = {},
-		},
-	})
+
+	-- lspconfig.harper_ls.setup({
+	-- 	settings = {
+	-- 		["harper-ls"] = {},
+	-- 	},
+	-- })
 end
 
 local ensure_packer = function()
@@ -419,7 +420,7 @@ require("packer").startup(function(use)
 
 			local registry = require("mason-registry")
 			registry.refresh(function()
-				registry.get_package("typos"):install()
+				-- registry.get_package("typos"):install()
 				-- python
 				registry.get_package("black"):install()
 				registry.get_package("isort"):install()
@@ -431,14 +432,14 @@ require("packer").startup(function(use)
 				-- JS/TS
 				registry.get_package("prettier"):install()
 				-- spell-checker
-				registry.get_package("harper-ls"):install()
+				-- registry.get_package("harper-ls"):install()
 				-- registry.get_package("cspell"):install()
 				-- registry.get_package("codespell"):install()
 			end)
 		end,
 	})
 
-	-- replaced dense-analysis/ale, benefits: lua api, ligther weigth (no LSP support)
+	-- dense-analysis/ale replaced by nvim-lint + conform.vim. Benefits: lua api, ligther weigth (no LSP support)
 	use({
 		"mfussenegger/nvim-lint",
 		config = function()
@@ -446,31 +447,42 @@ require("packer").startup(function(use)
 
 			lint.linters_by_ft = {
 				python = { "flake8", "mypy", "pylint" },
-				rust = { "clippy", "typos" },
+				-- rust = { "clippy", "typos" },
+				rust = { "clippy" },
 				cpp = { "clang-tidy", "clang-format" },
 			}
-			vim.api.nvim_create_autocmd({ "BufEnter", "InsertLeave" }, {
-				callback = function()
-					lint.try_lint()
-				end,
-			})
-			vim.api.nvim_create_autocmd({ "BufWritePost" }, {
-				callback = function()
-					lint.try_lint()
-					-- lint.try_lint({ "cspell", "codespell" })
-				end,
-			})
+			-- vim.api.nvim_create_autocmd({ "BufEnter" }, {
+			-- 	callback = function()
+			-- 		lint.try_lint()
+			-- 	end,
+			-- })
+			-- -- disabled linting on insert. cargo is not fast enough, this is spawning dozens of processes and causing dead locks
+			-- -- vim.api.nvim_create_autocmd({ "InsertLeave" }, {
+			-- -- 	callback = function()
+			-- -- 		lint.try_lint()
+			-- -- 	end,
+			-- -- })
+			-- vim.api.nvim_create_autocmd({ "BufWritePost" }, {
+			-- 	callback = function()
+			-- 		lint.try_lint()
+			-- 		-- lint.try_lint({ "cspell", "codespell" })
+			-- 	end,
+			-- })
 		end,
 	})
-	-- replaced dense-analysis/ale, benefits: lua api, ligther weigth (no LSP support)
 	use({
 		"stevearc/conform.nvim",
 		config = function()
 			require("conform").setup({
+				formatters = {
+					rustfmt = {
+						prepend_args = { "+nightly" },
+					},
+				},
 				formatters_by_ft = {
 					lua = { "stylua" },
 					python = { "isort", "black" },
-					rust = { "rustfmt", lsp_format = "fallback" },
+					rust = { "rustfmt" },
 					javascript = { "prettier" },
 				},
 			})
@@ -480,6 +492,13 @@ require("packer").startup(function(use)
 					require("conform").format({ bufnr = args.buf })
 				end,
 			})
+		end,
+	})
+	-- progress for rust-analyzer
+	use({
+		"j-hui/fidget.nvim",
+		config = function()
+			require("fidget").setup()
 		end,
 	})
 
@@ -599,7 +618,7 @@ require("packer").startup(function(use)
 		},
 	})
 
-	use("rust-lang/rust.vim")
+	-- use("rust-lang/rust.vim")
 
 	use("davidhalter/jedi-vim")
 	use("vim-scripts/python_match.vim")
@@ -678,6 +697,7 @@ vim.api.nvim_create_autocmd("BufRead", {
 
 vim.api.nvim_create_autocmd({ "FileType" }, {
 	group = vim.api.nvim_create_augroup("Vim", { clear = true }),
+	pattern = "vim",
 	callback = function()
 		vim.o.tabstop = 2
 		vim.o.softtabstop = 2
@@ -687,6 +707,7 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 
 vim.api.nvim_create_autocmd({ "FileType" }, {
 	group = vim.api.nvim_create_augroup("Lisp", { clear = true }),
+	pattern = "lisp",
 	callback = function()
 		vim.o.showmatch = true
 	end,
@@ -694,6 +715,7 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 
 vim.api.nvim_create_autocmd({ "FileType" }, {
 	group = vim.api.nvim_create_augroup("Python", { clear = true }),
+	pattern = "python",
 	callback = function()
 		vim.o.wrap = false
 	end,
