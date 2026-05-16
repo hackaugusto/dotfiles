@@ -2,8 +2,11 @@
 size = 15.0
 
 [font.normal]
-family = "Inconsolata Nerd Font Mono"
+# family = "Inconsolata Nerd Font Mono"
 style = "Regular"
+
+[window]
+option_as_alt = "OnlyLeft"
 
 [[hints.enabled]]
 command = "/usr/bin/false"
