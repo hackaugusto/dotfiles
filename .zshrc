@@ -26,7 +26,6 @@ bindkey "^[[A" up-line-or-beginning-search
 bindkey "^[[B" down-line-or-beginning-search
 
 export EDITOR=nvim
-export SSH_AUTH_SOCK=$XDG_RUNTIME_DIR/ssh-agent.socket
 export PNPM_HOME="${HOME}/.pnpm"
 export PATH="${HOME}/.cargo/bin:${HOME}/.local/bin:${PNPM_HOME}:${KREW_ROOT:-$HOME/.krew}/bin:${PATH}"
 
@@ -94,3 +93,22 @@ if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
     export PS1="%M $PS1"
 fi;
 
+
+if [[ "$OSTYPE" = darwin* ]]; then
+    function deduplicate_path() {
+        # split the path, remove duplicates and re-add at the end
+        IFS=':'
+        duplicates=$@
+        echo "${${=PATH}:|duplicates}:${duplicates}"
+    }
+
+    export PATH=$(deduplicate_path '/sbin' '/bin' '/usr/bin'):${HOME}/.bin:${HOME}/.local/bin
+    export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
+    export LDFLAGS="-L/opt/homebrew/opt/llvm/lib"
+    export CPPFLAGS="-I/opt/homebrew/opt/llvm/include"
+    export BROWSER=/Applications/Firefox.app/Contents/MacOS/firefox
+
+    export PATH="/Users/hack/.antigravity/antigravity/bin:$PATH"
+else
+    export SSH_AUTH_SOCK=$XDG_RUNTIME_DIR/ssh-agent.socket
+fi
