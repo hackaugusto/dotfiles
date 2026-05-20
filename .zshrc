@@ -14,7 +14,6 @@ alias vim='nvim -p'
 alias ...='cd ../..'
 alias ....='cd ../../..'
 alias ls='ls --color=auto'
-alias hx=helix
 
 autoload up-line-or-beginning-search
 autoload down-line-or-beginning-search
@@ -102,13 +101,10 @@ if [[ "$OSTYPE" = darwin* ]]; then
         echo "${${=PATH}:|duplicates}:${duplicates}"
     }
 
-    export PATH=$(deduplicate_path '/sbin' '/bin' '/usr/bin'):${HOME}/.bin:${HOME}/.local/bin
-    export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
+    export PATH="$(deduplicate_path '/sbin' '/bin' '/usr/bin'):/Users/hack/.antigravity/antigravity/bin"
     export LDFLAGS="-L/opt/homebrew/opt/llvm/lib"
     export CPPFLAGS="-I/opt/homebrew/opt/llvm/include"
     export BROWSER=/Applications/Firefox.app/Contents/MacOS/firefox
-
-    export PATH="/Users/hack/.antigravity/antigravity/bin:$PATH"
 else
     export SSH_AUTH_SOCK=$XDG_RUNTIME_DIR/ssh-agent.socket
 fi
