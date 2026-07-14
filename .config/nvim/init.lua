@@ -230,43 +230,18 @@ function PlainTextFold()
 end
 
 function TreeSitterUpdateParsers()
-	local info = require("nvim-treesitter.info")
-	local installed_parsers = info.installed_parsers()
-	local target_parsers = { "bash", "python", "rust", "regex", "json", "lua", "cpp", "vim" }
-
-	local configs = require("nvim-treesitter.configs")
-
-	configs.setup({
-		ensure_installed = target_parsers,
-		sync_install = false,
-		auto_install = true,
-		ignore_install = {},
-		highlight = {
-			enable = true,
-			disable = {},
-			additional_vim_regex_highlighting = false,
-		},
-		incremental_selection = {
-			enable = true,
-			keymaps = {
-				init_selection = "gnn",
-				node_incremental = "grn",
-				scope_incremental = "grc",
-				node_decremental = "grm",
-			},
-		},
+	require("nvim-treesitter").install({
+		"bash",
+		"python",
+		"rust",
+		"regex",
+		"json",
+		"lua",
+		"cpp",
+		"vim",
+		"javascript",
+		"zig",
 	})
-
-	-- must run after setup because it calls :TSUninstall
-	-- local parsers_to_remove = {}
-	-- for _, parser in ipairs(installed_parsers) do
-	--     if vim.fn.index(target_parsers, parser) == -1 then
-	--         table.insert(parsers_to_remove, parser)
-	--     end
-	-- end
-	-- if #parsers_to_remove > 0 then
-	--     vim.cmd('TSUninstall ' .. table.concat(parsers_to_remove, ' '))
-	-- end
 end
 
 function StatusLineSetup()
@@ -303,7 +278,6 @@ function CmpSetup()
 	local cmp = require("cmp")
 	local luasnip = require("luasnip")
 	local cmp_nvim_lsp = require("cmp_nvim_lsp")
-	local lspconfig = require("lspconfig")
 
 	cmp.setup({
 		snippet = {
@@ -366,7 +340,7 @@ function CmpSetup()
 		-- vim.lsp.inlay_hint(bufnr, true)
 	end
 
-	lspconfig.rust_analyzer.setup({
+	vim.lsp.config("rust_analyzer", {
 		capabilities = capabilities,
 		on_attach = on_attach,
 		settings = {
@@ -545,6 +519,7 @@ require("packer").startup(function(use)
 	--     }
 	-- }
 
+	-- NOTE: Project is archived because of poor community: https://github.com/nvim-treesitter/nvim-treesitter/discussions/8627#discussioncomment-16440673
 	use({
 		"nvim-treesitter/nvim-treesitter",
 		config = TreeSitterUpdateParsers,
@@ -573,9 +548,10 @@ require("packer").startup(function(use)
 	use("tpope/vim-surround")
 	use("justinmk/vim-sneak")
 	use({
-		"ggandor/leap.nvim",
+		"https://codeberg.org/andyg/leap.nvim",
 		config = function()
-			require("leap").set_default_keymaps()
+			vim.keymap.set({ "n", "x", "o" }, "s", "<Plug>(leap)")
+			vim.keymap.set("n", "S", "<Plug>(leap-from-window)")
 			vim.api.nvim_set_hl(0, "LeapBackdrop", { fg = "#707070" })
 		end,
 	})
