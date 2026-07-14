@@ -14,7 +14,7 @@ rustup component add --toolchain nightly llvm-tools miri rust-src rust-docs rust
 
 # svn is required for font-source-code-pro
 # dotnet-sdk openjdk@8 gradle required for dafny
-brew install jq tmux semgrep pinentry-mac gpg tig iterm2 showkey svn podman lima scrcpy the_silver_searcher emscripten pre-commit gnuplot graphviz openjdk golang protobuf dotnet-sdk openjdk@8 gradle minicom arm-none-eabi-gdb openocd sdl2 lsusb qmk-toolbox argocd kubectl postgresql kubernetes-cli hugo minikube kubectl kubectx helm helmfile gh fzf watch
+brew install jq tmux semgrep pinentry-mac gpg tig iterm2 showkey svn podman lima scrcpy the_silver_searcher emscripten pre-commit gnuplot graphviz openjdk golang protobuf dotnet-sdk openjdk@8 gradle minicom arm-none-eabi-gdb openocd sdl2 lsusb qmk-toolbox argocd kubectl postgresql kubernetes-cli hugo minikube kubectl kubectx helm helmfile gh fzf watch black isort ripgrep
 brew install --cask claude-code
 brew install --cask gcloud-cli
 brew install hashicorp/tap/terraform
@@ -45,7 +45,7 @@ defaults write NSGlobalDomain NSAutomaticWindowAnimationsEnabled -bool false
 nvm install node
 
 # there doesnt seem to be a better way :(
-pip install --break-system-packages --user neovim pynvim
+pip3 install --user neovim pynvim
 
 # Add tmux to MacOS terminfo database to enable italic support
 /opt/homebrew/Cellar/ncurses/6.3/bin/infocmp -x tmux-256color >tmux-256color.src
