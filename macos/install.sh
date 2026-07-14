@@ -8,9 +8,19 @@ softwareupdate --install-rosetta
 # Install brew.sh
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+rustup component add --toolchain stable rust-src rust-docs rust-analyzer rustfmt clippy cargo
+rustup component add --toolchain nightly llvm-tools miri rust-src rust-docs rust-analyzer rustfmt clippy cargo
+
 # svn is required for font-source-code-pro
 # dotnet-sdk openjdk@8 gradle required for dafny
-brew install jq tmux semgrep pinentry-mac gpg tig iterm2 showkey svn podman lima scrcpy the_silver_searcher emscripten pre-commit gnuplot graphviz openjdk golang protobuf amethyst skhd yabai dotnet-sdk openjdk@8 gradle minicom arm-none-eabi-gdb openocd sdl2 lsusb qmk-toolbox argocd kubectl postgresql kubernetes-cli hugo minikube
+brew install jq tmux semgrep pinentry-mac gpg tig iterm2 showkey svn podman lima scrcpy the_silver_searcher emscripten pre-commit gnuplot graphviz openjdk golang protobuf dotnet-sdk openjdk@8 gradle minicom arm-none-eabi-gdb openocd sdl2 lsusb qmk-toolbox argocd kubectl postgresql kubernetes-cli hugo minikube kubectl kubectx helm helmfile gh fzf watch
+brew install --cask claude-code
+brew install --cask gcloud-cli
+brew install hashicorp/tap/terraform
+brew install hashicorp/tap/vault
+
+gcloud components update
 
 cargo install --git https://github.com/tauri-apps/cargo-mobile2
 brew install --cask --no-quarantine middleclick alacritty basictex
@@ -42,9 +52,5 @@ pip install --break-system-packages --user neovim pynvim
 sed -i '' -e 's/pairs#0x10000/pairs#32767/g' tmux-256color.src
 /usr/bin/tic -x -o $HOME/.local/share/terminfo tmux-256color.src
 rm ./tmux-256color.src
-
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-rustup component add --toolchain stable rust-src rust-docs rust-analyzer rustfmt clippy cargo
-rustup component add --toolchain nightly llvm-tools miri rust-src rust-docs rust-analyzer rustfmt clippy cargo
 
 cargo install cargo-edit
