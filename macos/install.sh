@@ -14,12 +14,17 @@ rustup component add --toolchain nightly llvm-tools miri rust-src rust-docs rust
 
 # svn is required for font-source-code-pro
 # dotnet-sdk openjdk@8 gradle required for dafny
-brew install jq tmux semgrep pinentry-mac gpg tig iterm2 showkey svn podman lima scrcpy the_silver_searcher emscripten pre-commit gnuplot graphviz openjdk golang protobuf dotnet-sdk openjdk@8 gradle minicom arm-none-eabi-gdb openocd sdl2 lsusb qmk-toolbox argocd kubectl postgresql kubernetes-cli hugo minikube kubectl kubectx helm helmfile gh fzf watch black isort ripgrep
+brew install jq tmux semgrep pinentry-mac gpg tig iterm2 showkey svn podman lima scrcpy the_silver_searcher emscripten pre-commit gnuplot graphviz openjdk golang protobuf dotnet-sdk gradle minicom arm-none-eabi-gdb openocd sdl2 lsusb qmk-toolbox argocd kubectl postgresql kubernetes-cli hugo minikube kubectl kubectx helm helmfile gh fzf watch black isort ripgrep goenv temurin
 brew install --cask claude-code
-brew install --cask gcloud-cli
 brew install hashicorp/tap/terraform
 brew install hashicorp/tap/vault
 
+brew install pyenv
+pyenv install 3.14
+pyenv global 3.14
+pip3 install --user neovim pynvim
+
+brew install --cask gcloud-cli
 gcloud components update
 
 cargo install --git https://github.com/tauri-apps/cargo-mobile2
@@ -34,6 +39,11 @@ brew install font-inconsolata font-source-code-pro font-inconsolata-nerd-font
 brew tap ethereum/ethereum
 brew install solidity
 
+brew install openjdk@17
+sudo ln -sfn /opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk /Library/Java/JavaVirtualMachines/openjdk-17.jdk
+brew install openjdk@21
+sudo ln -sfn /opt/homebrew/opt/openjdk@21/libexec/openjdk.jdk /Library/Java/JavaVirtualMachines/openjdk-21.jdk
+
 # pinentry-mac has keychain usage enabled by default, disable it
 defaults write org.gpgtools.common UseKeychain NO
 
@@ -43,9 +53,6 @@ defaults write NSGlobalDomain NSAutomaticWindowAnimationsEnabled -bool false
 
 # nvm is installed via zgen as a plugin to ZSH
 nvm install node
-
-# there doesnt seem to be a better way :(
-pip3 install --user neovim pynvim
 
 # Add tmux to MacOS terminfo database to enable italic support
 /opt/homebrew/Cellar/ncurses/6.3/bin/infocmp -x tmux-256color >tmux-256color.src
