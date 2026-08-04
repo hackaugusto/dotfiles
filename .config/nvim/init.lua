@@ -232,15 +232,16 @@ end
 function TreeSitterUpdateParsers()
 	require("nvim-treesitter").install({
 		"bash",
-		"python",
-		"rust",
-		"regex",
+		"cpp",
+		"javascript",
 		"json",
 		"lua",
-		"cpp",
+		"python",
+		"regex",
+		"rust",
 		"vim",
-		"javascript",
 		"zig",
+		"go",
 	})
 end
 
@@ -356,12 +357,6 @@ function CmpSetup()
 			},
 		},
 	})
-
-	-- lspconfig.harper_ls.setup({
-	-- 	settings = {
-	-- 		["harper-ls"] = {},
-	-- 	},
-	-- })
 end
 
 local ensure_packer = function()
