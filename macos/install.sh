@@ -44,6 +44,10 @@ sudo ln -sfn /opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk /Library/Java/Java
 brew install openjdk@21
 sudo ln -sfn /opt/homebrew/opt/openjdk@21/libexec/openjdk.jdk /Library/Java/JavaVirtualMachines/openjdk-21.jdk
 
+# caps as ctrl
+ln -s ./Library/LaunchAgents/com.local.keyremap.plist ${HOME}/Library/LaunchAgents/com.local.keyremap.plist
+launchctl load ~/Library/LaunchAgents/com.local.keyremap.plist
+
 # pinentry-mac has keychain usage enabled by default, disable it
 defaults write org.gpgtools.common UseKeychain NO
 
