@@ -14,7 +14,7 @@ rustup component add --toolchain nightly llvm-tools miri rust-src rust-docs rust
 
 # svn is required for font-source-code-pro
 # dotnet-sdk openjdk@8 gradle required for dafny
-brew install jq tmux semgrep pinentry-mac gpg tig iterm2 showkey svn podman lima scrcpy the_silver_searcher emscripten pre-commit gnuplot graphviz openjdk golang protobuf dotnet-sdk gradle minicom arm-none-eabi-gdb openocd sdl2 lsusb qmk-toolbox argocd kubectl postgresql kubernetes-cli hugo minikube kubectl kubectx helm helmfile gh fzf watch black isort ripgrep goenv temurin
+brew install jq tmux semgrep pinentry-mac gpg tig iterm2 showkey svn podman lima scrcpy the_silver_searcher emscripten pre-commit gnuplot graphviz openjdk golang protobuf dotnet-sdk gradle minicom arm-none-eabi-gdb openocd sdl2 lsusb qmk-toolbox kubectl postgresql kubernetes-cli hugo minikube kubectl kubectx helm helmfile gh fzf watch black isort ripgrep goenv temurin
 brew install --cask claude-code
 brew install hashicorp/tap/terraform
 brew install hashicorp/tap/vault
