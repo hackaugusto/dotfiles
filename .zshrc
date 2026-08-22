@@ -105,6 +105,9 @@ if [[ "$OSTYPE" = darwin* ]]; then
     export LDFLAGS="-L/opt/homebrew/opt/llvm/lib"
     export CPPFLAGS="-I/opt/homebrew/opt/llvm/include"
     export BROWSER=/Applications/Firefox.app/Contents/MacOS/firefox
+
+    export ANDROID_HOME="$(brew --prefix)/share/android-commandlinetools"
+    export ANDROID_NDK_HOME="$ANDROID_HOME/ndk/27.2.12479018"
 else
     export SSH_AUTH_SOCK=$XDG_RUNTIME_DIR/ssh-agent.socket
 fi

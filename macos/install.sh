@@ -14,10 +14,16 @@ rustup component add --toolchain nightly llvm-tools miri rust-src rust-docs rust
 
 # svn is required for font-source-code-pro
 # dotnet-sdk openjdk@8 gradle required for dafny
-brew install jq tmux semgrep pinentry-mac gpg tig iterm2 showkey svn podman lima scrcpy the_silver_searcher emscripten pre-commit gnuplot graphviz openjdk golang protobuf dotnet-sdk gradle minicom arm-none-eabi-gdb openocd sdl2 lsusb qmk-toolbox kubectl postgresql kubernetes-cli hugo minikube kubectl kubectx helm helmfile gh fzf watch black isort ripgrep goenv temurin
+brew install jq tmux semgrep pinentry-mac gpg tig iterm2 showkey svn podman lima scrcpy the_silver_searcher emscripten pre-commit gnuplot graphviz openjdk golang protobuf dotnet-sdk gradle minicom arm-none-eabi-gdb openocd sdl2 lsusb qmk-toolbox kubectl postgresql kubernetes-cli hugo minikube kubectl kubectx helm helmfile gh fzf watch black isort ripgrep goenv
 brew install --cask claude-code
+brew install --cask temurin
 brew install hashicorp/tap/terraform
 brew install hashicorp/tap/vault
+
+brew install --cask android-commandlinetools
+sdkmanager "ndk;27.2.12479018" "platform-tools" "platforms;android-34" "build-tools;34.0.0"
+rustup target add aarch64-linux-android armv7-linux-androideabi x86_64-linux-android i686-linux-android
+cargo install cargo-apk
 
 brew install pyenv
 pyenv install 3.14
@@ -29,7 +35,7 @@ gcloud components update
 
 cargo install --git https://github.com/tauri-apps/cargo-mobile2
 brew install --cask --no-quarantine middleclick alacritty basictex
-brew install --cask android-platform-tools librewolf
+brew install --cask librewolf
 brew install --cask ovh/tap/ovhcloud-cli
 brew install --cask ghostty
 
