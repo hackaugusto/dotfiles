@@ -1,16 +1,5 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
-
-  "enabledPlugins": {
-    "rust-analyzer-lsp@claude-plugins-official": true
-  },
-  "theme": "dark-daltonized",
-  "tui": "fullscreen",
-
-  "autoUpdatesChannel": "stable",
-  "alwaysThinkingEnabled": true,
-  "fallbackModel": ["claude-sonnet-5"],
-
   "permissions": {
     "allow": [
       "Bash(cargo check:*)",
@@ -26,7 +15,6 @@
       "Bash(rustc --version)",
       "Bash(rustup show)",
       "Bash(rustup toolchain list)",
-
       "Bash(git status:*)",
       "Bash(git diff:*)",
       "Bash(git log:*)",
@@ -34,7 +22,6 @@
       "Bash(git blame:*)",
       "Bash(git branch)",
       "Bash(git stash list)",
-
       "Bash(kubectl get:*)",
       "Bash(kubectl describe:*)",
       "Bash(kubectl logs:*)",
@@ -44,65 +31,39 @@
       "Bash(docker logs:*)",
       "Bash(terraform fmt:*)",
       "Bash(terraform validate:*)",
-
       "Grep",
       "Glob",
-
       "WebFetch(domain:docs.rs)",
       "WebFetch(domain:crates.io)",
       "WebFetch(domain:rust-lang.org)",
       "WebFetch(domain:*.rust-lang.org)",
       "WebFetch(domain:rust-lang.github.io)",
-
       "WebFetch(domain:go.dev)",
       "WebFetch(domain:*.go.dev)",
       "WebFetch(domain:golang.org)",
       "WebFetch(domain:*.golang.org)",
-
       "WebFetch(domain:kubernetes.io)",
       "WebFetch(domain:*.kubernetes.io)",
       "WebFetch(domain:k8s.io)",
       "WebFetch(domain:kubernetes-sigs.github.io)",
       "WebFetch(domain:kubernetes.github.io)",
-
       "WebFetch(domain:helm.sh)",
       "WebFetch(domain:*.helm.sh)",
       "WebFetch(domain:artifacthub.io)",
       "WebFetch(domain:helmfile.org)",
       "WebFetch(domain:helmfile.readthedocs.io)",
-
       "WebFetch(domain:docs.aws.amazon.com)",
       "WebFetch(domain:aws.amazon.com)",
       "WebFetch(domain:awscli.amazonaws.com)",
-
       "WebFetch(domain:cloud.google.com)",
       "WebFetch(domain:googleapis.dev)",
-
       "WebFetch(domain:registry.terraform.io)",
       "WebFetch(domain:developer.hashicorp.com)",
       "WebFetch(domain:docs.docker.com)",
       "WebFetch(domain:opentofu.org)",
-
       "WebFetch(domain:github.com)",
       "WebFetch(domain:raw.githubusercontent.com)"
     ],
-
-    "ask": [
-      "Bash(git push:*)",
-      "Bash(git rebase:*)",
-      "Bash(git reset:*)",
-      "Bash(git checkout:*)",
-      "Bash(cargo add:*)",
-      "Bash(cargo remove:*)",
-      "Bash(cargo update:*)",
-      "Bash(terraform:*)",
-      "Bash(aws:*)",
-      "Bash(gcloud:*)",
-      "Bash(gsutil:*)",
-      "Bash(helm:*)",
-      "Bash(helmfile:*)"
-    ],
-
     "deny": [
       "Read(./.env)",
       "Read(./.env.*)",
@@ -121,37 +82,30 @@
       "Edit(~/.ssh/**)",
       "Edit(~/.aws/**)",
       "Edit(~/.gnupg/**)",
-
       "Bash(sudo:*)",
       "Bash(rm -rf:*)",
-
       "Bash(curl:*)",
       "Bash(wget:*)",
       "Bash(git push --force:*)",
       "Bash(git push -f:*)",
-
       "Bash(ssh:*)",
       "Bash(scp:*)",
       "Bash(sftp:*)",
       "Bash(rsync:*)",
-
       "Bash(cargo publish:*)",
       "Bash(cargo login:*)",
-
       "Bash(ansible:*)",
       "Bash(ansible-playbook:*)",
       "Bash(ansible-pull:*)",
       "Bash(ansible-console:*)",
       "Bash(ansible-vault:*)",
       "Bash(ansible-galaxy install:*)",
-
       "Bash(kubectl delete:*)",
       "Bash(kubectl apply:*)",
       "Bash(kubectl drain:*)",
       "Bash(kubectl cordon:*)",
       "Bash(kubectl get secret:*)",
       "Bash(kubectl create token:*)",
-
       "Bash(helmfile apply:*)",
       "Bash(helmfile sync:*)",
       "Bash(helmfile destroy:*)",
@@ -160,7 +114,6 @@
       "Bash(helm uninstall:*)",
       "Bash(helm install:*)",
       "Bash(helm rollback:*)",
-
       "Bash(aws iam:*)",
       "Bash(aws kms:*)",
       "Bash(aws sts:*)",
@@ -173,7 +126,6 @@
       "Bash(aws ecr get-login-password:*)",
       "Bash(aws secretsmanager get-secret-value:*)",
       "Bash(aws ssm get-parameter:*)",
-
       "Bash(gcloud auth:*)",
       "Bash(gcloud iam:*)",
       "Bash(gcloud projects delete:*)",
@@ -183,9 +135,43 @@
       "Bash(gcloud sql instances delete:*)",
       "Bash(gsutil rm:*)",
       "Bash(gsutil rb:*)",
-
       "Bash(terraform apply:*)",
       "Bash(terraform destroy:*)"
-    ]
-  }
+    ],
+    "ask": [
+      "Bash(git push:*)",
+      "Bash(git rebase:*)",
+      "Bash(git reset:*)",
+      "Bash(git checkout:*)",
+      "Bash(cargo add:*)",
+      "Bash(cargo remove:*)",
+      "Bash(cargo update:*)",
+      "Bash(terraform:*)",
+      "Bash(aws:*)",
+      "Bash(gcloud:*)",
+      "Bash(gsutil:*)",
+      "Bash(helm:*)",
+      "Bash(helmfile:*)"
+    ],
+    "defaultMode": "default"
+  },
+  "fallbackModel": [
+    "claude-sonnet-5"
+  ],
+  "enabledPlugins": {
+    "rust-analyzer-lsp@claude-plugins-official": true,
+    "gopls-lsp@claude-plugins-official": true
+  },
+  "feedbackDrafts": "off",
+  "alwaysThinkingEnabled": true,
+  "promptSuggestionEnabled": false,
+  "awaySummaryEnabled": false,
+  "autoUpdatesChannel": "stable",
+  "tui": "fullscreen",
+  "timeFormat": "24-hour-utc",
+  "theme": "dark-daltonized",
+  "editorMode": "vim",
+  "verbose": true,
+  "autoCompactEnabled": false,
+  "autoContinueAtUsageLimit": false
 }
