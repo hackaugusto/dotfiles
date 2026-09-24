@@ -173,5 +173,6 @@
   "editorMode": "vim",
   "verbose": true,
   "autoCompactEnabled": false,
-  "autoContinueAtUsageLimit": false
+  "autoContinueAtUsageLimit": false,
+  "model": "sonnet[1m]"
 }
