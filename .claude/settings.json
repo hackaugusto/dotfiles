@@ -45,6 +45,7 @@
       "Bash(ruff check *)",
       "Grep",
       "Glob",
+      "Read",
       "WebFetch(domain:docs.rs)",
       "WebFetch(domain:crates.io)",
       "WebFetch(domain:rust-lang.org)",
