@@ -12,6 +12,7 @@
       "Bash(cargo metadata:*)",
       "Bash(cargo doc:*)",
       "Bash(cargo expand:*)",
+      "Bash(cargo --version)",
       "Bash(gradlew --version)",
       "Bash(rustc --version)",
       "Bash(rustup show)",
@@ -22,6 +23,7 @@
       "Bash(git show:*)",
       "Bash(git blame:*)",
       "Bash(git branch)",
+      "Bash(git grep:*)",
       "Bash(git stash list)",
       "Bash(kubectl get:*)",
       "Bash(kubectl describe:*)",
@@ -33,8 +35,13 @@
       "Bash(terraform fmt:*)",
       "Bash(terraform validate:*)",
       "Bash(/usr/libexec/java_home -V)",
-      "Bash(brew list *)",
-      "Bash(helm show *)",
+      "Bash(brew list:*)",
+      "Bash(helm show:*)",
+      "Bash(helm template:*)",
+      "Bash(helm lint:*)",
+      "Bash(gcloud auth list)",
+      "Bash(ls:*)",
+      "Bash(grep:*)",
       "Bash(helm version)",
       "Bash(helmfile --version)",
       "Bash(java -version)",
@@ -209,7 +216,7 @@
   },
   "model": "opus[1m]",
   "fallbackModel": [
-    "sonnet[1m]"
+    "claude-sonnet-5[1m]"
   ],
   "enabledPlugins": {
     "rust-analyzer-lsp@claude-plugins-official": true,
