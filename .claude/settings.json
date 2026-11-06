@@ -334,6 +334,7 @@
     "rust-analyzer-lsp@claude-plugins-official": true,
     "gopls-lsp@claude-plugins-official": true
   },
+  "outputStyle": "Concise",
   "feedbackDrafts": "off",
   "alwaysThinkingEnabled": true,
   "promptSuggestionEnabled": false,
