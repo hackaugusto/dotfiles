@@ -334,7 +334,7 @@
     ],
     "defaultMode": "default"
   },
-  "model": "opus[1m]",
+  "model": "opus",
   "fallbackModel": [
     "claude-sonnet-5[1m]"
   ],
@@ -343,6 +343,9 @@
     "gopls-lsp@claude-plugins-official": true
   },
   "outputStyle": "Concise",
+  "env": {
+      "CLAUDE_CODE_SUBAGENT_MODEL": "sonnet"
+  },
   "feedbackDrafts": "off",
   "alwaysThinkingEnabled": true,
   "promptSuggestionEnabled": false,

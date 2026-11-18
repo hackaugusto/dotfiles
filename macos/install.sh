@@ -20,6 +20,10 @@ brew install --cask temurin
 brew install hashicorp/tap/terraform
 brew install hashicorp/tap/vault
 
+# harness
+brew install anomalyco/tap/opencode-v2
+curl -fsSL https://pi.dev/install.sh | sh
+
 brew install --cask android-commandlinetools
 sdkmanager "ndk;27.2.12479018" "platform-tools" "platforms;android-34" "build-tools;34.0.0"
 rustup target add aarch64-linux-android armv7-linux-androideabi x86_64-linux-android i686-linux-android

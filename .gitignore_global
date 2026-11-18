@@ -21,3 +21,5 @@ id_rsa
 
 # MacOS
 .DS_Store
+
+**/.claude/settings.local.json
